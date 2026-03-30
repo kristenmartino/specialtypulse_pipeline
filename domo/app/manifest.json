@@ -1,0 +1,35 @@
+{
+  "name": "SpecialtyPulse PDP Governance",
+  "version": "1.0.0",
+  "description": "Row-level security governance dashboard for SpecialtyPulse. Shows who sees what, verify check status, and AI-generated policy summaries.",
+  "id": "",
+  "type": "fullpage",
+  "sizing": "fixed",
+  "dataSets": [
+    {
+      "alias": "pdp_config",
+      "dataSetId": "REPLACE_WITH_PDP_CONFIG_DATASET_ID",
+      "fields": [
+        { "alias": "email",            "columnName": "email" },
+        { "alias": "role",             "columnName": "role" },
+        { "alias": "filter_dimension", "columnName": "filter_dimension" },
+        { "alias": "filter_values",    "columnName": "filter_values" },
+        { "alias": "notes",            "columnName": "notes" }
+      ]
+    },
+    {
+      "alias": "pdp_verify_results",
+      "dataSetId": "24015821-e3bc-482f-9ef0-69f9c581f06d",
+      "fields": [
+        { "alias": "check_name", "columnName": "check_name" },
+        { "alias": "passed",     "columnName": "passed" },
+        { "alias": "message",    "columnName": "message" },
+        { "alias": "run_at",     "columnName": "run_at" }
+      ]
+    }
+  ],
+  "watchers": [
+    "pdp_config",
+    "pdp_verify_results"
+  ]
+}

@@ -1,0 +1,14 @@
+email,role,filter_dimension,filter_values,notes
+kristen.martino@company.com,finance_admin,ALL_ROWS,,Full access — Finance team
+ceo@company.com,executive,ALL_ROWS,,Full access — C-suite
+vp.sales@company.com,executive,ALL_ROWS,,Full access — VP Sales
+analyst.derm@company.com,specialty_analyst,provider_specialty,Dermatology,Derm product team
+analyst.ortho@company.com,specialty_analyst,provider_specialty,Orthopedic Surgery,Ortho product team
+analyst.cardio@company.com,specialty_analyst,provider_specialty,Cardiology,Cardiology product team
+analyst.gastro@company.com,specialty_analyst,provider_specialty,Gastroenterology,GI product team
+analyst.neuro@company.com,specialty_analyst,provider_specialty,Neurology,Neuro product team
+sales.northeast@company.com,regional_sales,provider_state,"CT,ME,MA,NH,NJ,NY,PA,RI,VT",Northeast region
+sales.southeast@company.com,regional_sales,provider_state,"AL,AR,FL,GA,KY,LA,MS,NC,SC,TN,VA,WV",Southeast region
+sales.midwest@company.com,regional_sales,provider_state,"IL,IN,IA,KS,MI,MN,MO,NE,ND,OH,SD,WI",Midwest region
+sales.southwest@company.com,regional_sales,provider_state,"AZ,NM,OK,TX",Southwest region
+sales.west@company.com,regional_sales,provider_state,"AK,CA,CO,HI,ID,MT,NV,OR,UT,WA,WY",West region

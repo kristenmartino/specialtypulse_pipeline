@@ -1,0 +1,41 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.env
+.venv/
+venv/
+*.egg-info/
+dist/
+build/
+
+# Credentials — never commit these
+.env.local
+.env.production
+secrets.json
+*.pem
+*.key
+
+# Domo App build
+domo/app/dist/
+domo/app/node_modules/
+domo/app/.domoapprc
+
+# Airflow
+airflow/logs/
+airflow/.astro/
+airflow/airflow.db
+
+# Databricks
+.databricks/
+*.dbc
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
