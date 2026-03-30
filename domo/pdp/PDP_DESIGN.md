@@ -49,7 +49,7 @@ This is documented in `pdp_setup.py` and enforced via the Domo API.
 
 ## Security model
 
-Three roles, two filter dimensions:
+Four roles, two filter dimensions:
 
 | Role | Specialty filter | State filter | Notes |
 |---|---|---|---|
@@ -88,7 +88,8 @@ domo/pdp/
 ├── PDP_DESIGN.md           ← This file
 ├── pdp_setup.py            ← Python script: creates PDP policies via Domo API
 ├── pdp_config.csv          ← Configuration file: user → role → filter values
-└── pdp_verify.py           ← Verification script: confirms policies applied correctly
+├── pdp_verify.py           ← Verification script: confirms policies applied correctly
+└── pdp_verify_writer.py    ← Extended verify: checks + writes results to Domo DataSet
 ```
 
 ---
@@ -108,6 +109,9 @@ python domo/pdp/pdp_setup.py
 
 # 4. Verify
 python domo/pdp/pdp_verify.py
+
+# 5. Write results to Domo (for the governance app)
+python domo/pdp/pdp_verify_writer.py
 ```
 
 ---

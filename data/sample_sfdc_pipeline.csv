@@ -1,0 +1,501 @@
+opportunity_id,account_name,account_specialty,account_state,account_providers,stage,win_probability,amount,products,lead_source,owner,region,created_date,close_date,days_in_stage
+006919126923,Advanced Urology Medical Associates,Urology,IA,8,Demo Scheduled,0.30,56000.00,EHR + PM + RCM,Conference,David Kim,Midwest,2025-10-08,2025-12-23,28
+006151133100,Highland Orthopedic Medical Practice,Orthopedic Surgery,AZ,2,Proposal Sent,0.55,99800.00,Full Suite,Content Download,Jennifer Ruiz,Southwest,2026-02-05,2026-07-03,3
+006796851912,Mountain Plastic Practice,Plastic Surgery,NJ,3,Proposal Sent,0.55,122300.00,RCM Only,Referral,Sarah Chen,Northeast,2025-09-27,2025-11-15,26
+006498902989,Valley Urology Institute,Urology,NM,1,Demo Scheduled,0.30,55700.00,Full Suite,Webinar,Jennifer Ruiz,Southwest,2025-11-08,2025-12-15,12
+006405781450,Palm Pain Medical Associates,Pain Management,WY,12,Prospecting,0.10,70200.00,Full Suite,Partner,Alex Morrison,West,2025-11-25,2026-03-20,26
+006176450310,Lakeside Podiatry Specialists,Podiatry,AR,1,Negotiation,0.70,44400.00,EHR + PM,Webinar,Marcus Williams,Southeast,2026-01-18,2026-02-26,21
+006230275653,Coastal Urology Center for Excellence,Urology,WA,2,Demo Scheduled,0.30,98700.00,Full Suite,Existing Customer Expansion,Alex Morrison,West,2025-11-04,2025-12-09,7
+006181701615,River Podiatry Specialty Group,Podiatry,WY,5,Negotiation,0.70,54300.00,EHR + PM,Outbound BDR,Alex Morrison,West,2025-11-04,2026-02-21,5
+006158788046,Metro Orthopedic Medical Associates,Orthopedic Surgery,AK,5,Proposal Sent,0.55,149000.00,EHR,Conference,Alex Morrison,West,2025-10-07,2025-12-17,23
+006245159917,Heritage Otolaryngology Medical Associates,Otolaryngology,VA,5,Prospecting,0.10,65400.00,EHR + PM,Partner,Marcus Williams,Southeast,2026-01-18,2026-03-17,15
+006306785513,Lakeside Gastroenterology Specialists,Gastroenterology,IL,2,Discovery,0.20,73600.00,EHR,Referral,David Kim,Midwest,2026-02-21,2026-06-17,3
+006808989455,Coastal Ophthalmology Medical Associates,Ophthalmology,AR,2,Closed Won,1.00,103600.00,EHR + PM + RCM,Inbound Web,Marcus Williams,Southeast,2025-12-25,2026-04-10,26
+006820245383,Summit Orthopedic Healthcare Partners,Orthopedic Surgery,CT,2,Demo Complete,0.40,192900.00,EHR + PM,Partner,Sarah Chen,Northeast,2026-01-01,2026-05-22,31
+006565718669,Coastal Plastic Medical Associates,Plastic Surgery,LA,8,Verbal Commit,0.85,62300.00,EHR,Referral,Marcus Williams,Southeast,2025-11-12,2026-01-13,8
+006448620494,Metro Otolaryngology Center for Excellence,Otolaryngology,HI,3,Discovery,0.20,99400.00,EHR + PM,Webinar,Alex Morrison,West,2025-09-21,2026-02-22,12
+006563411443,Central Podiatry Medical Associates,Podiatry,NJ,5,Discovery,0.20,36200.00,Full Suite,Content Download,Sarah Chen,Northeast,2025-12-28,2026-05-29,41
+006500286841,Palm Podiatry Clinic,Podiatry,TN,1,Demo Complete,0.40,35800.00,Full Suite,Content Download,Marcus Williams,Southeast,2025-12-25,2026-06-11,39
+006665587206,Advanced Gastroenterology Healthcare Partners,Gastroenterology,OK,8,Discovery,0.20,64300.00,Full Suite,Inbound Web,Jennifer Ruiz,Southwest,2025-12-20,2026-01-22,30
+006365538017,Bay Area Urology Specialists,Urology,NV,5,Proposal Sent,0.55,90900.00,EHR + PM,Conference,Alex Morrison,West,2026-01-03,2026-03-07,33
+006965734770,Mountain Pain Medical Center,Pain Management,TN,5,Prospecting,0.10,85300.00,Full Suite,Referral,Marcus Williams,Southeast,2026-01-05,2026-07-01,2
+006337246748,Premier Urology Specialty Group,Urology,HI,2,Prospecting,0.10,80900.00,Full Suite,Content Download,Alex Morrison,West,2025-12-05,2026-04-06,7
+006789528678,Valley Podiatry Center for Excellence,Podiatry,IL,3,Discovery,0.20,21500.00,EHR,Outbound BDR,David Kim,Midwest,2025-12-09,2026-03-13,6
+006811430920,Palm Gastroenterology Healthcare Partners,Gastroenterology,UT,5,Verbal Commit,0.85,172400.00,EHR,Outbound BDR,Alex Morrison,West,2026-02-14,2026-06-13,2
+006690328228,Summit Pain Medical Practice,Pain Management,KS,3,Prospecting,0.10,44400.00,RCM Only,Partner,David Kim,Midwest,2025-12-07,2026-04-28,24
+006482765790,River Pain Specialists,Pain Management,IL,2,Negotiation,0.70,79600.00,EHR + PM + RCM,Referral,David Kim,Midwest,2025-09-13,2026-01-27,16
+006579820911,Valley Plastic Institute,Plastic Surgery,NM,5,Discovery,0.20,67900.00,Full Suite,Existing Customer Expansion,Jennifer Ruiz,Southwest,2026-01-30,2026-04-16,9
+006986870195,Valley Plastic Medical Practice,Plastic Surgery,GA,5,Discovery,0.20,101300.00,EHR + PM + RCM,Content Download,Marcus Williams,Southeast,2025-10-10,2026-02-19,21
+006905866077,Sunrise Podiatry Medical Associates,Podiatry,NM,1,Prospecting,0.10,39300.00,EHR + PM + RCM,Conference,Jennifer Ruiz,Southwest,2026-01-01,2026-03-19,21
+006291765595,Lakeside Orthopedic Healthcare Partners,Orthopedic Surgery,AZ,5,Negotiation,0.70,146100.00,EHR + PM,Conference,Jennifer Ruiz,Southwest,2025-11-04,2026-01-23,5
+006636477999,Metro Plastic Healthcare Partners,Plastic Surgery,CO,3,Proposal Sent,0.55,96700.00,EHR + PM,Content Download,Alex Morrison,West,2026-01-29,2026-06-14,23
+006679734329,Palm Dermatology Center for Excellence,Dermatology,ID,3,Negotiation,0.70,113400.00,EHR,Conference,Alex Morrison,West,2026-02-23,2026-05-02,3
+006557611876,Sunrise Pain Medical Center,Pain Management,AL,1,Discovery,0.20,42900.00,Full Suite,Outbound BDR,Marcus Williams,Southeast,2026-02-19,2026-05-04,7
+006451089086,Highland Otolaryngology Center for Excellence,Otolaryngology,IN,8,Proposal Sent,0.55,93800.00,RCM Only,Content Download,David Kim,Midwest,2026-01-04,2026-03-24,7
+006179068563,Palm Otolaryngology Medical Associates,Otolaryngology,WY,8,Negotiation,0.70,41900.00,EHR + PM + RCM,Webinar,Alex Morrison,West,2026-02-07,2026-04-15,6
+006327009949,Valley Otolaryngology Medical Practice,Otolaryngology,AK,8,Demo Complete,0.40,82700.00,EHR + PM + RCM,Content Download,Alex Morrison,West,2025-09-20,2026-02-11,15
+006421267299,Summit Urology Medical Practice,Urology,AZ,1,Prospecting,0.10,129100.00,EHR + PM,Referral,Jennifer Ruiz,Southwest,2025-09-30,2025-12-27,20
+006131197514,Summit Urology Medical Practice,Urology,AK,3,Prospecting,0.10,106500.00,EHR,Existing Customer Expansion,Alex Morrison,West,2026-02-19,2026-03-21,9
+006982821459,Summit Plastic Clinic,Plastic Surgery,TX,8,Discovery,0.20,91700.00,EHR + PM,Referral,Jennifer Ruiz,Southwest,2025-12-09,2026-04-19,36
+006762911649,Heritage Podiatry Medical Practice,Podiatry,NM,3,Closed Won,1.00,26700.00,EHR + PM,Existing Customer Expansion,Jennifer Ruiz,Southwest,2025-10-18,2026-02-14,41
+006270202926,Advanced Urology Specialists,Urology,OK,2,Verbal Commit,0.85,41500.00,Full Suite,Conference,Jennifer Ruiz,Southwest,2026-02-24,2026-05-25,2
+006870158503,Valley Dermatology Medical Practice,Dermatology,WY,5,Discovery,0.20,100200.00,Full Suite,Inbound Web,Alex Morrison,West,2025-12-26,2026-05-03,9
+006803872247,Metro Otolaryngology Clinic,Otolaryngology,MS,8,Prospecting,0.10,68100.00,RCM Only,Conference,Marcus Williams,Southeast,2025-09-26,2025-11-03,36
+006208878572,Mountain Urology Medical Center,Urology,TX,12,Demo Scheduled,0.30,112500.00,Full Suite,Inbound Web,Jennifer Ruiz,Southwest,2025-11-01,2026-02-12,45
+006836398144,Central Urology Medical Center,Urology,AK,2,Discovery,0.20,48500.00,EHR + PM + RCM,Webinar,Alex Morrison,West,2026-02-04,2026-06-12,23
+006208766570,Heritage Pain Healthcare Partners,Pain Management,AZ,5,Prospecting,0.10,51700.00,EHR + PM + RCM,Outbound BDR,Jennifer Ruiz,Southwest,2025-09-19,2025-11-27,20
+006552005233,Valley Pain Medical Associates,Pain Management,NC,1,Discovery,0.20,75000.00,EHR + PM + RCM,Outbound BDR,Marcus Williams,Southeast,2025-10-06,2026-01-02,35
+006124224978,Lakeside Podiatry Medical Practice,Podiatry,ID,1,Demo Complete,0.40,31400.00,Full Suite,Existing Customer Expansion,Alex Morrison,West,2026-01-10,2026-06-23,44
+006602256908,Mountain Ophthalmology Clinic,Ophthalmology,MI,5,Prospecting,0.10,123900.00,EHR + PM + RCM,Conference,David Kim,Midwest,2026-01-17,2026-02-18,22
+006565965351,Central Orthopedic Medical Center,Orthopedic Surgery,AK,3,Closed Won,1.00,180200.00,EHR + PM + RCM,Outbound BDR,Alex Morrison,West,2026-01-23,2026-07-18,22
+006466632733,Palm Gastroenterology Specialty Group,Gastroenterology,WY,8,Prospecting,0.10,89500.00,EHR + PM + RCM,Referral,Alex Morrison,West,2025-11-25,2026-01-24,25
+006247313897,Bay Area Pain Medical Center,Pain Management,IN,3,Demo Complete,0.40,35700.00,EHR + PM,Referral,David Kim,Midwest,2025-11-12,2026-04-20,27
+006534140251,Sunrise Ophthalmology Medical Practice,Ophthalmology,TX,20,Demo Complete,0.40,90800.00,Full Suite,Referral,Jennifer Ruiz,Southwest,2026-01-08,2026-03-21,7
+006978685790,Summit Gastroenterology Institute,Gastroenterology,PA,5,Negotiation,0.70,69800.00,EHR + PM,Conference,Sarah Chen,Northeast,2025-10-28,2026-01-14,38
+006628835438,Palm Otolaryngology Specialty Group,Otolaryngology,ID,2,Negotiation,0.70,48600.00,Full Suite,Outbound BDR,Alex Morrison,West,2026-01-25,2026-04-24,29
+006785226551,River Ophthalmology Specialty Group,Ophthalmology,OH,8,Closed Won,1.00,141000.00,EHR + PM,Inbound Web,David Kim,Midwest,2025-10-24,2026-03-29,13
+006841738994,Metro Ophthalmology Specialists,Ophthalmology,AK,2,Demo Complete,0.40,89700.00,RCM Only,Outbound BDR,Alex Morrison,West,2025-11-13,2026-03-14,4
+006541658748,Bay Area Ophthalmology Clinic,Ophthalmology,RI,12,Discovery,0.20,153000.00,EHR + PM,Partner,Sarah Chen,Northeast,2026-02-02,2026-05-03,9
+006607880337,Highland Orthopedic Clinic,Orthopedic Surgery,NY,5,Verbal Commit,0.85,90500.00,Full Suite,Webinar,Sarah Chen,Northeast,2025-12-28,2026-05-22,25
+006823940889,Advanced Urology Practice,Urology,NM,5,Verbal Commit,0.85,58600.00,RCM Only,Conference,Jennifer Ruiz,Southwest,2025-10-20,2026-02-07,24
+006762617333,Valley Urology Specialty Group,Urology,GA,2,Demo Complete,0.40,65700.00,Full Suite,Referral,Marcus Williams,Southeast,2025-11-06,2026-02-10,34
+006999645693,Mountain Podiatry Clinic,Podiatry,LA,3,Prospecting,0.10,33900.00,EHR,Referral,Marcus Williams,Southeast,2026-02-15,2026-03-28,7
+006889343713,Palm Ophthalmology Specialty Group,Ophthalmology,NH,3,Demo Complete,0.40,123900.00,EHR + PM + RCM,Content Download,Sarah Chen,Northeast,2026-02-22,2026-07-11,4
+006954321845,Heritage Podiatry Medical Practice,Podiatry,VT,2,Demo Scheduled,0.30,32000.00,EHR,Outbound BDR,Sarah Chen,Northeast,2025-12-11,2026-05-09,32
+006323867694,River Podiatry Healthcare Partners,Podiatry,AZ,3,Prospecting,0.10,34500.00,EHR + PM,Webinar,Jennifer Ruiz,Southwest,2025-10-24,2025-11-25,25
+006570105370,Heritage Orthopedic Center for Excellence,Orthopedic Surgery,VT,1,Discovery,0.20,118400.00,EHR + PM,Outbound BDR,Sarah Chen,Northeast,2025-09-29,2025-11-01,9
+006997999616,Metro Otolaryngology Practice,Otolaryngology,CT,1,Discovery,0.20,36100.00,EHR + PM,Webinar,Sarah Chen,Northeast,2026-02-22,2026-06-28,4
+006363331442,Lakeside Ophthalmology Specialists,Ophthalmology,MA,1,Negotiation,0.70,74400.00,RCM Only,Outbound BDR,Sarah Chen,Northeast,2025-11-20,2026-04-01,36
+006276987281,Sunrise Dermatology Institute,Dermatology,GA,3,Prospecting,0.10,112600.00,EHR + PM + RCM,Outbound BDR,Marcus Williams,Southeast,2025-09-26,2025-12-13,43
+006418913696,Premier Dermatology Practice,Dermatology,OK,5,Discovery,0.20,101200.00,Full Suite,Partner,Jennifer Ruiz,Southwest,2025-10-09,2026-02-09,23
+006442576244,Bay Area Orthopedic Specialty Group,Orthopedic Surgery,NM,2,Discovery,0.20,67500.00,Full Suite,Outbound BDR,Jennifer Ruiz,Southwest,2026-02-14,2026-05-13,2
+006214687292,Bay Area Plastic Practice,Plastic Surgery,FL,2,Demo Complete,0.40,95000.00,EHR + PM,Partner,Marcus Williams,Southeast,2025-11-09,2026-02-09,6
+006835903338,Palm Podiatry Specialists,Podiatry,IN,1,Discovery,0.20,22800.00,EHR + PM + RCM,Webinar,David Kim,Midwest,2025-10-19,2026-04-11,18
+006760027912,Lakeside Gastroenterology Specialty Group,Gastroenterology,SC,3,Prospecting,0.10,123900.00,EHR + PM,Referral,Marcus Williams,Southeast,2025-09-04,2026-02-26,9
+006502606449,Lakeside Otolaryngology Institute,Otolaryngology,VA,3,Demo Complete,0.40,58200.00,EHR + PM + RCM,Partner,Marcus Williams,Southeast,2025-10-12,2026-01-08,42
+006727372667,Mountain Gastroenterology Specialty Group,Gastroenterology,OR,2,Demo Scheduled,0.30,131700.00,EHR + PM,Conference,Alex Morrison,West,2025-12-17,2026-03-21,17
+006507866171,Coastal Podiatry Clinic,Podiatry,VT,5,Demo Complete,0.40,61800.00,Full Suite,Webinar,Sarah Chen,Northeast,2025-10-08,2026-02-01,32
+006172598442,Bay Area Dermatology Specialists,Dermatology,ME,8,Negotiation,0.70,78200.00,Full Suite,Referral,Sarah Chen,Northeast,2026-01-06,2026-04-03,5
+006987733936,Lakeside Pain Clinic,Pain Management,AL,8,Discovery,0.20,78700.00,RCM Only,Referral,Marcus Williams,Southeast,2025-11-06,2026-03-15,4
+006861929052,Palm Otolaryngology Practice,Otolaryngology,TN,2,Prospecting,0.10,86100.00,EHR + PM,Outbound BDR,Marcus Williams,Southeast,2025-11-21,2026-03-31,8
+006295898793,Summit Pain Practice,Pain Management,CT,3,Demo Scheduled,0.30,85600.00,EHR,Partner,Sarah Chen,Northeast,2025-09-28,2026-02-21,10
+006108817246,Palm Podiatry Practice,Podiatry,SC,3,Discovery,0.20,34500.00,EHR + PM,Conference,Marcus Williams,Southeast,2025-10-29,2025-12-25,2
+006166787005,Advanced Urology Medical Practice,Urology,OK,8,Negotiation,0.70,94300.00,EHR,Outbound BDR,Jennifer Ruiz,Southwest,2025-11-06,2026-03-25,7
+006795548849,Bay Area Podiatry Specialists,Podiatry,KS,2,Prospecting,0.10,64600.00,EHR + PM + RCM,Partner,David Kim,Midwest,2026-02-19,2026-06-24,4
+006281247015,Premier Plastic Clinic,Plastic Surgery,CO,3,Demo Scheduled,0.30,78700.00,EHR,Content Download,Alex Morrison,West,2026-02-19,2026-03-29,1
+006835216664,River Plastic Medical Associates,Plastic Surgery,NE,1,Demo Complete,0.40,47900.00,Full Suite,Content Download,David Kim,Midwest,2025-10-28,2025-12-01,23
+006641652068,Mountain Ophthalmology Specialty Group,Ophthalmology,GA,3,Demo Complete,0.40,156400.00,EHR + PM,Conference,Marcus Williams,Southeast,2026-01-21,2026-03-15,36
+006205947719,Premier Dermatology Specialists,Dermatology,IA,3,Demo Scheduled,0.30,101900.00,EHR + PM,Referral,David Kim,Midwest,2026-02-21,2026-08-06,5
+006382397073,Heritage Plastic Clinic,Plastic Surgery,AZ,3,Proposal Sent,0.55,61800.00,EHR + PM + RCM,Webinar,Jennifer Ruiz,Southwest,2025-12-07,2026-05-03,38
+006566492719,Highland Orthopedic Center for Excellence,Orthopedic Surgery,AZ,3,Demo Complete,0.40,141300.00,Full Suite,Outbound BDR,Jennifer Ruiz,Southwest,2026-01-21,2026-04-08,15
+006372257497,Valley Otolaryngology Medical Practice,Otolaryngology,WA,5,Prospecting,0.10,71300.00,EHR + PM,Inbound Web,Alex Morrison,West,2026-02-23,2026-08-02,4
+006159899555,Sunrise Gastroenterology Center for Excellence,Gastroenterology,VA,3,Closed Lost,0.00,68100.00,Full Suite,Inbound Web,Marcus Williams,Southeast,2025-12-18,2026-03-11,15
+006968453446,Central Otolaryngology Specialty Group,Otolaryngology,RI,3,Prospecting,0.10,69100.00,EHR + PM,Inbound Web,Sarah Chen,Northeast,2026-02-20,2026-07-01,1
+006596470466,Highland Pain Clinic,Pain Management,CT,1,Demo Scheduled,0.30,27500.00,EHR,Referral,Sarah Chen,Northeast,2025-11-26,2026-05-10,42
+006868907386,Metro Podiatry Medical Associates,Podiatry,RI,1,Proposal Sent,0.55,72400.00,Full Suite,Webinar,Sarah Chen,Northeast,2025-10-26,2026-04-10,1
+006543708113,Highland Pain Practice,Pain Management,CO,3,Discovery,0.20,86100.00,RCM Only,Inbound Web,Alex Morrison,West,2026-02-08,2026-03-17,14
+006854655469,Coastal Otolaryngology Specialty Group,Otolaryngology,MA,2,Demo Complete,0.40,42100.00,RCM Only,Webinar,Sarah Chen,Northeast,2025-10-03,2025-11-07,20
+006387722291,Bay Area Otolaryngology Center for Excellence,Otolaryngology,MI,5,Proposal Sent,0.55,40900.00,EHR + PM,Outbound BDR,David Kim,Midwest,2025-10-22,2026-02-21,4
+006306516595,Advanced Plastic Practice,Plastic Surgery,CA,20,Prospecting,0.10,61600.00,EHR + PM,Inbound Web,Alex Morrison,West,2025-09-18,2025-12-14,26
+006149483935,Heritage Dermatology Specialty Group,Dermatology,NV,5,Discovery,0.20,99400.00,Full Suite,Existing Customer Expansion,Alex Morrison,West,2026-01-30,2026-04-12,14
+006786200756,Advanced Urology Center for Excellence,Urology,WA,3,Proposal Sent,0.55,116700.00,EHR + PM,Conference,Alex Morrison,West,2025-09-14,2025-12-01,40
+006849416529,Metro Orthopedic Medical Practice,Orthopedic Surgery,ID,5,Prospecting,0.10,61600.00,EHR + PM,Referral,Alex Morrison,West,2026-01-09,2026-04-26,16
+006926620880,Summit Pain Medical Practice,Pain Management,UT,8,Proposal Sent,0.55,65800.00,EHR,Inbound Web,Alex Morrison,West,2025-09-07,2025-12-14,1
+006419997893,Highland Orthopedic Medical Practice,Orthopedic Surgery,NH,5,Discovery,0.20,110100.00,Full Suite,Existing Customer Expansion,Sarah Chen,Northeast,2025-10-23,2026-01-07,5
+006820236956,Heritage Urology Medical Center,Urology,CO,2,Negotiation,0.70,89200.00,Full Suite,Content Download,Alex Morrison,West,2025-12-24,2026-06-03,44
+006938881967,Heritage Orthopedic Healthcare Partners,Orthopedic Surgery,AL,3,Discovery,0.20,125900.00,EHR + PM + RCM,Webinar,Marcus Williams,Southeast,2026-01-28,2026-06-05,4
+006918227288,Heritage Otolaryngology Medical Practice,Otolaryngology,TX,2,Prospecting,0.10,73100.00,EHR + PM + RCM,Content Download,Jennifer Ruiz,Southwest,2025-10-01,2026-03-07,27
+006314397502,Valley Ophthalmology Medical Center,Ophthalmology,VA,1,Demo Scheduled,0.30,87500.00,Full Suite,Outbound BDR,Marcus Williams,Southeast,2025-10-21,2026-01-09,38
+006811291463,Palm Gastroenterology Medical Center,Gastroenterology,OH,8,Prospecting,0.10,125300.00,EHR + PM + RCM,Outbound BDR,David Kim,Midwest,2025-11-19,2026-02-03,33
+006720109241,Summit Podiatry Clinic,Podiatry,CT,3,Prospecting,0.10,68400.00,Full Suite,Inbound Web,Sarah Chen,Northeast,2025-09-10,2025-10-11,10
+006176170202,River Dermatology Clinic,Dermatology,HI,5,Verbal Commit,0.85,104900.00,EHR + PM,Webinar,Alex Morrison,West,2025-10-31,2025-12-18,9
+006337795695,Advanced Plastic Medical Associates,Plastic Surgery,MA,8,Proposal Sent,0.55,116000.00,EHR + PM,Outbound BDR,Sarah Chen,Northeast,2025-10-27,2026-03-01,26
+006534646630,Highland Otolaryngology Specialists,Otolaryngology,AZ,5,Prospecting,0.10,51200.00,Full Suite,Inbound Web,Jennifer Ruiz,Southwest,2026-01-24,2026-04-15,26
+006314996913,Coastal Otolaryngology Institute,Otolaryngology,IL,3,Discovery,0.20,50900.00,EHR,Inbound Web,David Kim,Midwest,2025-12-08,2026-03-10,26
+006194126953,Summit Podiatry Medical Center,Podiatry,NC,1,Demo Complete,0.40,46700.00,EHR + PM + RCM,Outbound BDR,Marcus Williams,Southeast,2025-10-28,2025-12-12,37
+006478088099,River Dermatology Medical Center,Dermatology,NM,3,Prospecting,0.10,80200.00,EHR + PM,Inbound Web,Jennifer Ruiz,Southwest,2026-02-01,2026-05-20,1
+006923453261,Metro Pain Medical Practice,Pain Management,MI,5,Prospecting,0.10,41400.00,Full Suite,Webinar,David Kim,Midwest,2026-01-22,2026-06-29,18
+006164399232,Advanced Plastic Practice,Plastic Surgery,NJ,8,Prospecting,0.10,49700.00,EHR,Referral,Sarah Chen,Northeast,2025-12-31,2026-04-08,37
+006719006200,Premier Plastic Specialty Group,Plastic Surgery,UT,5,Closed Lost,0.00,119200.00,EHR + PM + RCM,Referral,Alex Morrison,West,2025-10-27,2026-04-04,32
+006166125458,Palm Gastroenterology Specialty Group,Gastroenterology,TN,3,Discovery,0.20,147100.00,EHR + PM + RCM,Existing Customer Expansion,Marcus Williams,Southeast,2025-12-30,2026-03-02,17
+006888966080,Palm Orthopedic Practice,Orthopedic Surgery,WV,3,Verbal Commit,0.85,98900.00,EHR + PM,Outbound BDR,Marcus Williams,Southeast,2025-12-21,2026-04-01,14
+006234969976,Premier Plastic Clinic,Plastic Surgery,ID,3,Prospecting,0.10,122500.00,EHR + PM,Content Download,Alex Morrison,West,2026-01-02,2026-06-11,13
+006502375535,Heritage Plastic Healthcare Partners,Plastic Surgery,CA,3,Proposal Sent,0.55,63500.00,EHR,Conference,Alex Morrison,West,2025-11-09,2026-04-29,44
+006472864058,Mountain Plastic Healthcare Partners,Plastic Surgery,NJ,8,Negotiation,0.70,51500.00,EHR + PM + RCM,Webinar,Sarah Chen,Northeast,2025-12-07,2026-03-29,26
+006398267634,Bay Area Plastic Healthcare Partners,Plastic Surgery,AK,2,Proposal Sent,0.55,116000.00,EHR + PM,Content Download,Alex Morrison,West,2025-10-20,2025-12-29,3
+006816779093,Coastal Gastroenterology Medical Practice,Gastroenterology,KY,3,Verbal Commit,0.85,76200.00,Full Suite,Referral,Marcus Williams,Southeast,2025-10-10,2026-01-21,18
+006291985493,River Ophthalmology Specialty Group,Ophthalmology,SC,3,Discovery,0.20,131000.00,EHR,Partner,Marcus Williams,Southeast,2025-10-30,2026-03-25,9
+006733669021,Heritage Otolaryngology Medical Center,Otolaryngology,WI,8,Discovery,0.20,89500.00,EHR,Existing Customer Expansion,David Kim,Midwest,2025-09-11,2026-01-25,24
+006807562913,Advanced Plastic Specialty Group,Plastic Surgery,NE,12,Proposal Sent,0.55,62700.00,EHR + PM + RCM,Content Download,David Kim,Midwest,2026-01-13,2026-07-04,10
+006803183015,Premier Ophthalmology Specialists,Ophthalmology,GA,2,Demo Complete,0.40,79400.00,EHR,Existing Customer Expansion,Marcus Williams,Southeast,2025-09-21,2025-12-05,8
+006852025845,Lakeside Orthopedic Specialty Group,Orthopedic Surgery,CT,3,Demo Scheduled,0.30,103700.00,EHR + PM,Referral,Sarah Chen,Northeast,2025-10-13,2026-03-01,21
+006495873009,Premier Urology Healthcare Partners,Urology,NM,12,Negotiation,0.70,138000.00,EHR + PM,Content Download,Jennifer Ruiz,Southwest,2026-01-12,2026-05-18,16
+006390808568,River Urology Medical Associates,Urology,VT,12,Proposal Sent,0.55,140000.00,EHR + PM,Content Download,Sarah Chen,Northeast,2026-01-18,2026-05-20,24
+006527171261,Summit Ophthalmology Medical Associates,Ophthalmology,AK,1,Discovery,0.20,137500.00,EHR + PM + RCM,Webinar,Alex Morrison,West,2025-12-25,2026-04-04,18
+006647292713,Advanced Plastic Institute,Plastic Surgery,KY,20,Demo Scheduled,0.30,104100.00,Full Suite,Outbound BDR,Marcus Williams,Southeast,2025-11-08,2026-02-26,2
+006564296919,Advanced Gastroenterology Specialty Group,Gastroenterology,NM,1,Demo Complete,0.40,153400.00,EHR + PM + RCM,Referral,Jennifer Ruiz,Southwest,2025-11-15,2026-03-15,18
+006580465700,Sunrise Pain Medical Center,Pain Management,FL,2,Prospecting,0.10,40600.00,EHR + PM,Inbound Web,Marcus Williams,Southeast,2025-09-16,2026-03-06,13
+006346963970,Coastal Otolaryngology Medical Center,Otolaryngology,VT,20,Prospecting,0.10,56600.00,EHR + PM,Content Download,Sarah Chen,Northeast,2025-10-27,2026-03-05,36
+006759046205,Lakeside Urology Center for Excellence,Urology,VT,5,Discovery,0.20,120300.00,Full Suite,Referral,Sarah Chen,Northeast,2025-12-09,2026-02-20,43
+006586589496,Advanced Dermatology Center for Excellence,Dermatology,NY,12,Demo Complete,0.40,77000.00,EHR + PM + RCM,Webinar,Sarah Chen,Northeast,2026-01-09,2026-02-16,36
+006523256552,Premier Pain Medical Practice,Pain Management,WA,2,Demo Scheduled,0.30,26800.00,EHR + PM + RCM,Existing Customer Expansion,Alex Morrison,West,2026-02-12,2026-06-19,1
+006490487365,Valley Pain Specialists,Pain Management,ND,5,Discovery,0.20,78200.00,EHR,Referral,David Kim,Midwest,2026-02-24,2026-04-04,5
+006480907842,Palm Ophthalmology Institute,Ophthalmology,ME,1,Demo Complete,0.40,110700.00,EHR + PM + RCM,Conference,Sarah Chen,Northeast,2025-10-03,2025-12-13,23
+006533850322,Coastal Otolaryngology Practice,Otolaryngology,MS,1,Demo Complete,0.40,61400.00,RCM Only,Inbound Web,Marcus Williams,Southeast,2025-11-30,2026-01-04,20
+006160929279,Coastal Plastic Medical Practice,Plastic Surgery,MO,5,Demo Complete,0.40,44700.00,EHR + PM,Conference,David Kim,Midwest,2025-10-15,2026-03-14,29
+006411334333,Valley Podiatry Medical Practice,Podiatry,OK,2,Negotiation,0.70,45600.00,EHR + PM + RCM,Referral,Jennifer Ruiz,Southwest,2026-01-24,2026-04-15,7
+006692784911,Bay Area Dermatology Specialty Group,Dermatology,KS,3,Demo Complete,0.40,109500.00,EHR + PM,Webinar,David Kim,Midwest,2025-11-23,2026-04-18,13
+006170750086,Heritage Orthopedic Clinic,Orthopedic Surgery,IL,3,Prospecting,0.10,64900.00,Full Suite,Referral,David Kim,Midwest,2025-11-24,2026-03-10,11
+006199968995,River Plastic Center for Excellence,Plastic Surgery,CO,8,Discovery,0.20,43300.00,EHR + PM + RCM,Inbound Web,Alex Morrison,West,2026-01-10,2026-04-03,32
+006996639914,Summit Gastroenterology Specialty Group,Gastroenterology,HI,2,Prospecting,0.10,110000.00,EHR + PM,Content Download,Alex Morrison,West,2025-12-21,2026-05-06,29
+006192147223,Sunrise Otolaryngology Medical Center,Otolaryngology,IN,8,Demo Scheduled,0.30,45500.00,EHR + PM + RCM,Outbound BDR,David Kim,Midwest,2025-11-04,2026-04-23,41
+006571674765,Summit Otolaryngology Healthcare Partners,Otolaryngology,MA,12,Proposal Sent,0.55,60800.00,EHR,Webinar,Sarah Chen,Northeast,2025-12-24,2026-01-25,41
+006856811187,Advanced Plastic Healthcare Partners,Plastic Surgery,VA,5,Demo Scheduled,0.30,47900.00,EHR + PM,Existing Customer Expansion,Marcus Williams,Southeast,2025-12-29,2026-06-06,42
+006888524827,Advanced Plastic Medical Associates,Plastic Surgery,MA,3,Discovery,0.20,91400.00,RCM Only,Webinar,Sarah Chen,Northeast,2025-09-12,2026-02-14,27
+006116922865,Bay Area Gastroenterology Specialty Group,Gastroenterology,NV,3,Demo Complete,0.40,132600.00,EHR,Outbound BDR,Alex Morrison,West,2026-02-16,2026-04-29,1
+006879593217,Palm Podiatry Healthcare Partners,Podiatry,NY,12,Proposal Sent,0.55,53800.00,EHR + PM,Webinar,Sarah Chen,Northeast,2025-12-14,2026-01-13,3
+006312096573,Coastal Orthopedic Medical Center,Orthopedic Surgery,NM,2,Demo Complete,0.40,139000.00,EHR + PM,Content Download,Jennifer Ruiz,Southwest,2026-01-13,2026-06-19,45
+006937738351,Advanced Plastic Medical Practice,Plastic Surgery,GA,1,Prospecting,0.10,117500.00,Full Suite,Existing Customer Expansion,Marcus Williams,Southeast,2025-11-17,2026-01-04,40
+006120204897,River Orthopedic Practice,Orthopedic Surgery,OK,5,Negotiation,0.70,170700.00,EHR + PM,Conference,Jennifer Ruiz,Southwest,2026-01-03,2026-04-30,45
+006148626783,Premier Otolaryngology Medical Associates,Otolaryngology,AR,1,Proposal Sent,0.55,43400.00,EHR + PM,Content Download,Marcus Williams,Southeast,2026-02-19,2026-05-09,6
+006504597461,Summit Otolaryngology Medical Associates,Otolaryngology,CA,5,Discovery,0.20,74500.00,EHR + PM,Content Download,Alex Morrison,West,2025-12-16,2026-04-02,10
+006964396324,Bay Area Pain Practice,Pain Management,NE,2,Prospecting,0.10,77400.00,Full Suite,Partner,David Kim,Midwest,2025-09-25,2025-11-29,37
+006643221315,Summit Podiatry Specialty Group,Podiatry,MA,2,Discovery,0.20,58600.00,EHR + PM + RCM,Content Download,Sarah Chen,Northeast,2025-11-08,2026-01-19,12
+006450866404,Summit Otolaryngology Medical Associates,Otolaryngology,TX,3,Verbal Commit,0.85,47600.00,EHR + PM + RCM,Content Download,Jennifer Ruiz,Southwest,2025-11-08,2026-04-18,42
+006857335026,Highland Otolaryngology Clinic,Otolaryngology,OK,2,Negotiation,0.70,82400.00,EHR + PM + RCM,Webinar,Jennifer Ruiz,Southwest,2025-09-12,2026-01-25,44
+006128024514,Summit Otolaryngology Institute,Otolaryngology,HI,5,Demo Complete,0.40,99000.00,Full Suite,Content Download,Alex Morrison,West,2025-09-28,2026-01-02,30
+006783037220,Palm Gastroenterology Practice,Gastroenterology,NV,3,Prospecting,0.10,176100.00,EHR + PM,Inbound Web,Alex Morrison,West,2025-10-01,2026-02-12,10
+006255592813,Advanced Gastroenterology Institute,Gastroenterology,NM,3,Discovery,0.20,176100.00,EHR + PM + RCM,Outbound BDR,Jennifer Ruiz,Southwest,2025-10-26,2025-12-16,33
+006710712076,River Pain Medical Center,Pain Management,OH,3,Discovery,0.20,79600.00,EHR + PM,Webinar,David Kim,Midwest,2026-02-24,2026-06-17,4
+006735227587,Sunrise Pain Practice,Pain Management,RI,2,Prospecting,0.10,73500.00,EHR + PM + RCM,Webinar,Sarah Chen,Northeast,2025-12-23,2026-01-30,30
+006723235550,Summit Orthopedic Healthcare Partners,Orthopedic Surgery,MS,5,Demo Complete,0.40,170500.00,EHR + PM + RCM,Inbound Web,Marcus Williams,Southeast,2025-09-26,2026-01-01,19
+006567484844,Highland Podiatry Medical Associates,Podiatry,KY,5,Prospecting,0.10,53900.00,EHR + PM + RCM,Existing Customer Expansion,Marcus Williams,Southeast,2025-10-04,2025-12-10,26
+006354219971,Lakeside Orthopedic Center for Excellence,Orthopedic Surgery,TX,12,Demo Scheduled,0.30,187500.00,EHR + PM + RCM,Partner,Jennifer Ruiz,Southwest,2026-02-12,2026-03-30,8
+006874615751,Central Pain Practice,Pain Management,WA,8,Discovery,0.20,81700.00,Full Suite,Partner,Alex Morrison,West,2025-10-05,2025-12-18,11
+006851389284,Bay Area Plastic Clinic,Plastic Surgery,NM,5,Prospecting,0.10,71500.00,EHR + PM + RCM,Outbound BDR,Jennifer Ruiz,Southwest,2025-12-01,2026-01-08,23
+006129476025,Palm Orthopedic Practice,Orthopedic Surgery,LA,5,Discovery,0.20,94900.00,RCM Only,Inbound Web,Marcus Williams,Southeast,2025-12-29,2026-05-14,22
+006196425169,Premier Podiatry Healthcare Partners,Podiatry,HI,8,Prospecting,0.10,30300.00,EHR + PM,Webinar,Alex Morrison,West,2026-01-19,2026-05-19,25
+006910474932,Sunrise Urology Healthcare Partners,Urology,KS,3,Demo Complete,0.40,51700.00,Full Suite,Partner,David Kim,Midwest,2026-02-08,2026-07-23,8
+006757623807,Heritage Pain Specialty Group,Pain Management,KS,12,Prospecting,0.10,65800.00,EHR + PM,Content Download,David Kim,Midwest,2025-12-16,2026-02-14,14
+006694618999,Lakeside Podiatry Clinic,Podiatry,ME,1,Negotiation,0.70,45700.00,Full Suite,Referral,Sarah Chen,Northeast,2026-01-31,2026-04-01,18
+006198214073,Valley Gastroenterology Medical Practice,Gastroenterology,AZ,2,Discovery,0.20,79500.00,EHR + PM,Existing Customer Expansion,Jennifer Ruiz,Southwest,2025-09-29,2025-12-23,38
+006935565621,Metro Ophthalmology Medical Center,Ophthalmology,VT,1,Prospecting,0.10,86900.00,EHR + PM + RCM,Outbound BDR,Sarah Chen,Northeast,2026-01-30,2026-04-30,27
+006853487752,Central Ophthalmology Institute,Ophthalmology,WV,8,Demo Scheduled,0.30,83600.00,EHR + PM + RCM,Inbound Web,Marcus Williams,Southeast,2025-09-23,2026-01-01,18
+006888766328,Premier Podiatry Clinic,Podiatry,NE,1,Negotiation,0.70,54500.00,Full Suite,Outbound BDR,David Kim,Midwest,2026-01-19,2026-05-28,11
+006899593316,Lakeside Podiatry Medical Practice,Podiatry,GA,2,Demo Complete,0.40,40200.00,EHR + PM,Content Download,Marcus Williams,Southeast,2025-09-23,2025-10-23,19
+006358014209,Sunrise Orthopedic Medical Practice,Orthopedic Surgery,AZ,2,Discovery,0.20,143900.00,EHR + PM + RCM,Existing Customer Expansion,Jennifer Ruiz,Southwest,2025-10-26,2026-01-10,43
+006904839462,Valley Dermatology Specialty Group,Dermatology,TX,5,Demo Complete,0.40,89300.00,EHR,Webinar,Jennifer Ruiz,Southwest,2025-11-29,2026-04-12,34
+006368445544,Premier Podiatry Specialty Group,Podiatry,WY,3,Closed Won,1.00,55100.00,EHR + PM + RCM,Webinar,Alex Morrison,West,2025-09-23,2026-01-07,23
+006146047406,Premier Pain Medical Practice,Pain Management,OH,5,Discovery,0.20,30700.00,Full Suite,Inbound Web,David Kim,Midwest,2026-01-14,2026-07-10,38
+006903505163,Lakeside Ophthalmology Specialty Group,Ophthalmology,NH,3,Demo Scheduled,0.30,69700.00,EHR + PM + RCM,Content Download,Sarah Chen,Northeast,2026-02-09,2026-07-15,19
+006401153695,Highland Orthopedic Center for Excellence,Orthopedic Surgery,FL,2,Prospecting,0.10,188600.00,RCM Only,Outbound BDR,Marcus Williams,Southeast,2025-10-14,2026-01-05,38
+006769504609,Summit Ophthalmology Specialty Group,Ophthalmology,AK,1,Discovery,0.20,86300.00,EHR + PM + RCM,Webinar,Alex Morrison,West,2025-10-03,2025-12-03,40
+006136088594,Highland Ophthalmology Medical Practice,Ophthalmology,NM,3,Negotiation,0.70,57000.00,EHR + PM,Conference,Jennifer Ruiz,Southwest,2025-11-18,2026-05-08,8
+006797529247,Bay Area Podiatry Specialists,Podiatry,NM,2,Demo Complete,0.40,58400.00,EHR + PM,Webinar,Jennifer Ruiz,Southwest,2025-09-05,2026-02-27,4
+006743186629,Highland Urology Healthcare Partners,Urology,NY,2,Discovery,0.20,54500.00,Full Suite,Conference,Sarah Chen,Northeast,2025-10-30,2026-03-06,23
+006179799745,Premier Ophthalmology Practice,Ophthalmology,TX,12,Prospecting,0.10,109600.00,EHR + PM + RCM,Inbound Web,Jennifer Ruiz,Southwest,2026-02-07,2026-05-23,14
+006799444341,Mountain Dermatology Medical Practice,Dermatology,LA,2,Demo Scheduled,0.30,104300.00,Full Suite,Partner,Marcus Williams,Southeast,2025-10-20,2026-03-05,13
+006911686712,Palm Plastic Medical Practice,Plastic Surgery,KS,2,Discovery,0.20,50100.00,Full Suite,Partner,David Kim,Midwest,2025-09-02,2025-11-05,44
+006658523873,Central Podiatry Center for Excellence,Podiatry,CO,3,Prospecting,0.10,42800.00,Full Suite,Webinar,Alex Morrison,West,2026-02-06,2026-07-03,16
+006317627106,Palm Ophthalmology Medical Associates,Ophthalmology,MS,1,Demo Scheduled,0.30,65900.00,EHR,Outbound BDR,Marcus Williams,Southeast,2026-01-16,2026-03-20,38
+006562034937,Highland Orthopedic Practice,Orthopedic Surgery,TX,2,Discovery,0.20,139500.00,EHR,Webinar,Jennifer Ruiz,Southwest,2025-09-22,2025-12-04,41
+006573106746,Palm Podiatry Medical Associates,Podiatry,MT,5,Demo Complete,0.40,46600.00,RCM Only,Conference,Alex Morrison,West,2025-12-07,2026-05-27,26
+006304865912,Heritage Otolaryngology Clinic,Otolaryngology,CT,5,Prospecting,0.10,72200.00,EHR + PM,Content Download,Sarah Chen,Northeast,2026-01-26,2026-05-24,7
+006230346883,Highland Pain Clinic,Pain Management,VA,2,Prospecting,0.10,27000.00,EHR,Outbound BDR,Marcus Williams,Southeast,2025-10-03,2025-11-04,28
+006646133528,River Otolaryngology Medical Center,Otolaryngology,NM,2,Prospecting,0.10,82900.00,EHR + PM + RCM,Conference,Jennifer Ruiz,Southwest,2025-10-17,2026-02-02,11
+006150020103,Sunrise Pain Specialists,Pain Management,OK,1,Proposal Sent,0.55,27200.00,EHR,Webinar,Jennifer Ruiz,Southwest,2026-01-07,2026-03-30,10
+006874530633,Palm Dermatology Practice,Dermatology,CO,5,Closed Won,1.00,119500.00,EHR + PM,Existing Customer Expansion,Alex Morrison,West,2025-09-29,2025-12-11,1
+006534431268,Valley Podiatry Clinic,Podiatry,WY,5,Discovery,0.20,55500.00,EHR + PM,Referral,Alex Morrison,West,2025-12-15,2026-04-30,12
+006475334957,Bay Area Otolaryngology Medical Practice,Otolaryngology,MI,2,Demo Complete,0.40,76100.00,RCM Only,Partner,David Kim,Midwest,2026-02-03,2026-04-26,22
+006135517399,Highland Podiatry Specialists,Podiatry,NM,2,Proposal Sent,0.55,24900.00,EHR,Partner,Jennifer Ruiz,Southwest,2025-10-04,2026-02-20,1
+006726966292,Highland Orthopedic Medical Center,Orthopedic Surgery,CT,3,Prospecting,0.10,197900.00,EHR,Referral,Sarah Chen,Northeast,2026-01-28,2026-03-14,19
+006171696078,Lakeside Urology Healthcare Partners,Urology,WA,5,Proposal Sent,0.55,59200.00,EHR + PM + RCM,Referral,Alex Morrison,West,2026-01-15,2026-03-15,19
+006292768261,Mountain Dermatology Center for Excellence,Dermatology,MA,5,Discovery,0.20,102800.00,EHR + PM,Inbound Web,Sarah Chen,Northeast,2025-10-09,2026-01-28,26
+006403520021,Metro Orthopedic Clinic,Orthopedic Surgery,IL,3,Verbal Commit,0.85,99800.00,EHR + PM,Partner,David Kim,Midwest,2025-10-13,2026-04-01,31
+006211634039,Valley Podiatry Healthcare Partners,Podiatry,SD,1,Prospecting,0.10,51000.00,EHR,Inbound Web,David Kim,Midwest,2026-02-02,2026-04-27,10
+006785684770,Bay Area Ophthalmology Specialty Group,Ophthalmology,AZ,2,Demo Complete,0.40,89700.00,EHR + PM,Referral,Jennifer Ruiz,Southwest,2025-11-28,2026-02-28,10
+006276424772,Lakeside Gastroenterology Practice,Gastroenterology,VA,5,Prospecting,0.10,106700.00,Full Suite,Outbound BDR,Marcus Williams,Southeast,2026-02-12,2026-04-21,4
+006777669090,Bay Area Urology Center for Excellence,Urology,AK,3,Demo Complete,0.40,74300.00,EHR + PM,Existing Customer Expansion,Alex Morrison,West,2026-01-28,2026-06-11,14
+006130249261,Highland Ophthalmology Specialty Group,Ophthalmology,RI,3,Negotiation,0.70,76900.00,EHR + PM,Conference,Sarah Chen,Northeast,2026-02-08,2026-04-27,4
+006846417788,River Dermatology Medical Associates,Dermatology,IA,3,Proposal Sent,0.55,36700.00,Full Suite,Webinar,David Kim,Midwest,2026-02-02,2026-04-30,4
+006129321905,Mountain Urology Practice,Urology,OR,1,Discovery,0.20,40000.00,EHR + PM + RCM,Partner,Alex Morrison,West,2025-10-26,2026-04-09,21
+006734384655,Palm Urology Clinic,Urology,TX,2,Prospecting,0.10,50000.00,RCM Only,Existing Customer Expansion,Jennifer Ruiz,Southwest,2026-02-13,2026-06-25,1
+006937489574,Valley Gastroenterology Center for Excellence,Gastroenterology,WA,12,Closed Lost,0.00,81400.00,EHR + PM,Webinar,Alex Morrison,West,2026-01-26,2026-05-02,6
+006964243781,Coastal Plastic Practice,Plastic Surgery,MI,5,Demo Scheduled,0.30,72200.00,EHR + PM + RCM,Inbound Web,David Kim,Midwest,2026-02-15,2026-07-17,12
+006631610043,Palm Ophthalmology Medical Practice,Ophthalmology,ME,1,Prospecting,0.10,116100.00,EHR + PM + RCM,Inbound Web,Sarah Chen,Northeast,2025-12-31,2026-05-30,33
+006170192497,Coastal Podiatry Center for Excellence,Podiatry,AZ,5,Prospecting,0.10,29800.00,EHR + PM,Content Download,Jennifer Ruiz,Southwest,2026-01-08,2026-02-15,33
+006874199557,Premier Urology Healthcare Partners,Urology,VT,3,Discovery,0.20,44800.00,EHR + PM,Conference,Sarah Chen,Northeast,2026-01-19,2026-03-12,29
+006863642676,Sunrise Dermatology Specialists,Dermatology,LA,3,Demo Scheduled,0.30,109000.00,EHR + PM,Content Download,Marcus Williams,Southeast,2025-09-09,2025-11-13,17
+006636837880,Premier Urology Medical Practice,Urology,KS,3,Discovery,0.20,41500.00,EHR + PM + RCM,Referral,David Kim,Midwest,2025-11-20,2026-01-27,44
+006369054184,Heritage Orthopedic Healthcare Partners,Orthopedic Surgery,KS,1,Proposal Sent,0.55,124900.00,EHR,Inbound Web,David Kim,Midwest,2025-12-16,2026-05-16,40
+006215053393,Valley Orthopedic Clinic,Orthopedic Surgery,AZ,3,Closed Won,1.00,172000.00,EHR + PM,Existing Customer Expansion,Jennifer Ruiz,Southwest,2026-01-06,2026-04-29,42
+006700950511,Advanced Otolaryngology Specialty Group,Otolaryngology,OR,2,Discovery,0.20,75700.00,Full Suite,Outbound BDR,Alex Morrison,West,2025-10-13,2026-02-21,21
+006956418345,Advanced Gastroenterology Practice,Gastroenterology,MO,12,Prospecting,0.10,123000.00,EHR + PM,Conference,David Kim,Midwest,2025-12-12,2026-02-05,21
+006636619410,Metro Plastic Specialty Group,Plastic Surgery,MS,12,Negotiation,0.70,122300.00,EHR + PM,Referral,Marcus Williams,Southeast,2025-12-23,2026-02-24,29
+006455480079,Premier Urology Specialty Group,Urology,LA,3,Negotiation,0.70,114700.00,EHR + PM,Referral,Marcus Williams,Southeast,2025-10-09,2026-02-05,10
+006683735948,Coastal Plastic Center for Excellence,Plastic Surgery,KS,3,Prospecting,0.10,89700.00,EHR + PM,Webinar,David Kim,Midwest,2026-01-04,2026-06-04,25
+006640942457,Central Urology Specialists,Urology,NM,1,Prospecting,0.10,120700.00,EHR + PM,Existing Customer Expansion,Jennifer Ruiz,Southwest,2026-01-17,2026-05-24,24
+006839080625,Highland Otolaryngology Practice,Otolaryngology,OH,3,Verbal Commit,0.85,54400.00,EHR + PM,Partner,David Kim,Midwest,2025-12-08,2026-05-22,38
+006738003384,Palm Orthopedic Healthcare Partners,Orthopedic Surgery,CA,1,Demo Scheduled,0.30,75200.00,Full Suite,Outbound BDR,Alex Morrison,West,2026-02-16,2026-07-17,7
+006946234850,Sunrise Pain Institute,Pain Management,MS,2,Demo Scheduled,0.30,81700.00,EHR + PM,Partner,Marcus Williams,Southeast,2025-11-20,2026-03-20,2
+006307900473,Premier Urology Specialists,Urology,SD,2,Discovery,0.20,125500.00,Full Suite,Content Download,David Kim,Midwest,2025-12-18,2026-05-05,7
+006775453694,Central Orthopedic Specialists,Orthopedic Surgery,AZ,5,Prospecting,0.10,95600.00,EHR + PM,Referral,Jennifer Ruiz,Southwest,2025-10-05,2026-01-25,15
+006420358936,Lakeside Dermatology Institute,Dermatology,MS,2,Discovery,0.20,119200.00,EHR + PM,Partner,Marcus Williams,Southeast,2025-11-27,2026-04-15,21
+006470654754,Sunrise Otolaryngology Specialty Group,Otolaryngology,GA,12,Negotiation,0.70,75200.00,EHR + PM,Content Download,Marcus Williams,Southeast,2025-09-20,2025-12-14,20
+006565291034,Palm Otolaryngology Institute,Otolaryngology,ID,2,Discovery,0.20,76600.00,EHR,Partner,Alex Morrison,West,2026-02-04,2026-07-20,7
+006408339438,Central Orthopedic Medical Practice,Orthopedic Surgery,MI,3,Proposal Sent,0.55,197400.00,EHR + PM,Partner,David Kim,Midwest,2026-01-07,2026-06-28,25
+006519255865,Metro Dermatology Specialists,Dermatology,WY,1,Prospecting,0.10,78700.00,Full Suite,Inbound Web,Alex Morrison,West,2026-01-17,2026-06-20,18
+006272484258,Highland Plastic Center for Excellence,Plastic Surgery,WV,3,Discovery,0.20,81400.00,EHR + PM,Inbound Web,Marcus Williams,Southeast,2026-01-29,2026-03-26,4
+006785932156,Highland Otolaryngology Center for Excellence,Otolaryngology,TN,1,Closed Won,1.00,91900.00,EHR + PM,Conference,Marcus Williams,Southeast,2025-10-30,2026-02-25,31
+006942229975,Sunrise Podiatry Institute,Podiatry,MN,3,Demo Scheduled,0.30,49500.00,Full Suite,Partner,David Kim,Midwest,2026-01-04,2026-06-10,23
+006684658481,Heritage Gastroenterology Medical Associates,Gastroenterology,MS,3,Discovery,0.20,80900.00,EHR + PM,Partner,Marcus Williams,Southeast,2025-09-13,2026-01-08,9
+006379884507,River Orthopedic Specialty Group,Orthopedic Surgery,CT,2,Discovery,0.20,194400.00,EHR + PM + RCM,Content Download,Sarah Chen,Northeast,2026-01-08,2026-06-04,21
+006188801323,Lakeside Gastroenterology Specialty Group,Gastroenterology,AK,3,Discovery,0.20,87500.00,EHR + PM + RCM,Inbound Web,Alex Morrison,West,2026-02-01,2026-07-27,8
+006253060471,Highland Dermatology Center for Excellence,Dermatology,WA,8,Demo Complete,0.40,40300.00,EHR + PM,Partner,Alex Morrison,West,2026-01-16,2026-07-10,14
+006760212244,Premier Urology Medical Center,Urology,OR,1,Prospecting,0.10,60600.00,EHR + PM + RCM,Referral,Alex Morrison,West,2025-11-17,2026-03-18,18
+006342352927,Premier Ophthalmology Medical Center,Ophthalmology,NH,1,Prospecting,0.10,149100.00,EHR + PM + RCM,Webinar,Sarah Chen,Northeast,2026-02-23,2026-07-24,5
+006360556373,Summit Plastic Medical Associates,Plastic Surgery,MO,1,Demo Complete,0.40,116200.00,EHR + PM,Conference,David Kim,Midwest,2025-09-07,2026-02-04,27
+006856598893,Summit Dermatology Practice,Dermatology,VT,3,Demo Complete,0.40,91700.00,Full Suite,Content Download,Sarah Chen,Northeast,2025-12-11,2026-04-02,26
+006954752619,Heritage Gastroenterology Practice,Gastroenterology,ME,1,Discovery,0.20,64900.00,RCM Only,Referral,Sarah Chen,Northeast,2025-10-25,2026-04-20,6
+006522179900,Mountain Dermatology Specialists,Dermatology,MS,1,Discovery,0.20,93400.00,Full Suite,Content Download,Marcus Williams,Southeast,2026-02-12,2026-06-30,13
+006301220676,Metro Dermatology Clinic,Dermatology,FL,1,Demo Scheduled,0.30,89800.00,Full Suite,Partner,Marcus Williams,Southeast,2025-10-27,2026-03-15,1
+006912863891,Highland Otolaryngology Medical Center,Otolaryngology,GA,12,Demo Scheduled,0.30,83100.00,EHR + PM + RCM,Inbound Web,Marcus Williams,Southeast,2025-09-26,2025-12-16,44
+006275268766,Highland Otolaryngology Specialists,Otolaryngology,VT,12,Verbal Commit,0.85,80900.00,EHR + PM,Webinar,Sarah Chen,Northeast,2025-12-22,2026-03-18,39
+006128124222,Valley Ophthalmology Specialists,Ophthalmology,MN,8,Negotiation,0.70,101000.00,EHR + PM,Conference,David Kim,Midwest,2025-12-19,2026-01-30,29
+006519069112,Central Podiatry Specialty Group,Podiatry,NV,2,Closed Won,1.00,69400.00,Full Suite,Referral,Alex Morrison,West,2025-09-05,2025-12-20,44
+006144860586,Advanced Ophthalmology Medical Associates,Ophthalmology,VT,1,Prospecting,0.10,143700.00,EHR + PM + RCM,Webinar,Sarah Chen,Northeast,2026-01-17,2026-07-15,39
+006417332577,Central Dermatology Center for Excellence,Dermatology,NE,3,Demo Complete,0.40,90100.00,EHR + PM + RCM,Outbound BDR,David Kim,Midwest,2025-11-24,2026-03-07,26
+006628118920,Bay Area Otolaryngology Practice,Otolaryngology,VT,3,Demo Scheduled,0.30,32500.00,EHR,Existing Customer Expansion,Sarah Chen,Northeast,2026-01-29,2026-06-17,16
+006574610425,Central Gastroenterology Center for Excellence,Gastroenterology,ME,12,Discovery,0.20,67800.00,EHR + PM,Content Download,Sarah Chen,Northeast,2025-11-19,2026-05-06,36
+006905572903,Metro Pain Medical Associates,Pain Management,NM,20,Closed Won,1.00,53300.00,Full Suite,Partner,Jennifer Ruiz,Southwest,2025-09-07,2026-02-08,30
+006981813273,Valley Gastroenterology Medical Associates,Gastroenterology,NM,2,Demo Scheduled,0.30,107000.00,EHR + PM + RCM,Partner,Jennifer Ruiz,Southwest,2025-10-17,2025-12-10,18
+006430211266,Premier Ophthalmology Medical Associates,Ophthalmology,VT,2,Prospecting,0.10,97700.00,EHR + PM,Conference,Sarah Chen,Northeast,2026-02-23,2026-08-14,4
+006901681630,Advanced Ophthalmology Institute,Ophthalmology,WV,1,Prospecting,0.10,97600.00,RCM Only,Conference,Marcus Williams,Southeast,2025-11-09,2026-02-02,21
+006166455510,Highland Otolaryngology Practice,Otolaryngology,RI,3,Demo Complete,0.40,43000.00,EHR,Content Download,Sarah Chen,Northeast,2026-02-07,2026-07-08,13
+006183794561,River Gastroenterology Institute,Gastroenterology,NY,5,Demo Scheduled,0.30,158600.00,EHR,Conference,Sarah Chen,Northeast,2025-12-28,2026-05-04,11
+006205824354,Metro Gastroenterology Institute,Gastroenterology,AZ,5,Discovery,0.20,107700.00,EHR,Webinar,Jennifer Ruiz,Southwest,2025-10-10,2026-04-08,3
+006165918216,Coastal Ophthalmology Practice,Ophthalmology,CA,12,Negotiation,0.70,149700.00,EHR + PM + RCM,Referral,Alex Morrison,West,2026-02-20,2026-07-04,4
+006441346137,Metro Gastroenterology Clinic,Gastroenterology,AZ,3,Prospecting,0.10,96500.00,EHR + PM + RCM,Referral,Jennifer Ruiz,Southwest,2026-02-16,2026-05-06,3
+006401590048,Highland Gastroenterology Clinic,Gastroenterology,PA,5,Proposal Sent,0.55,132500.00,EHR + PM + RCM,Webinar,Sarah Chen,Northeast,2025-12-22,2026-03-13,21
+006691909789,Mountain Pain Clinic,Pain Management,NM,8,Demo Complete,0.40,48300.00,RCM Only,Conference,Jennifer Ruiz,Southwest,2025-12-27,2026-03-03,26
+006270879806,Metro Urology Specialists,Urology,OK,3,Discovery,0.20,58000.00,RCM Only,Content Download,Jennifer Ruiz,Southwest,2026-01-18,2026-05-27,37
+006386998298,Mountain Otolaryngology Specialty Group,Otolaryngology,CT,1,Proposal Sent,0.55,76100.00,EHR + PM,Conference,Sarah Chen,Northeast,2025-10-12,2026-01-06,14
+006976913963,Advanced Ophthalmology Specialists,Ophthalmology,AZ,3,Discovery,0.20,85600.00,EHR + PM,Content Download,Jennifer Ruiz,Southwest,2025-12-10,2026-02-06,3
+006422968323,Lakeside Plastic Medical Practice,Plastic Surgery,NJ,3,Prospecting,0.10,126200.00,EHR + PM,Content Download,Sarah Chen,Northeast,2025-11-01,2026-04-23,4
+006637214520,River Otolaryngology Specialists,Otolaryngology,KY,3,Discovery,0.20,82800.00,EHR + PM,Partner,Marcus Williams,Southeast,2025-10-06,2026-03-08,34
+006103079115,Summit Podiatry Medical Associates,Podiatry,NE,3,Prospecting,0.10,27000.00,EHR,Partner,David Kim,Midwest,2025-09-03,2026-01-26,24
+006758108692,River Dermatology Specialists,Dermatology,NJ,5,Closed Lost,0.00,97500.00,EHR + PM + RCM,Webinar,Sarah Chen,Northeast,2025-12-26,2026-06-21,32
+006171675574,Valley Plastic Specialists,Plastic Surgery,CT,8,Prospecting,0.10,109500.00,Full Suite,Content Download,Sarah Chen,Northeast,2025-12-11,2026-02-05,11
+006825849485,Valley Urology Center for Excellence,Urology,AL,3,Closed Won,1.00,75100.00,EHR + PM,Inbound Web,Marcus Williams,Southeast,2026-01-06,2026-04-23,29
+006119644468,Central Otolaryngology Medical Associates,Otolaryngology,NM,3,Discovery,0.20,48700.00,Full Suite,Referral,Jennifer Ruiz,Southwest,2025-10-08,2026-02-23,39
+006358430757,Advanced Plastic Specialty Group,Plastic Surgery,ID,3,Prospecting,0.10,115800.00,EHR + PM,Conference,Alex Morrison,West,2025-10-29,2026-02-04,34
+006397722997,Lakeside Plastic Specialty Group,Plastic Surgery,WV,2,Discovery,0.20,129600.00,EHR + PM,Inbound Web,Marcus Williams,Southeast,2025-11-04,2026-02-14,5
+006387609417,Premier Dermatology Specialists,Dermatology,SC,1,Negotiation,0.70,101300.00,EHR + PM,Inbound Web,Marcus Williams,Southeast,2026-02-21,2026-06-25,2
+006296168555,Mountain Orthopedic Medical Center,Orthopedic Surgery,AZ,2,Prospecting,0.10,105500.00,EHR + PM,Existing Customer Expansion,Jennifer Ruiz,Southwest,2026-02-10,2026-03-18,6
+006113441282,Lakeside Pain Specialists,Pain Management,TX,20,Demo Scheduled,0.30,55100.00,EHR + PM,Content Download,Jennifer Ruiz,Southwest,2025-12-29,2026-04-02,41
+006427158320,Premier Otolaryngology Medical Practice,Otolaryngology,VT,3,Demo Scheduled,0.30,84300.00,EHR + PM,Partner,Sarah Chen,Northeast,2025-10-27,2026-02-21,38
+006425192408,River Podiatry Medical Center,Podiatry,MS,5,Closed Won,1.00,63800.00,EHR + PM,Conference,Marcus Williams,Southeast,2025-10-23,2026-03-15,28
+006389728577,Central Ophthalmology Medical Practice,Ophthalmology,VT,2,Proposal Sent,0.55,124800.00,Full Suite,Outbound BDR,Sarah Chen,Northeast,2026-01-04,2026-04-26,4
+006422969452,Mountain Dermatology Specialty Group,Dermatology,MT,1,Demo Scheduled,0.30,109300.00,EHR + PM + RCM,Partner,Alex Morrison,West,2025-12-06,2026-04-12,5
+006140954011,Bay Area Dermatology Specialty Group,Dermatology,MT,2,Proposal Sent,0.55,108300.00,EHR + PM + RCM,Existing Customer Expansion,Alex Morrison,West,2025-11-21,2026-01-04,24
+006196796312,Bay Area Dermatology Medical Center,Dermatology,OH,2,Prospecting,0.10,40500.00,Full Suite,Webinar,David Kim,Midwest,2025-09-28,2026-02-22,19
+006224686174,Mountain Podiatry Specialty Group,Podiatry,VA,20,Prospecting,0.10,70000.00,RCM Only,Inbound Web,Marcus Williams,Southeast,2025-11-08,2026-04-08,17
+006383067301,Advanced Urology Practice,Urology,WY,3,Demo Complete,0.40,92600.00,Full Suite,Outbound BDR,Alex Morrison,West,2025-11-18,2026-02-19,2
+006668901871,Heritage Dermatology Practice,Dermatology,NC,1,Proposal Sent,0.55,73100.00,RCM Only,Webinar,Marcus Williams,Southeast,2025-10-10,2026-04-04,43
+006285482875,Heritage Orthopedic Medical Center,Orthopedic Surgery,WY,3,Prospecting,0.10,65000.00,Full Suite,Referral,Alex Morrison,West,2025-10-13,2026-01-27,6
+006108773264,Advanced Pain Medical Associates,Pain Management,MT,8,Demo Complete,0.40,27700.00,EHR + PM,Referral,Alex Morrison,West,2025-11-09,2026-04-21,33
+006664324978,Metro Orthopedic Medical Practice,Orthopedic Surgery,OH,1,Prospecting,0.10,196100.00,Full Suite,Outbound BDR,David Kim,Midwest,2026-02-14,2026-07-03,12
+006110170206,Palm Pain Practice,Pain Management,OR,8,Prospecting,0.10,82900.00,Full Suite,Outbound BDR,Alex Morrison,West,2025-10-11,2025-12-02,19
+006560861137,Summit Podiatry Specialty Group,Podiatry,FL,2,Demo Complete,0.40,24800.00,EHR + PM + RCM,Partner,Marcus Williams,Southeast,2025-10-29,2026-01-26,22
+006282652398,Coastal Dermatology Specialists,Dermatology,TX,1,Discovery,0.20,94300.00,EHR + PM,Outbound BDR,Jennifer Ruiz,Southwest,2025-12-10,2026-04-20,8
+006228032796,Coastal Urology Center for Excellence,Urology,CT,5,Demo Scheduled,0.30,56100.00,EHR + PM + RCM,Outbound BDR,Sarah Chen,Northeast,2025-10-27,2025-12-14,45
+006175039093,Palm Podiatry Center for Excellence,Podiatry,NM,2,Proposal Sent,0.55,49000.00,EHR + PM,Partner,Jennifer Ruiz,Southwest,2025-12-24,2026-03-22,25
+006374868050,River Urology Healthcare Partners,Urology,PA,8,Discovery,0.20,45300.00,RCM Only,Webinar,Sarah Chen,Northeast,2025-09-30,2026-03-09,43
+006783921155,Metro Dermatology Specialty Group,Dermatology,IA,3,Proposal Sent,0.55,56400.00,EHR,Partner,David Kim,Midwest,2025-10-17,2026-03-26,18
+006266440542,Mountain Orthopedic Medical Associates,Orthopedic Surgery,SC,20,Negotiation,0.70,125300.00,Full Suite,Conference,Marcus Williams,Southeast,2026-01-30,2026-03-02,3
+006511373055,Highland Gastroenterology Medical Associates,Gastroenterology,NE,3,Prospecting,0.10,69900.00,EHR + PM,Existing Customer Expansion,David Kim,Midwest,2026-01-20,2026-06-17,39
+006402101712,Central Urology Specialty Group,Urology,IN,1,Prospecting,0.10,73400.00,Full Suite,Webinar,David Kim,Midwest,2025-09-24,2026-01-18,37
+006982411618,Premier Gastroenterology Institute,Gastroenterology,PA,1,Discovery,0.20,98300.00,EHR,Content Download,Sarah Chen,Northeast,2025-11-18,2026-04-03,31
+006460906441,Valley Dermatology Clinic,Dermatology,HI,1,Demo Scheduled,0.30,100800.00,EHR + PM + RCM,Outbound BDR,Alex Morrison,West,2025-09-24,2025-12-27,24
+006379579682,Highland Dermatology Practice,Dermatology,UT,2,Prospecting,0.10,88000.00,Full Suite,Content Download,Alex Morrison,West,2025-10-30,2026-04-20,36
+006947701446,Sunrise Orthopedic Specialists,Orthopedic Surgery,WI,12,Demo Scheduled,0.30,164200.00,EHR + PM,Conference,David Kim,Midwest,2026-01-07,2026-06-22,3
+006299324226,Mountain Orthopedic Healthcare Partners,Orthopedic Surgery,MI,3,Closed Lost,0.00,125900.00,EHR + PM + RCM,Content Download,David Kim,Midwest,2025-11-27,2026-03-04,44
+006503132343,Central Podiatry Specialists,Podiatry,RI,1,Demo Scheduled,0.30,59700.00,EHR + PM + RCM,Partner,Sarah Chen,Northeast,2026-01-15,2026-04-30,38
+006691304794,Summit Pain Center for Excellence,Pain Management,NY,20,Proposal Sent,0.55,31800.00,Full Suite,Outbound BDR,Sarah Chen,Northeast,2025-11-06,2025-12-08,28
+006734879059,Coastal Pain Medical Associates,Pain Management,MA,5,Proposal Sent,0.55,85000.00,EHR + PM + RCM,Content Download,Sarah Chen,Northeast,2025-09-26,2026-01-02,40
+006941855729,Valley Podiatry Practice,Podiatry,KS,2,Closed Lost,0.00,44200.00,EHR,Webinar,David Kim,Midwest,2026-02-19,2026-07-26,1
+006841261012,River Gastroenterology Medical Associates,Gastroenterology,KY,3,Discovery,0.20,157200.00,RCM Only,Inbound Web,Marcus Williams,Southeast,2025-11-27,2026-04-08,36
+006692000780,Summit Otolaryngology Medical Practice,Otolaryngology,NM,2,Prospecting,0.10,49500.00,EHR,Conference,Jennifer Ruiz,Southwest,2025-09-06,2025-11-28,22
+006712880725,Highland Dermatology Healthcare Partners,Dermatology,MN,5,Prospecting,0.10,48200.00,EHR + PM,Referral,David Kim,Midwest,2026-01-15,2026-03-23,36
+006473818005,Bay Area Dermatology Medical Practice,Dermatology,UT,5,Demo Scheduled,0.30,87300.00,EHR + PM + RCM,Partner,Alex Morrison,West,2025-10-07,2026-03-07,9
+006577374161,Valley Orthopedic Medical Practice,Orthopedic Surgery,MT,5,Discovery,0.20,84500.00,Full Suite,Webinar,Alex Morrison,West,2026-02-19,2026-05-30,9
+006649366412,Bay Area Plastic Medical Center,Plastic Surgery,ID,3,Discovery,0.20,85900.00,EHR + PM,Partner,Alex Morrison,West,2025-10-08,2026-03-24,33
+006217915714,Heritage Otolaryngology Medical Practice,Otolaryngology,NJ,2,Prospecting,0.10,51000.00,EHR + PM,Conference,Sarah Chen,Northeast,2025-12-13,2026-01-31,31
+006793932955,Lakeside Podiatry Practice,Podiatry,CA,1,Demo Complete,0.40,59100.00,Full Suite,Referral,Alex Morrison,West,2025-12-26,2026-02-19,2
+006304504854,Metro Ophthalmology Medical Practice,Ophthalmology,SD,5,Prospecting,0.10,103800.00,EHR + PM,Conference,David Kim,Midwest,2025-09-22,2026-03-14,37
+006573928711,Advanced Urology Clinic,Urology,VA,5,Negotiation,0.70,50400.00,EHR + PM,Outbound BDR,Marcus Williams,Southeast,2026-02-18,2026-04-23,8
+006959316536,Bay Area Gastroenterology Practice,Gastroenterology,OK,20,Demo Complete,0.40,63200.00,EHR + PM + RCM,Content Download,Jennifer Ruiz,Southwest,2026-02-05,2026-06-06,15
+006496104165,Palm Pain Specialists,Pain Management,TX,2,Negotiation,0.70,35000.00,EHR + PM + RCM,Inbound Web,Jennifer Ruiz,Southwest,2025-10-20,2025-12-03,4
+006634711316,Central Gastroenterology Clinic,Gastroenterology,NE,2,Demo Complete,0.40,70100.00,EHR + PM,Inbound Web,David Kim,Midwest,2025-10-06,2025-12-20,39
+006998928136,Mountain Gastroenterology Specialty Group,Gastroenterology,PA,3,Proposal Sent,0.55,145300.00,Full Suite,Webinar,Sarah Chen,Northeast,2025-12-31,2026-03-06,11
+006174230563,Advanced Pain Institute,Pain Management,OR,12,Verbal Commit,0.85,82600.00,EHR + PM,Referral,Alex Morrison,West,2025-12-10,2026-05-01,13
+006537775191,Metro Ophthalmology Specialty Group,Ophthalmology,NE,5,Proposal Sent,0.55,58500.00,Full Suite,Inbound Web,David Kim,Midwest,2025-09-24,2026-01-25,38
+006567702187,Summit Gastroenterology Specialty Group,Gastroenterology,WY,8,Prospecting,0.10,54700.00,EHR + PM + RCM,Referral,Alex Morrison,West,2025-12-27,2026-05-18,12
+006646510280,Premier Plastic Medical Practice,Plastic Surgery,ME,3,Closed Won,1.00,112500.00,EHR + PM + RCM,Inbound Web,Sarah Chen,Northeast,2025-10-13,2026-03-14,6
+006564768104,Palm Ophthalmology Specialists,Ophthalmology,MA,8,Closed Lost,0.00,95400.00,EHR + PM,Existing Customer Expansion,Sarah Chen,Northeast,2026-01-28,2026-05-28,19
+006478422734,Highland Orthopedic Specialty Group,Orthopedic Surgery,MA,5,Discovery,0.20,112900.00,EHR + PM + RCM,Conference,Sarah Chen,Northeast,2025-12-09,2026-02-08,2
+006605414995,Coastal Podiatry Medical Practice,Podiatry,ME,2,Negotiation,0.70,21200.00,EHR + PM,Webinar,Sarah Chen,Northeast,2026-01-28,2026-06-04,20
+006203605249,Heritage Plastic Center for Excellence,Plastic Surgery,ID,3,Demo Scheduled,0.30,70900.00,EHR + PM + RCM,Inbound Web,Alex Morrison,West,2025-10-12,2026-01-18,2
+006159190402,Advanced Orthopedic Healthcare Partners,Orthopedic Surgery,CT,3,Demo Scheduled,0.30,116800.00,EHR + PM,Partner,Sarah Chen,Northeast,2025-09-30,2026-03-14,34
+006898081538,Valley Pain Clinic,Pain Management,ID,1,Prospecting,0.10,81200.00,Full Suite,Content Download,Alex Morrison,West,2025-10-11,2025-11-30,13
+006462800505,Coastal Podiatry Practice,Podiatry,UT,5,Prospecting,0.10,42700.00,EHR + PM + RCM,Conference,Alex Morrison,West,2025-10-26,2026-03-01,22
+006471216171,Lakeside Ophthalmology Clinic,Ophthalmology,CT,5,Demo Complete,0.40,128600.00,EHR + PM,Referral,Sarah Chen,Northeast,2025-12-09,2026-05-21,14
+006204643520,Advanced Podiatry Specialists,Podiatry,NM,5,Discovery,0.20,52700.00,EHR + PM + RCM,Referral,Jennifer Ruiz,Southwest,2025-10-20,2026-01-25,9
+006472441830,Advanced Gastroenterology Clinic,Gastroenterology,OK,3,Negotiation,0.70,119200.00,EHR + PM,Partner,Jennifer Ruiz,Southwest,2025-10-28,2026-01-29,3
+006347925888,Palm Ophthalmology Medical Associates,Ophthalmology,CO,3,Proposal Sent,0.55,91600.00,EHR + PM + RCM,Outbound BDR,Alex Morrison,West,2026-02-01,2026-05-04,21
+006429250839,Central Urology Healthcare Partners,Urology,OR,1,Negotiation,0.70,56500.00,EHR + PM + RCM,Outbound BDR,Alex Morrison,West,2026-01-02,2026-03-16,18
+006217736317,Coastal Plastic Healthcare Partners,Plastic Surgery,AZ,3,Proposal Sent,0.55,88200.00,RCM Only,Conference,Jennifer Ruiz,Southwest,2026-01-21,2026-03-13,29
+006880985678,Premier Plastic Healthcare Partners,Plastic Surgery,TX,3,Proposal Sent,0.55,115000.00,Full Suite,Existing Customer Expansion,Jennifer Ruiz,Southwest,2025-11-29,2026-03-17,5
+006819237744,Premier Urology Healthcare Partners,Urology,AZ,3,Demo Complete,0.40,138500.00,EHR,Referral,Jennifer Ruiz,Southwest,2026-02-02,2026-06-05,15
+006457731891,Summit Plastic Medical Practice,Plastic Surgery,NY,5,Demo Scheduled,0.30,92400.00,EHR + PM + RCM,Referral,Sarah Chen,Northeast,2025-10-24,2026-02-15,14
+006951400390,Central Urology Specialists,Urology,WV,2,Demo Scheduled,0.30,42900.00,EHR + PM,Existing Customer Expansion,Marcus Williams,Southeast,2025-10-11,2026-02-19,44
+006255762877,Mountain Dermatology Clinic,Dermatology,NM,8,Demo Complete,0.40,87600.00,Full Suite,Conference,Jennifer Ruiz,Southwest,2025-09-03,2025-12-24,10
+006176281293,Metro Otolaryngology Specialty Group,Otolaryngology,ID,1,Demo Scheduled,0.30,70600.00,EHR,Existing Customer Expansion,Alex Morrison,West,2025-12-07,2026-05-04,15
+006508565132,Mountain Urology Medical Center,Urology,NV,5,Negotiation,0.70,105600.00,EHR + PM,Webinar,Alex Morrison,West,2025-11-08,2025-12-09,1
+006593636587,Lakeside Ophthalmology Clinic,Ophthalmology,UT,12,Discovery,0.20,154200.00,EHR + PM,Referral,Alex Morrison,West,2025-09-17,2026-01-22,26
+006230264286,Lakeside Ophthalmology Medical Practice,Ophthalmology,KS,8,Prospecting,0.10,103700.00,EHR + PM + RCM,Conference,David Kim,Midwest,2026-02-23,2026-08-12,3
+006920937891,Valley Pain Center for Excellence,Pain Management,WA,3,Discovery,0.20,50400.00,Full Suite,Existing Customer Expansion,Alex Morrison,West,2026-01-10,2026-04-16,15
+006329083917,Bay Area Gastroenterology Medical Center,Gastroenterology,IA,2,Closed Won,1.00,120900.00,EHR + PM + RCM,Outbound BDR,David Kim,Midwest,2025-09-07,2026-01-29,23
+006235231724,Highland Orthopedic Medical Practice,Orthopedic Surgery,CT,8,Demo Complete,0.40,100200.00,EHR + PM,Inbound Web,Sarah Chen,Northeast,2025-10-30,2026-02-28,32
+006201031343,Central Otolaryngology Medical Center,Otolaryngology,NM,2,Prospecting,0.10,78700.00,EHR + PM + RCM,Referral,Jennifer Ruiz,Southwest,2025-10-28,2025-12-16,34
+006385702065,Highland Dermatology Center for Excellence,Dermatology,KS,5,Prospecting,0.10,114300.00,EHR + PM,Inbound Web,David Kim,Midwest,2026-02-17,2026-04-10,11
+006371127304,Metro Dermatology Institute,Dermatology,OK,3,Demo Scheduled,0.30,101600.00,Full Suite,Inbound Web,Jennifer Ruiz,Southwest,2026-01-20,2026-04-11,20
+006100881260,Bay Area Pain Specialists,Pain Management,CT,3,Demo Scheduled,0.30,52700.00,EHR + PM,Referral,Sarah Chen,Northeast,2025-09-30,2026-01-09,34
+006434252900,Coastal Pain Specialists,Pain Management,ME,5,Discovery,0.20,36300.00,Full Suite,Existing Customer Expansion,Sarah Chen,Northeast,2025-12-19,2026-05-01,19
+006512768180,Metro Dermatology Practice,Dermatology,CA,1,Demo Scheduled,0.30,74800.00,RCM Only,Referral,Alex Morrison,West,2026-01-12,2026-04-19,10
+006272455805,Lakeside Podiatry Medical Practice,Podiatry,GA,5,Negotiation,0.70,54700.00,EHR + PM,Conference,Marcus Williams,Southeast,2025-10-27,2025-12-11,25
+006267071514,Mountain Urology Specialists,Urology,NM,8,Prospecting,0.10,114700.00,Full Suite,Referral,Jennifer Ruiz,Southwest,2025-09-14,2025-11-18,43
+006765406895,Premier Pain Clinic,Pain Management,HI,3,Demo Complete,0.40,67100.00,EHR + PM + RCM,Inbound Web,Alex Morrison,West,2025-09-25,2026-02-28,42
+006133312546,River Ophthalmology Practice,Ophthalmology,IL,1,Negotiation,0.70,137300.00,EHR + PM,Inbound Web,David Kim,Midwest,2025-10-19,2026-04-15,33
+006262698709,Summit Gastroenterology Specialists,Gastroenterology,GA,12,Demo Scheduled,0.30,113500.00,Full Suite,Conference,Marcus Williams,Southeast,2025-09-10,2026-02-14,13
+006495293512,Summit Urology Specialists,Urology,MT,3,Discovery,0.20,108600.00,EHR + PM,Inbound Web,Alex Morrison,West,2026-01-04,2026-06-07,32
+006303881538,Premier Otolaryngology Healthcare Partners,Otolaryngology,SC,12,Prospecting,0.10,44000.00,EHR,Partner,Marcus Williams,Southeast,2025-12-13,2026-02-03,20
+006752440423,Mountain Pain Healthcare Partners,Pain Management,VT,3,Discovery,0.20,72500.00,EHR + PM + RCM,Outbound BDR,Sarah Chen,Northeast,2025-12-12,2026-01-16,24
+006691206146,Lakeside Otolaryngology Center for Excellence,Otolaryngology,AZ,1,Demo Complete,0.40,90200.00,Full Suite,Referral,Jennifer Ruiz,Southwest,2025-12-05,2026-02-24,21
+006418258732,Summit Urology Healthcare Partners,Urology,SC,2,Prospecting,0.10,55500.00,EHR + PM,Webinar,Marcus Williams,Southeast,2025-10-19,2025-12-23,26
+006794182672,Sunrise Dermatology Institute,Dermatology,IL,5,Demo Scheduled,0.30,85100.00,EHR,Partner,David Kim,Midwest,2025-10-18,2026-02-03,44
+006229195542,Metro Ophthalmology Practice,Ophthalmology,MA,3,Prospecting,0.10,126100.00,Full Suite,Content Download,Sarah Chen,Northeast,2025-11-26,2026-01-13,15
+006814051543,River Dermatology Medical Practice,Dermatology,HI,5,Proposal Sent,0.55,77500.00,EHR + PM + RCM,Outbound BDR,Alex Morrison,West,2025-10-13,2026-01-17,8
+006412618886,Coastal Otolaryngology Clinic,Otolaryngology,TN,5,Closed Won,1.00,81100.00,EHR + PM,Webinar,Marcus Williams,Southeast,2026-01-03,2026-02-09,21
+006685875590,Lakeside Pain Healthcare Partners,Pain Management,ME,5,Discovery,0.20,25900.00,EHR + PM + RCM,Partner,Sarah Chen,Northeast,2026-01-12,2026-02-12,7
+006284898160,Lakeside Podiatry Center for Excellence,Podiatry,UT,2,Prospecting,0.10,50800.00,EHR + PM,Partner,Alex Morrison,West,2025-11-14,2026-04-10,31
+006475607007,Bay Area Podiatry Medical Associates,Podiatry,CO,3,Prospecting,0.10,72700.00,EHR + PM + RCM,Existing Customer Expansion,Alex Morrison,West,2026-02-23,2026-07-24,3
+006610409379,Coastal Pain Center for Excellence,Pain Management,AZ,1,Verbal Commit,0.85,89700.00,EHR + PM,Content Download,Jennifer Ruiz,Southwest,2026-01-30,2026-03-05,28
+006875970059,Coastal Podiatry Specialists,Podiatry,MI,2,Demo Scheduled,0.30,48000.00,EHR + PM + RCM,Inbound Web,David Kim,Midwest,2025-09-06,2025-11-06,29
+006403875093,Mountain Gastroenterology Medical Associates,Gastroenterology,CA,8,Discovery,0.20,118000.00,EHR + PM,Inbound Web,Alex Morrison,West,2025-10-22,2026-04-08,18
+006958820598,Advanced Orthopedic Institute,Orthopedic Surgery,UT,20,Demo Scheduled,0.30,138500.00,EHR,Content Download,Alex Morrison,West,2025-11-05,2026-02-18,13
+006114115231,Bay Area Orthopedic Specialists,Orthopedic Surgery,OH,1,Discovery,0.20,137500.00,EHR,Inbound Web,David Kim,Midwest,2026-02-01,2026-06-21,9
+006932396664,Lakeside Urology Medical Associates,Urology,LA,20,Discovery,0.20,124300.00,EHR + PM + RCM,Referral,Marcus Williams,Southeast,2026-01-13,2026-04-12,30
+006821349689,Advanced Orthopedic Medical Center,Orthopedic Surgery,GA,2,Demo Scheduled,0.30,184400.00,EHR,Referral,Marcus Williams,Southeast,2025-09-19,2025-10-20,29
+006926935002,Palm Dermatology Specialists,Dermatology,WY,2,Negotiation,0.70,114700.00,Full Suite,Partner,Alex Morrison,West,2025-11-30,2026-05-05,9
+006555349857,Coastal Plastic Medical Associates,Plastic Surgery,CA,1,Prospecting,0.10,95100.00,EHR,Outbound BDR,Alex Morrison,West,2025-09-13,2025-12-23,30
+006895626052,Sunrise Pain Medical Practice,Pain Management,PA,1,Demo Scheduled,0.30,76900.00,RCM Only,Outbound BDR,Sarah Chen,Northeast,2025-09-09,2026-01-05,16
+006918916570,Bay Area Orthopedic Medical Practice,Orthopedic Surgery,PA,5,Prospecting,0.10,67500.00,EHR + PM,Inbound Web,Sarah Chen,Northeast,2025-09-06,2025-12-02,36
+006321536537,Mountain Pain Medical Practice,Pain Management,OH,12,Demo Scheduled,0.30,48600.00,EHR,Inbound Web,David Kim,Midwest,2025-11-19,2026-01-12,2
+006813294303,Sunrise Dermatology Healthcare Partners,Dermatology,CA,8,Discovery,0.20,118400.00,EHR + PM + RCM,Existing Customer Expansion,Alex Morrison,West,2025-12-16,2026-01-25,15
+006329087925,Highland Podiatry Healthcare Partners,Podiatry,NE,5,Discovery,0.20,34300.00,EHR,Referral,David Kim,Midwest,2025-10-22,2026-01-02,22
+006619207306,Premier Otolaryngology Center for Excellence,Otolaryngology,VT,5,Discovery,0.20,87200.00,EHR,Webinar,Sarah Chen,Northeast,2025-11-19,2026-04-17,11
+006551928666,Heritage Dermatology Medical Associates,Dermatology,UT,3,Discovery,0.20,60600.00,Full Suite,Webinar,Alex Morrison,West,2025-09-27,2025-12-15,1
+006959353337,Central Pain Clinic,Pain Management,GA,8,Demo Scheduled,0.30,51600.00,EHR + PM,Referral,Marcus Williams,Southeast,2026-02-04,2026-06-13,6
+006427958172,Sunrise Podiatry Specialty Group,Podiatry,AR,5,Discovery,0.20,20800.00,EHR + PM,Inbound Web,Marcus Williams,Southeast,2025-09-20,2026-01-19,17
+006459807812,Valley Pain Clinic,Pain Management,AL,12,Discovery,0.20,53500.00,EHR + PM,Webinar,Marcus Williams,Southeast,2025-10-14,2026-03-12,36
+006881070797,Coastal Urology Institute,Urology,WY,3,Negotiation,0.70,108100.00,EHR + PM,Inbound Web,Alex Morrison,West,2026-01-10,2026-06-20,26
+006678020005,Highland Ophthalmology Institute,Ophthalmology,IN,5,Discovery,0.20,120000.00,RCM Only,Existing Customer Expansion,David Kim,Midwest,2025-10-14,2026-01-25,9
+006505403175,Sunrise Dermatology Specialty Group,Dermatology,FL,3,Discovery,0.20,64400.00,EHR,Inbound Web,Marcus Williams,Southeast,2025-10-06,2026-02-06,37
+006292803702,Highland Ophthalmology Specialty Group,Ophthalmology,VT,1,Demo Scheduled,0.30,96200.00,EHR + PM + RCM,Webinar,Sarah Chen,Northeast,2026-01-29,2026-06-20,22
+006302291677,Central Podiatry Center for Excellence,Podiatry,ID,5,Demo Scheduled,0.30,54300.00,EHR + PM + RCM,Conference,Alex Morrison,West,2025-09-18,2025-10-29,7
+006554197399,Valley Urology Specialists,Urology,PA,3,Prospecting,0.10,99600.00,EHR,Inbound Web,Sarah Chen,Northeast,2025-12-12,2026-03-29,9
+006174374007,Coastal Gastroenterology Medical Center,Gastroenterology,TX,2,Verbal Commit,0.85,141300.00,Full Suite,Outbound BDR,Jennifer Ruiz,Southwest,2025-10-17,2025-12-22,40
+006988428360,Advanced Orthopedic Specialists,Orthopedic Surgery,IL,2,Prospecting,0.10,159000.00,EHR + PM + RCM,Partner,David Kim,Midwest,2025-12-14,2026-06-10,6
+006768970836,Central Ophthalmology Clinic,Ophthalmology,LA,12,Demo Scheduled,0.30,127200.00,EHR + PM,Existing Customer Expansion,Marcus Williams,Southeast,2026-02-23,2026-04-20,5
+006672654868,River Ophthalmology Practice,Ophthalmology,TN,8,Negotiation,0.70,151600.00,EHR,Outbound BDR,Marcus Williams,Southeast,2025-12-31,2026-03-18,15
+006590983955,Premier Orthopedic Medical Associates,Orthopedic Surgery,NM,2,Verbal Commit,0.85,172400.00,EHR + PM + RCM,Inbound Web,Jennifer Ruiz,Southwest,2025-09-16,2025-11-18,25
+006468874933,Highland Urology Medical Center,Urology,ME,8,Demo Complete,0.40,84400.00,EHR + PM,Existing Customer Expansion,Sarah Chen,Northeast,2025-09-30,2026-03-12,29
+006170199042,Sunrise Otolaryngology Healthcare Partners,Otolaryngology,AZ,3,Discovery,0.20,50000.00,Full Suite,Inbound Web,Jennifer Ruiz,Southwest,2025-10-18,2026-03-15,2
+006802204457,Premier Plastic Healthcare Partners,Plastic Surgery,OK,3,Verbal Commit,0.85,99000.00,EHR,Conference,Jennifer Ruiz,Southwest,2025-11-28,2026-04-14,4
+006614360851,Metro Ophthalmology Practice,Ophthalmology,VA,2,Discovery,0.20,159300.00,EHR + PM,Inbound Web,Marcus Williams,Southeast,2025-12-10,2026-04-14,38
+006947019310,Heritage Urology Medical Center,Urology,NM,12,Prospecting,0.10,117100.00,EHR,Existing Customer Expansion,Jennifer Ruiz,Southwest,2025-10-19,2026-01-15,9
+006374773050,Palm Dermatology Specialists,Dermatology,PA,2,Prospecting,0.10,61200.00,EHR + PM,Referral,Sarah Chen,Northeast,2025-09-21,2025-12-10,23
+006585505175,Heritage Podiatry Practice,Podiatry,SD,3,Prospecting,0.10,44900.00,EHR + PM + RCM,Inbound Web,David Kim,Midwest,2026-02-20,2026-04-08,5
+006294223358,Sunrise Gastroenterology Medical Practice,Gastroenterology,LA,3,Demo Complete,0.40,60700.00,EHR + PM,Conference,Marcus Williams,Southeast,2025-11-15,2026-01-12,34
+006799566417,Highland Urology Medical Associates,Urology,PA,5,Prospecting,0.10,130100.00,EHR + PM,Outbound BDR,Sarah Chen,Northeast,2025-10-23,2025-12-01,40
+006880935545,Palm Pain Medical Practice,Pain Management,NE,1,Demo Scheduled,0.30,35800.00,EHR,Conference,David Kim,Midwest,2026-01-22,2026-05-27,32
+006510353157,Sunrise Otolaryngology Center for Excellence,Otolaryngology,SD,3,Demo Complete,0.40,87600.00,EHR + PM,Existing Customer Expansion,David Kim,Midwest,2025-12-27,2026-02-09,37
+006703325401,Palm Pain Medical Associates,Pain Management,OK,2,Verbal Commit,0.85,57900.00,EHR + PM + RCM,Inbound Web,Jennifer Ruiz,Southwest,2025-11-14,2026-01-24,26
+006145108353,Heritage Plastic Specialty Group,Plastic Surgery,FL,3,Demo Scheduled,0.30,51600.00,EHR + PM,Partner,Marcus Williams,Southeast,2025-10-17,2025-11-30,20
+006946319635,Sunrise Plastic Specialists,Plastic Surgery,NC,8,Prospecting,0.10,100800.00,EHR,Inbound Web,Marcus Williams,Southeast,2025-09-23,2026-01-31,6
+006172393898,Bay Area Dermatology Institute,Dermatology,ID,2,Discovery,0.20,102800.00,EHR + PM,Partner,Alex Morrison,West,2026-01-05,2026-06-25,1
+006277254535,Bay Area Urology Institute,Urology,NM,20,Demo Scheduled,0.30,124100.00,RCM Only,Partner,Jennifer Ruiz,Southwest,2026-01-06,2026-03-02,24
+006958241541,Mountain Ophthalmology Healthcare Partners,Ophthalmology,KY,2,Demo Complete,0.40,45200.00,Full Suite,Outbound BDR,Marcus Williams,Southeast,2025-11-09,2026-02-12,4
+006987256967,Coastal Podiatry Medical Associates,Podiatry,RI,5,Verbal Commit,0.85,49000.00,EHR + PM,Webinar,Sarah Chen,Northeast,2025-09-14,2026-03-08,32
+006799819467,Highland Otolaryngology Medical Practice,Otolaryngology,AZ,2,Proposal Sent,0.55,64400.00,EHR,Inbound Web,Jennifer Ruiz,Southwest,2025-11-27,2026-01-02,11
+006827271665,Summit Otolaryngology Medical Associates,Otolaryngology,MA,3,Prospecting,0.10,56100.00,Full Suite,Conference,Sarah Chen,Northeast,2025-09-18,2025-10-29,20
+006749936641,Heritage Dermatology Institute,Dermatology,NM,5,Demo Scheduled,0.30,37800.00,EHR + PM,Outbound BDR,Jennifer Ruiz,Southwest,2026-02-10,2026-07-19,17
+006441216117,River Plastic Healthcare Partners,Plastic Surgery,NY,20,Prospecting,0.10,105100.00,EHR + PM + RCM,Outbound BDR,Sarah Chen,Northeast,2025-09-25,2026-02-26,14
+006996702885,Palm Ophthalmology Medical Associates,Ophthalmology,MT,3,Prospecting,0.10,154700.00,Full Suite,Webinar,Alex Morrison,West,2025-12-21,2026-02-27,10
+006327848710,Heritage Urology Institute,Urology,VA,5,Discovery,0.20,102500.00,EHR + PM,Inbound Web,Marcus Williams,Southeast,2025-09-16,2025-11-13,37
+006440809045,Highland Pain Healthcare Partners,Pain Management,MA,8,Demo Scheduled,0.30,40000.00,EHR + PM + RCM,Conference,Sarah Chen,Northeast,2025-11-02,2026-02-13,22
+006924674728,Lakeside Pain Institute,Pain Management,SD,8,Prospecting,0.10,32300.00,EHR + PM + RCM,Partner,David Kim,Midwest,2025-12-07,2026-02-15,9
+006599412282,Coastal Otolaryngology Medical Center,Otolaryngology,NH,5,Demo Scheduled,0.30,53200.00,EHR + PM + RCM,Webinar,Sarah Chen,Northeast,2026-02-15,2026-08-07,11
+006404704076,Sunrise Pain Medical Associates,Pain Management,TX,12,Demo Scheduled,0.30,53700.00,EHR + PM + RCM,Webinar,Jennifer Ruiz,Southwest,2025-11-29,2026-02-10,13
+006415076163,Heritage Pain Practice,Pain Management,OK,2,Demo Scheduled,0.30,68400.00,EHR + PM,Outbound BDR,Jennifer Ruiz,Southwest,2026-01-07,2026-02-06,6
+006348402215,River Urology Specialty Group,Urology,NH,2,Discovery,0.20,106000.00,EHR,Content Download,Sarah Chen,Northeast,2026-02-14,2026-06-14,7
+006980896664,Bay Area Urology Practice,Urology,IA,1,Prospecting,0.10,108800.00,Full Suite,Outbound BDR,David Kim,Midwest,2025-10-04,2026-01-12,40
+006462348456,Coastal Urology Medical Center,Urology,OK,2,Closed Lost,0.00,42500.00,RCM Only,Content Download,Jennifer Ruiz,Southwest,2025-10-14,2025-12-20,29
+006195646556,Sunrise Ophthalmology Institute,Ophthalmology,WY,3,Demo Complete,0.40,83300.00,EHR + PM,Partner,Alex Morrison,West,2026-01-29,2026-04-23,1
+006281820888,Heritage Gastroenterology Clinic,Gastroenterology,KY,5,Demo Complete,0.40,149700.00,EHR + PM + RCM,Conference,Marcus Williams,Southeast,2025-09-13,2025-12-02,16
+006960139242,Advanced Ophthalmology Healthcare Partners,Ophthalmology,OK,3,Closed Won,1.00,46000.00,EHR + PM,Webinar,Jennifer Ruiz,Southwest,2025-12-17,2026-04-05,31
+006144905908,Coastal Plastic Medical Practice,Plastic Surgery,SD,1,Demo Scheduled,0.30,124400.00,EHR + PM + RCM,Partner,David Kim,Midwest,2025-12-24,2026-05-10,37
+006670290324,Mountain Ophthalmology Healthcare Partners,Ophthalmology,TN,5,Closed Lost,0.00,86900.00,EHR + PM + RCM,Webinar,Marcus Williams,Southeast,2025-11-18,2026-04-30,20
+006619142497,Summit Orthopedic Institute,Orthopedic Surgery,OK,2,Discovery,0.20,171200.00,EHR + PM + RCM,Inbound Web,Jennifer Ruiz,Southwest,2025-09-20,2026-02-25,24
+006266214700,Metro Plastic Practice,Plastic Surgery,MI,12,Discovery,0.20,62500.00,EHR,Conference,David Kim,Midwest,2025-09-17,2026-03-07,44
+006726441577,Central Pain Institute,Pain Management,TX,3,Prospecting,0.10,35600.00,RCM Only,Webinar,Jennifer Ruiz,Southwest,2025-10-14,2025-12-08,44
+006516123405,Coastal Dermatology Healthcare Partners,Dermatology,IL,1,Negotiation,0.70,52800.00,EHR + PM + RCM,Inbound Web,David Kim,Midwest,2026-01-14,2026-06-28,12
+006919253455,Mountain Orthopedic Clinic,Orthopedic Surgery,CO,5,Discovery,0.20,192500.00,EHR + PM + RCM,Partner,Alex Morrison,West,2025-12-20,2026-06-10,28
+006348552338,Mountain Podiatry Medical Associates,Podiatry,OH,2,Demo Scheduled,0.30,59700.00,EHR,Existing Customer Expansion,David Kim,Midwest,2026-02-24,2026-04-14,3
+006425366874,Bay Area Pain Medical Center,Pain Management,OK,3,Prospecting,0.10,54000.00,EHR + PM,Webinar,Jennifer Ruiz,Southwest,2025-12-27,2026-04-15,23
+006810225201,Coastal Plastic Medical Center,Plastic Surgery,AK,3,Proposal Sent,0.55,124800.00,EHR + PM,Outbound BDR,Alex Morrison,West,2026-01-03,2026-06-26,2
+006815813281,Palm Dermatology Specialists,Dermatology,UT,20,Discovery,0.20,115900.00,Full Suite,Inbound Web,Alex Morrison,West,2025-12-01,2026-03-19,38
+006373608728,Highland Dermatology Practice,Dermatology,MI,3,Prospecting,0.10,47300.00,EHR + PM,Conference,David Kim,Midwest,2025-09-22,2025-11-16,16
+006214571317,Lakeside Plastic Specialty Group,Plastic Surgery,OK,3,Negotiation,0.70,79100.00,Full Suite,Referral,Jennifer Ruiz,Southwest,2025-11-22,2026-01-19,3
+006349945527,Metro Otolaryngology Medical Practice,Otolaryngology,ME,1,Demo Complete,0.40,98500.00,EHR + PM,Webinar,Sarah Chen,Northeast,2025-11-12,2026-03-13,14
+006685699319,Coastal Otolaryngology Specialists,Otolaryngology,NJ,5,Verbal Commit,0.85,91400.00,EHR + PM,Outbound BDR,Sarah Chen,Northeast,2026-01-07,2026-06-23,22
+006913038666,Highland Otolaryngology Specialists,Otolaryngology,LA,5,Proposal Sent,0.55,86600.00,EHR,Outbound BDR,Marcus Williams,Southeast,2025-10-18,2025-12-24,45
+006819939512,Premier Dermatology Specialists,Dermatology,AL,3,Demo Complete,0.40,115800.00,EHR + PM,Webinar,Marcus Williams,Southeast,2026-02-16,2026-07-20,7
+006468708340,Sunrise Urology Clinic,Urology,OH,3,Closed Won,1.00,101500.00,EHR + PM + RCM,Outbound BDR,David Kim,Midwest,2026-02-16,2026-05-01,10
+006863844887,Palm Dermatology Healthcare Partners,Dermatology,IA,5,Proposal Sent,0.55,45600.00,EHR + PM,Existing Customer Expansion,David Kim,Midwest,2025-11-12,2026-04-08,40
+006726191846,Highland Gastroenterology Center for Excellence,Gastroenterology,SC,3,Negotiation,0.70,179400.00,EHR + PM + RCM,Inbound Web,Marcus Williams,Southeast,2026-01-20,2026-04-24,5
+006929090394,Valley Gastroenterology Specialists,Gastroenterology,NY,2,Proposal Sent,0.55,163400.00,EHR + PM,Webinar,Sarah Chen,Northeast,2026-02-09,2026-05-03,13
+006440425534,Lakeside Otolaryngology Center for Excellence,Otolaryngology,IN,12,Demo Scheduled,0.30,52000.00,EHR + PM,Outbound BDR,David Kim,Midwest,2025-10-26,2026-04-24,30
+006902590712,Central Plastic Institute,Plastic Surgery,SC,2,Discovery,0.20,41900.00,EHR + PM + RCM,Content Download,Marcus Williams,Southeast,2025-10-18,2026-03-21,25
+006115003269,Mountain Podiatry Medical Center,Podiatry,NJ,1,Prospecting,0.10,40500.00,Full Suite,Content Download,Sarah Chen,Northeast,2025-11-16,2026-04-11,16
+006466009991,Lakeside Gastroenterology Center for Excellence,Gastroenterology,AL,5,Proposal Sent,0.55,130600.00,EHR + PM + RCM,Content Download,Marcus Williams,Southeast,2025-09-05,2025-10-12,43
+006214407120,Central Urology Institute,Urology,TX,3,Discovery,0.20,111000.00,Full Suite,Inbound Web,Jennifer Ruiz,Southwest,2025-12-28,2026-02-04,21
+006471976663,Palm Orthopedic Institute,Orthopedic Surgery,WV,8,Prospecting,0.10,188300.00,EHR + PM,Outbound BDR,Marcus Williams,Southeast,2025-10-18,2025-12-23,5
+006164616403,Coastal Dermatology Medical Associates,Dermatology,AL,8,Demo Scheduled,0.30,70300.00,EHR + PM,Partner,Marcus Williams,Southeast,2025-10-28,2026-03-22,11
+006116616952,Highland Pain Healthcare Partners,Pain Management,NH,2,Prospecting,0.10,43400.00,EHR + PM,Webinar,Sarah Chen,Northeast,2025-09-15,2026-01-13,39
+006253113251,Valley Pain Medical Practice,Pain Management,AK,5,Demo Complete,0.40,48800.00,EHR,Content Download,Alex Morrison,West,2025-12-16,2026-06-12,5
+006161990371,River Gastroenterology Center for Excellence,Gastroenterology,IL,3,Prospecting,0.10,113900.00,EHR,Inbound Web,David Kim,Midwest,2025-09-03,2025-10-14,3
+006840656219,Lakeside Pain Practice,Pain Management,TN,5,Verbal Commit,0.85,26400.00,RCM Only,Webinar,Marcus Williams,Southeast,2025-12-07,2026-03-17,36
+006307616914,Coastal Ophthalmology Medical Center,Ophthalmology,MN,3,Closed Won,1.00,119000.00,RCM Only,Conference,David Kim,Midwest,2025-12-18,2026-01-29,1
+006319964970,Premier Plastic Practice,Plastic Surgery,SC,5,Discovery,0.20,71700.00,EHR + PM,Inbound Web,Marcus Williams,Southeast,2025-09-18,2025-10-24,29
+006926333140,Premier Podiatry Clinic,Podiatry,AZ,3,Discovery,0.20,39800.00,RCM Only,Existing Customer Expansion,Jennifer Ruiz,Southwest,2026-01-01,2026-05-09,33
+006603741513,Heritage Ophthalmology Healthcare Partners,Ophthalmology,AZ,3,Negotiation,0.70,60100.00,EHR,Referral,Jennifer Ruiz,Southwest,2025-10-29,2026-03-23,32
+006310328141,Metro Urology Medical Center,Urology,KY,1,Demo Complete,0.40,114900.00,EHR + PM,Partner,Marcus Williams,Southeast,2025-10-05,2025-12-24,11
+006206409047,Mountain Urology Practice,Urology,SD,1,Closed Lost,0.00,74300.00,Full Suite,Partner,David Kim,Midwest,2025-11-06,2026-03-24,12
+006859232321,Premier Urology Specialty Group,Urology,TX,12,Demo Scheduled,0.30,57400.00,EHR + PM + RCM,Webinar,Jennifer Ruiz,Southwest,2025-09-20,2025-11-13,30
+006271293999,Premier Plastic Center for Excellence,Plastic Surgery,MT,2,Demo Scheduled,0.30,83800.00,EHR + PM + RCM,Inbound Web,Alex Morrison,West,2025-11-02,2026-01-01,44
+006490641387,Mountain Plastic Medical Associates,Plastic Surgery,NJ,3,Prospecting,0.10,43400.00,EHR + PM,Webinar,Sarah Chen,Northeast,2025-10-11,2026-01-20,26
+006236235152,River Plastic Clinic,Plastic Surgery,ME,1,Discovery,0.20,111400.00,Full Suite,Content Download,Sarah Chen,Northeast,2026-01-22,2026-04-20,11
+006743865409,Advanced Urology Clinic,Urology,ID,5,Negotiation,0.70,137100.00,EHR + PM + RCM,Existing Customer Expansion,Alex Morrison,West,2025-11-01,2025-12-24,24
+006583985317,Metro Ophthalmology Medical Practice,Ophthalmology,NV,5,Prospecting,0.10,81500.00,EHR + PM + RCM,Outbound BDR,Alex Morrison,West,2025-09-03,2026-02-24,42

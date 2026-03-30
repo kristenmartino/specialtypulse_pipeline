@@ -1,0 +1,651 @@
+user_email,role,page_viewed,card_interacted,view_date,session_duration_seconds
+analyst.ent@company.com,specialty_analyst,Procedure Detail,Metric Comparison,2026-03-01,408
+analyst.ent@company.com,specialty_analyst,Market Intelligence,Compression Drivers,2026-03-01,581
+kristen.martino@company.com,finance_admin,Market Intelligence,Compression Trend,2026-03-02,487
+kristen.martino@company.com,finance_admin,Market Intelligence,Compression Drivers,2026-03-02,487
+analyst.derm@company.com,specialty_analyst,PDP Governance,Access Matrix,2026-03-02,73
+analyst.gastro@company.com,specialty_analyst,Procedure Detail,Payment vs Benchmark,2026-03-02,405
+analyst.gastro@company.com,specialty_analyst,Procedure Detail,Metric Comparison,2026-03-02,405
+analyst.gastro@company.com,specialty_analyst,PDP Governance,Access Matrix,2026-03-02,231
+analyst.gastro@company.com,specialty_analyst,PDP Governance,Role Distribution,2026-03-02,231
+analyst.ortho@company.com,specialty_analyst,Procedure Detail,Metric Comparison,2026-03-02,600
+analyst.ortho@company.com,specialty_analyst,Procedure Detail,Outlier Procedures,2026-03-02,600
+analyst.ophtho@company.com,specialty_analyst,Procedure Detail,Outlier Procedures,2026-03-02,230
+analyst.ophtho@company.com,specialty_analyst,Procedure Detail,Metric Comparison,2026-03-02,230
+analyst.ophtho@company.com,specialty_analyst,PDP Governance,Verify Checks,2026-03-02,70
+analyst.ophtho@company.com,specialty_analyst,PDP Governance,Role Distribution,2026-03-02,70
+analyst.ophtho@company.com,specialty_analyst,PDP Governance,Access Matrix,2026-03-02,70
+analyst.ent@company.com,specialty_analyst,Procedure Detail,Metric Comparison,2026-03-02,558
+analyst.ent@company.com,specialty_analyst,Procedure Detail,Facility Mix Trend,2026-03-02,558
+sales.northeast@company.com,regional_sales,Pipeline Intelligence,Market-Validated Pipeline,2026-03-02,372
+sales.northeast@company.com,regional_sales,Pipeline Intelligence,Territory Alignment,2026-03-02,372
+sales.northeast@company.com,regional_sales,Market Intelligence,Territory Map,2026-03-02,213
+sales.northeast@company.com,regional_sales,Market Intelligence,Volume vs Compression,2026-03-02,213
+sales.northeast@company.com,regional_sales,Market Intelligence,Pressure Index Ranking,2026-03-02,213
+kristen.martino@company.com,finance_admin,Procedure Detail,Metric Comparison,2026-03-03,128
+ceo@company.com,executive,Market Intelligence,Compression Drivers,2026-03-03,416
+analyst.derm@company.com,specialty_analyst,Market Intelligence,Compression Drivers,2026-03-03,536
+analyst.derm@company.com,specialty_analyst,Market Intelligence,Compression Trend,2026-03-03,536
+analyst.derm@company.com,specialty_analyst,Market Intelligence,Territory Map,2026-03-03,536
+analyst.gastro@company.com,specialty_analyst,Pipeline Intelligence,Territory Alignment,2026-03-03,360
+analyst.gastro@company.com,specialty_analyst,Pipeline Intelligence,Market-Validated Pipeline,2026-03-03,360
+analyst.gastro@company.com,specialty_analyst,Pipeline Intelligence,Pipeline by Specialty,2026-03-03,360
+analyst.gastro@company.com,specialty_analyst,Procedure Detail,Outlier Procedures,2026-03-03,556
+analyst.ortho@company.com,specialty_analyst,Procedure Detail,Facility Mix Trend,2026-03-03,492
+analyst.ortho@company.com,specialty_analyst,Procedure Detail,Metric Comparison,2026-03-03,492
+analyst.ortho@company.com,specialty_analyst,Procedure Detail,Outlier Procedures,2026-03-03,492
+analyst.ophtho@company.com,specialty_analyst,Adoption Tracking,Most Viewed Cards,2026-03-03,80
+analyst.ophtho@company.com,specialty_analyst,Adoption Tracking,Weekly Active Users,2026-03-03,80
+analyst.ophtho@company.com,specialty_analyst,Procedure Detail,Payment vs Benchmark,2026-03-03,410
+analyst.ent@company.com,specialty_analyst,Pipeline Intelligence,Territory Alignment,2026-03-03,445
+analyst.ent@company.com,specialty_analyst,Pipeline Intelligence,Market-Validated Pipeline,2026-03-03,445
+analyst.ent@company.com,specialty_analyst,Procedure Detail,Facility Mix Trend,2026-03-03,138
+analyst.ent@company.com,specialty_analyst,Procedure Detail,Payment vs Benchmark,2026-03-03,138
+analyst.ent@company.com,specialty_analyst,Procedure Detail,Outlier Procedures,2026-03-03,138
+analyst.ent@company.com,specialty_analyst,Market Intelligence,Compression Trend,2026-03-03,508
+analyst.ent@company.com,specialty_analyst,Market Intelligence,Territory Map,2026-03-03,508
+analyst.ent@company.com,specialty_analyst,Market Intelligence,Pressure Index Ranking,2026-03-03,508
+sales.northeast@company.com,regional_sales,Pipeline Intelligence,Pipeline by Specialty,2026-03-03,440
+sales.northeast@company.com,regional_sales,Pipeline Intelligence,Territory Alignment,2026-03-03,440
+sales.west@company.com,regional_sales,Pipeline Intelligence,Market-Validated Pipeline,2026-03-03,358
+sales.west@company.com,regional_sales,Pipeline Intelligence,Pipeline by Specialty,2026-03-03,358
+kristen.martino@company.com,finance_admin,Adoption Tracking,Most Viewed Cards,2026-03-04,583
+kristen.martino@company.com,finance_admin,Adoption Tracking,Active vs Provisioned,2026-03-04,583
+kristen.martino@company.com,finance_admin,Market Intelligence,Compression Trend,2026-03-04,556
+kristen.martino@company.com,finance_admin,Market Intelligence,Compression Drivers,2026-03-04,556
+kristen.martino@company.com,finance_admin,Market Intelligence,Territory Map,2026-03-04,556
+ceo@company.com,executive,Pipeline Intelligence,Pipeline by Specialty,2026-03-04,318
+ceo@company.com,executive,Pipeline Intelligence,Market-Validated Pipeline,2026-03-04,318
+ceo@company.com,executive,Market Intelligence,Pressure Index Ranking,2026-03-04,541
+ceo@company.com,executive,Market Intelligence,Volume vs Compression,2026-03-04,541
+ceo@company.com,executive,Market Intelligence,Compression Trend,2026-03-04,541
+analyst.derm@company.com,specialty_analyst,PDP Governance,Verify Checks,2026-03-04,470
+analyst.derm@company.com,specialty_analyst,PDP Governance,Access Matrix,2026-03-04,470
+analyst.gastro@company.com,specialty_analyst,Adoption Tracking,Most Viewed Cards,2026-03-04,74
+analyst.ortho@company.com,specialty_analyst,Procedure Detail,Metric Comparison,2026-03-04,211
+analyst.ortho@company.com,specialty_analyst,Procedure Detail,Payment vs Benchmark,2026-03-04,211
+analyst.ortho@company.com,specialty_analyst,PDP Governance,Access Matrix,2026-03-04,340
+analyst.ortho@company.com,specialty_analyst,PDP Governance,Verify Checks,2026-03-04,340
+analyst.ortho@company.com,specialty_analyst,Market Intelligence,Volume vs Compression,2026-03-04,381
+analyst.ortho@company.com,specialty_analyst,Market Intelligence,Compression Trend,2026-03-04,381
+analyst.ophtho@company.com,specialty_analyst,Procedure Detail,Metric Comparison,2026-03-04,513
+analyst.ophtho@company.com,specialty_analyst,Procedure Detail,Facility Mix Trend,2026-03-04,513
+analyst.ent@company.com,specialty_analyst,Procedure Detail,Facility Mix Trend,2026-03-04,81
+analyst.ent@company.com,specialty_analyst,Procedure Detail,Payment vs Benchmark,2026-03-04,81
+analyst.ent@company.com,specialty_analyst,Market Intelligence,Pressure Index Ranking,2026-03-04,528
+analyst.ent@company.com,specialty_analyst,Market Intelligence,Compression Drivers,2026-03-04,528
+analyst.ent@company.com,specialty_analyst,Market Intelligence,Volume vs Compression,2026-03-04,528
+sales.northeast@company.com,regional_sales,Pipeline Intelligence,Pipeline by Specialty,2026-03-04,205
+sales.northeast@company.com,regional_sales,Pipeline Intelligence,Market-Validated Pipeline,2026-03-04,205
+sales.northeast@company.com,regional_sales,Procedure Detail,Outlier Procedures,2026-03-04,316
+sales.northeast@company.com,regional_sales,Procedure Detail,Payment vs Benchmark,2026-03-04,316
+sales.northeast@company.com,regional_sales,Procedure Detail,Metric Comparison,2026-03-04,316
+sales.northeast@company.com,regional_sales,PDP Governance,Verify Checks,2026-03-04,247
+sales.southeast@company.com,regional_sales,Pipeline Intelligence,Market-Validated Pipeline,2026-03-04,265
+sales.southeast@company.com,regional_sales,Pipeline Intelligence,Pipeline by Specialty,2026-03-04,265
+sales.southeast@company.com,regional_sales,Market Intelligence,Volume vs Compression,2026-03-04,424
+sales.southeast@company.com,regional_sales,Market Intelligence,Pressure Index Ranking,2026-03-04,424
+sales.southwest@company.com,regional_sales,Market Intelligence,Compression Drivers,2026-03-04,291
+sales.southwest@company.com,regional_sales,Market Intelligence,Territory Map,2026-03-04,291
+sales.southwest@company.com,regional_sales,Market Intelligence,Compression Trend,2026-03-04,291
+kristen.martino@company.com,finance_admin,Adoption Tracking,Active vs Provisioned,2026-03-05,228
+kristen.martino@company.com,finance_admin,Adoption Tracking,Most Viewed Cards,2026-03-05,228
+kristen.martino@company.com,finance_admin,Adoption Tracking,Weekly Active Users,2026-03-05,228
+kristen.martino@company.com,finance_admin,Procedure Detail,Facility Mix Trend,2026-03-05,460
+kristen.martino@company.com,finance_admin,PDP Governance,Verify Checks,2026-03-05,560
+kristen.martino@company.com,finance_admin,PDP Governance,Access Matrix,2026-03-05,560
+ceo@company.com,executive,Pipeline Intelligence,Market-Validated Pipeline,2026-03-05,229
+ceo@company.com,executive,Pipeline Intelligence,Territory Alignment,2026-03-05,229
+ceo@company.com,executive,Market Intelligence,Compression Drivers,2026-03-05,342
+ceo@company.com,executive,Market Intelligence,Compression Trend,2026-03-05,342
+vp.sales@company.com,executive,Pipeline Intelligence,Market-Validated Pipeline,2026-03-05,530
+vp.sales@company.com,executive,Pipeline Intelligence,Territory Alignment,2026-03-05,530
+vp.sales@company.com,executive,Pipeline Intelligence,Pipeline by Specialty,2026-03-05,530
+vp.sales@company.com,executive,Adoption Tracking,Weekly Active Users,2026-03-05,547
+vp.sales@company.com,executive,Adoption Tracking,Most Viewed Cards,2026-03-05,547
+vp.sales@company.com,executive,Adoption Tracking,Active vs Provisioned,2026-03-05,547
+vp.sales@company.com,executive,Market Intelligence,Compression Drivers,2026-03-05,292
+analyst.derm@company.com,specialty_analyst,Procedure Detail,Payment vs Benchmark,2026-03-05,361
+analyst.gastro@company.com,specialty_analyst,Procedure Detail,Metric Comparison,2026-03-05,163
+analyst.gastro@company.com,specialty_analyst,Procedure Detail,Facility Mix Trend,2026-03-05,163
+analyst.gastro@company.com,specialty_analyst,Procedure Detail,Outlier Procedures,2026-03-05,163
+analyst.ortho@company.com,specialty_analyst,Procedure Detail,Payment vs Benchmark,2026-03-05,366
+analyst.ophtho@company.com,specialty_analyst,Procedure Detail,Facility Mix Trend,2026-03-05,255
+analyst.ophtho@company.com,specialty_analyst,Procedure Detail,Outlier Procedures,2026-03-05,255
+analyst.ent@company.com,specialty_analyst,Procedure Detail,Facility Mix Trend,2026-03-05,552
+analyst.ent@company.com,specialty_analyst,PDP Governance,Access Matrix,2026-03-05,593
+sales.southwest@company.com,regional_sales,Pipeline Intelligence,Territory Alignment,2026-03-05,283
+sales.southwest@company.com,regional_sales,Pipeline Intelligence,Market-Validated Pipeline,2026-03-05,283
+sales.southwest@company.com,regional_sales,Pipeline Intelligence,Pipeline by Specialty,2026-03-05,283
+sales.southwest@company.com,regional_sales,PDP Governance,Verify Checks,2026-03-05,375
+sales.southwest@company.com,regional_sales,PDP Governance,Role Distribution,2026-03-05,375
+sales.southwest@company.com,regional_sales,PDP Governance,Access Matrix,2026-03-05,375
+sales.west@company.com,regional_sales,Pipeline Intelligence,Market-Validated Pipeline,2026-03-05,224
+ceo@company.com,executive,Adoption Tracking,Most Viewed Cards,2026-03-06,413
+ceo@company.com,executive,Adoption Tracking,Weekly Active Users,2026-03-06,413
+ceo@company.com,executive,Pipeline Intelligence,Pipeline by Specialty,2026-03-06,518
+ceo@company.com,executive,Pipeline Intelligence,Territory Alignment,2026-03-06,518
+ceo@company.com,executive,Procedure Detail,Metric Comparison,2026-03-06,121
+ceo@company.com,executive,Procedure Detail,Facility Mix Trend,2026-03-06,121
+vp.sales@company.com,executive,Market Intelligence,Compression Trend,2026-03-06,364
+vp.sales@company.com,executive,Market Intelligence,Territory Map,2026-03-06,364
+vp.sales@company.com,executive,Market Intelligence,Volume vs Compression,2026-03-06,364
+analyst.derm@company.com,specialty_analyst,Procedure Detail,Facility Mix Trend,2026-03-06,316
+analyst.derm@company.com,specialty_analyst,Procedure Detail,Outlier Procedures,2026-03-06,316
+analyst.derm@company.com,specialty_analyst,Procedure Detail,Metric Comparison,2026-03-06,316
+analyst.derm@company.com,specialty_analyst,PDP Governance,Role Distribution,2026-03-06,60
+analyst.derm@company.com,specialty_analyst,PDP Governance,Verify Checks,2026-03-06,60
+analyst.derm@company.com,specialty_analyst,PDP Governance,Access Matrix,2026-03-06,60
+analyst.gastro@company.com,specialty_analyst,Pipeline Intelligence,Territory Alignment,2026-03-06,214
+analyst.gastro@company.com,specialty_analyst,Procedure Detail,Metric Comparison,2026-03-06,45
+analyst.gastro@company.com,specialty_analyst,Procedure Detail,Payment vs Benchmark,2026-03-06,45
+analyst.ortho@company.com,specialty_analyst,Adoption Tracking,Active vs Provisioned,2026-03-06,211
+analyst.ortho@company.com,specialty_analyst,Adoption Tracking,Weekly Active Users,2026-03-06,211
+analyst.ortho@company.com,specialty_analyst,Market Intelligence,Volume vs Compression,2026-03-06,152
+analyst.ortho@company.com,specialty_analyst,Market Intelligence,Compression Trend,2026-03-06,152
+analyst.ophtho@company.com,specialty_analyst,Procedure Detail,Facility Mix Trend,2026-03-06,128
+analyst.ent@company.com,specialty_analyst,PDP Governance,Role Distribution,2026-03-06,161
+analyst.ent@company.com,specialty_analyst,PDP Governance,Verify Checks,2026-03-06,161
+analyst.ent@company.com,specialty_analyst,Market Intelligence,Territory Map,2026-03-06,64
+analyst.ent@company.com,specialty_analyst,Market Intelligence,Pressure Index Ranking,2026-03-06,64
+analyst.ent@company.com,specialty_analyst,Market Intelligence,Compression Drivers,2026-03-06,64
+sales.northeast@company.com,regional_sales,Market Intelligence,Territory Map,2026-03-06,82
+sales.northeast@company.com,regional_sales,Market Intelligence,Compression Drivers,2026-03-06,82
+sales.northeast@company.com,regional_sales,Market Intelligence,Compression Trend,2026-03-06,82
+sales.southeast@company.com,regional_sales,Procedure Detail,Payment vs Benchmark,2026-03-06,249
+sales.southeast@company.com,regional_sales,Procedure Detail,Facility Mix Trend,2026-03-06,249
+sales.southeast@company.com,regional_sales,Procedure Detail,Outlier Procedures,2026-03-06,249
+sales.southeast@company.com,regional_sales,Market Intelligence,Territory Map,2026-03-06,196
+sales.southeast@company.com,regional_sales,Market Intelligence,Compression Trend,2026-03-06,196
+sales.southeast@company.com,regional_sales,Market Intelligence,Volume vs Compression,2026-03-06,196
+vp.sales@company.com,executive,Adoption Tracking,Weekly Active Users,2026-03-07,389
+vp.sales@company.com,executive,Adoption Tracking,Active vs Provisioned,2026-03-07,389
+vp.sales@company.com,executive,Procedure Detail,Facility Mix Trend,2026-03-07,443
+vp.sales@company.com,executive,Procedure Detail,Metric Comparison,2026-03-07,443
+vp.sales@company.com,executive,Procedure Detail,Payment vs Benchmark,2026-03-07,443
+vp.sales@company.com,executive,Market Intelligence,Compression Trend,2026-03-07,473
+vp.sales@company.com,executive,Market Intelligence,Volume vs Compression,2026-03-07,473
+sales.southeast@company.com,regional_sales,Pipeline Intelligence,Market-Validated Pipeline,2026-03-07,583
+sales.southeast@company.com,regional_sales,Pipeline Intelligence,Pipeline by Specialty,2026-03-07,583
+sales.southeast@company.com,regional_sales,Market Intelligence,Pressure Index Ranking,2026-03-07,297
+sales.southeast@company.com,regional_sales,Market Intelligence,Volume vs Compression,2026-03-07,297
+sales.southeast@company.com,regional_sales,Market Intelligence,Territory Map,2026-03-07,297
+sales.west@company.com,regional_sales,Pipeline Intelligence,Pipeline by Specialty,2026-03-07,98
+sales.west@company.com,regional_sales,Pipeline Intelligence,Territory Alignment,2026-03-07,98
+sales.west@company.com,regional_sales,Market Intelligence,Compression Drivers,2026-03-07,448
+sales.west@company.com,regional_sales,Market Intelligence,Volume vs Compression,2026-03-07,448
+sales.west@company.com,regional_sales,Market Intelligence,Compression Trend,2026-03-07,448
+vp.sales@company.com,executive,Pipeline Intelligence,Market-Validated Pipeline,2026-03-08,433
+vp.sales@company.com,executive,Pipeline Intelligence,Pipeline by Specialty,2026-03-08,433
+kristen.martino@company.com,finance_admin,Market Intelligence,Compression Trend,2026-03-09,394
+ceo@company.com,executive,Pipeline Intelligence,Territory Alignment,2026-03-09,99
+ceo@company.com,executive,Pipeline Intelligence,Market-Validated Pipeline,2026-03-09,99
+ceo@company.com,executive,Pipeline Intelligence,Pipeline by Specialty,2026-03-09,99
+ceo@company.com,executive,Market Intelligence,Territory Map,2026-03-09,193
+ceo@company.com,executive,Market Intelligence,Volume vs Compression,2026-03-09,193
+analyst.derm@company.com,specialty_analyst,Pipeline Intelligence,Territory Alignment,2026-03-09,524
+analyst.derm@company.com,specialty_analyst,Pipeline Intelligence,Pipeline by Specialty,2026-03-09,524
+analyst.gastro@company.com,specialty_analyst,Pipeline Intelligence,Market-Validated Pipeline,2026-03-09,265
+analyst.gastro@company.com,specialty_analyst,Pipeline Intelligence,Pipeline by Specialty,2026-03-09,265
+analyst.gastro@company.com,specialty_analyst,Procedure Detail,Facility Mix Trend,2026-03-09,213
+analyst.gastro@company.com,specialty_analyst,Procedure Detail,Outlier Procedures,2026-03-09,213
+analyst.gastro@company.com,specialty_analyst,PDP Governance,Verify Checks,2026-03-09,528
+analyst.gastro@company.com,specialty_analyst,PDP Governance,Role Distribution,2026-03-09,528
+analyst.gastro@company.com,specialty_analyst,PDP Governance,Access Matrix,2026-03-09,528
+analyst.gastro@company.com,specialty_analyst,Market Intelligence,Volume vs Compression,2026-03-09,454
+analyst.gastro@company.com,specialty_analyst,Market Intelligence,Territory Map,2026-03-09,454
+analyst.ortho@company.com,specialty_analyst,Procedure Detail,Payment vs Benchmark,2026-03-09,373
+analyst.ortho@company.com,specialty_analyst,Procedure Detail,Outlier Procedures,2026-03-09,373
+analyst.ortho@company.com,specialty_analyst,Procedure Detail,Metric Comparison,2026-03-09,373
+analyst.ortho@company.com,specialty_analyst,Market Intelligence,Pressure Index Ranking,2026-03-09,34
+analyst.ortho@company.com,specialty_analyst,Market Intelligence,Territory Map,2026-03-09,34
+analyst.ophtho@company.com,specialty_analyst,Procedure Detail,Metric Comparison,2026-03-09,102
+analyst.ophtho@company.com,specialty_analyst,PDP Governance,Role Distribution,2026-03-09,244
+analyst.ophtho@company.com,specialty_analyst,PDP Governance,Verify Checks,2026-03-09,244
+analyst.ent@company.com,specialty_analyst,Procedure Detail,Metric Comparison,2026-03-09,200
+sales.northeast@company.com,regional_sales,Pipeline Intelligence,Market-Validated Pipeline,2026-03-09,56
+sales.northeast@company.com,regional_sales,Pipeline Intelligence,Pipeline by Specialty,2026-03-09,56
+sales.northeast@company.com,regional_sales,Pipeline Intelligence,Territory Alignment,2026-03-09,56
+sales.southeast@company.com,regional_sales,Pipeline Intelligence,Market-Validated Pipeline,2026-03-09,503
+sales.southeast@company.com,regional_sales,Pipeline Intelligence,Territory Alignment,2026-03-09,503
+sales.southeast@company.com,regional_sales,Market Intelligence,Volume vs Compression,2026-03-09,192
+sales.southeast@company.com,regional_sales,Market Intelligence,Compression Trend,2026-03-09,192
+sales.southeast@company.com,regional_sales,Market Intelligence,Territory Map,2026-03-09,192
+sales.midwest@company.com,regional_sales,Market Intelligence,Territory Map,2026-03-09,368
+sales.midwest@company.com,regional_sales,Market Intelligence,Compression Trend,2026-03-09,368
+sales.west@company.com,regional_sales,Pipeline Intelligence,Territory Alignment,2026-03-09,98
+sales.west@company.com,regional_sales,Pipeline Intelligence,Pipeline by Specialty,2026-03-09,98
+sales.west@company.com,regional_sales,Market Intelligence,Compression Trend,2026-03-09,174
+sales.west@company.com,regional_sales,Market Intelligence,Compression Drivers,2026-03-09,174
+kristen.martino@company.com,finance_admin,Pipeline Intelligence,Territory Alignment,2026-03-10,194
+kristen.martino@company.com,finance_admin,Pipeline Intelligence,Pipeline by Specialty,2026-03-10,194
+kristen.martino@company.com,finance_admin,Pipeline Intelligence,Market-Validated Pipeline,2026-03-10,194
+analyst.derm@company.com,specialty_analyst,Procedure Detail,Facility Mix Trend,2026-03-10,565
+analyst.derm@company.com,specialty_analyst,Procedure Detail,Metric Comparison,2026-03-10,565
+analyst.derm@company.com,specialty_analyst,Procedure Detail,Payment vs Benchmark,2026-03-10,565
+analyst.derm@company.com,specialty_analyst,PDP Governance,Verify Checks,2026-03-10,440
+analyst.derm@company.com,specialty_analyst,PDP Governance,Role Distribution,2026-03-10,440
+analyst.derm@company.com,specialty_analyst,Market Intelligence,Territory Map,2026-03-10,326
+analyst.gastro@company.com,specialty_analyst,Market Intelligence,Compression Trend,2026-03-10,441
+analyst.gastro@company.com,specialty_analyst,Market Intelligence,Territory Map,2026-03-10,441
+analyst.gastro@company.com,specialty_analyst,Market Intelligence,Compression Drivers,2026-03-10,441
+analyst.ortho@company.com,specialty_analyst,Procedure Detail,Outlier Procedures,2026-03-10,494
+analyst.ortho@company.com,specialty_analyst,Procedure Detail,Payment vs Benchmark,2026-03-10,494
+analyst.ortho@company.com,specialty_analyst,PDP Governance,Verify Checks,2026-03-10,372
+analyst.ortho@company.com,specialty_analyst,PDP Governance,Role Distribution,2026-03-10,372
+analyst.ophtho@company.com,specialty_analyst,Pipeline Intelligence,Market-Validated Pipeline,2026-03-10,284
+analyst.ophtho@company.com,specialty_analyst,Pipeline Intelligence,Pipeline by Specialty,2026-03-10,284
+analyst.ophtho@company.com,specialty_analyst,Pipeline Intelligence,Territory Alignment,2026-03-10,284
+analyst.ophtho@company.com,specialty_analyst,Procedure Detail,Facility Mix Trend,2026-03-10,334
+analyst.ophtho@company.com,specialty_analyst,Procedure Detail,Payment vs Benchmark,2026-03-10,334
+analyst.ophtho@company.com,specialty_analyst,Procedure Detail,Outlier Procedures,2026-03-10,334
+analyst.ent@company.com,specialty_analyst,Procedure Detail,Facility Mix Trend,2026-03-10,359
+analyst.ent@company.com,specialty_analyst,Procedure Detail,Metric Comparison,2026-03-10,359
+analyst.ent@company.com,specialty_analyst,PDP Governance,Access Matrix,2026-03-10,191
+analyst.ent@company.com,specialty_analyst,Market Intelligence,Volume vs Compression,2026-03-10,182
+analyst.ent@company.com,specialty_analyst,Market Intelligence,Compression Drivers,2026-03-10,182
+analyst.ent@company.com,specialty_analyst,Market Intelligence,Compression Trend,2026-03-10,182
+sales.northeast@company.com,regional_sales,Market Intelligence,Compression Drivers,2026-03-10,207
+sales.northeast@company.com,regional_sales,Market Intelligence,Territory Map,2026-03-10,207
+sales.northeast@company.com,regional_sales,Market Intelligence,Pressure Index Ranking,2026-03-10,207
+sales.southwest@company.com,regional_sales,Market Intelligence,Compression Trend,2026-03-10,272
+sales.southwest@company.com,regional_sales,Market Intelligence,Territory Map,2026-03-10,272
+sales.southwest@company.com,regional_sales,Market Intelligence,Volume vs Compression,2026-03-10,272
+kristen.martino@company.com,finance_admin,Adoption Tracking,Active vs Provisioned,2026-03-11,133
+kristen.martino@company.com,finance_admin,Procedure Detail,Payment vs Benchmark,2026-03-11,54
+kristen.martino@company.com,finance_admin,Procedure Detail,Metric Comparison,2026-03-11,54
+kristen.martino@company.com,finance_admin,Procedure Detail,Outlier Procedures,2026-03-11,54
+ceo@company.com,executive,Pipeline Intelligence,Territory Alignment,2026-03-11,384
+ceo@company.com,executive,Pipeline Intelligence,Market-Validated Pipeline,2026-03-11,384
+ceo@company.com,executive,Pipeline Intelligence,Pipeline by Specialty,2026-03-11,384
+ceo@company.com,executive,Market Intelligence,Territory Map,2026-03-11,300
+analyst.derm@company.com,specialty_analyst,Procedure Detail,Metric Comparison,2026-03-11,150
+analyst.derm@company.com,specialty_analyst,Procedure Detail,Payment vs Benchmark,2026-03-11,150
+analyst.derm@company.com,specialty_analyst,Procedure Detail,Facility Mix Trend,2026-03-11,150
+analyst.derm@company.com,specialty_analyst,Market Intelligence,Volume vs Compression,2026-03-11,319
+analyst.derm@company.com,specialty_analyst,Market Intelligence,Compression Drivers,2026-03-11,319
+analyst.derm@company.com,specialty_analyst,Market Intelligence,Pressure Index Ranking,2026-03-11,319
+analyst.gastro@company.com,specialty_analyst,Procedure Detail,Payment vs Benchmark,2026-03-11,451
+analyst.gastro@company.com,specialty_analyst,Procedure Detail,Outlier Procedures,2026-03-11,451
+analyst.gastro@company.com,specialty_analyst,Market Intelligence,Territory Map,2026-03-11,506
+analyst.ortho@company.com,specialty_analyst,Pipeline Intelligence,Pipeline by Specialty,2026-03-11,130
+analyst.ortho@company.com,specialty_analyst,Pipeline Intelligence,Territory Alignment,2026-03-11,130
+analyst.ophtho@company.com,specialty_analyst,Procedure Detail,Outlier Procedures,2026-03-11,357
+analyst.ophtho@company.com,specialty_analyst,Procedure Detail,Payment vs Benchmark,2026-03-11,357
+analyst.ent@company.com,specialty_analyst,Procedure Detail,Outlier Procedures,2026-03-11,185
+analyst.ent@company.com,specialty_analyst,Procedure Detail,Facility Mix Trend,2026-03-11,185
+sales.midwest@company.com,regional_sales,Pipeline Intelligence,Market-Validated Pipeline,2026-03-11,510
+sales.midwest@company.com,regional_sales,PDP Governance,Access Matrix,2026-03-11,231
+sales.midwest@company.com,regional_sales,PDP Governance,Role Distribution,2026-03-11,231
+sales.midwest@company.com,regional_sales,PDP Governance,Verify Checks,2026-03-11,231
+sales.southwest@company.com,regional_sales,Pipeline Intelligence,Market-Validated Pipeline,2026-03-11,31
+sales.southwest@company.com,regional_sales,Market Intelligence,Territory Map,2026-03-11,345
+sales.southwest@company.com,regional_sales,Market Intelligence,Compression Drivers,2026-03-11,345
+sales.southwest@company.com,regional_sales,Market Intelligence,Pressure Index Ranking,2026-03-11,345
+sales.west@company.com,regional_sales,Pipeline Intelligence,Pipeline by Specialty,2026-03-11,86
+sales.west@company.com,regional_sales,Pipeline Intelligence,Market-Validated Pipeline,2026-03-11,86
+sales.west@company.com,regional_sales,PDP Governance,Verify Checks,2026-03-11,430
+kristen.martino@company.com,finance_admin,Procedure Detail,Outlier Procedures,2026-03-12,419
+kristen.martino@company.com,finance_admin,Procedure Detail,Payment vs Benchmark,2026-03-12,419
+kristen.martino@company.com,finance_admin,Market Intelligence,Compression Drivers,2026-03-12,311
+ceo@company.com,executive,Procedure Detail,Facility Mix Trend,2026-03-12,479
+ceo@company.com,executive,Procedure Detail,Payment vs Benchmark,2026-03-12,479
+vp.sales@company.com,executive,Market Intelligence,Territory Map,2026-03-12,237
+vp.sales@company.com,executive,Market Intelligence,Compression Drivers,2026-03-12,237
+vp.sales@company.com,executive,Market Intelligence,Compression Trend,2026-03-12,237
+analyst.derm@company.com,specialty_analyst,Procedure Detail,Facility Mix Trend,2026-03-12,512
+analyst.derm@company.com,specialty_analyst,Market Intelligence,Territory Map,2026-03-12,483
+analyst.derm@company.com,specialty_analyst,Market Intelligence,Volume vs Compression,2026-03-12,483
+analyst.derm@company.com,specialty_analyst,Market Intelligence,Compression Trend,2026-03-12,483
+analyst.gastro@company.com,specialty_analyst,Market Intelligence,Pressure Index Ranking,2026-03-12,303
+analyst.gastro@company.com,specialty_analyst,Market Intelligence,Compression Trend,2026-03-12,303
+analyst.gastro@company.com,specialty_analyst,Market Intelligence,Territory Map,2026-03-12,303
+analyst.ortho@company.com,specialty_analyst,PDP Governance,Role Distribution,2026-03-12,44
+analyst.ophtho@company.com,specialty_analyst,Procedure Detail,Facility Mix Trend,2026-03-12,126
+analyst.ent@company.com,specialty_analyst,Procedure Detail,Payment vs Benchmark,2026-03-12,390
+analyst.ent@company.com,specialty_analyst,Procedure Detail,Metric Comparison,2026-03-12,390
+analyst.ent@company.com,specialty_analyst,Market Intelligence,Volume vs Compression,2026-03-12,416
+sales.northeast@company.com,regional_sales,Pipeline Intelligence,Market-Validated Pipeline,2026-03-12,516
+sales.northeast@company.com,regional_sales,Pipeline Intelligence,Pipeline by Specialty,2026-03-12,516
+sales.northeast@company.com,regional_sales,Market Intelligence,Volume vs Compression,2026-03-12,345
+sales.northeast@company.com,regional_sales,Market Intelligence,Compression Trend,2026-03-12,345
+vp.sales@company.com,executive,Pipeline Intelligence,Market-Validated Pipeline,2026-03-13,370
+vp.sales@company.com,executive,Pipeline Intelligence,Territory Alignment,2026-03-13,370
+vp.sales@company.com,executive,Market Intelligence,Compression Drivers,2026-03-13,418
+vp.sales@company.com,executive,Market Intelligence,Territory Map,2026-03-13,418
+analyst.derm@company.com,specialty_analyst,Adoption Tracking,Weekly Active Users,2026-03-13,346
+analyst.gastro@company.com,specialty_analyst,Procedure Detail,Metric Comparison,2026-03-13,452
+analyst.gastro@company.com,specialty_analyst,Procedure Detail,Facility Mix Trend,2026-03-13,452
+analyst.ortho@company.com,specialty_analyst,Procedure Detail,Outlier Procedures,2026-03-13,555
+analyst.ortho@company.com,specialty_analyst,Procedure Detail,Facility Mix Trend,2026-03-13,555
+analyst.ophtho@company.com,specialty_analyst,PDP Governance,Verify Checks,2026-03-13,569
+analyst.ophtho@company.com,specialty_analyst,PDP Governance,Access Matrix,2026-03-13,569
+analyst.ophtho@company.com,specialty_analyst,PDP Governance,Role Distribution,2026-03-13,569
+analyst.ent@company.com,specialty_analyst,Procedure Detail,Outlier Procedures,2026-03-13,125
+analyst.ent@company.com,specialty_analyst,Procedure Detail,Facility Mix Trend,2026-03-13,125
+sales.southeast@company.com,regional_sales,Pipeline Intelligence,Market-Validated Pipeline,2026-03-13,306
+sales.southeast@company.com,regional_sales,Pipeline Intelligence,Territory Alignment,2026-03-13,306
+sales.southeast@company.com,regional_sales,Market Intelligence,Pressure Index Ranking,2026-03-13,560
+sales.southeast@company.com,regional_sales,Market Intelligence,Volume vs Compression,2026-03-13,560
+sales.midwest@company.com,regional_sales,Pipeline Intelligence,Market-Validated Pipeline,2026-03-13,36
+sales.midwest@company.com,regional_sales,Market Intelligence,Compression Trend,2026-03-13,243
+sales.midwest@company.com,regional_sales,Market Intelligence,Pressure Index Ranking,2026-03-13,243
+sales.midwest@company.com,regional_sales,Market Intelligence,Compression Drivers,2026-03-13,243
+sales.west@company.com,regional_sales,Market Intelligence,Compression Trend,2026-03-13,61
+sales.west@company.com,regional_sales,Market Intelligence,Territory Map,2026-03-13,61
+sales.west@company.com,regional_sales,Market Intelligence,Pressure Index Ranking,2026-03-13,61
+analyst.ortho@company.com,specialty_analyst,Procedure Detail,Outlier Procedures,2026-03-15,220
+sales.southwest@company.com,regional_sales,Pipeline Intelligence,Market-Validated Pipeline,2026-03-15,258
+sales.southwest@company.com,regional_sales,Procedure Detail,Outlier Procedures,2026-03-15,59
+sales.southwest@company.com,regional_sales,Market Intelligence,Compression Drivers,2026-03-15,581
+sales.southwest@company.com,regional_sales,Market Intelligence,Compression Trend,2026-03-15,581
+sales.southwest@company.com,regional_sales,Market Intelligence,Volume vs Compression,2026-03-15,581
+kristen.martino@company.com,finance_admin,Procedure Detail,Payment vs Benchmark,2026-03-16,46
+kristen.martino@company.com,finance_admin,Procedure Detail,Outlier Procedures,2026-03-16,46
+kristen.martino@company.com,finance_admin,Procedure Detail,Facility Mix Trend,2026-03-16,46
+ceo@company.com,executive,Pipeline Intelligence,Market-Validated Pipeline,2026-03-16,235
+ceo@company.com,executive,Pipeline Intelligence,Territory Alignment,2026-03-16,235
+ceo@company.com,executive,Pipeline Intelligence,Pipeline by Specialty,2026-03-16,235
+analyst.derm@company.com,specialty_analyst,Pipeline Intelligence,Pipeline by Specialty,2026-03-16,125
+analyst.gastro@company.com,specialty_analyst,Adoption Tracking,Weekly Active Users,2026-03-16,315
+analyst.gastro@company.com,specialty_analyst,Market Intelligence,Territory Map,2026-03-16,184
+analyst.gastro@company.com,specialty_analyst,Market Intelligence,Compression Drivers,2026-03-16,184
+analyst.gastro@company.com,specialty_analyst,Market Intelligence,Volume vs Compression,2026-03-16,184
+analyst.ortho@company.com,specialty_analyst,Procedure Detail,Metric Comparison,2026-03-16,156
+analyst.ortho@company.com,specialty_analyst,Procedure Detail,Facility Mix Trend,2026-03-16,156
+analyst.ortho@company.com,specialty_analyst,Procedure Detail,Outlier Procedures,2026-03-16,156
+analyst.ophtho@company.com,specialty_analyst,Pipeline Intelligence,Territory Alignment,2026-03-16,43
+analyst.ophtho@company.com,specialty_analyst,Market Intelligence,Compression Trend,2026-03-16,102
+analyst.ophtho@company.com,specialty_analyst,Market Intelligence,Pressure Index Ranking,2026-03-16,102
+analyst.ent@company.com,specialty_analyst,Pipeline Intelligence,Territory Alignment,2026-03-16,97
+analyst.ent@company.com,specialty_analyst,Procedure Detail,Payment vs Benchmark,2026-03-16,385
+analyst.ent@company.com,specialty_analyst,Procedure Detail,Facility Mix Trend,2026-03-16,385
+analyst.ent@company.com,specialty_analyst,Procedure Detail,Outlier Procedures,2026-03-16,385
+sales.northeast@company.com,regional_sales,Pipeline Intelligence,Territory Alignment,2026-03-16,80
+sales.southeast@company.com,regional_sales,Pipeline Intelligence,Pipeline by Specialty,2026-03-16,325
+sales.southeast@company.com,regional_sales,Pipeline Intelligence,Market-Validated Pipeline,2026-03-16,325
+sales.southeast@company.com,regional_sales,Pipeline Intelligence,Territory Alignment,2026-03-16,325
+sales.southeast@company.com,regional_sales,Market Intelligence,Volume vs Compression,2026-03-16,410
+sales.west@company.com,regional_sales,Pipeline Intelligence,Market-Validated Pipeline,2026-03-16,86
+sales.west@company.com,regional_sales,Market Intelligence,Territory Map,2026-03-16,78
+kristen.martino@company.com,finance_admin,Pipeline Intelligence,Pipeline by Specialty,2026-03-17,112
+kristen.martino@company.com,finance_admin,Pipeline Intelligence,Territory Alignment,2026-03-17,112
+kristen.martino@company.com,finance_admin,Pipeline Intelligence,Market-Validated Pipeline,2026-03-17,112
+ceo@company.com,executive,Market Intelligence,Pressure Index Ranking,2026-03-17,366
+ceo@company.com,executive,Market Intelligence,Compression Drivers,2026-03-17,366
+vp.sales@company.com,executive,Market Intelligence,Volume vs Compression,2026-03-17,144
+analyst.derm@company.com,specialty_analyst,Procedure Detail,Payment vs Benchmark,2026-03-17,63
+analyst.derm@company.com,specialty_analyst,Procedure Detail,Metric Comparison,2026-03-17,63
+analyst.derm@company.com,specialty_analyst,Procedure Detail,Facility Mix Trend,2026-03-17,63
+analyst.gastro@company.com,specialty_analyst,Market Intelligence,Pressure Index Ranking,2026-03-17,118
+analyst.gastro@company.com,specialty_analyst,Market Intelligence,Volume vs Compression,2026-03-17,118
+analyst.gastro@company.com,specialty_analyst,Market Intelligence,Compression Drivers,2026-03-17,118
+analyst.ortho@company.com,specialty_analyst,Procedure Detail,Payment vs Benchmark,2026-03-17,171
+analyst.ortho@company.com,specialty_analyst,Market Intelligence,Territory Map,2026-03-17,352
+analyst.ortho@company.com,specialty_analyst,Market Intelligence,Pressure Index Ranking,2026-03-17,352
+analyst.ophtho@company.com,specialty_analyst,Procedure Detail,Outlier Procedures,2026-03-17,492
+analyst.ent@company.com,specialty_analyst,Market Intelligence,Compression Trend,2026-03-17,288
+sales.southeast@company.com,regional_sales,Pipeline Intelligence,Territory Alignment,2026-03-17,194
+sales.southeast@company.com,regional_sales,Pipeline Intelligence,Pipeline by Specialty,2026-03-17,194
+sales.southeast@company.com,regional_sales,Pipeline Intelligence,Market-Validated Pipeline,2026-03-17,194
+sales.southeast@company.com,regional_sales,Market Intelligence,Pressure Index Ranking,2026-03-17,155
+sales.southeast@company.com,regional_sales,Market Intelligence,Territory Map,2026-03-17,155
+sales.southeast@company.com,regional_sales,Market Intelligence,Compression Drivers,2026-03-17,155
+sales.southwest@company.com,regional_sales,Pipeline Intelligence,Territory Alignment,2026-03-17,180
+sales.southwest@company.com,regional_sales,Market Intelligence,Compression Trend,2026-03-17,221
+sales.southwest@company.com,regional_sales,Market Intelligence,Volume vs Compression,2026-03-17,221
+sales.southwest@company.com,regional_sales,Market Intelligence,Pressure Index Ranking,2026-03-17,221
+kristen.martino@company.com,finance_admin,Adoption Tracking,Active vs Provisioned,2026-03-18,354
+kristen.martino@company.com,finance_admin,Adoption Tracking,Weekly Active Users,2026-03-18,354
+kristen.martino@company.com,finance_admin,Adoption Tracking,Most Viewed Cards,2026-03-18,354
+kristen.martino@company.com,finance_admin,Market Intelligence,Territory Map,2026-03-18,242
+kristen.martino@company.com,finance_admin,Market Intelligence,Compression Trend,2026-03-18,242
+vp.sales@company.com,executive,Pipeline Intelligence,Market-Validated Pipeline,2026-03-18,92
+vp.sales@company.com,executive,Market Intelligence,Volume vs Compression,2026-03-18,211
+vp.sales@company.com,executive,Market Intelligence,Territory Map,2026-03-18,211
+analyst.derm@company.com,specialty_analyst,PDP Governance,Verify Checks,2026-03-18,312
+analyst.derm@company.com,specialty_analyst,PDP Governance,Role Distribution,2026-03-18,312
+analyst.gastro@company.com,specialty_analyst,Procedure Detail,Metric Comparison,2026-03-18,561
+analyst.gastro@company.com,specialty_analyst,Procedure Detail,Facility Mix Trend,2026-03-18,561
+analyst.ortho@company.com,specialty_analyst,Procedure Detail,Outlier Procedures,2026-03-18,193
+analyst.ortho@company.com,specialty_analyst,Procedure Detail,Payment vs Benchmark,2026-03-18,193
+analyst.ortho@company.com,specialty_analyst,Procedure Detail,Facility Mix Trend,2026-03-18,193
+analyst.ophtho@company.com,specialty_analyst,Procedure Detail,Facility Mix Trend,2026-03-18,244
+analyst.ophtho@company.com,specialty_analyst,Procedure Detail,Outlier Procedures,2026-03-18,244
+analyst.ophtho@company.com,specialty_analyst,Procedure Detail,Payment vs Benchmark,2026-03-18,244
+analyst.ent@company.com,specialty_analyst,Procedure Detail,Facility Mix Trend,2026-03-18,345
+analyst.ent@company.com,specialty_analyst,Procedure Detail,Payment vs Benchmark,2026-03-18,345
+analyst.ent@company.com,specialty_analyst,Procedure Detail,Outlier Procedures,2026-03-18,345
+analyst.ent@company.com,specialty_analyst,Market Intelligence,Compression Trend,2026-03-18,280
+analyst.ent@company.com,specialty_analyst,Market Intelligence,Compression Drivers,2026-03-18,280
+analyst.ent@company.com,specialty_analyst,Market Intelligence,Pressure Index Ranking,2026-03-18,280
+sales.northeast@company.com,regional_sales,Pipeline Intelligence,Territory Alignment,2026-03-18,389
+sales.northeast@company.com,regional_sales,Pipeline Intelligence,Market-Validated Pipeline,2026-03-18,389
+sales.northeast@company.com,regional_sales,Pipeline Intelligence,Pipeline by Specialty,2026-03-18,389
+sales.northeast@company.com,regional_sales,Procedure Detail,Metric Comparison,2026-03-18,171
+sales.northeast@company.com,regional_sales,Procedure Detail,Facility Mix Trend,2026-03-18,171
+sales.northeast@company.com,regional_sales,Procedure Detail,Outlier Procedures,2026-03-18,171
+sales.midwest@company.com,regional_sales,Market Intelligence,Compression Drivers,2026-03-18,545
+sales.midwest@company.com,regional_sales,Market Intelligence,Territory Map,2026-03-18,545
+kristen.martino@company.com,finance_admin,Pipeline Intelligence,Pipeline by Specialty,2026-03-19,455
+ceo@company.com,executive,Market Intelligence,Compression Drivers,2026-03-19,572
+ceo@company.com,executive,Market Intelligence,Territory Map,2026-03-19,572
+vp.sales@company.com,executive,Pipeline Intelligence,Pipeline by Specialty,2026-03-19,587
+vp.sales@company.com,executive,Pipeline Intelligence,Territory Alignment,2026-03-19,587
+vp.sales@company.com,executive,Pipeline Intelligence,Market-Validated Pipeline,2026-03-19,587
+analyst.derm@company.com,specialty_analyst,Procedure Detail,Payment vs Benchmark,2026-03-19,431
+analyst.derm@company.com,specialty_analyst,Market Intelligence,Compression Trend,2026-03-19,294
+analyst.gastro@company.com,specialty_analyst,Pipeline Intelligence,Pipeline by Specialty,2026-03-19,70
+analyst.gastro@company.com,specialty_analyst,Pipeline Intelligence,Market-Validated Pipeline,2026-03-19,70
+analyst.gastro@company.com,specialty_analyst,Market Intelligence,Volume vs Compression,2026-03-19,109
+analyst.gastro@company.com,specialty_analyst,Market Intelligence,Compression Drivers,2026-03-19,109
+analyst.ortho@company.com,specialty_analyst,Procedure Detail,Metric Comparison,2026-03-19,111
+analyst.ortho@company.com,specialty_analyst,Procedure Detail,Payment vs Benchmark,2026-03-19,111
+analyst.ortho@company.com,specialty_analyst,Market Intelligence,Pressure Index Ranking,2026-03-19,42
+analyst.ophtho@company.com,specialty_analyst,Procedure Detail,Metric Comparison,2026-03-19,352
+analyst.ophtho@company.com,specialty_analyst,Procedure Detail,Payment vs Benchmark,2026-03-19,352
+analyst.ent@company.com,specialty_analyst,Adoption Tracking,Weekly Active Users,2026-03-19,230
+analyst.ent@company.com,specialty_analyst,Adoption Tracking,Active vs Provisioned,2026-03-19,230
+sales.northeast@company.com,regional_sales,Pipeline Intelligence,Territory Alignment,2026-03-19,266
+sales.northeast@company.com,regional_sales,Market Intelligence,Compression Trend,2026-03-19,542
+sales.northeast@company.com,regional_sales,Market Intelligence,Territory Map,2026-03-19,542
+sales.southeast@company.com,regional_sales,Pipeline Intelligence,Territory Alignment,2026-03-19,523
+sales.southeast@company.com,regional_sales,Pipeline Intelligence,Market-Validated Pipeline,2026-03-19,523
+sales.southeast@company.com,regional_sales,Pipeline Intelligence,Pipeline by Specialty,2026-03-19,523
+sales.west@company.com,regional_sales,PDP Governance,Access Matrix,2026-03-19,266
+sales.west@company.com,regional_sales,PDP Governance,Role Distribution,2026-03-19,266
+sales.west@company.com,regional_sales,PDP Governance,Verify Checks,2026-03-19,266
+sales.west@company.com,regional_sales,Market Intelligence,Compression Drivers,2026-03-19,164
+sales.west@company.com,regional_sales,Market Intelligence,Compression Trend,2026-03-19,164
+sales.west@company.com,regional_sales,Market Intelligence,Volume vs Compression,2026-03-19,164
+kristen.martino@company.com,finance_admin,PDP Governance,Verify Checks,2026-03-20,490
+kristen.martino@company.com,finance_admin,PDP Governance,Access Matrix,2026-03-20,490
+kristen.martino@company.com,finance_admin,Market Intelligence,Compression Drivers,2026-03-20,350
+kristen.martino@company.com,finance_admin,Market Intelligence,Volume vs Compression,2026-03-20,350
+kristen.martino@company.com,finance_admin,Market Intelligence,Pressure Index Ranking,2026-03-20,350
+analyst.derm@company.com,specialty_analyst,Procedure Detail,Outlier Procedures,2026-03-20,124
+analyst.derm@company.com,specialty_analyst,Procedure Detail,Payment vs Benchmark,2026-03-20,124
+analyst.gastro@company.com,specialty_analyst,Procedure Detail,Facility Mix Trend,2026-03-20,37
+analyst.gastro@company.com,specialty_analyst,Procedure Detail,Outlier Procedures,2026-03-20,37
+analyst.gastro@company.com,specialty_analyst,PDP Governance,Role Distribution,2026-03-20,316
+analyst.gastro@company.com,specialty_analyst,PDP Governance,Verify Checks,2026-03-20,316
+analyst.gastro@company.com,specialty_analyst,PDP Governance,Access Matrix,2026-03-20,316
+analyst.ortho@company.com,specialty_analyst,PDP Governance,Verify Checks,2026-03-20,283
+analyst.ortho@company.com,specialty_analyst,PDP Governance,Role Distribution,2026-03-20,283
+analyst.ortho@company.com,specialty_analyst,PDP Governance,Access Matrix,2026-03-20,283
+analyst.ortho@company.com,specialty_analyst,Market Intelligence,Territory Map,2026-03-20,253
+analyst.ortho@company.com,specialty_analyst,Market Intelligence,Compression Drivers,2026-03-20,253
+analyst.ophtho@company.com,specialty_analyst,PDP Governance,Verify Checks,2026-03-20,66
+analyst.ophtho@company.com,specialty_analyst,PDP Governance,Access Matrix,2026-03-20,66
+analyst.ophtho@company.com,specialty_analyst,Market Intelligence,Pressure Index Ranking,2026-03-20,515
+analyst.ent@company.com,specialty_analyst,Procedure Detail,Payment vs Benchmark,2026-03-20,378
+analyst.ent@company.com,specialty_analyst,Procedure Detail,Outlier Procedures,2026-03-20,378
+sales.northeast@company.com,regional_sales,Market Intelligence,Compression Trend,2026-03-20,269
+sales.northeast@company.com,regional_sales,Market Intelligence,Volume vs Compression,2026-03-20,269
+sales.midwest@company.com,regional_sales,Pipeline Intelligence,Territory Alignment,2026-03-20,391
+sales.southwest@company.com,regional_sales,Procedure Detail,Metric Comparison,2026-03-20,53
+sales.west@company.com,regional_sales,Pipeline Intelligence,Market-Validated Pipeline,2026-03-21,308
+sales.west@company.com,regional_sales,Pipeline Intelligence,Pipeline by Specialty,2026-03-21,308
+analyst.derm@company.com,specialty_analyst,Procedure Detail,Payment vs Benchmark,2026-03-23,485
+analyst.derm@company.com,specialty_analyst,Procedure Detail,Outlier Procedures,2026-03-23,485
+analyst.derm@company.com,specialty_analyst,Market Intelligence,Pressure Index Ranking,2026-03-23,522
+analyst.derm@company.com,specialty_analyst,Market Intelligence,Volume vs Compression,2026-03-23,522
+analyst.derm@company.com,specialty_analyst,Market Intelligence,Compression Trend,2026-03-23,522
+analyst.gastro@company.com,specialty_analyst,Pipeline Intelligence,Pipeline by Specialty,2026-03-23,360
+analyst.gastro@company.com,specialty_analyst,Pipeline Intelligence,Market-Validated Pipeline,2026-03-23,360
+analyst.gastro@company.com,specialty_analyst,Pipeline Intelligence,Territory Alignment,2026-03-23,360
+analyst.gastro@company.com,specialty_analyst,Procedure Detail,Outlier Procedures,2026-03-23,220
+analyst.ortho@company.com,specialty_analyst,Procedure Detail,Facility Mix Trend,2026-03-23,470
+analyst.ortho@company.com,specialty_analyst,Procedure Detail,Payment vs Benchmark,2026-03-23,470
+analyst.ortho@company.com,specialty_analyst,Procedure Detail,Metric Comparison,2026-03-23,470
+analyst.ophtho@company.com,specialty_analyst,Pipeline Intelligence,Market-Validated Pipeline,2026-03-23,452
+analyst.ent@company.com,specialty_analyst,Adoption Tracking,Active vs Provisioned,2026-03-23,394
+analyst.ent@company.com,specialty_analyst,Procedure Detail,Metric Comparison,2026-03-23,381
+sales.northeast@company.com,regional_sales,Pipeline Intelligence,Market-Validated Pipeline,2026-03-23,60
+sales.northeast@company.com,regional_sales,Market Intelligence,Compression Trend,2026-03-23,80
+sales.northeast@company.com,regional_sales,Market Intelligence,Volume vs Compression,2026-03-23,80
+sales.northeast@company.com,regional_sales,Market Intelligence,Territory Map,2026-03-23,80
+sales.west@company.com,regional_sales,Market Intelligence,Territory Map,2026-03-23,113
+kristen.martino@company.com,finance_admin,Pipeline Intelligence,Territory Alignment,2026-03-24,390
+vp.sales@company.com,executive,Market Intelligence,Pressure Index Ranking,2026-03-24,192
+analyst.derm@company.com,specialty_analyst,Procedure Detail,Outlier Procedures,2026-03-24,73
+analyst.gastro@company.com,specialty_analyst,Pipeline Intelligence,Territory Alignment,2026-03-24,156
+analyst.gastro@company.com,specialty_analyst,Pipeline Intelligence,Market-Validated Pipeline,2026-03-24,156
+analyst.gastro@company.com,specialty_analyst,Pipeline Intelligence,Pipeline by Specialty,2026-03-24,156
+analyst.gastro@company.com,specialty_analyst,Market Intelligence,Compression Trend,2026-03-24,438
+analyst.gastro@company.com,specialty_analyst,Market Intelligence,Territory Map,2026-03-24,438
+analyst.gastro@company.com,specialty_analyst,Market Intelligence,Volume vs Compression,2026-03-24,438
+analyst.ortho@company.com,specialty_analyst,Adoption Tracking,Active vs Provisioned,2026-03-24,300
+analyst.ortho@company.com,specialty_analyst,Adoption Tracking,Weekly Active Users,2026-03-24,300
+analyst.ophtho@company.com,specialty_analyst,PDP Governance,Role Distribution,2026-03-24,565
+analyst.ophtho@company.com,specialty_analyst,PDP Governance,Access Matrix,2026-03-24,565
+analyst.ophtho@company.com,specialty_analyst,PDP Governance,Verify Checks,2026-03-24,565
+analyst.ent@company.com,specialty_analyst,Procedure Detail,Payment vs Benchmark,2026-03-24,501
+analyst.ent@company.com,specialty_analyst,Procedure Detail,Facility Mix Trend,2026-03-24,501
+analyst.ent@company.com,specialty_analyst,PDP Governance,Role Distribution,2026-03-24,177
+analyst.ent@company.com,specialty_analyst,PDP Governance,Verify Checks,2026-03-24,177
+analyst.ent@company.com,specialty_analyst,Market Intelligence,Compression Drivers,2026-03-24,102
+analyst.ent@company.com,specialty_analyst,Market Intelligence,Territory Map,2026-03-24,102
+sales.northeast@company.com,regional_sales,Market Intelligence,Pressure Index Ranking,2026-03-24,61
+sales.northeast@company.com,regional_sales,Market Intelligence,Compression Drivers,2026-03-24,61
+sales.northeast@company.com,regional_sales,Market Intelligence,Compression Trend,2026-03-24,61
+ceo@company.com,executive,Pipeline Intelligence,Market-Validated Pipeline,2026-03-25,587
+ceo@company.com,executive,Pipeline Intelligence,Pipeline by Specialty,2026-03-25,587
+ceo@company.com,executive,Market Intelligence,Compression Drivers,2026-03-25,169
+ceo@company.com,executive,Market Intelligence,Pressure Index Ranking,2026-03-25,169
+ceo@company.com,executive,Market Intelligence,Territory Map,2026-03-25,169
+vp.sales@company.com,executive,Market Intelligence,Compression Trend,2026-03-25,585
+vp.sales@company.com,executive,Market Intelligence,Compression Drivers,2026-03-25,585
+analyst.derm@company.com,specialty_analyst,Procedure Detail,Payment vs Benchmark,2026-03-25,356
+analyst.derm@company.com,specialty_analyst,Procedure Detail,Metric Comparison,2026-03-25,356
+analyst.gastro@company.com,specialty_analyst,Adoption Tracking,Weekly Active Users,2026-03-25,206
+analyst.gastro@company.com,specialty_analyst,Adoption Tracking,Active vs Provisioned,2026-03-25,206
+analyst.gastro@company.com,specialty_analyst,Procedure Detail,Metric Comparison,2026-03-25,72
+analyst.gastro@company.com,specialty_analyst,Procedure Detail,Payment vs Benchmark,2026-03-25,72
+analyst.gastro@company.com,specialty_analyst,Market Intelligence,Compression Drivers,2026-03-25,374
+analyst.ortho@company.com,specialty_analyst,Procedure Detail,Payment vs Benchmark,2026-03-25,100
+analyst.ortho@company.com,specialty_analyst,Procedure Detail,Facility Mix Trend,2026-03-25,100
+analyst.ophtho@company.com,specialty_analyst,Adoption Tracking,Weekly Active Users,2026-03-25,240
+analyst.ophtho@company.com,specialty_analyst,Adoption Tracking,Active vs Provisioned,2026-03-25,240
+analyst.ophtho@company.com,specialty_analyst,Adoption Tracking,Most Viewed Cards,2026-03-25,240
+analyst.ent@company.com,specialty_analyst,Procedure Detail,Outlier Procedures,2026-03-25,180
+analyst.ent@company.com,specialty_analyst,PDP Governance,Access Matrix,2026-03-25,507
+analyst.ent@company.com,specialty_analyst,PDP Governance,Role Distribution,2026-03-25,507
+analyst.ent@company.com,specialty_analyst,PDP Governance,Verify Checks,2026-03-25,507
+sales.southeast@company.com,regional_sales,Pipeline Intelligence,Pipeline by Specialty,2026-03-25,290
+sales.southeast@company.com,regional_sales,Market Intelligence,Territory Map,2026-03-25,568
+sales.west@company.com,regional_sales,Market Intelligence,Compression Trend,2026-03-25,369
+sales.west@company.com,regional_sales,Market Intelligence,Territory Map,2026-03-25,369
+kristen.martino@company.com,finance_admin,Market Intelligence,Volume vs Compression,2026-03-26,278
+kristen.martino@company.com,finance_admin,Market Intelligence,Compression Drivers,2026-03-26,278
+vp.sales@company.com,executive,Pipeline Intelligence,Market-Validated Pipeline,2026-03-26,438
+vp.sales@company.com,executive,Pipeline Intelligence,Pipeline by Specialty,2026-03-26,438
+vp.sales@company.com,executive,Pipeline Intelligence,Territory Alignment,2026-03-26,438
+analyst.derm@company.com,specialty_analyst,PDP Governance,Access Matrix,2026-03-26,512
+analyst.derm@company.com,specialty_analyst,Market Intelligence,Pressure Index Ranking,2026-03-26,130
+analyst.derm@company.com,specialty_analyst,Market Intelligence,Volume vs Compression,2026-03-26,130
+analyst.derm@company.com,specialty_analyst,Market Intelligence,Territory Map,2026-03-26,130
+analyst.gastro@company.com,specialty_analyst,Market Intelligence,Pressure Index Ranking,2026-03-26,184
+analyst.gastro@company.com,specialty_analyst,Market Intelligence,Volume vs Compression,2026-03-26,184
+analyst.gastro@company.com,specialty_analyst,Market Intelligence,Compression Trend,2026-03-26,184
+analyst.ortho@company.com,specialty_analyst,Procedure Detail,Outlier Procedures,2026-03-26,595
+analyst.ortho@company.com,specialty_analyst,Procedure Detail,Facility Mix Trend,2026-03-26,595
+analyst.ortho@company.com,specialty_analyst,Procedure Detail,Metric Comparison,2026-03-26,595
+analyst.ortho@company.com,specialty_analyst,Market Intelligence,Territory Map,2026-03-26,577
+analyst.ortho@company.com,specialty_analyst,Market Intelligence,Pressure Index Ranking,2026-03-26,577
+analyst.ophtho@company.com,specialty_analyst,Procedure Detail,Facility Mix Trend,2026-03-26,433
+analyst.ophtho@company.com,specialty_analyst,Procedure Detail,Metric Comparison,2026-03-26,433
+analyst.ophtho@company.com,specialty_analyst,Procedure Detail,Outlier Procedures,2026-03-26,433
+analyst.ent@company.com,specialty_analyst,Procedure Detail,Facility Mix Trend,2026-03-26,156
+analyst.ent@company.com,specialty_analyst,Procedure Detail,Outlier Procedures,2026-03-26,156
+analyst.ent@company.com,specialty_analyst,Procedure Detail,Metric Comparison,2026-03-26,156
+sales.northeast@company.com,regional_sales,Pipeline Intelligence,Market-Validated Pipeline,2026-03-26,458
+sales.northeast@company.com,regional_sales,Market Intelligence,Territory Map,2026-03-26,226
+ceo@company.com,executive,Market Intelligence,Territory Map,2026-03-27,43
+ceo@company.com,executive,Market Intelligence,Compression Drivers,2026-03-27,43
+analyst.derm@company.com,specialty_analyst,Procedure Detail,Payment vs Benchmark,2026-03-27,315
+analyst.derm@company.com,specialty_analyst,Procedure Detail,Metric Comparison,2026-03-27,315
+analyst.derm@company.com,specialty_analyst,Market Intelligence,Compression Trend,2026-03-27,444
+analyst.derm@company.com,specialty_analyst,Market Intelligence,Compression Drivers,2026-03-27,444
+analyst.derm@company.com,specialty_analyst,Market Intelligence,Pressure Index Ranking,2026-03-27,444
+analyst.gastro@company.com,specialty_analyst,Procedure Detail,Payment vs Benchmark,2026-03-27,564
+analyst.gastro@company.com,specialty_analyst,Procedure Detail,Metric Comparison,2026-03-27,564
+analyst.gastro@company.com,specialty_analyst,PDP Governance,Access Matrix,2026-03-27,411
+analyst.gastro@company.com,specialty_analyst,PDP Governance,Role Distribution,2026-03-27,411
+analyst.ortho@company.com,specialty_analyst,Procedure Detail,Metric Comparison,2026-03-27,151
+analyst.ortho@company.com,specialty_analyst,Procedure Detail,Facility Mix Trend,2026-03-27,151
+analyst.ortho@company.com,specialty_analyst,Procedure Detail,Outlier Procedures,2026-03-27,151
+analyst.ortho@company.com,specialty_analyst,Market Intelligence,Compression Trend,2026-03-27,167
+analyst.ortho@company.com,specialty_analyst,Market Intelligence,Volume vs Compression,2026-03-27,167
+analyst.ortho@company.com,specialty_analyst,Market Intelligence,Compression Drivers,2026-03-27,167
+analyst.ophtho@company.com,specialty_analyst,Procedure Detail,Outlier Procedures,2026-03-27,43
+analyst.ent@company.com,specialty_analyst,Market Intelligence,Pressure Index Ranking,2026-03-27,307
+analyst.ent@company.com,specialty_analyst,Market Intelligence,Volume vs Compression,2026-03-27,307
+analyst.ent@company.com,specialty_analyst,Market Intelligence,Compression Trend,2026-03-27,307
+ceo@company.com,executive,Adoption Tracking,Weekly Active Users,2026-03-29,456
+ceo@company.com,executive,Adoption Tracking,Most Viewed Cards,2026-03-29,456
+ceo@company.com,executive,Market Intelligence,Compression Trend,2026-03-29,545
+ceo@company.com,executive,Market Intelligence,Pressure Index Ranking,2026-03-29,545
+vp.sales@company.com,executive,Pipeline Intelligence,Territory Alignment,2026-03-29,169
+vp.sales@company.com,executive,Market Intelligence,Pressure Index Ranking,2026-03-29,279
+sales.midwest@company.com,regional_sales,Pipeline Intelligence,Pipeline by Specialty,2026-03-29,43
+sales.midwest@company.com,regional_sales,Pipeline Intelligence,Market-Validated Pipeline,2026-03-29,43
+sales.midwest@company.com,regional_sales,Market Intelligence,Compression Trend,2026-03-29,562
+sales.midwest@company.com,regional_sales,Market Intelligence,Pressure Index Ranking,2026-03-29,562
+sales.midwest@company.com,regional_sales,Market Intelligence,Territory Map,2026-03-29,562
+kristen.martino@company.com,finance_admin,Adoption Tracking,Active vs Provisioned,2026-03-30,344
+kristen.martino@company.com,finance_admin,Procedure Detail,Outlier Procedures,2026-03-30,514
+ceo@company.com,executive,Market Intelligence,Volume vs Compression,2026-03-30,215
+ceo@company.com,executive,Market Intelligence,Territory Map,2026-03-30,215
+vp.sales@company.com,executive,Market Intelligence,Volume vs Compression,2026-03-30,373
+vp.sales@company.com,executive,Market Intelligence,Territory Map,2026-03-30,373
+analyst.derm@company.com,specialty_analyst,Procedure Detail,Payment vs Benchmark,2026-03-30,329
+analyst.derm@company.com,specialty_analyst,Procedure Detail,Facility Mix Trend,2026-03-30,329
+analyst.derm@company.com,specialty_analyst,Procedure Detail,Metric Comparison,2026-03-30,329
+analyst.derm@company.com,specialty_analyst,PDP Governance,Access Matrix,2026-03-30,159
+analyst.derm@company.com,specialty_analyst,PDP Governance,Role Distribution,2026-03-30,159
+analyst.derm@company.com,specialty_analyst,Market Intelligence,Territory Map,2026-03-30,322
+analyst.derm@company.com,specialty_analyst,Market Intelligence,Compression Trend,2026-03-30,322
+analyst.gastro@company.com,specialty_analyst,Market Intelligence,Volume vs Compression,2026-03-30,219
+analyst.ortho@company.com,specialty_analyst,Adoption Tracking,Active vs Provisioned,2026-03-30,51
+analyst.ortho@company.com,specialty_analyst,Adoption Tracking,Weekly Active Users,2026-03-30,51
+analyst.ortho@company.com,specialty_analyst,Adoption Tracking,Most Viewed Cards,2026-03-30,51
+analyst.ortho@company.com,specialty_analyst,PDP Governance,Access Matrix,2026-03-30,553
+analyst.ophtho@company.com,specialty_analyst,Procedure Detail,Facility Mix Trend,2026-03-30,306
+analyst.ophtho@company.com,specialty_analyst,Procedure Detail,Outlier Procedures,2026-03-30,306
+analyst.ophtho@company.com,specialty_analyst,Procedure Detail,Payment vs Benchmark,2026-03-30,306
+analyst.ent@company.com,specialty_analyst,Procedure Detail,Outlier Procedures,2026-03-30,204
+analyst.ent@company.com,specialty_analyst,Procedure Detail,Metric Comparison,2026-03-30,204
+analyst.ent@company.com,specialty_analyst,Procedure Detail,Payment vs Benchmark,2026-03-30,204
+analyst.ent@company.com,specialty_analyst,PDP Governance,Verify Checks,2026-03-30,250
+sales.northeast@company.com,regional_sales,Pipeline Intelligence,Pipeline by Specialty,2026-03-30,330
+sales.northeast@company.com,regional_sales,Pipeline Intelligence,Market-Validated Pipeline,2026-03-30,330
+sales.northeast@company.com,regional_sales,Pipeline Intelligence,Territory Alignment,2026-03-30,330
+sales.northeast@company.com,regional_sales,Market Intelligence,Territory Map,2026-03-30,376
+sales.northeast@company.com,regional_sales,Market Intelligence,Pressure Index Ranking,2026-03-30,376
+sales.northeast@company.com,regional_sales,Market Intelligence,Compression Drivers,2026-03-30,376
+sales.southeast@company.com,regional_sales,Pipeline Intelligence,Territory Alignment,2026-03-30,593
+sales.southeast@company.com,regional_sales,Pipeline Intelligence,Market-Validated Pipeline,2026-03-30,593
+sales.southeast@company.com,regional_sales,Pipeline Intelligence,Pipeline by Specialty,2026-03-30,593
+sales.southeast@company.com,regional_sales,Market Intelligence,Pressure Index Ranking,2026-03-30,283
+sales.southeast@company.com,regional_sales,Market Intelligence,Compression Trend,2026-03-30,283

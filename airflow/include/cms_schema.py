@@ -5,8 +5,9 @@
 # and catalog/schema paths.
 #
 # In a production Databricks environment these would live in Unity Catalog
-# as table properties and comments. For this project they're imported by
-# both the Databricks notebooks and the Airflow DAG.
+# as table properties and comments. The Airflow DAG imports these constants
+# directly. The Databricks notebooks duplicate the values since they run in
+# a separate environment — keep both in sync when making changes.
 # ─────────────────────────────────────────────────────────────────────────────
 
 # ── CATALOG PATHS ─────────────────────────────────────────────────────────────

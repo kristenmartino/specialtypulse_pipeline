@@ -1,0 +1,21 @@
+# SpecialtyPulse Pipeline — Python Dependencies
+# Install: pip install -r requirements.txt
+
+# --- Pipeline (Databricks notebooks) ---
+# pyspark is provided by the Databricks runtime — do not install locally
+# dbutils is provided by the Databricks runtime — do not install locally
+
+# --- Domo integration ---
+pydomo>=0.3.0               # Domo SDK for Dataset API push and PDP management
+requests>=2.28               # HTTP client (pydomo dependency + standalone API calls)
+
+# --- Airflow (install separately via Astro CLI or pip) ---
+# apache-airflow is managed by the Astro CLI runtime
+# apache-airflow-providers-databricks is installed in the Astro Dockerfile
+
+# --- Data generation (development only) ---
+# No additional dependencies — uses Python stdlib (csv, random, hashlib)
+
+# --- Testing ---
+pytest>=7.0                  # Test runner
+pytest-cov>=4.0              # Coverage reporting (optional)

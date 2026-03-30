@@ -2,7 +2,6 @@
 
 **A production-style data pipeline demonstrating the Databricks → Airflow → Domo architecture.**
 
-Live dashboard: [SpecialtyPulse on Domo](https://your-domo-instance.domo.com)  
 Source data: CMS Medicare Physician & Other Practitioners PUF, 2021–2025
 
 ---
@@ -30,7 +29,7 @@ and Domo serves as the BI and executive reporting layer.
 │     ↓                    │    │  • SQL DataFlow: benchmarks     │
 │  02_staging              │───▶│  • Beast Modes: YoY calcs       │
 │     ↓                    │    │  • Dashboard: SpecialtyPulse    │
-│  03_marts                │    │  • PDP: dept-level security     │
+│  03_marts                │    │  • PDP: row-level security      │
 │     ↓                    │    │                                 │
 │  04_push_to_domo ────────┼───▶│                                 │
 │                          │    │                                 │
@@ -69,7 +68,7 @@ and Domo serves as the BI and executive reporting layer.
 ## Certified Metric Definitions
 
 These definitions are enforced in the Databricks mart notebook and documented in the
-Domo SQL DataFlow. Any change requires a version bump + updated tests.
+Domo SQL DataFlow. Any change requires a version bump and an entry in `docs/METRIC_CERTIFICATION_LOG.md`.
 
 | Metric | Definition | Grain |
 |---|---|---|
@@ -78,8 +77,8 @@ Domo SQL DataFlow. Any change requires a version bump + updated tests.
 | `payment_to_charge_ratio` | `avg_medicare_payment / avg_submitted_charge` | specialty × hcpcs × year |
 | `yoy_volume_change_pct` | `(current - prior) / prior` services | specialty × hcpcs × year |
 | `yoy_payment_change_pct` | `(current - prior) / prior` payment | specialty × hcpcs × year |
-| `specialty_avg_payment` | Specialty-wide weighted avg (benchmark) | specialty × hcpcs × year |
-| `is_payment_outlier` | `payment_to_charge_ratio` > 2 stddev below specialty mean | specialty × hcpcs × year |
+| `specialty_avg_payment` | Specialty-wide weighted avg (benchmark over specialty × year) | specialty × hcpcs × year |
+| `is_payment_outlier` | `payment_to_charge_ratio` > 2 stddev below specialty mean for that year | specialty × hcpcs × year |
 
 ---
 
@@ -118,8 +117,22 @@ specialtypulse_pipeline/
 │       ├── pdp_setup.py                ← Creates all PDP policies via Domo API
 │       ├── pdp_verify.py               ← Verifies policies are correctly applied
 │       └── pdp_verify_writer.py        ← Verify + write results to Domo DataSet
+├── data/
+│   ├── sample_2023_puf_10k.csv         ← 10k row CMS PUF sample for testing
+│   ├── sample_sfdc_pipeline.csv        ← Synthetic Salesforce pipeline data
+│   ├── sample_dashboard_engagement.csv ← Synthetic dashboard usage data
+│   └── sample_mart_reimbursement_trends.csv ← Pre-built mart sample
+├── tests/
+│   └── test_pdp_policy_builders.py     ← PDP policy construction tests
 ├── docs/
-│   └── SETUP.md                        ← Step-by-step setup guide
+│   ├── SETUP.md                        ← Step-by-step setup guide
+│   ├── PRD.md                          ← Product requirements document
+│   ├── TECHNICAL_DESIGN.md             ← Architecture and design decisions
+│   ├── DASHBOARD_SPEC.md               ← Dashboard card specifications
+│   ├── STAKEHOLDER_MAP.md              ← Ownership matrix and handoff points
+│   └── METRIC_CERTIFICATION_LOG.md     ← Metric definition decisions and rationale
+├── requirements.txt                    ← Python dependencies
+├── .env.example                        ← Environment variable template
 └── README.md
 ```
 
@@ -130,9 +143,9 @@ specialtypulse_pipeline/
 ### 1. Databricks Free Edition
 
 1. Sign up at [signup.databricks.com](https://signup.databricks.com) (no credit card)
-2. Create a new notebook for each file in `databricks/notebooks/`
-3. Upload `data/sample_2023_puf_10k.csv` to a Volume: `Catalog > default > Volumes > upload`
-4. Run notebooks in order: 01 → 02 → 03 → 04
+2. Create schemas and Volume (see `docs/SETUP.md` Part 1)
+3. Upload `data/sample_2023_puf_10k.csv` to the Volume
+4. Import and run notebooks in order: 01 → 02 → 03 → 04
 
 ### 2. Airflow (local via Astro CLI)
 
@@ -185,4 +198,4 @@ explanation of why PDP must be on the DataFlow **output**, not the input.
 ---
 
 *Built by Kristen Martino · GTM BI & Revenue Operations Analyst*  
-*Demonstrates: Databricks PySpark · Airflow DAG orchestration · Domo DataSets + SQL DataFlows*
+*Demonstrates: Databricks PySpark · Airflow DAG orchestration · Domo DataSets + SQL DataFlows · PDP row-level security · React governance app · GitHub Actions CI/CD*

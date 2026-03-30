@@ -1,7 +1,6 @@
 # Setup Guide — SpecialtyPulse Pipeline
 
 Step-by-step instructions to get the full pipeline running.
-Estimated time: 2–3 hours for initial setup.
 
 ---
 
@@ -27,7 +26,7 @@ CREATE VOLUME IF NOT EXISTS main.specialtypulse_raw.cms_files;
 1. Download the CMS PUF 2023 sample from:
    https://data.cms.gov/provider-summary-by-type-of-service/medicare-physician-other-practitioners
 
-   OR use the included 10k sample: `data/sample_2023_puf_10k.csv`
+   OR use the included 10k sample from the repo: `data/sample_2023_puf_10k.csv`
 
 2. In Databricks UI: Catalog > main > specialtypulse_raw > Volumes > cms_files > Upload
 
@@ -81,8 +80,9 @@ mkdir specialtypulse_airflow && cd specialtypulse_airflow
 astro dev init
 
 # Copy DAG and include files
-cp /path/to/specialtypulse_pipeline/airflow/dags/specialtypulse_dag.py dags/
-cp /path/to/specialtypulse_pipeline/airflow/include/cms_schema.py include/
+# Adjust path below to where you cloned the repo
+cp ../specialtypulse_pipeline/airflow/dags/specialtypulse_dag.py dags/
+cp ../specialtypulse_pipeline/airflow/include/cms_schema.py include/
 ```
 
 ### 2.4 Add Databricks provider to requirements
@@ -151,11 +151,9 @@ databricks secrets put --scope domo --key client_secret
 
 Run notebook `04_push_to_domo.py` in Databricks.
 On first run it creates the DataSet and prints the DataSet ID.
-**Save this DataSet ID** — add it to the Airflow Variables:
+**Save this DataSet ID** — you'll need it for PDP setup and the Domo App:
 ```
-Airflow UI > Admin > Variables > + Add
-Key: domo_dataset_id
-Value: <the ID printed by notebook 04>
+export DOMO_DATASET_ID="<the ID printed by notebook 04>"
 ```
 
 ### 3.3 Build the SQL DataFlow in Domo
@@ -186,6 +184,40 @@ Suggested cards:
 | YoY Volume Change | specialty_benchmarks | Bar | avg_yoy_volume_change |
 | Outlier Procedures | mart_reimbursement_trends (filtered is_payment_outlier=true) | Table | hcpcs_code, specialty, ptcr |
 | Specialty Benchmark Comparison | specialty_benchmarks | Bar | specialty_avg_payment |
+
+---
+
+## Part 3.5: PDP and Governance App
+
+### 3.6 Set up row-level security (PDP)
+
+1. Edit `domo/pdp/pdp_config.csv` with real Domo user emails
+2. Copy `.env.example` to `domo/pdp/.env` and fill in your Domo credentials:
+```bash
+cp .env.example domo/pdp/.env
+# Edit domo/pdp/.env with your DOMO_CLIENT_ID, DOMO_CLIENT_SECRET, DOMO_DATASET_ID
+```
+3. Run PDP setup: `python domo/pdp/pdp_setup.py`
+4. Verify policies: `python domo/pdp/pdp_verify.py`
+5. Write verify results to Domo: `python domo/pdp/pdp_verify_writer.py`
+
+See `domo/pdp/PDP_DESIGN.md` for the full security model and the critical
+explanation of why PDP must be on the DataFlow **output**, not the input.
+
+### 3.7 Deploy the governance Domo App
+
+1. Update `domo/app/manifest.json` with your DataSet IDs:
+   - Replace `REPLACE_WITH_PDP_CONFIG_DATASET_ID` with the pdp_config DataSet ID
+   - Replace `REPLACE_WITH_VERIFY_RESULTS_DATASET_ID` with the ID printed by `pdp_verify_writer.py`
+2. Build and deploy:
+```bash
+cd domo/app
+npm install
+npm run build
+domo login       # authenticate to your Domo instance
+domo publish     # deploy the app
+```
+3. Find the app in Domo: App Store > My Apps. Add it to a Page.
 
 ---
 

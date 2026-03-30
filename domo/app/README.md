@@ -54,8 +54,9 @@ domo login
 
 # Update manifest.json with your real DataSet IDs
 # Replace REPLACE_WITH_PDP_CONFIG_DATASET_ID with the DataSet ID
-# from pdp_setup.py, and REPLACE_WITH_VERIFY_RESULTS_DATASET_ID
-# with the ID printed by pdp_verify_writer.py
+# from uploading pdp_config.csv to Domo
+# Replace REPLACE_WITH_VERIFY_RESULTS_DATASET_ID with the ID
+# printed by pdp_verify_writer.py on first run
 
 # Start local dev with live Domo DataSet connection
 domo dev
@@ -96,8 +97,9 @@ The "Explain current policy state" button calls the Anthropic API via a
 server-side proxy using streaming. The response appears word-by-word.
 
 The API key is never exposed in the client bundle:
-- **In Domo**: requests route through `/domo/proxy/v1/messages` (Domo's
-  built-in server-side proxy)
+- **In Domo**: requests route through Domo's App Proxy (`/domo/proxy/`).
+  Requires a `proxyId` entry in `manifest.json` pointing to the Anthropic
+  API — see [Domo App Proxy docs](https://developer.domo.com/portal/1845fc11dbbe3-app-proxy).
 - **Local dev**: requests route through webpack devServer proxy at
   `/api/anthropic/v1/messages`, which injects the key from the
   `ANTHROPIC_API_KEY` environment variable

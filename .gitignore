@@ -39,3 +39,9 @@ airflow/airflow.db
 # OS
 .DS_Store
 Thumbs.db
+
+# Archives
+*.zip
+
+# Private / interview prep
+SpecialtyPulse_Interview_Coverage.md
