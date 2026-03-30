@@ -162,7 +162,7 @@ with DAG(
     dag_id="specialtypulse_annual_pipeline",
     description="CMS PUF ingestion → Databricks transformation → Domo delivery",
     default_args=default_args,
-    schedule_interval="@yearly",   # Run once per year on CMS release
+    schedule="@yearly",             # Run once per year on CMS release
     start_date=datetime(2024, 1, 1),
     catchup=False,
     tags=["specialtypulse", "cms", "databricks", "domo"],
