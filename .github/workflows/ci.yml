@@ -24,7 +24,7 @@ jobs:
           cache: pip
 
       - name: Install dependencies
-        run: pip install ruff apache-airflow apache-airflow-providers-databricks
+        run: pip install ruff apache-airflow apache-airflow-providers-databricks aiofiles
 
       - name: Lint Python files
         run: ruff check .
@@ -96,9 +96,9 @@ jobs:
       - name: Verify build output
         working-directory: domo/app
         run: |
-          ls -lh dist/
-          test -f dist/index.html  && echo "index.html present"
-          ls dist/bundle.*.js      && echo "bundle present"
+          test -f index.html  && echo "index.html present"
+          test -f bundle.js   && echo "bundle.js present"
+          test -f styles.css  && echo "styles.css present"
 
   # ── PDP GOVERNANCE CHECK ─────────────────────────────────────────────────────
   # Runs against live Domo when secrets are present.
