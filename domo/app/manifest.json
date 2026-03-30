@@ -1,35 +1,311 @@
 {
-  "name": "SpecialtyPulse PDP Governance",
-  "version": "1.0.0",
-  "description": "Row-level security governance dashboard for SpecialtyPulse. Shows who sees what, verify check status, and AI-generated policy summaries.",
-  "id": "",
-  "type": "fullpage",
-  "sizing": "fixed",
+  "name": "SpecialtyPulse Dashboard",
+  "version": "2.0.0",
+  "description": "Full 5-page SpecialtyPulse analytics dashboard: Market Intelligence, Procedure Detail, Pipeline Intelligence, Adoption Tracking, and PDP Governance.",
+  "id": "2c3439be-e022-4000-8ea4-772b86bf2bb2",
+  "fullpage": true,
   "dataSets": [
     {
       "alias": "pdp_config",
-      "dataSetId": "REPLACE_WITH_PDP_CONFIG_DATASET_ID",
+      "dataSetId": "6f2a7c84-3c67-403f-9fd3-09407efd7e19",
       "fields": [
-        { "alias": "email",            "columnName": "email" },
-        { "alias": "role",             "columnName": "role" },
-        { "alias": "filter_dimension", "columnName": "filter_dimension" },
-        { "alias": "filter_values",    "columnName": "filter_values" },
-        { "alias": "notes",            "columnName": "notes" }
+        {
+          "alias": "email",
+          "columnName": "email"
+        },
+        {
+          "alias": "role",
+          "columnName": "role"
+        },
+        {
+          "alias": "filter_dimension",
+          "columnName": "filter_dimension"
+        },
+        {
+          "alias": "filter_values",
+          "columnName": "filter_values"
+        },
+        {
+          "alias": "notes",
+          "columnName": "notes"
+        }
       ]
     },
     {
       "alias": "pdp_verify_results",
-      "dataSetId": "REPLACE_WITH_VERIFY_RESULTS_DATASET_ID",
+      "dataSetId": "24015821-e3bc-482f-9ef0-69f9c581f06d",
       "fields": [
-        { "alias": "check_name", "columnName": "check_name" },
-        { "alias": "passed",     "columnName": "passed" },
-        { "alias": "message",    "columnName": "message" },
-        { "alias": "run_at",     "columnName": "run_at" }
+        {
+          "alias": "check_name",
+          "columnName": "check_name"
+        },
+        {
+          "alias": "passed",
+          "columnName": "passed"
+        },
+        {
+          "alias": "message",
+          "columnName": "message"
+        },
+        {
+          "alias": "run_at",
+          "columnName": "run_at"
+        }
+      ]
+    },
+    {
+      "alias": "specialty_benchmarks",
+      "dataSetId": "6dc286ea-430c-47c0-876a-b0a63858a35c",
+      "fields": [
+        {
+          "alias": "provider_specialty",
+          "columnName": "provider_specialty"
+        },
+        {
+          "alias": "year",
+          "columnName": "year"
+        },
+        {
+          "alias": "total_services",
+          "columnName": "total_services"
+        },
+        {
+          "alias": "total_beneficiaries",
+          "columnName": "total_beneficiaries"
+        },
+        {
+          "alias": "total_providers",
+          "columnName": "total_providers"
+        },
+        {
+          "alias": "distinct_procedures",
+          "columnName": "distinct_procedures"
+        },
+        {
+          "alias": "specialty_avg_payment",
+          "columnName": "specialty_avg_payment"
+        },
+        {
+          "alias": "specialty_avg_charge",
+          "columnName": "specialty_avg_charge"
+        },
+        {
+          "alias": "avg_ptcr",
+          "columnName": "avg_ptcr"
+        },
+        {
+          "alias": "avg_yoy_volume_change",
+          "columnName": "avg_yoy_volume_change"
+        },
+        {
+          "alias": "avg_yoy_payment_change",
+          "columnName": "avg_yoy_payment_change"
+        },
+        {
+          "alias": "outlier_procedure_count",
+          "columnName": "outlier_procedure_count"
+        },
+        {
+          "alias": "avg_pct_facility",
+          "columnName": "avg_pct_facility"
+        },
+        {
+          "alias": "compression_driver",
+          "columnName": "compression_driver"
+        },
+        {
+          "alias": "pressure_index",
+          "columnName": "pressure_index"
+        },
+        {
+          "alias": "pressure_tier",
+          "columnName": "pressure_tier"
+        }
+      ]
+    },
+    {
+      "alias": "pipeline_intelligence",
+      "dataSetId": "8467d43c-e599-452e-9c3c-be37d50a1d89",
+      "fields": [
+        {
+          "alias": "opportunity_id",
+          "columnName": "opportunity_id"
+        },
+        {
+          "alias": "account_name",
+          "columnName": "account_name"
+        },
+        {
+          "alias": "account_specialty",
+          "columnName": "account_specialty"
+        },
+        {
+          "alias": "account_state",
+          "columnName": "account_state"
+        },
+        {
+          "alias": "account_providers",
+          "columnName": "account_providers"
+        },
+        {
+          "alias": "stage",
+          "columnName": "stage"
+        },
+        {
+          "alias": "win_probability",
+          "columnName": "win_probability"
+        },
+        {
+          "alias": "amount",
+          "columnName": "amount"
+        },
+        {
+          "alias": "products",
+          "columnName": "products"
+        },
+        {
+          "alias": "owner",
+          "columnName": "owner"
+        },
+        {
+          "alias": "region",
+          "columnName": "region"
+        },
+        {
+          "alias": "pressure_index",
+          "columnName": "pressure_index"
+        },
+        {
+          "alias": "pressure_tier",
+          "columnName": "pressure_tier"
+        },
+        {
+          "alias": "compression_driver",
+          "columnName": "compression_driver"
+        },
+        {
+          "alias": "market_validated_amount",
+          "columnName": "market_validated_amount"
+        }
+      ]
+    },
+    {
+      "alias": "mart",
+      "dataSetId": "3cb70f73-6462-4294-9b1e-cc032e570ae9",
+      "fields": [
+        {
+          "alias": "surrogate_key",
+          "columnName": "surrogate_key"
+        },
+        {
+          "alias": "provider_specialty",
+          "columnName": "provider_specialty"
+        },
+        {
+          "alias": "hcpcs_code",
+          "columnName": "hcpcs_code"
+        },
+        {
+          "alias": "hcpcs_description",
+          "columnName": "hcpcs_description"
+        },
+        {
+          "alias": "year",
+          "columnName": "year"
+        },
+        {
+          "alias": "total_services",
+          "columnName": "total_services"
+        },
+        {
+          "alias": "total_beneficiaries",
+          "columnName": "total_beneficiaries"
+        },
+        {
+          "alias": "total_providers",
+          "columnName": "total_providers"
+        },
+        {
+          "alias": "pct_facility_services",
+          "columnName": "pct_facility_services"
+        },
+        {
+          "alias": "avg_medicare_payment",
+          "columnName": "avg_medicare_payment"
+        },
+        {
+          "alias": "avg_submitted_charge",
+          "columnName": "avg_submitted_charge"
+        },
+        {
+          "alias": "avg_medicare_standardized_amount",
+          "columnName": "avg_medicare_standardized_amount"
+        },
+        {
+          "alias": "payment_to_charge_ratio",
+          "columnName": "payment_to_charge_ratio"
+        },
+        {
+          "alias": "yoy_volume_change_pct",
+          "columnName": "yoy_volume_change_pct"
+        },
+        {
+          "alias": "yoy_payment_change_pct",
+          "columnName": "yoy_payment_change_pct"
+        },
+        {
+          "alias": "specialty_avg_payment",
+          "columnName": "specialty_avg_payment"
+        },
+        {
+          "alias": "payment_vs_specialty_pct",
+          "columnName": "payment_vs_specialty_pct"
+        },
+        {
+          "alias": "is_payment_outlier",
+          "columnName": "is_payment_outlier"
+        }
+      ]
+    },
+    {
+      "alias": "engagement",
+      "dataSetId": "8a859e79-607c-48da-9597-07bdff476cd4",
+      "fields": [
+        {
+          "alias": "user_email",
+          "columnName": "user_email"
+        },
+        {
+          "alias": "role",
+          "columnName": "role"
+        },
+        {
+          "alias": "page_viewed",
+          "columnName": "page_viewed"
+        },
+        {
+          "alias": "card_interacted",
+          "columnName": "card_interacted"
+        },
+        {
+          "alias": "view_date",
+          "columnName": "view_date"
+        },
+        {
+          "alias": "session_duration_seconds",
+          "columnName": "session_duration_seconds"
+        }
       ]
     }
   ],
   "watchers": [
     "pdp_config",
-    "pdp_verify_results"
-  ]
+    "pdp_verify_results",
+    "specialty_benchmarks",
+    "pipeline_intelligence",
+    "mart",
+    "engagement"
+  ],
+  "fileName": "manifest.json",
+  "datasetsMapping": []
 }

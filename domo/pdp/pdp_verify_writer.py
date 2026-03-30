@@ -23,7 +23,6 @@ import csv
 import os
 import sys
 import requests
-import json
 from datetime import datetime, timezone
 try:
     from dotenv import load_dotenv
@@ -96,12 +95,12 @@ def run_checks(token, dataset_id, input_dataset_id, config):
 
     try:
         ds_meta = api_get(f"/v1/datasets/{dataset_id}", token)
-    except Exception as e:
+    except Exception:
         ds_meta = {}
 
     try:
         users = api_get("/v1/users", token, params={"limit": 500})
-    except Exception as e:
+    except Exception:
         users = []
 
     email_to_id = {u["email"].lower(): u["id"] for u in users if u.get("email")}
@@ -143,7 +142,7 @@ def run_checks(token, dataset_id, input_dataset_id, config):
             f"Missing columns: {missing}. Re-run pdp_setup.py")
     else:
         record("Filter columns exist in schema", True,
-            f"provider_specialty, provider_state exist in schema")
+            "provider_specialty, provider_state exist in schema")
 
     # 4. All config users in policies
     missing_users = []
@@ -271,7 +270,7 @@ if __name__ == "__main__":
         config = list(csv.DictReader(f))
 
     token = get_token()
-    print(f"✓ Authenticated")
+    print("✓ Authenticated")
 
     # Run checks
     print("\nRunning checks...")

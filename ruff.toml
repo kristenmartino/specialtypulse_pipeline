@@ -1,0 +1,22 @@
+# SpecialtyPulse Pipeline — Ruff linter configuration
+# Docs: https://docs.astral.sh/ruff/configuration/
+
+line-length = 120
+
+[lint]
+select = ["E", "F", "W"]
+# E203: whitespace before ':'  (conflicts with Black)
+# E501: line too long          (handled by line-length above)
+ignore = ["E203", "E501"]
+
+exclude = [
+    # 04_push_to_domo.py contains %pip magic that causes a parse error outside
+    # Databricks.  CI validates it separately via sed + py_compile.
+    "databricks/notebooks/04_push_to_domo.py",
+]
+
+[lint.per-file-ignores]
+# Databricks notebooks:
+#   F821 — dbutils, spark, display are Databricks runtime builtins
+#   E402 — imports come after %pip / widget setup (Databricks convention)
+"databricks/notebooks/*.py" = ["F821", "E402"]

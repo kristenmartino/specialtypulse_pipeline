@@ -29,7 +29,6 @@ Environment variables (or Databricks Secrets):
 """
 
 import csv
-import json
 import os
 import sys
 import requests
@@ -79,7 +78,7 @@ class DomoClient:
         )
         resp.raise_for_status()
         token = resp.json().get("access_token")
-        print(f"✓ Authenticated to Domo API")
+        print("✓ Authenticated to Domo API")
         return token
 
     def get_users(self, limit: int = 500) -> list:
@@ -287,7 +286,7 @@ def setup_pdp(dataset_id: str, config: list[dict], email_to_id: dict, domo: Domo
         print(f"  Deleting {len(existing)} existing policies...")
         for policy in existing:
             domo.delete_pdp_policy(dataset_id, policy["id"])
-        print(f"  ✓ Cleared existing policies")
+        print("  ✓ Cleared existing policies")
 
     # ── STEP 4: Create new policies ───────────────────────────────────────────
     created = []

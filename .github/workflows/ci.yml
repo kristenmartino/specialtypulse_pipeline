@@ -24,14 +24,10 @@ jobs:
           cache: pip
 
       - name: Install dependencies
-        run: pip install flake8 apache-airflow apache-airflow-providers-databricks
+        run: pip install ruff apache-airflow apache-airflow-providers-databricks
 
       - name: Lint Python files
-        run: |
-          flake8 databricks/notebooks/ airflow/ domo/pdp/ \
-            --max-line-length=120 \
-            --extend-ignore=E203,W503,E501 \
-            --exclude=__pycache__,.git
+        run: ruff check .
 
       - name: Validate Airflow DAG
         run: |

@@ -20,6 +20,13 @@ secrets.json
 domo/app/dist/
 domo/app/node_modules/
 domo/app/.domoapprc
+domo/app/bundle.js
+domo/app/bundle.js.LICENSE.txt
+domo/app/index.html
+domo/app/styles.css
+
+# Domo build state (contains dataset/page IDs)
+domo/build/.state.json
 
 # Airflow
 airflow/logs/

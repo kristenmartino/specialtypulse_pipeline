@@ -26,8 +26,7 @@ print(f"Running staging for year: {YEAR}")
 # COMMAND ----------
 
 from pyspark.sql import functions as F
-from pyspark.sql import Window
-from pyspark.sql.types import IntegerType, DoubleType, StringType, TimestampType
+from pyspark.sql.types import IntegerType, DoubleType, StringType
 
 # ── READ RAW ──────────────────────────────────────────────────────────────────
 

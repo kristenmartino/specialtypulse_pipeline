@@ -43,8 +43,6 @@ from datetime import datetime, timedelta
 
 from airflow import DAG
 from airflow.operators.python import PythonOperator
-from airflow.operators.empty import EmptyOperator
-from airflow.providers.databricks.operators.databricks import DatabricksRunNowOperator
 from airflow.providers.databricks.operators.databricks import DatabricksSubmitRunOperator
 from airflow.utils.trigger_rule import TriggerRule
 
@@ -153,8 +151,7 @@ def validate_pipeline_inputs(**context):
 
 def notify_success(**context):
     """Post-pipeline success notification."""
-    ti = context["task_instance"]
-    print(f"✓ SpecialtyPulse pipeline completed successfully")
+    print("✓ SpecialtyPulse pipeline completed successfully")
     print(f"  DAG run ID:  {context['run_id']}")
     print(f"  Completed:   {datetime.utcnow().isoformat()}")
     # In production: send Slack notification, update lineage catalog, etc.

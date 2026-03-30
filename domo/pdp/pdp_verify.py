@@ -96,7 +96,7 @@ def check_input_has_no_pdp(token: str, input_dataset_id: str) -> tuple[bool, str
             "Move these policies to the OUTPUT DataSet."
         )
 
-    return True, f"INPUT DataSet has no PDP — correct"
+    return True, "INPUT DataSet has no PDP — correct"
 
 
 def check_all_config_users_in_policies(

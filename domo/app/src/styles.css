@@ -47,13 +47,21 @@ body::before {
 }
 
 /* ── LAYOUT ─────────────────────────────────────────────────────────────────── */
+html, body, #root {
+  height:   100%;
+  width:    100%;
+  overflow: hidden;
+}
+
 #root { position: relative; z-index: 1; }
 
 .app {
-  display:       flex;
+  display:        flex;
   flex-direction: column;
-  min-height:    100vh;
-  padding:       0;
+  height:         100%;
+  width:          100%;
+  padding:        0;
+  overflow:       hidden;
 }
 
 /* ── HEADER ─────────────────────────────────────────────────────────────────── */
@@ -64,10 +72,7 @@ body::before {
   padding:          14px 24px;
   background:       rgba(13, 33, 55, 0.95);
   border-bottom:    1px solid var(--border);
-  backdrop-filter:  blur(8px);
-  position:         sticky;
-  top:              0;
-  z-index:          100;
+  flex-shrink:      0;
 }
 
 .header-left {
@@ -637,3 +642,225 @@ body::before {
 .panel:nth-child(2) { animation-delay: 0.10s; }
 .panel:nth-child(3) { animation-delay: 0.15s; }
 .panel:nth-child(4) { animation-delay: 0.20s; }
+
+/* ── TAB BAR ────────────────────────────────────────────────────────────────── */
+.tab-bar {
+  display:         flex;
+  gap:             0;
+  background:      rgba(13, 33, 55, 0.95);
+  border-bottom:   1px solid var(--border);
+  padding:         0 24px;
+  overflow-x:      auto;
+  flex-shrink:     0;
+}
+
+.tab-btn {
+  padding:          10px 20px;
+  background:       none;
+  border:           none;
+  border-bottom:    2px solid transparent;
+  color:            var(--muted);
+  font-family:      var(--font-mono);
+  font-size:        11px;
+  font-weight:      500;
+  letter-spacing:   0.06em;
+  cursor:           pointer;
+  white-space:      nowrap;
+  transition:       color 0.2s, border-color 0.2s;
+}
+
+.tab-btn:hover {
+  color:            var(--ice);
+}
+
+.tab-btn.active {
+  color:            var(--teal-xlt);
+  border-bottom-color: var(--teal);
+}
+
+/* ── PAGE CONTENT ───────────────────────────────────────────────────────────── */
+.page-content {
+  flex:       1;
+  padding:    20px 24px;
+  overflow-y: auto;
+}
+
+.page-loading {
+  padding:  40px 24px;
+}
+
+.page-status-row {
+  display:         flex;
+  justify-content: flex-end;
+  margin-bottom:   16px;
+}
+
+/* ── PAGE GRID ──────────────────────────────────────────────────────────────── */
+.page-grid {
+  display:               grid;
+  grid-template-columns: 1fr 1fr;
+  gap:                   16px;
+}
+
+.page-grid .span-full {
+  grid-column: 1 / -1;
+}
+
+/* ── CHART PANEL ────────────────────────────────────────────────────────────── */
+.chart-panel {
+  background:    var(--surface);
+  border:        1px solid var(--border);
+  border-radius: 8px;
+  padding:       18px 20px;
+  animation:     fadeUp 0.4s ease both;
+}
+
+.chart-panel-header {
+  display:         flex;
+  align-items:     center;
+  justify-content: space-between;
+  margin-bottom:   14px;
+}
+
+.chart-panel-body {
+  min-height: 100px;
+}
+
+/* ── KPI CARDS ──────────────────────────────────────────────────────────────── */
+.kpi-row {
+  display:  flex;
+  gap:      12px;
+}
+
+.kpi-card {
+  flex:           1;
+  padding:        16px 20px;
+  border-radius:  8px;
+  border:         1px solid;
+  animation:      fadeUp 0.4s ease both;
+}
+
+.kpi-card.kpi-teal {
+  background:   rgba(10, 126, 140, 0.12);
+  border-color: rgba(10, 126, 140, 0.35);
+}
+
+.kpi-card.kpi-gold {
+  background:   rgba(244, 168, 48, 0.10);
+  border-color: rgba(244, 168, 48, 0.30);
+}
+
+.kpi-card.kpi-blue {
+  background:   rgba(100, 160, 220, 0.10);
+  border-color: rgba(100, 160, 220, 0.30);
+}
+
+.kpi-card.kpi-green {
+  background:   rgba(74, 222, 128, 0.08);
+  border-color: rgba(74, 222, 128, 0.25);
+}
+
+.kpi-label {
+  font-family:    var(--font-mono);
+  font-size:      10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color:          var(--muted);
+  margin-bottom:  6px;
+}
+
+.kpi-value {
+  font-family: var(--font-mono);
+  font-size:   24px;
+  font-weight: 500;
+  color:       var(--white);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.kpi-sub {
+  font-size:   11px;
+  color:       var(--muted);
+}
+
+/* ── DATA TABLE ─────────────────────────────────────────────────────────────── */
+.data-table-wrap {
+  overflow-x: auto;
+  overflow-y: auto;
+  max-height: 400px;
+}
+
+.data-table {
+  width:           100%;
+  border-collapse: collapse;
+  min-width:       500px;
+}
+
+.data-table th {
+  font-family:    var(--font-mono);
+  font-size:      10px;
+  font-weight:    500;
+  color:          var(--muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding:        6px 10px;
+  text-align:     left;
+  border-bottom:  1px solid var(--border);
+  white-space:    nowrap;
+  position:       sticky;
+  top:            0;
+  background:     var(--surface);
+  z-index:        2;
+  cursor:         pointer;
+  user-select:    none;
+}
+
+.data-table th:hover {
+  color: var(--teal-xlt);
+}
+
+.data-table th.sorted {
+  color: var(--teal-xlt);
+}
+
+.sort-arrow {
+  font-size: 9px;
+}
+
+.data-table td {
+  padding:        8px 10px;
+  border-bottom:  1px solid rgba(10, 126, 140, 0.1);
+  vertical-align: middle;
+  font-size:      12px;
+  color:          var(--ice);
+}
+
+.data-table tr:hover td {
+  background: rgba(10, 126, 140, 0.05);
+}
+
+.data-table tr:last-child td {
+  border-bottom: none;
+}
+
+/* ── PRESSURE BADGE ─────────────────────────────────────────────────────────── */
+.pressure-badge {
+  display:        inline-flex;
+  align-items:    center;
+  padding:        2px 8px;
+  border-radius:  3px;
+  font-family:    var(--font-mono);
+  font-size:      10px;
+  font-weight:    500;
+  letter-spacing: 0.04em;
+  white-space:    nowrap;
+  border:         1px solid;
+}
+
+/* ── RECHARTS OVERRIDES ─────────────────────────────────────────────────────── */
+.recharts-text { fill: var(--muted) !important; font-family: var(--font-mono) !important; }
+.recharts-cartesian-grid-horizontal line,
+.recharts-cartesian-grid-vertical line { stroke: rgba(10, 126, 140, 0.1); }
+.recharts-tooltip-wrapper { font-size: 12px; }
+.recharts-default-tooltip { background: #0D2137 !important; border: 1px solid rgba(10, 126, 140, 0.3) !important; border-radius: 6px !important; }
+.recharts-legend-item-text { color: var(--ice) !important; font-family: var(--font-mono) !important; font-size: 11px !important; }

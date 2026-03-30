@@ -19,7 +19,7 @@
 
 from pyspark.sql import functions as F
 from pyspark.sql import Window
-from pyspark.sql.types import DoubleType, BooleanType
+from pyspark.sql.types import DoubleType
 
 print("Building mart_reimbursement_trends — full refresh across all years")
 
@@ -272,7 +272,7 @@ outliers = mart_final.filter(F.col("is_payment_outlier")).count()
 null_specialty = mart_final.filter(F.col("provider_specialty").isNull()).count()
 assert null_specialty == 0, f"VALIDATION FAILED: {null_specialty} null provider_specialty values"
 
-print(f"✓ Mart validation passed")
+print("✓ Mart validation passed")
 print(f"  Total rows:        {total:,}")
 print(f"  Unique keys:       {unique_keys:,}")
 print(f"  Outlier rows:      {outliers:,} ({100*outliers/total:.1f}%)")
@@ -318,7 +318,7 @@ spark.sql(f"""
      Do not modify schema without updating certified metric definitions.'
 """)
 
-print(f"✓ Written to main.specialtypulse_marts.mart_reimbursement_trends")
+print("✓ Written to main.specialtypulse_marts.mart_reimbursement_trends")
 
 # Summary by year
 spark.sql("""

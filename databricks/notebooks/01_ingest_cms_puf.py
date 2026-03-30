@@ -54,17 +54,14 @@ print(f"Loading CMS PUF data for year: {YEAR}")
 # COMMAND ----------
 
 from pyspark.sql import functions as F
-from pyspark.sql.types import (
-    StructType, StructField,
-    StringType, IntegerType, DoubleType
-)
+from pyspark.sql.types import IntegerType
 
 # ── FILE PATH ─────────────────────────────────────────────────────────────────
 # Default path follows naming convention: /Volumes/main/specialtypulse_raw/cms_files/
 # Files should be named: Medicare_Physician_Other_Practitioners_{YEAR}.csv
 # or the 10k sample: sample_2023_puf_10k.csv
 
-VOLUME_PATH = f"/Volumes/main/specialtypulse_raw/cms_files"
+VOLUME_PATH = "/Volumes/main/specialtypulse_raw/cms_files"
 
 if FILE_OVERRIDE:
     file_path = FILE_OVERRIDE

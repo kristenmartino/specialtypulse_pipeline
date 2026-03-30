@@ -16,6 +16,9 @@ requests>=2.28               # HTTP client (pydomo dependency + standalone API c
 # --- Data generation (development only) ---
 # No additional dependencies — uses Python stdlib (csv, random, hashlib)
 
+# --- Linting ---
+ruff>=0.4.0                  # Fast Python linter (replaces flake8)
+
 # --- Testing ---
 pytest>=7.0                  # Test runner
 pytest-cov>=4.0              # Coverage reporting (optional)
