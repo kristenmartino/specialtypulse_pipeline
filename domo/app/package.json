@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "ryuu dev",
     "build": "webpack --mode production",
+    "build:web": "WEB_BUILD=1 webpack --mode production",
     "start": "webpack serve --mode development"
   },
   "dependencies": {

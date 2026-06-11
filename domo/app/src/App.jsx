@@ -105,6 +105,14 @@ export default function App() {
       <main className="page-content">
         {renderPage()}
       </main>
+
+      {!isDomo && (
+        <footer className="standalone-note">
+          Standalone demo build on representative data — originally delivered as a Domo
+          custom app behind PDP row-level security. The policies shown are the verified
+          configuration from the pipeline repo.
+        </footer>
+      )}
     </div>
   );
 }

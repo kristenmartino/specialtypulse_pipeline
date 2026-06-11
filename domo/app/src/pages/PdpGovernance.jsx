@@ -282,7 +282,15 @@ Be direct and specific. No preamble. No bullet points. Just clear sentences.`;
         }
       }
     } catch (err) {
-      setError(err.message || "Failed to generate explanation.");
+      // 404/503 = no proxy or no key on this host (standalone build); network
+      // failures surface as TypeError. Anything else is a real API error.
+      const notConfigured =
+        /API error: (404|405|500|501|503)/.test(err.message || "") || err.name === "TypeError";
+      setError(
+        notConfigured
+          ? "AI summary isn't configured on this deployment — it runs in the Domo-hosted build, or here once an API key is set on the host."
+          : err.message || "Failed to generate explanation.",
+      );
     } finally {
       setLoading(false);
       setStreaming(false);

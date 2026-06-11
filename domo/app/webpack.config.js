@@ -5,7 +5,9 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 module.exports = {
   entry: "./src/index.js",
   output: {
-    path:     path.resolve(__dirname),
+    // Default output (app root) is what Domo + CI expect; WEB_BUILD=1 targets
+    // dist/ for the standalone Vercel deployment without touching those artifacts.
+    path:     process.env.WEB_BUILD ? path.resolve(__dirname, "dist") : path.resolve(__dirname),
     filename: "bundle.js",
   },
   module: {
