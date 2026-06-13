@@ -45,12 +45,41 @@ export const COMPRESSION_COLORS = {
 };
 
 // ── FORMATTERS ─────────────────────────────────────────────────────────────────
+export const DEFINITIONS = {
+  pressureIndex:
+    "Reimbursement Pressure Index (0\u2013100): a composite of payment-to-charge compression, year-over-year payment change, and service volume. Higher = more reimbursement pressure on the specialty. Certified metric \u2014 defined once in the pipeline's metric log.",
+  pressureTier:
+    "Buckets the Pressure Index into action tiers: Immediate Opportunity (highest), Emerging, Monitor, Low Priority.",
+  ptcr:
+    "Payment-to-Charge Ratio: average Medicare-allowed payment \u00f7 average submitted charge. Lower = steeper reimbursement compression.",
+  compressionDriver:
+    "What's driving compression this year: Payment Decline, Charge Inflation, Both, Improving, Stable, or Base Year (first year \u2014 no prior to compare against).",
+  paymentOutlier:
+    "Flagged when a procedure's average Medicare payment deviates materially from the specialty's average. The arrow shows direction; the value is the % difference. Note: the benchmark is the specialty's blended average across all procedures, so intrinsically expensive procedures (e.g. major surgery) can read high \u2014 magnitude is a screening signal, not a verdict.",
+  facilityMix:
+    "Share of services delivered in a facility setting (hospital/ASC) vs. an office setting, averaged across the specialty's procedures.",
+  marketValidated:
+    "Pipeline amount weighted by the account specialty's Reimbursement Pressure Index \u2014 a directional adjustment that discounts deals in low-pressure specialties and holds those under pressure. Representative model, not a forecast.",
+  adoptionRate:
+    "Active users (logged at least one session) \u00f7 provisioned users.",
+};
+
 export const fmt = {
   pct:  (v) => v == null ? "\u2014" : `${(v * 100).toFixed(1)}%`,
   pct0: (v) => v == null ? "\u2014" : `${(v * 100).toFixed(0)}%`,
   num:  (v) => v == null ? "\u2014" : Number(v).toLocaleString(),
   usd:  (v) => v == null ? "\u2014" : `$${Number(v).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`,
+  usd0: (v) => v == null ? "\u2014" : `$${Number(v).toLocaleString(undefined, { maximumFractionDigits: 0 })}`,
+  usdCompact: (v) => {
+    if (v == null) return "\u2014";
+    const n = Number(v), a = Math.abs(n);
+    if (a >= 1e9) return `$${(n / 1e9).toFixed(1)}B`;
+    if (a >= 1e6) return `$${(n / 1e6).toFixed(1)}M`;
+    if (a >= 1e3) return `$${(n / 1e3).toFixed(0)}K`;
+    return `$${n.toFixed(0)}`;
+  },
   score:(v) => v == null ? "\u2014" : Number(v).toFixed(1),
+  plural: (n, word) => `${Number(n).toLocaleString()} ${word}${Number(n) === 1 ? "" : "s"}`,
   date: (iso) => {
     if (!iso) return "\u2014";
     try {

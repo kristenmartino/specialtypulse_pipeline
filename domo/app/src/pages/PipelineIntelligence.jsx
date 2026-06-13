@@ -7,7 +7,7 @@ import ChartPanel from "../components/ChartPanel";
 import KpiCard from "../components/KpiCard";
 import DataTable from "../components/DataTable";
 import PressureBadge from "../components/PressureBadge";
-import { CHART_COLORS, PRESSURE_COLORS, fmt, groupBy } from "../data/constants";
+import { CHART_COLORS, PRESSURE_COLORS, fmt, groupBy, DEFINITIONS } from "../data/constants";
 
 export default function PipelineIntelligence({ pipeline }) {
   // Pipeline by specialty with pressure overlay
@@ -53,8 +53,8 @@ export default function PipelineIntelligence({ pipeline }) {
     { key: "owner", label: "Owner" },
     { key: "region", label: "Region" },
     { key: "deals", label: "Active Deals" },
-    { key: "totalAmount", label: "Pipeline", render: (v) => fmt.usd(v) },
-    { key: "validatedAmount", label: "Market-Validated", render: (v) => fmt.usd(v) },
+    { key: "totalAmount", label: "Pipeline", render: (v) => fmt.usd0(v) },
+    { key: "validatedAmount", label: "Market-Validated", render: (v) => fmt.usd0(v) },
     { key: "avgPressure", label: "Avg Pressure", render: (v) => fmt.score(v) },
     { key: "topTier", label: "Top Tier", render: (v) => <PressureBadge tier={v} /> },
   ];
@@ -63,13 +63,13 @@ export default function PipelineIntelligence({ pipeline }) {
     <div className="page-grid">
       {/* KPI Row */}
       <div className="kpi-row span-full">
-        <KpiCard label="Active Pipeline" value={fmt.usd(kpis.totalPipe)} sub={`${kpis.activeCount} deals`} color="teal" />
-        <KpiCard label="Market-Validated" value={fmt.usd(kpis.validatedPipe)} sub="Adjusted by pressure index" color="gold" />
-        <KpiCard label="Closed Won" value={fmt.usd(kpis.wonTotal)} sub={`${kpis.wonCount} deals`} color="green" />
+        <KpiCard label="Active Pipeline" value={fmt.usdCompact(kpis.totalPipe)} sub={fmt.plural(kpis.activeCount, "deal")} color="teal" />
+        <KpiCard label="Market-Validated" value={fmt.usdCompact(kpis.validatedPipe)} sub="Adjusted by pressure index" info={DEFINITIONS.marketValidated} color="gold" />
+        <KpiCard label="Closed Won" value={fmt.usdCompact(kpis.wonTotal)} sub={fmt.plural(kpis.wonCount, "deal")} color="green" />
       </div>
 
       {/* Pipeline x Pressure Combo */}
-      <ChartPanel title="Pipeline amount vs pressure index" subtitle="By specialty" className="span-full">
+      <ChartPanel title="Pipeline amount vs pressure index" subtitle="By specialty" info={DEFINITIONS.marketValidated} className="span-full">
         <ResponsiveContainer width="100%" height={300}>
           <ComposedChart data={specData}>
             <CartesianGrid strokeDasharray="3 3" stroke="rgba(10,126,140,0.15)" />
@@ -77,7 +77,7 @@ export default function PipelineIntelligence({ pipeline }) {
             <YAxis yAxisId="left" tickFormatter={v => `$${(v / 1e3).toFixed(0)}K`} stroke={CHART_COLORS.muted} tick={{ fontSize: 11 }} />
             <YAxis yAxisId="right" orientation="right" domain={[0, 100]} stroke={CHART_COLORS.gold} tick={{ fontSize: 11 }} />
             <Tooltip
-              formatter={(v, name) => name === "Pressure Index" ? fmt.score(v) : fmt.usd(v)}
+              formatter={(v, name) => name === "Pressure Index" ? fmt.score(v) : fmt.usd0(v)}
               contentStyle={{ background: "#0D2137", border: "1px solid rgba(10,126,140,0.3)", borderRadius: 6 }}
             />
             <Legend wrapperStyle={{ fontSize: 11 }} />

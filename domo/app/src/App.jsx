@@ -94,8 +94,12 @@ export default function App() {
         </div>
         <div className="header-right">
           <div className="header-meta">
-            <span>Last fetched</span>
-            <span className="val">{lastFetch ? fmt.date(lastFetch.toISOString()) : "\u2014"}</span>
+            <span>{isDomo ? "Last fetched" : "Data vintage"}</span>
+            <span className="val">
+              {isDomo
+                ? (lastFetch ? fmt.date(lastFetch.toISOString()) : "\u2014")
+                : "Representative \u00b7 CY2021\u20132023"}
+            </span>
           </div>
         </div>
       </header>

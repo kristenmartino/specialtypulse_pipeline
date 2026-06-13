@@ -5,7 +5,7 @@ import {
 } from "recharts";
 import ChartPanel from "../components/ChartPanel";
 import DataTable from "../components/DataTable";
-import { CHART_COLORS, fmt, groupBy } from "../data/constants";
+import { CHART_COLORS, fmt, groupBy, DEFINITIONS } from "../data/constants";
 
 export default function ProcedureDetail({ mart }) {
   // Latest year data
@@ -69,9 +69,16 @@ export default function ProcedureDetail({ mart }) {
     { key: "avg_medicare_payment", label: "Avg Payment", render: (v) => fmt.usd(v) },
     { key: "specialty_avg_payment", label: "Specialty Avg", render: (v) => fmt.usd(v) },
     { key: "payment_vs_specialty_pct", label: "vs Benchmark", render: (v) => {
+      // Every row here is already a flagged outlier — direction is informational,
+      // not good/bad. Single "flagged" color + arrow avoids implying a positive
+      // deviation is desirable.
       const n = Number(v);
-      const color = n > 0 ? CHART_COLORS.green : CHART_COLORS.red;
-      return <span style={{ color, fontFamily: "var(--font-mono)", fontSize: 11 }}>{fmt.pct(v)}</span>;
+      const arrow = n > 0 ? "↑" : "↓";
+      return (
+        <span style={{ color: CHART_COLORS.gold, fontFamily: "var(--font-mono)", fontSize: 11 }}>
+          {arrow} {fmt.pct(Math.abs(n))}
+        </span>
+      );
     }},
     { key: "total_services", label: "Services", render: (v) => fmt.num(v) },
   ];
@@ -79,7 +86,7 @@ export default function ProcedureDetail({ mart }) {
   return (
     <div className="page-grid">
       {/* Outlier Table */}
-      <ChartPanel title="Payment outlier procedures" subtitle={`${outliers.length} flagged`} className="span-full">
+      <ChartPanel title="Payment outlier procedures" subtitle={`${outliers.length} flagged`} info={DEFINITIONS.paymentOutlier} className="span-full">
         <DataTable columns={outlierColumns} data={outliers} defaultSort="payment_vs_specialty_pct" />
       </ChartPanel>
 
@@ -102,7 +109,7 @@ export default function ProcedureDetail({ mart }) {
       </ChartPanel>
 
       {/* Facility Mix */}
-      <ChartPanel title="Facility vs office mix" subtitle="By specialty, latest year">
+      <ChartPanel title="Facility vs office mix" subtitle="By specialty, latest year" info={DEFINITIONS.facilityMix}>
         <ResponsiveContainer width="100%" height={280}>
           <BarChart data={facilityData} layout="vertical">
             <CartesianGrid strokeDasharray="3 3" stroke="rgba(10,126,140,0.15)" />
@@ -117,7 +124,7 @@ export default function ProcedureDetail({ mart }) {
       </ChartPanel>
 
       {/* PTCR Comparison Lines */}
-      <ChartPanel title="Payment-to-charge ratio trend" subtitle="By specialty across years" className="span-full">
+      <ChartPanel title="Payment-to-charge ratio trend" subtitle="By specialty across years" info={DEFINITIONS.ptcr} className="span-full">
         <ResponsiveContainer width="100%" height={280}>
           <LineChart data={ptcrTrend}>
             <CartesianGrid strokeDasharray="3 3" stroke="rgba(10,126,140,0.15)" />

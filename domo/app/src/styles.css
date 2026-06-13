@@ -730,8 +730,20 @@ html, body, #root {
   display:         flex;
   align-items:     center;
   justify-content: space-between;
+  gap:             10px;
+  flex-wrap:       wrap;
   margin-bottom:   14px;
 }
+
+.chart-panel-header .panel-title { flex: 1 1 auto; min-width: 0; }
+
+.panel-header-right {
+  display:     inline-flex;
+  align-items: center;
+  gap:         2px;
+  flex-shrink: 0;
+}
+.panel-header-right .panel-count { white-space: nowrap; }
 
 .chart-panel-body {
   min-height: 100px;
@@ -875,3 +887,84 @@ html, body, #root {
 .recharts-tooltip-wrapper { font-size: 12px; }
 .recharts-default-tooltip { background: #0D2137 !important; border: 1px solid rgba(10, 126, 140, 0.3) !important; border-radius: 6px !important; }
 .recharts-legend-item-text { color: var(--ice) !important; font-family: var(--font-mono) !important; font-size: 11px !important; }
+
+/* ── INFO TOOLTIP ───────────────────────────────────────────────────────────── */
+.info-tip {
+  display:         inline-flex;
+  align-items:     center;
+  justify-content: center;
+  width:           14px;
+  height:          14px;
+  margin-left:     6px;
+  border:          1px solid var(--muted);
+  border-radius:   50%;
+  color:           var(--muted);
+  font-family:     var(--font-mono);
+  font-size:       9px;
+  font-style:      normal;
+  line-height:     1;
+  cursor:          help;
+  position:        relative;
+  flex-shrink:     0;
+  vertical-align:  middle;
+  text-transform:  none;
+  transition:      border-color 0.15s, color 0.15s;
+}
+.info-tip:hover, .info-tip:focus {
+  border-color: var(--teal-lt);
+  color:        var(--teal-lt);
+  outline:      none;
+}
+.info-tip:hover::after, .info-tip:focus::after {
+  content:        attr(data-tip);
+  position:       absolute;
+  top:            150%;
+  right:          0;
+  width:          260px;
+  max-width:      70vw;
+  background:     var(--navy);
+  border:         1px solid var(--border);
+  border-radius:  6px;
+  padding:        9px 11px;
+  font-family:    var(--font-sans);
+  font-size:      11.5px;
+  font-weight:    400;
+  line-height:    1.5;
+  letter-spacing: normal;
+  text-transform: none;
+  text-align:     left;
+  color:          var(--ice);
+  white-space:    normal;
+  z-index:        100;
+  box-shadow:     0 6px 22px rgba(0, 0, 0, 0.45);
+  pointer-events: none;
+}
+
+/* ── PDP ANTI-PATTERN NOTE ──────────────────────────────────────────────────── */
+.pdp-note {
+  margin:        0 0 14px;
+  padding:       10px 12px;
+  border:        1px solid var(--border-gold);
+  border-left:   2px solid var(--gold);
+  border-radius: 6px;
+  background:    rgba(244, 168, 48, 0.06);
+  font-size:     11.5px;
+  line-height:   1.55;
+  color:         var(--ice);
+}
+.pdp-note strong { color: var(--gold-lt); font-weight: 600; }
+
+/* ── AI PANEL — UNAVAILABLE STATE ───────────────────────────────────────────── */
+.ai-unavailable {
+  display:       flex;
+  gap:           10px;
+  align-items:   flex-start;
+  padding:       12px 14px;
+  border:        1px dashed var(--border);
+  border-radius: 8px;
+  background:    var(--surface-lt);
+  font-size:     12px;
+  line-height:   1.5;
+  color:         var(--muted);
+}
+.ai-unavailable .ai-icon { color: var(--teal-lt); flex-shrink: 0; }

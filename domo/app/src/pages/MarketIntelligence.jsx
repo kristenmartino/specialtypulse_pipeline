@@ -6,7 +6,7 @@ import {
 import ChartPanel from "../components/ChartPanel";
 import DataTable from "../components/DataTable";
 import PressureBadge from "../components/PressureBadge";
-import { CHART_COLORS, PRESSURE_COLORS, COMPRESSION_COLORS, fmt } from "../data/constants";
+import { CHART_COLORS, PRESSURE_COLORS, COMPRESSION_COLORS, fmt, DEFINITIONS } from "../data/constants";
 
 export default function MarketIntelligence({ benchmarks }) {
   // Most recent year data for the pressure table
@@ -58,6 +58,7 @@ export default function MarketIntelligence({ benchmarks }) {
   );
 
   const colorCycle = [CHART_COLORS.tealXlt, CHART_COLORS.gold, CHART_COLORS.blue, CHART_COLORS.purple, CHART_COLORS.green];
+  const maxYear = latestYear[0]?.year ?? "";
 
   const pressureColumns = [
     { key: "provider_specialty", label: "Specialty" },
@@ -73,12 +74,17 @@ export default function MarketIntelligence({ benchmarks }) {
   return (
     <div className="page-grid">
       {/* Pressure Index Table */}
-      <ChartPanel title="Pressure Index by specialty" subtitle={`${latestYear.length} specialties`} className="span-full">
+      <ChartPanel
+        title="Pressure Index by specialty"
+        subtitle={`${latestYear.length} specialties · CY${maxYear}`}
+        info={DEFINITIONS.pressureIndex}
+        className="span-full"
+      >
         <DataTable columns={pressureColumns} data={latestYear} defaultSort="pressure_index" />
       </ChartPanel>
 
       {/* Compression Trend */}
-      <ChartPanel title="Reimbursement compression trend" subtitle="Payment-to-Charge Ratio by year">
+      <ChartPanel title="Reimbursement compression trend" subtitle="Payment-to-Charge Ratio by year" info={DEFINITIONS.ptcr}>
         <ResponsiveContainer width="100%" height={260}>
           <LineChart data={trendData}>
             <CartesianGrid strokeDasharray="3 3" stroke="rgba(10,126,140,0.15)" />
@@ -94,7 +100,7 @@ export default function MarketIntelligence({ benchmarks }) {
       </ChartPanel>
 
       {/* Compression Drivers */}
-      <ChartPanel title="Compression drivers" subtitle="Latest year distribution">
+      <ChartPanel title="Compression drivers" subtitle={`CY${maxYear} distribution`} info={DEFINITIONS.compressionDriver}>
         <ResponsiveContainer width="100%" height={260}>
           <BarChart data={driverData} layout="vertical">
             <CartesianGrid strokeDasharray="3 3" stroke="rgba(10,126,140,0.15)" />

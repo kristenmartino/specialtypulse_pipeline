@@ -1,6 +1,6 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { ROLE_META, fmt } from "../data/constants";
-import { AI_API_URL } from "../data/domoFetch";
+import { AI_API_URL, isDomo } from "../data/domoFetch";
 
 // ── SUB-COMPONENTS ─────────────────────────────────────────────────────────────
 
@@ -100,6 +100,13 @@ function VerifyStatusPanel({ checks, loading }) {
         </div>
       ) : (
         <div className="check-list">
+          <div className="pdp-note">
+            <strong>Why two checks look redundant.</strong> In Domo, a PDP policy
+            attached to a DataFlow <em>input</em> is silently dropped at run time \u2014
+            the output then serves every row to every user while still looking
+            governed. Policies must live on the <em>output</em>. These checks prove
+            that's where they are (and that the input has none).
+          </div>
           {checks.map((check, i) => {
             const pass = check.passed === "true";
             return (
@@ -198,6 +205,18 @@ function AIExplainPanel({ config, checks }) {
   const [loading,   setLoading]   = useState(false);
   const [error,     setError]     = useState("");
   const [streaming, setStreaming] = useState(false);
+  // In Domo the proxy is always present; standalone, probe whether a key is set.
+  const [available, setAvailable] = useState(isDomo ? true : null);
+
+  useEffect(() => {
+    if (isDomo) return;
+    let cancelled = false;
+    fetch("/api/anthropic/health")
+      .then(r => r.ok ? r.json() : { configured: false })
+      .then(j => { if (!cancelled) setAvailable(Boolean(j.configured)); })
+      .catch(() => { if (!cancelled) setAvailable(false); });
+    return () => { cancelled = true; };
+  }, []);
 
   const buildPrompt = useCallback(() => {
     const roleCounts = {};
@@ -306,15 +325,27 @@ Be direct and specific. No preamble. No bullet points. Just clear sentences.`;
         </span>
       </div>
       <div className="ai-panel">
-        <button
-          className="ai-trigger-btn"
-          onClick={explain}
-          disabled={loading || config.length === 0}
-        >
-          <span className="ai-icon">{"\u25C8"}</span>
-          {loading ? "Generating..." : "Explain current policy state"}
-        </button>
+        {available === false ? (
+          <div className="ai-unavailable">
+            <span className="ai-icon">{"\u25C8"}</span>
+            <span>
+              The AI summary runs in the Domo-hosted build. To enable it on this
+              standalone deployment, set <code>ANTHROPIC_API_KEY</code> in the host
+              environment \u2014 the key stays server-side behind the request proxy.
+            </span>
+          </div>
+        ) : (
+          <button
+            className="ai-trigger-btn"
+            onClick={explain}
+            disabled={loading || config.length === 0 || available === null}
+          >
+            <span className="ai-icon">{"\u25C8"}</span>
+            {loading ? "Generating..." : available === null ? "Checking availability\u2026" : "Explain current policy state"}
+          </button>
+        )}
 
+        {available !== false && (
         <div className="ai-output">
           <div className="ai-output-label">Governance summary</div>
           {error ? (
@@ -336,6 +367,7 @@ Be direct and specific. No preamble. No bullet points. Just clear sentences.`;
             </div>
           )}
         </div>
+        )}
       </div>
     </div>
   );
