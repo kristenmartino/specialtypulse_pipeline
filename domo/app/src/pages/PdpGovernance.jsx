@@ -102,7 +102,7 @@ function VerifyStatusPanel({ checks, loading }) {
         <div className="check-list">
           <div className="pdp-note">
             <strong>Why two checks look redundant.</strong> In Domo, a PDP policy
-            attached to a DataFlow <em>input</em> is silently dropped at run time \u2014
+            attached to a DataFlow <em>input</em> is silently dropped at run time, so
             the output then serves every row to every user while still looking
             governed. Policies must live on the <em>output</em>. These checks prove
             that's where they are (and that the input has none).
@@ -331,7 +331,7 @@ Be direct and specific. No preamble. No bullet points. Just clear sentences.`;
             <span>
               The AI summary runs in the Domo-hosted build. To enable it on this
               standalone deployment, set <code>ANTHROPIC_API_KEY</code> in the host
-              environment \u2014 the key stays server-side behind the request proxy.
+              environment. The key stays server-side behind the request proxy.
             </span>
           </div>
         ) : (
