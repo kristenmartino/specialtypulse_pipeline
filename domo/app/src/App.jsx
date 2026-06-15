@@ -20,6 +20,10 @@ export default function App() {
   const [tab, setTab] = useState("market");
   const [loading, setLoading] = useState(true);
   const [lastFetch, setLastFetch] = useState(null);
+  // Drill-down focus: a specialty selected on Market Intelligence narrows
+  // Procedure Detail. Persists until cleared via the focus chip.
+  const [focusSpecialty, setFocusSpecialty] = useState(null);
+  const drillToSpecialty = (specialty) => { setFocusSpecialty(specialty); setTab("procedure"); };
 
   // DataSet state
   const [config, setConfig]           = useState([]);
@@ -73,8 +77,8 @@ export default function App() {
       );
     }
     switch (tab) {
-      case "market":    return <MarketIntelligence benchmarks={benchmarks} />;
-      case "procedure": return <ProcedureDetail mart={mart} />;
+      case "market":    return <MarketIntelligence benchmarks={benchmarks} onDrill={drillToSpecialty} />;
+      case "procedure": return <ProcedureDetail mart={mart} focusSpecialty={focusSpecialty} onClearFocus={() => setFocusSpecialty(null)} />;
       case "pipeline":  return <PipelineIntelligence pipeline={pipeline} />;
       case "adoption":  return <AdoptionTracking engagement={engagement} config={config} />;
       case "pdp":       return <PdpGovernance config={config} checks={checks} loading={false} />;

@@ -6,9 +6,10 @@ import {
 import ChartPanel from "../components/ChartPanel";
 import DataTable from "../components/DataTable";
 import PressureBadge from "../components/PressureBadge";
+import InsightStrip from "../components/InsightStrip";
 import { CHART_COLORS, PRESSURE_COLORS, COMPRESSION_COLORS, fmt, DEFINITIONS } from "../data/constants";
 
-export default function MarketIntelligence({ benchmarks }) {
+export default function MarketIntelligence({ benchmarks, onDrill }) {
   // Most recent year data for the pressure table
   const latestYear = useMemo(() => {
     if (!benchmarks.length) return [];
@@ -60,6 +61,53 @@ export default function MarketIntelligence({ benchmarks }) {
   const colorCycle = [CHART_COLORS.tealXlt, CHART_COLORS.gold, CHART_COLORS.blue, CHART_COLORS.purple, CHART_COLORS.green];
   const maxYear = latestYear[0]?.year ?? "";
 
+  // Surfaced "so what" — the read leadership wants before the charts.
+  const insights = useMemo(() => {
+    if (!benchmarks.length) return [];
+    const maxY = Math.max(...benchmarks.map(r => Number(r.year)));
+    const prevY = maxY - 1;
+    const latest = benchmarks.filter(r => Number(r.year) === maxY);
+    const prev = Object.fromEntries(
+      benchmarks.filter(r => Number(r.year) === prevY).map(r => [r.provider_specialty, r])
+    );
+    const items = [];
+
+    const top = [...latest].sort((a, b) => Number(b.pressure_index) - Number(a.pressure_index))[0];
+    if (top) items.push({
+      tone: "alert",
+      label: "Highest pressure",
+      value: `${top.provider_specialty} · ${fmt.score(top.pressure_index)}`,
+      detail: `${top.pressure_tier} tier — the specialty to lead with.`,
+    });
+
+    let mover = null, moverDelta = -Infinity;
+    latest.forEach(r => {
+      const p = prev[r.provider_specialty];
+      if (p) {
+        const d = Number(r.pressure_index) - Number(p.pressure_index);
+        if (d > moverDelta) { moverDelta = d; mover = r; }
+      }
+    });
+    if (mover && moverDelta > 0) items.push({
+      tone: "trend",
+      label: "Biggest mover",
+      value: `${mover.provider_specialty} +${moverDelta.toFixed(1)} pts`,
+      detail: `Pressure index rose fastest CY${prevY}→CY${maxY}.`,
+    });
+
+    const comp = [...latest]
+      .filter(r => r.avg_yoy_payment_change != null)
+      .sort((a, b) => Number(a.avg_yoy_payment_change) - Number(b.avg_yoy_payment_change))[0];
+    if (comp) items.push({
+      tone: "trend",
+      label: "Sharpest payment cut",
+      value: `${comp.provider_specialty} ${fmt.pct(comp.avg_yoy_payment_change)}`,
+      detail: `Largest YoY drop in avg Medicare payment — driver: ${comp.compression_driver}.`,
+    });
+
+    return items;
+  }, [benchmarks]);
+
   const pressureColumns = [
     { key: "provider_specialty", label: "Specialty" },
     { key: "pressure_index", label: "Pressure Index", render: (v) => <strong>{fmt.score(v)}</strong> },
@@ -73,14 +121,21 @@ export default function MarketIntelligence({ benchmarks }) {
 
   return (
     <div className="page-grid">
+      <InsightStrip items={insights} />
+
       {/* Pressure Index Table */}
       <ChartPanel
         title="Pressure Index by specialty"
-        subtitle={`${latestYear.length} specialties · CY${maxYear}`}
+        subtitle={`${latestYear.length} specialties · CY${maxYear} · click a row to drill in →`}
         info={DEFINITIONS.pressureIndex}
         className="span-full"
       >
-        <DataTable columns={pressureColumns} data={latestYear} defaultSort="pressure_index" />
+        <DataTable
+          columns={pressureColumns}
+          data={latestYear}
+          defaultSort="pressure_index"
+          onRowClick={onDrill ? (row) => onDrill(row.provider_specialty) : undefined}
+        />
       </ChartPanel>
 
       {/* Compression Trend */}

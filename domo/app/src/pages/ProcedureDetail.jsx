@@ -5,43 +5,86 @@ import {
 } from "recharts";
 import ChartPanel from "../components/ChartPanel";
 import DataTable from "../components/DataTable";
+import InsightStrip from "../components/InsightStrip";
 import { CHART_COLORS, fmt, groupBy, DEFINITIONS } from "../data/constants";
 
-export default function ProcedureDetail({ mart }) {
-  // Latest year data
-  const latestYear = useMemo(() => {
+export default function ProcedureDetail({ mart, focusSpecialty, onClearFocus }) {
+  // Latest year, all specialties — used for the comparative trend charts.
+  const latestYearAll = useMemo(() => {
     if (!mart.length) return [];
     const maxY = Math.max(...mart.map(r => Number(r.year)));
     return mart.filter(r => Number(r.year) === maxY);
   }, [mart]);
 
-  // Outlier procedures
-  const outliers = useMemo(
-    () => latestYear.filter(r => r.is_payment_outlier === "true")
-      .sort((a, b) => Math.abs(Number(b.payment_vs_specialty_pct)) - Math.abs(Number(a.payment_vs_specialty_pct))),
-    [latestYear]
+  // Procedure-level views narrow to the drilled-in specialty when one is set.
+  const view = useMemo(
+    () => focusSpecialty ? latestYearAll.filter(r => r.provider_specialty === focusSpecialty) : latestYearAll,
+    [latestYearAll, focusSpecialty]
   );
 
-  // Payment vs benchmark bar (latest year, all procedures)
+  // Outlier procedures
+  const outliers = useMemo(
+    () => view.filter(r => r.is_payment_outlier === "true")
+      .sort((a, b) => Math.abs(Number(b.payment_vs_specialty_pct)) - Math.abs(Number(a.payment_vs_specialty_pct))),
+    [view]
+  );
+
+  // Payment vs benchmark bar
   const benchmarkBar = useMemo(() =>
-    latestYear.slice(0, 12).map(r => ({
+    view.slice(0, 12).map(r => ({
       name: r.hcpcs_code,
       desc: r.hcpcs_description,
       payment: Number(r.avg_medicare_payment),
       benchmark: Number(r.specialty_avg_payment),
       diff: Number(r.payment_vs_specialty_pct),
     })),
-    [latestYear]
+    [view]
   );
 
-  // Facility mix area chart by specialty (latest year)
+  // Surfaced "so what" — tracks the focus (specialty-specific when drilled in).
+  const insights = useMemo(() => {
+    if (!view.length) return [];
+    const items = [];
+
+    const over = [...view].filter(r => r.is_payment_outlier === "true")
+      .sort((a, b) => Number(b.payment_vs_specialty_pct) - Number(a.payment_vs_specialty_pct))[0];
+    if (over) items.push({
+      tone: "alert",
+      label: "Largest over-benchmark",
+      value: `${over.hcpcs_description} ↑ ${fmt.pct(over.payment_vs_specialty_pct)}`,
+      detail: `${over.provider_specialty} — vs the specialty's blended average (a screening signal).`,
+    });
+
+    const flaggedBySpec = {};
+    outliers.forEach(r => { flaggedBySpec[r.provider_specialty] = (flaggedBySpec[r.provider_specialty] || 0) + 1; });
+    const topSpec = Object.entries(flaggedBySpec).sort((a, b) => b[1] - a[1])[0];
+    items.push({
+      tone: "info",
+      label: "Flagged procedures",
+      value: `${outliers.length} flagged`,
+      detail: topSpec ? `Most in ${topSpec[0]} (${topSpec[1]}).` : "None flagged in this view.",
+    });
+
+    const cut = [...view].filter(r => r.yoy_payment_change_pct != null)
+      .sort((a, b) => Number(a.yoy_payment_change_pct) - Number(b.yoy_payment_change_pct))[0];
+    if (cut) items.push({
+      tone: "trend",
+      label: "Steepest payment cut",
+      value: `${cut.hcpcs_description} ${fmt.pct(cut.yoy_payment_change_pct)}`,
+      detail: `${cut.provider_specialty} — sharpest YoY reimbursement drop.`,
+    });
+
+    return items;
+  }, [view, outliers]);
+
+  // Facility mix by specialty (latest year, always comparative across specialties)
   const facilityData = useMemo(() => {
-    const bySpec = groupBy(latestYear, "provider_specialty");
+    const bySpec = groupBy(latestYearAll, "provider_specialty");
     return Object.entries(bySpec).map(([spec, rows]) => {
       const avgFac = rows.reduce((s, r) => s + Number(r.pct_facility_services), 0) / rows.length;
       return { specialty: spec, facility: avgFac, office: 1 - avgFac };
     });
-  }, [latestYear]);
+  }, [latestYearAll]);
 
   // PTCR comparison across years by specialty
   const ptcrTrend = useMemo(() => {
@@ -85,9 +128,32 @@ export default function ProcedureDetail({ mart }) {
 
   return (
     <div className="page-grid">
+      {focusSpecialty && (
+        <div className="focus-chip span-full">
+          <span className="focus-chip-label">Drilled in:</span>
+          <span className="focus-chip-value">{focusSpecialty}</span>
+          <span className="focus-chip-note">procedure views below are filtered to this specialty</span>
+          <button className="focus-chip-clear" onClick={onClearFocus}>Clear ✕</button>
+        </div>
+      )}
+
+      <InsightStrip items={insights} />
+
       {/* Outlier Table */}
-      <ChartPanel title="Payment outlier procedures" subtitle={`${outliers.length} flagged`} info={DEFINITIONS.paymentOutlier} className="span-full">
-        <DataTable columns={outlierColumns} data={outliers} defaultSort="payment_vs_specialty_pct" />
+      <ChartPanel
+        title="Payment outlier procedures"
+        subtitle={`${outliers.length} flagged${focusSpecialty ? ` · ${focusSpecialty}` : ""}`}
+        info={DEFINITIONS.paymentOutlier}
+        className="span-full"
+      >
+        {outliers.length ? (
+          <DataTable columns={outlierColumns} data={outliers} defaultSort="payment_vs_specialty_pct" />
+        ) : (
+          <div className="empty-state">
+            <span className="empty-icon">{"◌"}</span>
+            No flagged outlier procedures{focusSpecialty ? ` for ${focusSpecialty}` : ""}.
+          </div>
+        )}
       </ChartPanel>
 
       {/* Payment vs Benchmark */}
