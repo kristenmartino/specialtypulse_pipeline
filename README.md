@@ -1,6 +1,10 @@
 # SpecialtyPulse Pipeline
 
-**A production-style data pipeline demonstrating the Databricks → Airflow → Domo architecture.**
+**A production-style data pipeline demonstrating the Databricks → Airflow → Domo architecture, with a 5-page analytics dashboard delivered both as a native Domo App and as a standalone web build.**
+
+**▶ Live demo: [specialtypulse.kristenmartino.ai](https://specialtypulse.kristenmartino.ai)**
+The hosted dashboard runs on bundled *representative* data — the production
+delivery was a Domo custom app behind row-level security (PDP).
 
 Source data: CMS Medicare Physician & Other Practitioners PUF, 2021–2025
 
@@ -23,19 +27,24 @@ and Domo serves as the BI and executive reporting layer.
                ▼                              ▼
 ┌──────────────────────────┐    ┌─────────────────────────────────┐
 │   TRANSFORMATION LAYER   │    │        DELIVERY LAYER           │
-│  Databricks (Free Ed.)   │    │         Domo Platform           │
+│  Databricks (Free Ed.)   │    │   Dashboard (dual-mode)         │
 │                          │    │                                 │
-│  01_ingest_cms_puf       │    │  • DataSet: mart_reimb_trends   │
-│     ↓                    │    │  • SQL DataFlow: benchmarks     │
-│  02_staging              │───▶│  • Beast Modes: YoY calcs       │
-│     ↓                    │    │  • Dashboard: SpecialtyPulse    │
-│  03_marts                │    │  • PDP: row-level security      │
-│     ↓                    │    │                                 │
-│  04_push_to_domo ────────┼───▶│                                 │
-│                          │    │                                 │
-│  Storage: Delta Lake     │    │                                 │
+│  01_ingest_cms_puf       │    │  Production: native Domo App    │
+│     ↓                    │    │  • DataSet: mart_reimb_trends   │
+│  02_staging              │───▶│  • SQL DataFlow: benchmarks     │
+│     ↓                    │    │  • PDP: row-level security      │
+│  03_marts                │    │                                 │
+│     ↓                    │    │  Public demo: standalone web    │
+│  04_push_to_domo ────────┼───▶│  • Vercel build, live URL       │
+│                          │    │  • representative bundled data  │
+│  Storage: Delta Lake     │    │  • 5-page SpecialtyPulse UI     │
 └──────────────────────────┘    └─────────────────────────────────┘
 ```
+
+The dashboard is a single React codebase that runs in two modes: as a native
+**Domo App** (reading live Domo DataSets via `domo.js` behind PDP) and as a
+**standalone web build** (Vercel) that falls back to bundled representative data
+when `window.domo` is absent — that fallback is what powers the live demo above.
 
 ### How this maps to ModMed's stack
 
@@ -45,7 +54,8 @@ and Domo serves as the BI and executive reporting layer.
 | Local Airflow via Astro CLI | Apache Airflow (managed) | DAG orchestration, scheduling, retries |
 | Domo API push script | Databricks → Domo connector | Landing clean data into Domo DataSets |
 | Domo SQL DataFlow | Domo SQL DataFlow | Certified metric definitions |
-| Domo dashboard | Domo dashboard | Executive / operational reporting |
+| Domo App (native, behind PDP) | Domo dashboard | Executive / operational reporting (production) |
+| Standalone web build (Vercel) | — | Public demo surface on representative data |
 | Delta tables (Unity Catalog) | S3 + Delta Lake | Intermediate storage between layers |
 
 ---
@@ -82,6 +92,33 @@ Domo SQL DataFlow. Any change requires a version bump and an entry in `docs/METR
 
 ---
 
+## Dashboard
+
+The React app (`domo/app/`) is a five-page analytics dashboard built with Recharts
+on a shared component library (`KpiCard`, `ChartPanel`, `DataTable`, `TabBar`,
+`PressureBadge`) and a thin data layer (`domoFetch.js`, `mockData.js`, `constants.js`).
+
+| Page | What it shows |
+|---|---|
+| **Market Intelligence** | Specialty-level reimbursement pressure, benchmarks, and YoY trends |
+| **Procedure Detail** | Drill-down into individual HCPCS procedures and payment-to-charge ratios |
+| **Pipeline Intelligence** | Salesforce opportunities scored against market reimbursement pressure |
+| **Adoption Tracking** | Dashboard engagement and usage by role |
+| **PDP Governance** | Role distribution, live verify-check status, and the access-policy matrix |
+
+Cross-cutting features: a cross-page **Executive Brief** (AskGTM-style synthesis),
+drill-down navigation, and surfaced insight callouts. The Executive Brief and the
+PDP AI governance summary call Claude through a **server-side proxy** so the API key
+never reaches the client — Domo's App Proxy inside Domo, and a Vercel Edge function
+(`domo/app/api/anthropic/v1/messages.js`) on the web build. When no
+`ANTHROPIC_API_KEY` is configured, those buttons degrade to a clear "not configured"
+message.
+
+See [`domo/app/README.md`](domo/app/README.md) for full local-dev, Vercel, and Domo
+publishing instructions.
+
+---
+
 ## Project Structure
 
 ```
@@ -102,14 +139,21 @@ specialtypulse_pipeline/
 │       └── cms_schema.py               ← Column definitions, data contract constants
 ├── domo/
 │   ├── sql_dataflow.sql                ← The SQL DataFlow to build in Domo UI
-│   ├── app/                            ← PDP governance dashboard (Domo App)
-│   │   ├── package.json                ← React 18, Webpack 5
+│   ├── app/                            ← 5-page dashboard: standalone web (Vercel) + Domo App
+│   │   ├── package.json                ← React 18, Recharts, Webpack 5 (build / build:web)
 │   │   ├── webpack.config.js           ← Build config + AI proxy for local dev
-│   │   ├── manifest.json               ← Domo app DataSet bindings
+│   │   ├── vercel.json                 ← Standalone web build (build:web → dist/)
+│   │   ├── manifest.json               ← Domo app DataSet bindings (6 DataSets)
+│   │   ├── api/anthropic/v1/messages.js ← Vercel Edge AI proxy (key stays server-side)
 │   │   └── src/
 │   │       ├── index.html              ← HTML entry point
 │   │       ├── index.js                ← React DOM mount
-│   │       ├── App.jsx                 ← Governance UI: roles, checks, matrix, AI
+│   │       ├── App.jsx                 ← Tab shell + Executive Brief
+│   │       ├── pages/                  ← MarketIntelligence, ProcedureDetail,
+│   │       │                              PipelineIntelligence, AdoptionTracking, PdpGovernance
+│   │       ├── components/             ← KpiCard, ChartPanel, DataTable, TabBar,
+│   │       │                              PressureBadge, ExecutiveBrief, InsightStrip, InfoTip
+│   │       ├── data/                   ← domoFetch.js, mockData.js, constants.js
 │   │       └── styles.css              ← Design tokens, dark theme
 │   └── pdp/
 │       ├── PDP_DESIGN.md               ← Security model: who sees what and why
@@ -185,6 +229,36 @@ export DOMO_INPUT_DATASET_ID="your-mart-dataset-id"        # for antipattern che
 See `domo/pdp/PDP_DESIGN.md` for the full security model and the critical
 explanation of why PDP must be on the DataFlow **output**, not the input.
 
+### 4. Run the dashboard
+
+```bash
+cd domo/app
+npm install
+
+# Local dev (representative bundled data — no Domo/Vercel needed)
+npm start                 # http://localhost:3000
+
+# Standalone web build (powers the live demo)
+npm run build:web         # outputs to dist/
+# Deploy on Vercel with project root = domo/app; vercel.json wires build:web → dist/.
+# Set ANTHROPIC_API_KEY in the Vercel project to enable AI summaries.
+
+# Native Domo App
+npm run build && domo publish
+```
+
+### 5. Tests & tooling
+
+```bash
+pip install -r requirements.txt
+pytest                    # PDP policy tests in tests/test_pdp_policy_builders.py
+ruff check .              # lint (config in ruff.toml)
+cp .env.example .env       # then fill in Domo/Databricks credentials
+```
+
+These mirror the GitHub Actions jobs in `.github/workflows/ci.yml`
+(lint, app build, PDP governance check).
+
 ---
 
 ## Known Limitations & Notes
@@ -194,8 +268,11 @@ explanation of why PDP must be on the DataFlow **output**, not the input.
 - **Domo Free Trial**: DataSet push via API works on trial accounts
 - **Databricks Free Edition**: Daily compute quota applies; CMS sample (~500MB) runs well within limits
 - **YoY nulls**: 2021 is the base year — `yoy_*` columns are null for 2021 rows by design
+- **Live demo data**: the hosted site runs on bundled *representative* data, not live Medicare data or live Domo DataSets
+- **AI summaries**: require an `ANTHROPIC_API_KEY` on the deployment; without one the Executive Brief / governance-summary buttons show a clear "not configured" message
+- **Airflow 3.x**: the DAG uses `schedule` (not the deprecated `schedule_interval`) and requires `aiofiles`
 
 ---
 
 *Built by Kristen Martino · GTM BI & Revenue Operations Analyst*  
-*Demonstrates: Databricks PySpark · Airflow DAG orchestration · Domo DataSets + SQL DataFlows · PDP row-level security · React governance app · GitHub Actions CI/CD*
+*Demonstrates: Databricks PySpark · Airflow DAG orchestration · Domo DataSets + SQL DataFlows · PDP row-level security · React + Recharts dashboard (Domo App + standalone Vercel build) · GitHub Actions CI/CD*
