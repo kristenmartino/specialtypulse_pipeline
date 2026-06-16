@@ -14,6 +14,7 @@ export default function ExecutiveBrief({ benchmarks, mart, pipeline }) {
   const [loading, setLoading] = useState(false);
   const [streaming, setStreaming] = useState(false);
   const [error, setError] = useState("");
+  const [collapsed, setCollapsed] = useState(false);
   const [available, setAvailable] = useState(isDomo ? true : null);
 
   useEffect(() => {
@@ -77,6 +78,7 @@ PIPELINE (active deals):
     setStreaming(false);
     setError("");
     setOutput("");
+    setCollapsed(false);
     try {
       const response = await fetch(AI_API_URL, {
         method: "POST",
@@ -138,16 +140,23 @@ PIPELINE (active deals):
             Runs in the Domo-hosted build (set ANTHROPIC_API_KEY to enable here).
           </span>
         ) : (
-          <button
-            className="exec-brief-btn"
-            onClick={generate}
-            disabled={loading || available === null}
-          >
-            {loading ? "Generating…" : available === null ? "Checking…" : output ? "Regenerate" : "Brief me"}
-          </button>
+          <div className="exec-brief-actions">
+            {output && !loading && (
+              <button className="exec-brief-link" onClick={() => setCollapsed(c => !c)}>
+                {collapsed ? "Show brief" : "Hide"}
+              </button>
+            )}
+            <button
+              className="exec-brief-btn"
+              onClick={generate}
+              disabled={loading || available === null}
+            >
+              {loading ? "Generating…" : available === null ? "Checking…" : output ? "Regenerate" : "Brief me"}
+            </button>
+          </div>
         )}
       </div>
-      {(output || error) && (
+      {!collapsed && (output || error) && (
         <div className="exec-brief-body">
           {error ? (
             <div className="ai-error">{error}</div>

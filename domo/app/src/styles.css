@@ -1085,9 +1085,21 @@ html, body, #root {
 }
 .exec-brief-btn:hover:not(:disabled) { background: rgba(244, 168, 48, 0.18); border-color: var(--gold); }
 .exec-brief-btn:disabled { opacity: 0.55; cursor: default; }
+.exec-brief-actions { display: flex; align-items: center; gap: 14px; flex-shrink: 0; }
+.exec-brief-link {
+  background:        none;
+  border:           none;
+  padding:          0;
+  color:            var(--muted);
+  font-family:      var(--font-mono);
+  font-size:        11.5px;
+  cursor:           pointer;
+  text-decoration:  underline;
+  text-underline-offset: 3px;
+}
+.exec-brief-link:hover { color: var(--teal-lt); }
 .exec-brief-body {
-  padding: 0 24px 14px;
-  max-width: 1000px;
+  padding: 0 24px 16px;
 }
 .exec-brief-text {
   font-size:   13.5px;
