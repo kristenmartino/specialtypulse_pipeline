@@ -266,7 +266,7 @@ Be direct and specific. No preamble. No bullet points. Just clear sentences.`;
           "anthropic-version": "2023-06-01",
         },
         body: JSON.stringify({
-          model:      "claude-sonnet-4-20250514",
+          model:      "claude-sonnet-4-6",
           max_tokens: 300,
           stream:     true,
           messages:   [{ role: "user", content: buildPrompt() }],

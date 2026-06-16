@@ -3,7 +3,7 @@
 // (set ANTHROPIC_API_KEY in the Vercel project). Streams the response through.
 export const config = { runtime: "edge" };
 
-const ALLOWED_MODELS = ["claude-sonnet-4-20250514"];
+const ALLOWED_MODELS = ["claude-sonnet-4-6"];
 const MAX_TOKENS_CAP = 400;
 const PROMPT_PREFIX = "You are a data governance analyst";
 
