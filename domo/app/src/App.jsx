@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { domoFetch, isDomo } from "./data/domoFetch";
 import { fmt } from "./data/constants";
 import TabBar from "./components/TabBar";
+import ExecutiveBrief from "./components/ExecutiveBrief";
 import MarketIntelligence from "./pages/MarketIntelligence";
 import ProcedureDetail from "./pages/ProcedureDetail";
 import PipelineIntelligence from "./pages/PipelineIntelligence";
@@ -109,6 +110,10 @@ export default function App() {
       </header>
 
       <TabBar active={tab} onChange={setTab} />
+
+      {!loading && (
+        <ExecutiveBrief benchmarks={benchmarks} mart={mart} pipeline={pipeline} />
+      )}
 
       <main className="page-content">
         {renderPage()}

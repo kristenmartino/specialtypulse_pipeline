@@ -5,7 +5,13 @@ export const config = { runtime: "edge" };
 
 const ALLOWED_MODELS = ["claude-sonnet-4-6"];
 const MAX_TOKENS_CAP = 400;
-const PROMPT_PREFIX = "You are a data governance analyst";
+// The proxy serves exactly two dashboard features; a request's prompt must
+// open with one of these prefixes or it's rejected — so the key-backed
+// endpoint can't be repurposed for arbitrary prompts.
+const ALLOWED_PREFIXES = [
+  "You are a data governance analyst", // PDP Governance summary
+  "You are a GTM strategy analyst",    // cross-page Executive Brief
+];
 
 export default async function handler(req) {
   if (req.method !== "POST") {
@@ -27,8 +33,7 @@ export default async function handler(req) {
     return new Response("Bad request", { status: 400 });
   }
 
-  // This proxy serves exactly one feature — the PDP governance summary.
-  // Reject anything outside that shape so the endpoint can't be repurposed.
+  // Reject anything outside the dashboard's own request shapes.
   const message = Array.isArray(body.messages) ? body.messages[0] : null;
   const inScope =
     ALLOWED_MODELS.includes(body.model) &&
@@ -36,7 +41,7 @@ export default async function handler(req) {
     body.messages?.length === 1 &&
     message?.role === "user" &&
     typeof message?.content === "string" &&
-    message.content.startsWith(PROMPT_PREFIX);
+    ALLOWED_PREFIXES.some((p) => message.content.startsWith(p));
   if (!inScope) {
     return new Response("Request outside demo scope", { status: 403 });
   }

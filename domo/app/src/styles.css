@@ -1046,3 +1046,57 @@ html, body, #root {
   transition:    border-color 0.12s, color 0.12s;
 }
 .focus-chip-clear:hover { border-color: var(--teal-lt); color: var(--teal-lt); }
+
+/* ── EXECUTIVE BRIEF (cross-page AI synthesis) ──────────────────────────────── */
+.exec-brief {
+  flex-shrink:   0;
+  border-bottom: 1px solid var(--border);
+  background:    linear-gradient(180deg, rgba(244, 168, 48, 0.05), transparent);
+}
+.exec-brief-bar {
+  display:         flex;
+  align-items:     center;
+  justify-content: space-between;
+  gap:             14px;
+  flex-wrap:       wrap;
+  padding:         10px 24px;
+}
+.exec-brief-heading { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.exec-brief-title {
+  font-family:    var(--font-mono);
+  font-size:      12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color:          var(--gold-lt);
+}
+.exec-brief-sub { font-size: 11.5px; color: var(--muted); }
+.exec-brief-unavail { font-size: 11.5px; color: var(--muted); font-style: italic; }
+.exec-brief-btn {
+  flex-shrink:   0;
+  padding:       6px 16px;
+  border:        1px solid var(--border-gold);
+  border-radius: 6px;
+  background:    rgba(244, 168, 48, 0.10);
+  color:         var(--gold-lt);
+  font-family:   var(--font-mono);
+  font-size:     12px;
+  cursor:        pointer;
+  transition:    background 0.14s, border-color 0.14s;
+}
+.exec-brief-btn:hover:not(:disabled) { background: rgba(244, 168, 48, 0.18); border-color: var(--gold); }
+.exec-brief-btn:disabled { opacity: 0.55; cursor: default; }
+.exec-brief-body {
+  padding: 0 24px 14px;
+  max-width: 1000px;
+}
+.exec-brief-text {
+  font-size:   13.5px;
+  line-height: 1.65;
+  color:       var(--ice);
+}
+.exec-brief-text.streaming::after {
+  content: "▋";
+  margin-left: 2px;
+  color: var(--gold);
+  animation: blink 0.8s step-end infinite;
+}
