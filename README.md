@@ -77,18 +77,21 @@ when `window.domo` is absent — that fallback is what powers the live demo abov
 
 ## Certified Metric Definitions
 
-These definitions are enforced in the Databricks mart notebook and documented in the
+These definitions are enforced in the Databricks mart notebook and the
 Domo SQL DataFlow. Any change requires a version bump and an entry in `docs/METRIC_CERTIFICATION_LOG.md`.
+The five certified metrics below match the five entries in that log.
 
 | Metric | Definition | Grain |
 |---|---|---|
-| `total_services` | Sum of Medicare-allowed services | specialty × hcpcs × year |
 | `avg_medicare_payment` | Weighted avg payment (by service volume) | specialty × hcpcs × year |
 | `payment_to_charge_ratio` | `avg_medicare_payment / avg_submitted_charge` | specialty × hcpcs × year |
-| `yoy_volume_change_pct` | `(current - prior) / prior` services | specialty × hcpcs × year |
-| `yoy_payment_change_pct` | `(current - prior) / prior` payment | specialty × hcpcs × year |
-| `specialty_avg_payment` | Specialty-wide weighted avg (benchmark over specialty × year) | specialty × hcpcs × year |
+| `yoy_volume_change_pct` / `yoy_payment_change_pct` | `(current - prior) / prior` — YoY % change in services and payment | specialty × hcpcs × year |
+| Reimbursement Pressure Index (`pressure_index`) | Composite: `0.30 × compression + 0.30 × trajectory + 0.25 × volume + 0.15 × market_size`, normalized 0–100 | specialty × year |
 | `is_payment_outlier` | `payment_to_charge_ratio` > 2 stddev below specialty mean for that year | specialty × hcpcs × year |
+
+`total_services` and `specialty_avg_payment` are mart/benchmark columns the dashboard
+consumes, but they are **not** certified metric definitions — they are not in
+`docs/METRIC_CERTIFICATION_LOG.md`.
 
 ---
 
