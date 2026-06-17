@@ -46,6 +46,13 @@ The dashboard is a single React codebase that runs in two modes: as a native
 **standalone web build** (Vercel) that falls back to bundled representative data
 when `window.domo` is absent — that fallback is what powers the live demo above.
 
+> **Pipeline boundary:** the Databricks notebooks + Airflow DAG build and deliver
+> the certified Delta mart to Domo. The Domo **SQL DataFlow** (specialty benchmarks,
+> compression drivers, projections, and the Reimbursement Pressure Index) and the
+> **dashboard** are built inside Domo / the React app — they are *not* executed by
+> the Databricks/Airflow pipeline. See `docs/PRD.md` §5.2–5.3 for per-component
+> build status.
+
 ### How this maps to ModMed's stack
 
 | This project | ModMed equivalent | Purpose |
@@ -71,7 +78,7 @@ when `window.domo` is absent — that fallback is what powers the live demo abov
 | **Owner** | Kristen Martino — pipeline runs annually post-CMS release |
 | **Refresh** | Annual (triggered manually after CMS data release) |
 | **Domo DataSet** | `specialtypulse_mart_reimbursement_trends` |
-| **Certified by** | Validated against CMS published summary statistics |
+| **Certified by** | Metrics certified per `docs/METRIC_CERTIFICATION_LOG.md`; enforced via in-pipeline null/uniqueness/range assertions |
 
 ---
 
@@ -272,6 +279,7 @@ These mirror the GitHub Actions jobs in `.github/workflows/ci.yml`
 - **Databricks Free Edition**: Daily compute quota applies; CMS sample (~500MB) runs well within limits
 - **YoY nulls**: 2021 is the base year — `yoy_*` columns are null for 2021 rows by design
 - **Live demo data**: the hosted site runs on bundled *representative* data, not live Medicare data or live Domo DataSets
+- **Sample vs. contract years**: the data contract spans 2021–2025; the bundled raw sample is 2023 only, and the representative demo data covers 2021–2023
 - **AI summaries**: require an `ANTHROPIC_API_KEY` on the deployment; without one the Executive Brief / governance-summary buttons show a clear "not configured" message
 - **Airflow 3.x**: the DAG uses `schedule` (not the deprecated `schedule_interval`) and requires `aiofiles`
 

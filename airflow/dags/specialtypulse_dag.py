@@ -30,7 +30,7 @@ Prerequisites:
      Airflow UI > Admin > Connections > Add:
        Conn Id:   databricks_default
        Conn Type: Databricks
-       Host:      https://your-workspace.azuredatabricks.net
+       Host:      https://your-workspace.cloud.databricks.com
        Password:  your-personal-access-token
 
   2. Domo secrets in Databricks (see 04_push_to_domo.py)
@@ -74,7 +74,6 @@ default_args = {
 # These would come from Airflow Variables in production
 # Set via: Airflow UI > Admin > Variables
 DATABRICKS_CONN_ID  = "databricks_default"
-DATABRICKS_CLUSTER  = "serverless"   # Free Edition uses serverless
 SERVICE_YEAR        = 2023           # Override via Airflow Variable or DAG run conf
 
 # Notebook paths — match where you imported them in Databricks workspace
@@ -91,7 +90,9 @@ NOTEBOOKS = {
 def notebook_task(path: str, params: dict = None) -> dict:
     """
     Returns the Databricks notebook task spec for DatabricksSubmitRunOperator.
-    Using serverless compute (required for Free Edition).
+    Submits each notebook on a single-node job cluster. (Databricks Free
+    Edition uses serverless compute — swap the new_cluster block below for
+    serverless job compute there.)
     """
     task = {
         "notebook_task": {
@@ -99,8 +100,9 @@ def notebook_task(path: str, params: dict = None) -> dict:
             "base_parameters": params or {},
         },
         "new_cluster": {
-            # Serverless config for Databricks Free Edition
-            # In production: replace with existing_cluster_id or job_cluster_key
+            # Single-node job cluster (portfolio default).
+            # Free Edition: replace this block with serverless job compute.
+            # Production: use existing_cluster_id or job_cluster_key instead.
             "spark_version":  "14.3.x-scala2.12",
             "node_type_id":   "Standard_DS3_v2",  # smallest available
             "num_workers":    1,

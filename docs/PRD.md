@@ -19,7 +19,7 @@ The platform ingests raw CMS Physician & Other Practitioners Public Use Files, t
 
 ### 1.2 Relationship to NorthStar (gtm-healthcare-intel)
 
-SpecialtyPulse is the **production implementation** of the governance framework designed in the NorthStar application.
+SpecialtyPulse is a **production-style implementation** of the governance framework designed in the NorthStar application — a portfolio build on synthetic data and free-tier infrastructure, not a deployed production system.
 
 NorthStar was built as a React-based design prototype demonstrating four concepts:
 
@@ -30,11 +30,11 @@ NorthStar was built as a React-based design prototype demonstrating four concept
 | Analytics Maturity Model (descriptive → prescriptive) | Four-pillar dashboard structure: descriptive trend cards, diagnostic compression drivers, predictive trend projections, prescriptive Reimbursement Pressure Index |
 | Prescriptive Alerts with anomaly detection | Reimbursement Pressure Index scoring specialties by sales urgency with tier labels and recommended actions |
 
-NorthStar showed how to think about GTM analytics governance. SpecialtyPulse shows how to build it — with real data, real infrastructure, and real BI tooling.
+NorthStar showed how to think about GTM analytics governance. SpecialtyPulse shows how to build it — with structurally-realistic (synthetic) data, real infrastructure (Databricks, Airflow), and real BI tooling (Domo).
 
 ### 1.3 Why CMS data? Why these specialties?
 
-ModMed serves nine medical specialties: dermatology, gastroenterology, ophthalmology, orthopedics, otolaryngology, pain management, plastic surgery, podiatry, and urology. Each of these specialties appears in the CMS Medicare Physician PUF — a public dataset containing reimbursement, service volume, and provider data at the procedure level.
+ModMed serves nine medical specialties: dermatology, gastroenterology, ophthalmology, orthopedics, otolaryngology, pain management, plastic surgery, podiatry, and urology. Each of these specialties appears in the CMS Medicare Physician PUF — a public dataset containing reimbursement, service volume, and provider data at the procedure level. (The bundled demo data also includes two adjacent high-volume specialties — Cardiology and Neurology — purely to illustrate cross-specialty benchmarking; a production PDP config would be scoped to ModMed's core verticals.)
 
 Practices under reimbursement pressure are more likely to invest in revenue cycle optimization software. The CMS data reveals which specialties are experiencing compression, where that compression is geographically concentrated, and whether it's accelerating. This is exactly the market intelligence a GTM team needs to prioritize outreach.
 
