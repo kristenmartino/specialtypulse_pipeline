@@ -5,8 +5,13 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 module.exports = {
   entry: "./src/index.js",
   output: {
-    path:     path.resolve(__dirname),
-    filename: "bundle.js",
+    // Default output (app root) is what Domo + CI expect; WEB_BUILD=1 targets
+    // dist/ for the standalone Vercel deployment without touching those artifacts.
+    path:     process.env.WEB_BUILD ? path.resolve(__dirname, "dist") : path.resolve(__dirname),
+    // Content-hash the web bundle so Vercel/browsers cache-bust on each deploy.
+    // Domo + CI expect the fixed "bundle.js" name, so only hash for WEB_BUILD.
+    filename: process.env.WEB_BUILD ? "bundle.[contenthash].js" : "bundle.js",
+    clean:    Boolean(process.env.WEB_BUILD),
   },
   module: {
     rules: [
@@ -27,7 +32,7 @@ module.exports = {
   resolve: { extensions: [".js", ".jsx"] },
   plugins: [
     new HtmlWebpackPlugin({ template: "./src/index.html", filename: "index.html" }),
-    new MiniCssExtractPlugin({ filename: "styles.css" }),
+    new MiniCssExtractPlugin({ filename: process.env.WEB_BUILD ? "styles.[contenthash].css" : "styles.css" }),
   ],
   devServer: {
     port:   3000,

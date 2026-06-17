@@ -41,6 +41,30 @@ DataSet structure.
 
 ---
 
+## Standalone web deployment (Vercel)
+
+The app is dual-mode by design: when `window.domo` is absent, `domoFetch()`
+serves representative data from `mockData.js`, so the full five-page dashboard
+runs anywhere static files can be hosted.
+
+```bash
+# Build for the web (outputs to dist/ — the Domo build artifacts at the
+# app root are untouched)
+npm run build:web
+```
+
+Deploying on Vercel: set the project root to `domo/app` — `vercel.json`
+points the build at `npm run build:web` and serves `dist/`. The AI explain
+feature routes through `api/anthropic/v1/messages.js` (an Edge function that
+keeps the key server-side and only accepts the dashboard's own request shape);
+set `ANTHROPIC_API_KEY` in the Vercel project to enable it. Without the key,
+the button degrades to a clear "not configured" message.
+
+A footer note on the standalone build discloses that it runs on
+representative data and that the production delivery was a Domo custom app.
+
+---
+
 ## Running inside Domo (ryuu)
 
 ```bash

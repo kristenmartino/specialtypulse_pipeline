@@ -5,7 +5,7 @@ import {
 } from "recharts";
 import ChartPanel from "../components/ChartPanel";
 import KpiCard from "../components/KpiCard";
-import { CHART_COLORS, fmt, groupBy } from "../data/constants";
+import { CHART_COLORS, fmt, groupBy, DEFINITIONS } from "../data/constants";
 
 export default function AdoptionTracking({ engagement, config }) {
   // Unique active users
@@ -77,6 +77,7 @@ export default function AdoptionTracking({ engagement, config }) {
           label="Adoption Rate"
           value={totalProvisioned > 0 ? fmt.pct0(activeUsers.length / totalProvisioned) : "\u2014"}
           sub="Active / provisioned"
+          info={DEFINITIONS.adoptionRate}
           color="green"
         />
       </div>
@@ -86,7 +87,7 @@ export default function AdoptionTracking({ engagement, config }) {
         <ResponsiveContainer width="100%" height={260}>
           <LineChart data={weeklyData}>
             <CartesianGrid strokeDasharray="3 3" stroke="rgba(10,126,140,0.15)" />
-            <XAxis dataKey="date" stroke={CHART_COLORS.muted} tick={{ fontSize: 10 }} />
+            <XAxis dataKey="date" stroke={CHART_COLORS.muted} tick={{ fontSize: 10 }} interval="preserveStartEnd" minTickGap={24} tickFormatter={(d) => { const p = String(d).split("-"); return p.length === 3 ? `${Number(p[1])}/${Number(p[2])}` : d; }} />
             <YAxis stroke={CHART_COLORS.muted} tick={{ fontSize: 11 }} />
             <Tooltip contentStyle={{ background: "#0D2137", border: "1px solid rgba(10,126,140,0.3)", borderRadius: 6 }} />
             <Legend wrapperStyle={{ fontSize: 11 }} />
@@ -125,16 +126,20 @@ export default function AdoptionTracking({ engagement, config }) {
       </ChartPanel>
 
       {/* Role engagement */}
-      <ChartPanel title="Engagement by role" subtitle="Sessions and avg duration">
+      <ChartPanel title="Engagement by role" subtitle="Sessions vs avg duration">
         <ResponsiveContainer width="100%" height={260}>
           <BarChart data={roleBreakdown}>
             <CartesianGrid strokeDasharray="3 3" stroke="rgba(10,126,140,0.15)" />
             <XAxis dataKey="role" stroke={CHART_COLORS.muted} tick={{ fontSize: 10 }} />
-            <YAxis stroke={CHART_COLORS.muted} tick={{ fontSize: 11 }} />
-            <Tooltip contentStyle={{ background: "#0D2137", border: "1px solid rgba(10,126,140,0.3)", borderRadius: 6 }} />
+            <YAxis yAxisId="left" stroke={CHART_COLORS.tealXlt} tick={{ fontSize: 11 }} label={{ value: "Sessions", angle: -90, position: "insideLeft", fill: CHART_COLORS.muted, fontSize: 10 }} />
+            <YAxis yAxisId="right" orientation="right" stroke={CHART_COLORS.purple} tick={{ fontSize: 11 }} tickFormatter={v => `${Math.round(v / 60)}m`} />
+            <Tooltip
+              formatter={(v, name) => name === "Avg Duration" ? `${Math.floor(v / 60)}m ${v % 60}s` : v}
+              contentStyle={{ background: "#0D2137", border: "1px solid rgba(10,126,140,0.3)", borderRadius: 6 }}
+            />
             <Legend wrapperStyle={{ fontSize: 11 }} />
-            <Bar dataKey="sessions" name="Sessions" fill={CHART_COLORS.tealXlt} radius={[4, 4, 0, 0]} />
-            <Bar dataKey="avgDuration" name="Avg Duration (s)" fill={CHART_COLORS.purple} radius={[4, 4, 0, 0]} />
+            <Bar yAxisId="left" dataKey="sessions" name="Sessions" fill={CHART_COLORS.tealXlt} radius={[4, 4, 0, 0]} />
+            <Bar yAxisId="right" dataKey="avgDuration" name="Avg Duration" fill={CHART_COLORS.purple} radius={[4, 4, 0, 0]} />
           </BarChart>
         </ResponsiveContainer>
       </ChartPanel>

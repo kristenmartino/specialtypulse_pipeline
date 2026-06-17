@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { domoFetch, isDomo } from "./data/domoFetch";
 import { fmt } from "./data/constants";
 import TabBar from "./components/TabBar";
+import ExecutiveBrief from "./components/ExecutiveBrief";
 import MarketIntelligence from "./pages/MarketIntelligence";
 import ProcedureDetail from "./pages/ProcedureDetail";
 import PipelineIntelligence from "./pages/PipelineIntelligence";
@@ -20,6 +21,10 @@ export default function App() {
   const [tab, setTab] = useState("market");
   const [loading, setLoading] = useState(true);
   const [lastFetch, setLastFetch] = useState(null);
+  // Drill-down focus: a specialty selected on Market Intelligence narrows
+  // Procedure Detail. Persists until cleared via the focus chip.
+  const [focusSpecialty, setFocusSpecialty] = useState(null);
+  const drillToSpecialty = (specialty) => { setFocusSpecialty(specialty); setTab("procedure"); };
 
   // DataSet state
   const [config, setConfig]           = useState([]);
@@ -73,8 +78,8 @@ export default function App() {
       );
     }
     switch (tab) {
-      case "market":    return <MarketIntelligence benchmarks={benchmarks} />;
-      case "procedure": return <ProcedureDetail mart={mart} />;
+      case "market":    return <MarketIntelligence benchmarks={benchmarks} onDrill={drillToSpecialty} />;
+      case "procedure": return <ProcedureDetail mart={mart} focusSpecialty={focusSpecialty} onClearFocus={() => setFocusSpecialty(null)} />;
       case "pipeline":  return <PipelineIntelligence pipeline={pipeline} />;
       case "adoption":  return <AdoptionTracking engagement={engagement} config={config} />;
       case "pdp":       return <PdpGovernance config={config} checks={checks} loading={false} />;
@@ -94,17 +99,33 @@ export default function App() {
         </div>
         <div className="header-right">
           <div className="header-meta">
-            <span>Last fetched</span>
-            <span className="val">{lastFetch ? fmt.date(lastFetch.toISOString()) : "\u2014"}</span>
+            <span>{isDomo ? "Last fetched" : "Data vintage"}</span>
+            <span className="val">
+              {isDomo
+                ? (lastFetch ? fmt.date(lastFetch.toISOString()) : "\u2014")
+                : "Representative \u00b7 CY2021\u20132023"}
+            </span>
           </div>
         </div>
       </header>
 
       <TabBar active={tab} onChange={setTab} />
 
+      {!loading && (
+        <ExecutiveBrief benchmarks={benchmarks} mart={mart} pipeline={pipeline} />
+      )}
+
       <main className="page-content">
         {renderPage()}
       </main>
+
+      {!isDomo && (
+        <footer className="standalone-note">
+          Standalone demo build on representative data — originally delivered as a Domo
+          custom app behind PDP row-level security. The policies shown are the verified
+          configuration from the pipeline repo.
+        </footer>
+      )}
     </div>
   );
 }

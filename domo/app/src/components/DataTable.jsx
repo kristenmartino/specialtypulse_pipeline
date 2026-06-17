@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from "react";
 
-export default function DataTable({ columns, data, defaultSort, className = "" }) {
+export default function DataTable({ columns, data, defaultSort, className = "", onRowClick }) {
   const [sortCol, setSortCol] = useState(defaultSort || (columns[0] && columns[0].key));
   const [sortDir, setSortDir] = useState("desc");
 
@@ -48,7 +48,11 @@ export default function DataTable({ columns, data, defaultSort, className = "" }
         </thead>
         <tbody>
           {sorted.map((row, i) => (
-            <tr key={i}>
+            <tr
+              key={i}
+              className={onRowClick ? "clickable" : ""}
+              onClick={onRowClick ? () => onRowClick(row) : undefined}
+            >
               {columns.map(col => (
                 <td key={col.key}>
                   {col.render ? col.render(row[col.key], row) : row[col.key]}

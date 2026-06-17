@@ -685,6 +685,17 @@ html, body, #root {
   overflow-y: auto;
 }
 
+.standalone-note {
+  flex-shrink:  0;
+  padding:      8px 24px;
+  border-top:   1px solid var(--border);
+  font-family:  var(--font-mono);
+  font-size:    10px;
+  line-height:  1.5;
+  color:        var(--muted);
+  background:   var(--surface-lt);
+}
+
 .page-loading {
   padding:  40px 24px;
 }
@@ -719,8 +730,20 @@ html, body, #root {
   display:         flex;
   align-items:     center;
   justify-content: space-between;
+  gap:             10px;
+  flex-wrap:       wrap;
   margin-bottom:   14px;
 }
+
+.chart-panel-header .panel-title { flex: 1 1 auto; min-width: 0; }
+
+.panel-header-right {
+  display:     inline-flex;
+  align-items: center;
+  gap:         2px;
+  flex-shrink: 0;
+}
+.panel-header-right .panel-count { white-space: nowrap; }
 
 .chart-panel-body {
   min-height: 100px;
@@ -864,3 +887,228 @@ html, body, #root {
 .recharts-tooltip-wrapper { font-size: 12px; }
 .recharts-default-tooltip { background: #0D2137 !important; border: 1px solid rgba(10, 126, 140, 0.3) !important; border-radius: 6px !important; }
 .recharts-legend-item-text { color: var(--ice) !important; font-family: var(--font-mono) !important; font-size: 11px !important; }
+
+/* ── INFO TOOLTIP ───────────────────────────────────────────────────────────── */
+.info-tip {
+  display:         inline-flex;
+  align-items:     center;
+  justify-content: center;
+  width:           14px;
+  height:          14px;
+  margin-left:     6px;
+  border:          1px solid var(--muted);
+  border-radius:   50%;
+  color:           var(--muted);
+  font-family:     var(--font-mono);
+  font-size:       9px;
+  font-style:      normal;
+  line-height:     1;
+  cursor:          help;
+  position:        relative;
+  flex-shrink:     0;
+  vertical-align:  middle;
+  text-transform:  none;
+  transition:      border-color 0.15s, color 0.15s;
+}
+.info-tip:hover, .info-tip:focus {
+  border-color: var(--teal-lt);
+  color:        var(--teal-lt);
+  outline:      none;
+}
+.info-tip:hover::after, .info-tip:focus::after {
+  content:        attr(data-tip);
+  position:       absolute;
+  top:            150%;
+  right:          0;
+  width:          260px;
+  max-width:      70vw;
+  background:     var(--navy);
+  border:         1px solid var(--border);
+  border-radius:  6px;
+  padding:        9px 11px;
+  font-family:    var(--font-sans);
+  font-size:      11.5px;
+  font-weight:    400;
+  line-height:    1.5;
+  letter-spacing: normal;
+  text-transform: none;
+  text-align:     left;
+  color:          var(--ice);
+  white-space:    normal;
+  z-index:        100;
+  box-shadow:     0 6px 22px rgba(0, 0, 0, 0.45);
+  pointer-events: none;
+}
+
+/* ── PDP ANTI-PATTERN NOTE ──────────────────────────────────────────────────── */
+.pdp-note {
+  margin:        0 0 14px;
+  padding:       10px 12px;
+  border:        1px solid var(--border-gold);
+  border-left:   2px solid var(--gold);
+  border-radius: 6px;
+  background:    rgba(244, 168, 48, 0.06);
+  font-size:     11.5px;
+  line-height:   1.55;
+  color:         var(--ice);
+}
+.pdp-note strong { color: var(--gold-lt); font-weight: 600; }
+
+/* ── AI PANEL — UNAVAILABLE STATE ───────────────────────────────────────────── */
+.ai-unavailable {
+  display:       flex;
+  gap:           10px;
+  align-items:   flex-start;
+  padding:       12px 14px;
+  border:        1px dashed var(--border);
+  border-radius: 8px;
+  background:    var(--surface-lt);
+  font-size:     12px;
+  line-height:   1.5;
+  color:         var(--muted);
+}
+.ai-unavailable .ai-icon { color: var(--teal-lt); flex-shrink: 0; }
+
+/* ── INSIGHT STRIP ──────────────────────────────────────────────────────────── */
+.insight-strip {
+  display:   flex;
+  gap:       12px;
+  flex-wrap: wrap;
+}
+.insight-card {
+  flex:          1 1 220px;
+  min-width:     200px;
+  background:    var(--surface);
+  border:        1px solid var(--border);
+  border-left:   2px solid var(--teal);
+  border-radius: 8px;
+  padding:       12px 14px;
+}
+.insight-card.tone-alert { border-left-color: var(--gold); }
+.insight-card.tone-trend { border-left-color: var(--teal-lt); }
+.insight-card.tone-info  { border-left-color: var(--muted); }
+.insight-label {
+  font-family:    var(--font-mono);
+  font-size:      10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color:          var(--muted);
+}
+.insight-value {
+  font-size:   15px;
+  font-weight: 600;
+  color:       var(--white);
+  margin-top:  5px;
+  line-height: 1.3;
+}
+.insight-detail {
+  font-size:   11.5px;
+  line-height: 1.45;
+  color:       var(--ice);
+  margin-top:  5px;
+}
+
+/* ── CLICKABLE TABLE ROWS (drill-down) ──────────────────────────────────────── */
+.data-table tbody tr.clickable { cursor: pointer; transition: background 0.12s; }
+.data-table tbody tr.clickable:hover { background: var(--surface-lt); }
+
+/* ── DRILL-DOWN FOCUS CHIP ──────────────────────────────────────────────────── */
+.focus-chip {
+  display:       flex;
+  align-items:   center;
+  gap:           10px;
+  flex-wrap:     wrap;
+  padding:       9px 14px;
+  border:        1px solid var(--border);
+  border-left:   2px solid var(--teal-lt);
+  border-radius: 8px;
+  background:    var(--surface-lt);
+}
+.focus-chip-label {
+  font-family:    var(--font-mono);
+  font-size:      10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color:          var(--muted);
+}
+.focus-chip-value { font-size: 14px; font-weight: 600; color: var(--teal-xlt); }
+.focus-chip-note  { font-size: 11.5px; color: var(--muted); }
+.focus-chip-clear {
+  margin-left:   auto;
+  padding:       4px 10px;
+  border:        1px solid var(--border);
+  border-radius: 5px;
+  background:    transparent;
+  color:         var(--ice);
+  font-family:   var(--font-mono);
+  font-size:     11px;
+  cursor:        pointer;
+  transition:    border-color 0.12s, color 0.12s;
+}
+.focus-chip-clear:hover { border-color: var(--teal-lt); color: var(--teal-lt); }
+
+/* ── EXECUTIVE BRIEF (cross-page AI synthesis) ──────────────────────────────── */
+.exec-brief {
+  flex-shrink:   0;
+  border-bottom: 1px solid var(--border);
+  background:    linear-gradient(180deg, rgba(244, 168, 48, 0.05), transparent);
+}
+.exec-brief-bar {
+  display:         flex;
+  align-items:     center;
+  justify-content: space-between;
+  gap:             14px;
+  flex-wrap:       wrap;
+  padding:         10px 24px;
+}
+.exec-brief-heading { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.exec-brief-title {
+  font-family:    var(--font-mono);
+  font-size:      12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color:          var(--gold-lt);
+}
+.exec-brief-sub { font-size: 11.5px; color: var(--muted); }
+.exec-brief-unavail { font-size: 11.5px; color: var(--muted); font-style: italic; }
+.exec-brief-btn {
+  flex-shrink:   0;
+  padding:       6px 16px;
+  border:        1px solid var(--border-gold);
+  border-radius: 6px;
+  background:    rgba(244, 168, 48, 0.10);
+  color:         var(--gold-lt);
+  font-family:   var(--font-mono);
+  font-size:     12px;
+  cursor:        pointer;
+  transition:    background 0.14s, border-color 0.14s;
+}
+.exec-brief-btn:hover:not(:disabled) { background: rgba(244, 168, 48, 0.18); border-color: var(--gold); }
+.exec-brief-btn:disabled { opacity: 0.55; cursor: default; }
+.exec-brief-actions { display: flex; align-items: center; gap: 14px; flex-shrink: 0; }
+.exec-brief-link {
+  background:        none;
+  border:           none;
+  padding:          0;
+  color:            var(--muted);
+  font-family:      var(--font-mono);
+  font-size:        11.5px;
+  cursor:           pointer;
+  text-decoration:  underline;
+  text-underline-offset: 3px;
+}
+.exec-brief-link:hover { color: var(--teal-lt); }
+.exec-brief-body {
+  padding: 0 24px 16px;
+}
+.exec-brief-text {
+  font-size:   13.5px;
+  line-height: 1.65;
+  color:       var(--ice);
+}
+.exec-brief-text.streaming::after {
+  content: "▋";
+  margin-left: 2px;
+  color: var(--gold);
+  animation: blink 0.8s step-end infinite;
+}
