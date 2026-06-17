@@ -1,0 +1,5 @@
+{
+  "installCommand": "cd domo/app && npm install",
+  "buildCommand": "cd domo/app && npm run build:web",
+  "outputDirectory": "domo/app/dist"
+}
