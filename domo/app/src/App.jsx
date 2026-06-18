@@ -122,7 +122,9 @@ export default function App() {
       {!isDomo && (
         <footer className="standalone-note">
           Standalone demo build on representative data — originally delivered as a Domo
-          custom app behind PDP row-level security. The policies shown are the verified
+          custom app behind PDP row-level security. The Reimbursement Pressure Index is
+          computed in your browser from the pipeline's mart (a JavaScript port of the Domo
+          SQL DataFlow), not hard-coded. The PDP policies shown are the verified
           configuration from the pipeline repo.
         </footer>
       )}

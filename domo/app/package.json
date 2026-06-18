@@ -4,6 +4,9 @@
   "description": "PDP Governance Dashboard — native Domo App",
   "scripts": {
     "dev": "ryuu dev",
+    "generate:data": "node scripts/generate-source-data.mjs",
+    "prebuild": "npm run generate:data",
+    "prebuild:web": "npm run generate:data",
     "build": "webpack --mode production",
     "build:web": "WEB_BUILD=1 webpack --mode production",
     "start": "webpack serve --mode development"
