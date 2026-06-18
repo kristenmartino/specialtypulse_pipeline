@@ -31,11 +31,6 @@ export default function MarketIntelligence({ benchmarks, onDrill }) {
     });
   }, [benchmarks]);
 
-  const specialties = useMemo(
-    () => [...new Set(benchmarks.map(r => r.provider_specialty))],
-    [benchmarks]
-  );
-
   // Compression driver distribution for latest year
   const driverData = useMemo(() => {
     const counts = {};
@@ -58,8 +53,10 @@ export default function MarketIntelligence({ benchmarks, onDrill }) {
     [latestYear]
   );
 
-  const colorCycle = [CHART_COLORS.tealXlt, CHART_COLORS.gold, CHART_COLORS.blue, CHART_COLORS.purple, CHART_COLORS.green];
+  const colorCycle = [CHART_COLORS.tealXlt, CHART_COLORS.gold, CHART_COLORS.blue, CHART_COLORS.purple, CHART_COLORS.green, CHART_COLORS.red, CHART_COLORS.goldLt, CHART_COLORS.ice];
   const maxYear = latestYear[0]?.year ?? "";
+  // With 19 specialties, cap the trend lines to the highest-pressure 8 for legibility.
+  const trendSpecialties = latestYear.slice(0, 8).map(r => r.provider_specialty);
 
   // Surfaced "so what" — the read leadership wants before the charts.
   const insights = useMemo(() => {
@@ -139,7 +136,7 @@ export default function MarketIntelligence({ benchmarks, onDrill }) {
       </ChartPanel>
 
       {/* Compression Trend */}
-      <ChartPanel title="Reimbursement compression trend" subtitle="Payment-to-Charge Ratio by year" info={DEFINITIONS.ptcr}>
+      <ChartPanel title="Reimbursement compression trend" subtitle="Payment-to-Charge Ratio by year · top 8 by pressure" info={DEFINITIONS.ptcr}>
         <ResponsiveContainer width="100%" height={260}>
           <LineChart data={trendData}>
             <CartesianGrid strokeDasharray="3 3" stroke="rgba(10,126,140,0.15)" />
@@ -147,7 +144,7 @@ export default function MarketIntelligence({ benchmarks, onDrill }) {
             <YAxis domain={["auto", "auto"]} tickFormatter={v => fmt.pct(v)} stroke={CHART_COLORS.muted} tick={{ fontSize: 11 }} />
             <Tooltip formatter={(v) => fmt.pct(v)} contentStyle={{ background: "#0D2137", border: "1px solid rgba(10,126,140,0.3)", borderRadius: 6 }} />
             <Legend wrapperStyle={{ fontSize: 11 }} />
-            {specialties.map((s, i) => (
+            {trendSpecialties.map((s, i) => (
               <Line key={s} type="monotone" dataKey={s} stroke={colorCycle[i % colorCycle.length]} strokeWidth={2} dot={{ r: 3 }} />
             ))}
           </LineChart>

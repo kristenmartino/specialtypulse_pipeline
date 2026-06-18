@@ -102,8 +102,13 @@ export default function ProcedureDetail({ mart, focusSpecialty, onClearFocus }) 
     });
   }, [mart]);
 
-  const specialties = useMemo(() => [...new Set(mart.map(r => r.provider_specialty))], [mart]);
-  const colorCycle = [CHART_COLORS.tealXlt, CHART_COLORS.gold, CHART_COLORS.blue, CHART_COLORS.purple, CHART_COLORS.green];
+  // Cap the multi-specialty trend to the 8 highest-volume specialties (19 total).
+  const trendSpecialties = useMemo(() => {
+    const tot = {};
+    latestYearAll.forEach(r => { tot[r.provider_specialty] = (tot[r.provider_specialty] || 0) + Number(r.total_services); });
+    return Object.entries(tot).sort((a, b) => b[1] - a[1]).slice(0, 8).map(x => x[0]);
+  }, [latestYearAll]);
+  const colorCycle = [CHART_COLORS.tealXlt, CHART_COLORS.gold, CHART_COLORS.blue, CHART_COLORS.purple, CHART_COLORS.green, CHART_COLORS.red, CHART_COLORS.goldLt, CHART_COLORS.ice];
 
   const outlierColumns = [
     { key: "hcpcs_code", label: "HCPCS" },
@@ -190,7 +195,7 @@ export default function ProcedureDetail({ mart, focusSpecialty, onClearFocus }) 
       </ChartPanel>
 
       {/* PTCR Comparison Lines */}
-      <ChartPanel title="Payment-to-charge ratio trend" subtitle="By specialty across years" info={DEFINITIONS.ptcr} className="span-full">
+      <ChartPanel title="Payment-to-charge ratio trend" subtitle="By specialty across years · top 8 by volume" info={DEFINITIONS.ptcr} className="span-full">
         <ResponsiveContainer width="100%" height={280}>
           <LineChart data={ptcrTrend}>
             <CartesianGrid strokeDasharray="3 3" stroke="rgba(10,126,140,0.15)" />
@@ -198,7 +203,7 @@ export default function ProcedureDetail({ mart, focusSpecialty, onClearFocus }) 
             <YAxis tickFormatter={v => fmt.pct(v)} domain={["auto", "auto"]} stroke={CHART_COLORS.muted} tick={{ fontSize: 11 }} />
             <Tooltip formatter={(v) => fmt.pct(v)} contentStyle={{ background: "#0D2137", border: "1px solid rgba(10,126,140,0.3)", borderRadius: 6 }} />
             <Legend wrapperStyle={{ fontSize: 11 }} />
-            {specialties.map((s, i) => (
+            {trendSpecialties.map((s, i) => (
               <Line key={s} type="monotone" dataKey={s} stroke={colorCycle[i % colorCycle.length]} strokeWidth={2} dot={{ r: 3 }} />
             ))}
           </LineChart>

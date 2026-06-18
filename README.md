@@ -51,7 +51,10 @@ when `window.domo` is absent — that fallback is what powers the live demo abov
 > compression drivers, projections, and the Reimbursement Pressure Index) and the
 > **dashboard** are built inside Domo / the React app — they are *not* executed by
 > the Databricks/Airflow pipeline. See `docs/PRD.md` §5.2–5.3 for per-component
-> build status.
+> build status. (In the standalone web build, that DataFlow scoring logic is ported
+> to JavaScript and the Pressure Index is **recomputed in the browser** from the
+> mart — see `domo/app/src/data/pressureIndex.js` — so the live demo shows the
+> formula's actual output, not hard-coded values.)
 
 ### How this maps to ModMed's stack
 

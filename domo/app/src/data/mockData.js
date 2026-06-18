@@ -1,6 +1,12 @@
 /**
  * mockData.js
- * Mock data for local development. Matches the 6 Domo DataSet aliases.
+ * Static demo data for the standalone build's governance + telemetry aliases:
+ * pdp_config, pdp_verify_results, and engagement.
+ *
+ * NOTE: the specialty_benchmarks / pipeline_intelligence / mart literals below
+ * are the original Domo-era sample, kept for reference only. The live build no
+ * longer reads them — those three datasets are COMPUTED from the pipeline mart
+ * at load time (see computed.js + pressureIndex.js), which overrides these.
  */
 
 const now = new Date().toISOString();
