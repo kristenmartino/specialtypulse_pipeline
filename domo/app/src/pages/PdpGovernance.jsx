@@ -122,7 +122,7 @@ function VerifyStatusPanel({ checks, loading }) {
             );
           })}
           {checks[0]?.run_at && (
-            <div style={{ fontSize: 10, color: "var(--muted)", fontFamily: "var(--font-mono)", marginTop: 4 }}>
+            <div style={{ fontSize: 11, color: "var(--muted)", fontFamily: "var(--font-mono)", marginTop: 4 }}>
               Last run: {fmt.date(checks[0].run_at)}
             </div>
           )}
@@ -317,10 +317,10 @@ Be direct and specific. No preamble. No bullet points. Just clear sentences.`;
   };
 
   return (
-    <div className="panel">
+    <div className="panel panel-wide">
       <div className="panel-header">
         <span className="panel-title">AI governance summary</span>
-        <span className="panel-count" style={{ fontFamily: "var(--font-mono)", fontSize: 10, color: "var(--teal-lt)" }}>
+        <span className="panel-count" style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--teal-lt)" }}>
           claude-sonnet
         </span>
       </div>

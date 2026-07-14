@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useMemo, useRef } from "react";
 import { domoFetch, isDomo } from "./data/domoFetch";
 import { fmt } from "./data/constants";
 import TabBar from "./components/TabBar";
@@ -17,6 +17,37 @@ const TAB_LABELS = {
   pdp:       "PDP Governance",
 };
 
+// The signature mark: an ECG trace beside the wordmark whose beat rate is
+// driven by the top pressure index — the market's pulse, literally.
+const PULSE_PATH = "M0 15 H34 L40 15 L45 4 L52 26 L57 15 H88 L94 15 L99 7 L105 23 L110 15 H150";
+
+function HeaderPulse({ benchmarks }) {
+  const topPressure = useMemo(() => {
+    if (!benchmarks.length) return null;
+    const maxY = Math.max(...benchmarks.map(r => Number(r.year)));
+    const latest = benchmarks.filter(r => Number(r.year) === maxY);
+    return Math.max(...latest.map(r => Number(r.pressure_index)));
+  }, [benchmarks]);
+
+  if (topPressure == null || !isFinite(topPressure)) return null;
+  // Map pressure 0–100 → beat period 2.6s–1.0s.
+  const dur = Math.max(1.0, 2.6 - (topPressure / 100) * 1.6).toFixed(2);
+
+  return (
+    <svg
+      className="header-pulse"
+      width="150"
+      height="30"
+      viewBox="0 0 150 30"
+      aria-hidden="true"
+      style={{ "--pulse-dur": `${dur}s` }}
+    >
+      <path className="pulse-track" d={PULSE_PATH} />
+      <path className="pulse-trace" d={PULSE_PATH} pathLength="400" />
+    </svg>
+  );
+}
+
 export default function App() {
   const [tab, setTab] = useState("market");
   const [loading, setLoading] = useState(true);
@@ -25,6 +56,7 @@ export default function App() {
   // Procedure Detail. Persists until cleared via the focus chip.
   const [focusSpecialty, setFocusSpecialty] = useState(null);
   const drillToSpecialty = (specialty) => { setFocusSpecialty(specialty); setTab("procedure"); };
+  const contentRef = useRef(null);
 
   // DataSet state
   const [config, setConfig]           = useState([]);
@@ -67,6 +99,12 @@ export default function App() {
     }
   }, [fetchData]);
 
+  // Each tab is its own view: reset scroll and title on switch.
+  useEffect(() => {
+    if (contentRef.current) contentRef.current.scrollTop = 0;
+    document.title = `SpecialtyPulse · ${TAB_LABELS[tab]}`;
+  }, [tab]);
+
   const renderPage = () => {
     if (loading) {
       return (
@@ -96,14 +134,15 @@ export default function App() {
             <div className="header-title">SpecialtyPulse</div>
             <div className="header-subtitle">{TAB_LABELS[tab]}</div>
           </div>
+          {!loading && <HeaderPulse benchmarks={benchmarks} />}
         </div>
         <div className="header-right">
           <div className="header-meta">
             <span>{isDomo ? "Last fetched" : "Data vintage"}</span>
             <span className="val">
               {isDomo
-                ? (lastFetch ? fmt.date(lastFetch.toISOString()) : "\u2014")
-                : "Representative \u00b7 CY2021\u20132023"}
+                ? (lastFetch ? fmt.date(lastFetch.toISOString()) : "—")
+                : "Representative · CY2021–2023"}
             </span>
           </div>
         </div>
@@ -115,8 +154,16 @@ export default function App() {
         <ExecutiveBrief benchmarks={benchmarks} mart={mart} pipeline={pipeline} />
       )}
 
-      <main className="page-content">
-        {renderPage()}
+      <main
+        className="page-content"
+        ref={contentRef}
+        role="tabpanel"
+        id={`panel-${tab}`}
+        aria-labelledby={`tab-${tab}`}
+      >
+        <div className="page-fade" key={tab}>
+          {renderPage()}
+        </div>
       </main>
 
       {!isDomo && (

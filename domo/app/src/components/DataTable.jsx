@@ -35,6 +35,9 @@ export default function DataTable({ columns, data, defaultSort, className = "", 
               <th
                 key={col.key}
                 onClick={() => toggleSort(col.key)}
+                onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleSort(col.key); } }}
+                tabIndex={0}
+                aria-sort={sortCol === col.key ? (sortDir === "asc" ? "ascending" : "descending") : "none"}
                 className={sortCol === col.key ? `sorted ${sortDir}` : ""}
                 style={col.width ? { width: col.width } : undefined}
               >
@@ -52,6 +55,8 @@ export default function DataTable({ columns, data, defaultSort, className = "", 
               key={i}
               className={onRowClick ? "clickable" : ""}
               onClick={onRowClick ? () => onRowClick(row) : undefined}
+              onKeyDown={onRowClick ? (e) => { if (e.key === "Enter") onRowClick(row); } : undefined}
+              tabIndex={onRowClick ? 0 : undefined}
             >
               {columns.map(col => (
                 <td key={col.key}>

@@ -2,6 +2,8 @@
  * constants.js
  * Shared design tokens, role metadata, formatters, and aggregation helpers.
  */
+import React from "react";
+import ChartTooltip from "../components/ChartTooltip";
 
 // ── ROLE METADATA ──────────────────────────────────────────────────────────────
 export const ROLE_META = {
@@ -18,20 +20,37 @@ export const CHART_COLORS = {
   tealXlt:  "#5ECFDB",
   gold:     "#F4A830",
   goldLt:   "#FAC84A",
+  ember:    "#FF8C42",
   blue:     "#7AB8F5",
   purple:   "#B89FF5",
   red:      "#F87171",
   green:    "#4ADE80",
-  muted:    "#7A92A3",
+  muted:    "#8CA3B5",
   ice:      "#CADCFC",
+  slate:    "#4A6478",
   navy:     "#0D2137",
   navyMid:  "#0D3A4A",
 };
 
+// Ordered categorical ramp for multi-line charts. The two PTCR trend charts can
+// draw up to 8 specialties at once (19 in the mart, capped to the top 8), so the
+// ramp carries 8 maximally-distinct hues. Core brand colors lead — charts with
+// only 2–3 series never reach the accent tail (blue/purple/red).
+export const CHART_SERIES = [
+  CHART_COLORS.tealXlt,  // cyan
+  CHART_COLORS.gold,     // amber
+  CHART_COLORS.blue,     // sky
+  CHART_COLORS.green,    // green
+  CHART_COLORS.ember,    // orange
+  CHART_COLORS.purple,   // lavender
+  CHART_COLORS.ice,      // pale blue
+  CHART_COLORS.red,      // coral
+];
+
 export const PRESSURE_COLORS = {
   "Immediate Opportunity": "#F4A830",
   "Emerging":              "#12A4B4",
-  "Monitor":               "#7A92A3",
+  "Monitor":               "#8CA3B5",
   "Low Priority":          "#3A5568",
 };
 
@@ -40,8 +59,24 @@ export const COMPRESSION_COLORS = {
   "Charge Inflation": "#F4A830",
   "Both":             "#FF8C42",
   "Improving":        "#4ADE80",
-  "Stable":           "#7A92A3",
+  "Stable":           "#8CA3B5",
   "Base Year":        "#3A5568",
+};
+
+// ── SHARED CHART PROPS ─────────────────────────────────────────────────────────
+// One tooltip everywhere: branded ChartTooltip (series color as a swatch dot,
+// text always legible on navy) plus a subtle teal hover cursor.
+export const TOOLTIP_PROPS = {
+  content: React.createElement(ChartTooltip),
+  cursor:  { stroke: "rgba(94, 207, 219, 0.3)", fill: "rgba(94, 207, 219, 0.07)" },
+};
+
+// Chart value animations are off: Recharts drives them with requestAnimationFrame,
+// which throttles in occluded iframes (Domo dashboards, background tabs) and leaves
+// series invisible for seconds. Panels already choreograph their own entrance —
+// data must be readable the instant a chart exists.
+export const CHART_ANIM = {
+  isAnimationActive: false,
 };
 
 // ── FORMATTERS ─────────────────────────────────────────────────────────────────

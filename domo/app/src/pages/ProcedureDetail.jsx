@@ -6,7 +6,7 @@ import {
 import ChartPanel from "../components/ChartPanel";
 import DataTable from "../components/DataTable";
 import InsightStrip from "../components/InsightStrip";
-import { CHART_COLORS, fmt, groupBy, DEFINITIONS } from "../data/constants";
+import { CHART_COLORS, CHART_SERIES, TOOLTIP_PROPS, CHART_ANIM, fmt, groupBy, DEFINITIONS } from "../data/constants";
 
 export default function ProcedureDetail({ mart, focusSpecialty, onClearFocus }) {
   // Latest year, all specialties — used for the comparative trend charts.
@@ -29,11 +29,11 @@ export default function ProcedureDetail({ mart, focusSpecialty, onClearFocus }) 
     [view]
   );
 
-  // Payment vs benchmark bar
+  // Payment vs benchmark bar — labeled by procedure name (HCPCS code in tooltip)
   const benchmarkBar = useMemo(() =>
     view.slice(0, 12).map(r => ({
-      name: r.hcpcs_code,
-      desc: r.hcpcs_description,
+      name: r.hcpcs_description,
+      code: r.hcpcs_code,
       payment: Number(r.avg_medicare_payment),
       benchmark: Number(r.specialty_avg_payment),
       diff: Number(r.payment_vs_specialty_pct),
@@ -108,7 +108,7 @@ export default function ProcedureDetail({ mart, focusSpecialty, onClearFocus }) 
     latestYearAll.forEach(r => { tot[r.provider_specialty] = (tot[r.provider_specialty] || 0) + Number(r.total_services); });
     return Object.entries(tot).sort((a, b) => b[1] - a[1]).slice(0, 8).map(x => x[0]);
   }, [latestYearAll]);
-  const colorCycle = [CHART_COLORS.tealXlt, CHART_COLORS.gold, CHART_COLORS.blue, CHART_COLORS.purple, CHART_COLORS.green, CHART_COLORS.red, CHART_COLORS.goldLt, CHART_COLORS.ice];
+  const colorCycle = CHART_SERIES;
 
   const outlierColumns = [
     { key: "hcpcs_code", label: "HCPCS" },
@@ -164,17 +164,27 @@ export default function ProcedureDetail({ mart, focusSpecialty, onClearFocus }) 
       {/* Payment vs Benchmark */}
       <ChartPanel title="Payment vs specialty benchmark" subtitle="Latest year, by procedure">
         <ResponsiveContainer width="100%" height={280}>
-          <BarChart data={benchmarkBar}>
+          <BarChart data={benchmarkBar} margin={{ bottom: 4 }}>
             <CartesianGrid strokeDasharray="3 3" stroke="rgba(10,126,140,0.15)" />
-            <XAxis dataKey="name" stroke={CHART_COLORS.muted} tick={{ fontSize: 10 }} />
+            <XAxis
+              dataKey="name"
+              stroke={CHART_COLORS.muted}
+              tick={{ fontSize: 10 }}
+              interval={0}
+              tickFormatter={v => (String(v).length > 11 ? `${String(v).slice(0, 10)}…` : v)}
+            />
             <YAxis tickFormatter={v => `$${v}`} stroke={CHART_COLORS.muted} tick={{ fontSize: 11 }} />
             <Tooltip
               formatter={(v) => fmt.usd(v)}
-              contentStyle={{ background: "#0D2137", border: "1px solid rgba(10,126,140,0.3)", borderRadius: 6 }}
+              labelFormatter={(label, payload) => {
+                const row = payload && payload[0] && payload[0].payload;
+                return row ? `${row.name} · HCPCS ${row.code}` : label;
+              }}
+              {...TOOLTIP_PROPS}
             />
             <Legend wrapperStyle={{ fontSize: 11 }} />
-            <Bar dataKey="payment" name="Procedure Payment" fill={CHART_COLORS.tealXlt} radius={[4, 4, 0, 0]} />
-            <Bar dataKey="benchmark" name="Specialty Avg" fill={CHART_COLORS.gold} radius={[4, 4, 0, 0]} opacity={0.6} />
+            <Bar dataKey="payment" name="Procedure Payment" fill={CHART_COLORS.tealXlt} radius={[4, 4, 0, 0]} {...CHART_ANIM} />
+            <Bar dataKey="benchmark" name="Specialty Avg" fill={CHART_COLORS.gold} radius={[4, 4, 0, 0]} opacity={0.6} {...CHART_ANIM} />
           </BarChart>
         </ResponsiveContainer>
       </ChartPanel>
@@ -186,10 +196,10 @@ export default function ProcedureDetail({ mart, focusSpecialty, onClearFocus }) 
             <CartesianGrid strokeDasharray="3 3" stroke="rgba(10,126,140,0.15)" />
             <XAxis type="number" tickFormatter={v => fmt.pct0(v)} domain={[0, 1]} stroke={CHART_COLORS.muted} tick={{ fontSize: 11 }} />
             <YAxis dataKey="specialty" type="category" width={130} stroke={CHART_COLORS.muted} tick={{ fontSize: 10 }} />
-            <Tooltip formatter={(v) => fmt.pct(v)} contentStyle={{ background: "#0D2137", border: "1px solid rgba(10,126,140,0.3)", borderRadius: 6 }} />
+            <Tooltip formatter={(v) => fmt.pct(v)} {...TOOLTIP_PROPS} />
             <Legend wrapperStyle={{ fontSize: 11 }} />
-            <Bar dataKey="facility" name="Facility" stackId="a" fill={CHART_COLORS.teal} />
-            <Bar dataKey="office" name="Office" stackId="a" fill={CHART_COLORS.navyMid} />
+            <Bar dataKey="facility" name="Facility" stackId="a" fill={CHART_COLORS.teal} {...CHART_ANIM} />
+            <Bar dataKey="office" name="Office" stackId="a" fill={CHART_COLORS.slate} {...CHART_ANIM} />
           </BarChart>
         </ResponsiveContainer>
       </ChartPanel>
@@ -201,10 +211,10 @@ export default function ProcedureDetail({ mart, focusSpecialty, onClearFocus }) 
             <CartesianGrid strokeDasharray="3 3" stroke="rgba(10,126,140,0.15)" />
             <XAxis dataKey="year" stroke={CHART_COLORS.muted} tick={{ fontSize: 11 }} />
             <YAxis tickFormatter={v => fmt.pct(v)} domain={["auto", "auto"]} stroke={CHART_COLORS.muted} tick={{ fontSize: 11 }} />
-            <Tooltip formatter={(v) => fmt.pct(v)} contentStyle={{ background: "#0D2137", border: "1px solid rgba(10,126,140,0.3)", borderRadius: 6 }} />
+            <Tooltip formatter={(v) => fmt.pct(v)} {...TOOLTIP_PROPS} />
             <Legend wrapperStyle={{ fontSize: 11 }} />
             {trendSpecialties.map((s, i) => (
-              <Line key={s} type="monotone" dataKey={s} stroke={colorCycle[i % colorCycle.length]} strokeWidth={2} dot={{ r: 3 }} />
+              <Line key={s} type="monotone" dataKey={s} stroke={colorCycle[i % colorCycle.length]} strokeWidth={2} dot={{ r: 3 }} {...CHART_ANIM} />
             ))}
           </LineChart>
         </ResponsiveContainer>

@@ -1,13 +1,13 @@
 import React, { useMemo } from "react";
 import {
   LineChart, Line, BarChart, Bar, ScatterChart, Scatter,
-  XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Cell,
+  XAxis, YAxis, ZAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Cell,
 } from "recharts";
 import ChartPanel from "../components/ChartPanel";
 import DataTable from "../components/DataTable";
 import PressureBadge from "../components/PressureBadge";
 import InsightStrip from "../components/InsightStrip";
-import { CHART_COLORS, PRESSURE_COLORS, COMPRESSION_COLORS, fmt, DEFINITIONS } from "../data/constants";
+import { CHART_COLORS, CHART_SERIES, PRESSURE_COLORS, COMPRESSION_COLORS, TOOLTIP_PROPS, CHART_ANIM, fmt, DEFINITIONS } from "../data/constants";
 
 export default function MarketIntelligence({ benchmarks, onDrill }) {
   // Most recent year data for the pressure table
@@ -53,7 +53,7 @@ export default function MarketIntelligence({ benchmarks, onDrill }) {
     [latestYear]
   );
 
-  const colorCycle = [CHART_COLORS.tealXlt, CHART_COLORS.gold, CHART_COLORS.blue, CHART_COLORS.purple, CHART_COLORS.green, CHART_COLORS.red, CHART_COLORS.goldLt, CHART_COLORS.ice];
+  const colorCycle = CHART_SERIES;
   const maxYear = latestYear[0]?.year ?? "";
   // With 19 specialties, cap the trend lines to the highest-pressure 8 for legibility.
   const trendSpecialties = latestYear.slice(0, 8).map(r => r.provider_specialty);
@@ -142,10 +142,10 @@ export default function MarketIntelligence({ benchmarks, onDrill }) {
             <CartesianGrid strokeDasharray="3 3" stroke="rgba(10,126,140,0.15)" />
             <XAxis dataKey="year" stroke={CHART_COLORS.muted} tick={{ fontSize: 11 }} />
             <YAxis domain={["auto", "auto"]} tickFormatter={v => fmt.pct(v)} stroke={CHART_COLORS.muted} tick={{ fontSize: 11 }} />
-            <Tooltip formatter={(v) => fmt.pct(v)} contentStyle={{ background: "#0D2137", border: "1px solid rgba(10,126,140,0.3)", borderRadius: 6 }} />
+            <Tooltip formatter={(v) => fmt.pct(v)} {...TOOLTIP_PROPS} />
             <Legend wrapperStyle={{ fontSize: 11 }} />
             {trendSpecialties.map((s, i) => (
-              <Line key={s} type="monotone" dataKey={s} stroke={colorCycle[i % colorCycle.length]} strokeWidth={2} dot={{ r: 3 }} />
+              <Line key={s} type="monotone" dataKey={s} stroke={colorCycle[i % colorCycle.length]} strokeWidth={2} dot={{ r: 3 }} {...CHART_ANIM} />
             ))}
           </LineChart>
         </ResponsiveContainer>
@@ -156,10 +156,10 @@ export default function MarketIntelligence({ benchmarks, onDrill }) {
         <ResponsiveContainer width="100%" height={260}>
           <BarChart data={driverData} layout="vertical">
             <CartesianGrid strokeDasharray="3 3" stroke="rgba(10,126,140,0.15)" />
-            <XAxis type="number" stroke={CHART_COLORS.muted} tick={{ fontSize: 11 }} />
+            <XAxis type="number" allowDecimals={false} stroke={CHART_COLORS.muted} tick={{ fontSize: 11 }} />
             <YAxis dataKey="name" type="category" width={120} stroke={CHART_COLORS.muted} tick={{ fontSize: 11 }} />
-            <Tooltip contentStyle={{ background: "#0D2137", border: "1px solid rgba(10,126,140,0.3)", borderRadius: 6 }} />
-            <Bar dataKey="count" radius={[0, 4, 4, 0]}>
+            <Tooltip {...TOOLTIP_PROPS} />
+            <Bar dataKey="count" name="Specialties" radius={[0, 4, 4, 0]} {...CHART_ANIM}>
               {driverData.map((d, i) => (
                 <Cell key={i} fill={COMPRESSION_COLORS[d.name] || CHART_COLORS.muted} />
               ))}
@@ -169,17 +169,19 @@ export default function MarketIntelligence({ benchmarks, onDrill }) {
       </ChartPanel>
 
       {/* Volume vs Compression Scatter */}
-      <ChartPanel title="Volume vs compression" subtitle="Bubble = pressure index" className="span-full">
+      <ChartPanel title="Volume vs compression" subtitle="Bubble size = pressure index" className="span-full">
         <ResponsiveContainer width="100%" height={300}>
-          <ScatterChart>
+          <ScatterChart margin={{ top: 12, right: 24, bottom: 4, left: 4 }}>
             <CartesianGrid strokeDasharray="3 3" stroke="rgba(10,126,140,0.15)" />
-            <XAxis dataKey="services" name="Services" tickFormatter={v => `${(v / 1e6).toFixed(1)}M`} stroke={CHART_COLORS.muted} tick={{ fontSize: 11 }} />
-            <YAxis dataKey="ptcr" name="PTCR" tickFormatter={v => fmt.pct(v)} stroke={CHART_COLORS.muted} tick={{ fontSize: 11 }} />
+            <XAxis type="number" dataKey="services" name="Services" domain={["auto", "auto"]} tickFormatter={v => `${(v / 1e6).toFixed(1)}M`} stroke={CHART_COLORS.muted} tick={{ fontSize: 11 }} />
+            <YAxis type="number" dataKey="ptcr" name="PTCR" domain={["auto", "auto"]} tickFormatter={v => fmt.pct(v)} stroke={CHART_COLORS.muted} tick={{ fontSize: 11 }} />
+            <ZAxis type="number" dataKey="pressure" name="Pressure Index" range={[120, 900]} />
             <Tooltip
-              formatter={(v, name) => name === "PTCR" ? fmt.pct(v) : name === "Services" ? fmt.num(v) : v}
-              contentStyle={{ background: "#0D2137", border: "1px solid rgba(10,126,140,0.3)", borderRadius: 6 }}
+              formatter={(v, name) => name === "PTCR" ? fmt.pct(v) : name === "Services" ? fmt.num(v) : name === "Pressure Index" ? fmt.score(v) : v}
+              labelFormatter={() => ""}
+              {...TOOLTIP_PROPS}
             />
-            <Scatter data={scatterData}>
+            <Scatter data={scatterData} fillOpacity={0.8} {...CHART_ANIM}>
               {scatterData.map((d, i) => (
                 <Cell key={i} fill={PRESSURE_COLORS[d.tier] || CHART_COLORS.muted} />
               ))}
