@@ -5,7 +5,7 @@ import {
 } from "recharts";
 import ChartPanel from "../components/ChartPanel";
 import KpiCard from "../components/KpiCard";
-import { CHART_COLORS, fmt, groupBy, DEFINITIONS } from "../data/constants";
+import { CHART_COLORS, TOOLTIP_PROPS, CHART_ANIM, fmt, groupBy, DEFINITIONS } from "../data/constants";
 
 export default function AdoptionTracking({ engagement, config }) {
   // Unique active users
@@ -89,10 +89,10 @@ export default function AdoptionTracking({ engagement, config }) {
             <CartesianGrid strokeDasharray="3 3" stroke="rgba(10,126,140,0.15)" />
             <XAxis dataKey="date" stroke={CHART_COLORS.muted} tick={{ fontSize: 10 }} interval="preserveStartEnd" minTickGap={24} tickFormatter={(d) => { const p = String(d).split("-"); return p.length === 3 ? `${Number(p[1])}/${Number(p[2])}` : d; }} />
             <YAxis stroke={CHART_COLORS.muted} tick={{ fontSize: 11 }} />
-            <Tooltip contentStyle={{ background: "#0D2137", border: "1px solid rgba(10,126,140,0.3)", borderRadius: 6 }} />
+            <Tooltip {...TOOLTIP_PROPS} />
             <Legend wrapperStyle={{ fontSize: 11 }} />
-            <Line type="monotone" dataKey="users" name="Unique Users" stroke={CHART_COLORS.tealXlt} strokeWidth={2} dot={{ r: 3 }} />
-            <Line type="monotone" dataKey="sessions" name="Sessions" stroke={CHART_COLORS.gold} strokeWidth={2} dot={{ r: 3 }} />
+            <Line type="monotone" dataKey="users" name="Unique Users" stroke={CHART_COLORS.tealXlt} strokeWidth={2} dot={{ r: 3 }} {...CHART_ANIM} />
+            <Line type="monotone" dataKey="sessions" name="Sessions" stroke={CHART_COLORS.gold} strokeWidth={2} dot={{ r: 3 }} {...CHART_ANIM} />
           </LineChart>
         </ResponsiveContainer>
       </ChartPanel>
@@ -104,10 +104,10 @@ export default function AdoptionTracking({ engagement, config }) {
             <CartesianGrid strokeDasharray="3 3" stroke="rgba(10,126,140,0.15)" />
             <XAxis type="number" stroke={CHART_COLORS.muted} tick={{ fontSize: 11 }} />
             <YAxis dataKey="page" type="category" width={140} stroke={CHART_COLORS.muted} tick={{ fontSize: 10 }} />
-            <Tooltip contentStyle={{ background: "#0D2137", border: "1px solid rgba(10,126,140,0.3)", borderRadius: 6 }} />
+            <Tooltip {...TOOLTIP_PROPS} />
             <Legend wrapperStyle={{ fontSize: 11 }} />
-            <Bar dataKey="views" name="Views" fill={CHART_COLORS.tealXlt} radius={[0, 4, 4, 0]} />
-            <Bar dataKey="uniqueUsers" name="Unique Users" fill={CHART_COLORS.gold} radius={[0, 4, 4, 0]} />
+            <Bar dataKey="views" name="Views" fill={CHART_COLORS.tealXlt} radius={[0, 4, 4, 0]} {...CHART_ANIM} />
+            <Bar dataKey="uniqueUsers" name="Unique Users" fill={CHART_COLORS.gold} radius={[0, 4, 4, 0]} {...CHART_ANIM} />
           </BarChart>
         </ResponsiveContainer>
       </ChartPanel>
@@ -119,8 +119,8 @@ export default function AdoptionTracking({ engagement, config }) {
             <CartesianGrid strokeDasharray="3 3" stroke="rgba(10,126,140,0.15)" />
             <XAxis type="number" stroke={CHART_COLORS.muted} tick={{ fontSize: 11 }} />
             <YAxis dataKey="card" type="category" width={140} stroke={CHART_COLORS.muted} tick={{ fontSize: 10 }} />
-            <Tooltip contentStyle={{ background: "#0D2137", border: "1px solid rgba(10,126,140,0.3)", borderRadius: 6 }} />
-            <Bar dataKey="interactions" name="Interactions" fill={CHART_COLORS.blue} radius={[0, 4, 4, 0]} />
+            <Tooltip {...TOOLTIP_PROPS} />
+            <Bar dataKey="interactions" name="Interactions" fill={CHART_COLORS.tealLt} radius={[0, 4, 4, 0]} {...CHART_ANIM} />
           </BarChart>
         </ResponsiveContainer>
       </ChartPanel>
@@ -128,18 +128,18 @@ export default function AdoptionTracking({ engagement, config }) {
       {/* Role engagement */}
       <ChartPanel title="Engagement by role" subtitle="Sessions vs avg duration">
         <ResponsiveContainer width="100%" height={260}>
-          <BarChart data={roleBreakdown}>
+          <BarChart data={roleBreakdown} margin={{ bottom: 4 }}>
             <CartesianGrid strokeDasharray="3 3" stroke="rgba(10,126,140,0.15)" />
-            <XAxis dataKey="role" stroke={CHART_COLORS.muted} tick={{ fontSize: 10 }} />
+            <XAxis dataKey="role" stroke={CHART_COLORS.muted} tick={{ fontSize: 10 }} interval={0} />
             <YAxis yAxisId="left" stroke={CHART_COLORS.tealXlt} tick={{ fontSize: 11 }} label={{ value: "Sessions", angle: -90, position: "insideLeft", fill: CHART_COLORS.muted, fontSize: 10 }} />
-            <YAxis yAxisId="right" orientation="right" stroke={CHART_COLORS.purple} tick={{ fontSize: 11 }} tickFormatter={v => `${Math.round(v / 60)}m`} />
+            <YAxis yAxisId="right" orientation="right" stroke={CHART_COLORS.gold} tick={{ fontSize: 11 }} tickFormatter={v => `${Math.round(v / 60)}m`} />
             <Tooltip
               formatter={(v, name) => name === "Avg Duration" ? `${Math.floor(v / 60)}m ${v % 60}s` : v}
-              contentStyle={{ background: "#0D2137", border: "1px solid rgba(10,126,140,0.3)", borderRadius: 6 }}
+              {...TOOLTIP_PROPS}
             />
             <Legend wrapperStyle={{ fontSize: 11 }} />
-            <Bar yAxisId="left" dataKey="sessions" name="Sessions" fill={CHART_COLORS.tealXlt} radius={[4, 4, 0, 0]} />
-            <Bar yAxisId="right" dataKey="avgDuration" name="Avg Duration" fill={CHART_COLORS.purple} radius={[4, 4, 0, 0]} />
+            <Bar yAxisId="left" dataKey="sessions" name="Sessions" fill={CHART_COLORS.tealXlt} radius={[4, 4, 0, 0]} {...CHART_ANIM} />
+            <Bar yAxisId="right" dataKey="avgDuration" name="Avg Duration" fill={CHART_COLORS.gold} radius={[4, 4, 0, 0]} opacity={0.75} {...CHART_ANIM} />
           </BarChart>
         </ResponsiveContainer>
       </ChartPanel>
