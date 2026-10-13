@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback, useMemo, useRef } from "react";
+import { Analytics } from "@vercel/analytics/react";
 import { domoFetch, isDomo } from "./data/domoFetch";
 import { fmt } from "./data/constants";
 import TabBar from "./components/TabBar";
@@ -127,6 +128,7 @@ export default function App() {
 
   return (
     <div className="app">
+      <Analytics />
       <header className="header">
         <div className="header-left">
           <div className="header-logo">SP</div>
