@@ -169,16 +169,16 @@ export default function MarketIntelligence({ benchmarks, onDrill }) {
       </ChartPanel>
 
       {/* Volume vs Compression Scatter */}
-      <ChartPanel title="Service volume and payment-to-charge ratio" subtitle="Bubble size = pressure index" className="span-full">
+      <ChartPanel title="Service volume and payment-to-charge ratio" subtitle="One bubble per specialty · size = pressure score" className="span-full">
         <ResponsiveContainer width="100%" height={300}>
-          <ScatterChart margin={{ top: 12, right: 24, bottom: 4, left: 4 }}>
+          <ScatterChart margin={{ top: 12, right: 24, bottom: 16, left: 16 }}>
             <CartesianGrid strokeDasharray="3 3" stroke="rgba(10,126,140,0.15)" />
-            <XAxis type="number" dataKey="services" name="Services" domain={["auto", "auto"]} tickFormatter={v => `${(v / 1e3).toFixed(0)}K`} stroke={CHART_COLORS.muted} tick={{ fontSize: 11 }} />
-            <YAxis type="number" dataKey="ptcr" name="Payment-to-charge ratio" domain={["auto", "auto"]} tickFormatter={v => fmt.pct(v)} stroke={CHART_COLORS.muted} tick={{ fontSize: 11 }} />
+            <XAxis type="number" dataKey="services" name="Services" domain={["auto", "auto"]} tickFormatter={v => `${(v / 1e3).toFixed(0)}K`} stroke={CHART_COLORS.muted} tick={{ fontSize: 11 }} height={46} label={{ value: "Services", position: "insideBottom", offset: 0, fill: CHART_COLORS.muted, fontSize: 11 }} />
+            <YAxis type="number" dataKey="ptcr" name="Payment-to-charge ratio" domain={["auto", "auto"]} tickFormatter={v => fmt.pct(v)} stroke={CHART_COLORS.muted} tick={{ fontSize: 11 }} width={74} label={{ value: "Payment-to-charge ratio", angle: -90, position: "insideLeft", offset: 0, fill: CHART_COLORS.muted, fontSize: 11 }} />
             <ZAxis type="number" dataKey="pressure" name="Pressure Index" range={[120, 900]} />
             <Tooltip
               formatter={(v, name) => name === "Payment-to-charge ratio" ? fmt.pct(v) : name === "Services" ? fmt.num(v) : name === "Pressure Index" ? fmt.score(v) : v}
-              labelFormatter={() => ""}
+              labelFormatter={(_, entries) => entries?.[0]?.payload?.name || "Specialty"}
               {...TOOLTIP_PROPS}
             />
             <Scatter data={scatterData} fillOpacity={0.8} {...CHART_ANIM}>
