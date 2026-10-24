@@ -40,9 +40,10 @@ specialty/year output omits state, so those filters need a separate output that
 retains `provider_state`. Setup checks schema compatibility before changing
 policies.
 
-The opening task and project links explain what to review. Procedure Detail also
-contains a separate raw-fixture calculation check. The main dashboard mart is
-independently generated; the check's $104.91 is not lineage for the procedure
-list's $122.25. See [the evidence walkthrough](../../docs/verification/payment-check.md)
-and [file-level provenance](../../data/README.md). `?view=procedure` opens that
-view directly; unknown view keys use Market Intelligence.
+The opening task and project links explain what to review. Procedure Detail
+shows raw-to-displayed-mart lineage: 57 source rows / 3,777 services → $104.91.
+That is the actual procedure-list value from the recorded local Spark run.
+`generate:data` checks source/code/output hashes before building browser JSON.
+See [the executable path](../../docs/verification/payment-check.md).
+2021–2022 are generated comparison scenarios. `?view=procedure` opens the view
+directly; unknown keys use Market Intelligence.

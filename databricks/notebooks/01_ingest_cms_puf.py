@@ -53,8 +53,7 @@ print(f"Loading CMS PUF data for year: {YEAR}")
 
 # COMMAND ----------
 
-from pyspark.sql import functions as F
-from pyspark.sql.types import IntegerType
+from pipeline_transforms import read_raw
 
 # ── FILE PATH ─────────────────────────────────────────────────────────────────
 # Default path follows naming convention: /Volumes/main/specialtypulse_raw/cms_files/
@@ -89,25 +88,7 @@ print(f"Reading from: {file_path}")
 # CMS PUF files are large (500MB–1GB per year). inferSchema=False + explicit
 # cast in staging is safer and faster for known schemas.
 
-raw_df = (
-    spark.read
-    .option("header", "true")
-    .option("inferSchema", "false")   # everything as string — cast in staging
-    .option("encoding", "UTF-8")
-    .option("multiLine", "false")
-    .csv(file_path)
-)
-
-print(f"Raw row count: {raw_df.count():,}")
-print(f"Raw column count: {len(raw_df.columns)}")
-
-# ── ADD AUDIT COLUMNS ─────────────────────────────────────────────────────────
-raw_df = (
-    raw_df
-    .withColumn("source_year",   F.lit(YEAR).cast(IntegerType()))
-    .withColumn("source_file",   F.lit(file_path))
-    .withColumn("ingested_at",   F.current_timestamp())
-)
+raw_df = read_raw(spark, file_path, YEAR)
 
 # ── WRITE TO DELTA ────────────────────────────────────────────────────────────
 # Dynamic partition overwrite: only replaces the partition(s) present in the

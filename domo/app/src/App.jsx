@@ -152,7 +152,7 @@ export default function App() {
               <a href="https://github.com/kristenmartino/specialtypulse_pipeline" target="_blank" rel="noreferrer">Source ↗</a>
             </nav>
           </div>
-          <p className="demo-disclosure">Demo: synthetic reimbursement records following the CMS PUF schema, synthetic sales and usage, and example access rules. Domo access controls are not active here.</p>
+          <p className="demo-disclosure">Demo: synthetic CMS-schema records; 2021–2022 are generated comparison scenarios. Sales, usage and access rules are illustrative. Domo access controls are not active here.</p>
         </>}
         <div className="page-fade" key={tab}>
           {renderPage()}

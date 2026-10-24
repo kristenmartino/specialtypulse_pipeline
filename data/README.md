@@ -1,23 +1,40 @@
-# Bundled data provenance
+# Data provenance and reproducible lineage
 
-Every bundled fixture is synthetic, including the reimbursement records.
-Column names and grains follow the CMS Medicare Physician PUF schema; the
-records are not an extract from an actual CMS release.
+All records are synthetic and follow the CMS PUF schema. No actual CMS release,
+customer data or observed usage is represented. The 2021–2022 files are constructed
+comparison scenarios derived from the synthetic 2023 fixture, not historical observations.
 
-| File | Role | Provenance |
+| File | Role | Origin |
 |---|---|---|
-| sample_2023_puf_10k.csv | Raw-format pipeline fixture; 9,994 data rows for 2023 despite the approximate filename | Generated reimbursement records; names and identifiers are fixture values |
-| sample_mart_reimbursement_trends.csv | Public dashboard input; 570 specialty/procedure/year rows across 2021–2023 | Separately generated demonstration mart, not a reconciled output of the raw fixture |
-| sample_sfdc_pipeline.csv | Public pipeline input; 500 opportunities | Synthetic sales records |
-| sample_dashboard_engagement.csv | Usage fixture | Synthetic sessions, not observed user activity |
-| payment_verification.json | Reproducible calculation artifact | Generated from the raw CSV at app data-generation/build time; includes source SHA-256, CSV row numbers, inputs and one verification mart row |
+| sample_2023_puf_10k.csv | 9,994 raw-format records | Synthetic base fixture. IDs were reassigned deterministically because the old fixture reused an identifier across unrelated names |
+| sample_2021_puf_10k.csv / sample_2022_puf_10k.csv | 9,994 records per scenario year | Deterministic generation rules in scripts/generate_scenario_inputs.py |
+| sample_mart_reimbursement_trends.csv | 870 procedure/specialty/year rows | Actual local Spark output from the three raw files, using the same functions called by notebooks 01–03 |
+| pipeline_run.json | Execution receipt | Runtime, UTC execution time, source/code/output hashes, row counts and displayed example |
+| payment_verification.json | UI evidence | Build-time raw-to-mart reconciliation for the actual displayed Dermatology / 99213 row |
+| sample_sfdc_pipeline.csv | 500 synthetic opportunities | Separate synthetic sales fixture, joined to the rebuilt specialty benchmarks |
+| sample_dashboard_engagement.csv | Usage fixture | Synthetic sessions, not observed activity |
 
-The UI imports a generated JSON copy of the dashboard mart and sales fixture.
-The raw fixture is used separately by the payment check and can be used to
-exercise the notebook code in a configured environment. A fixture's build
-stamp is not evidence that the notebooks ran.
+## Scenario rules
 
-For Dermatology / HCPCS 99213, the raw-fixture check returns $104.91 across
-3,777 services. The dashboard's independent mart contains $122.25 across 580
-services for that procedure/year. These are different fixtures; no lineage
-between those two values is claimed. See [the verification walkthrough](../docs/verification/payment-check.md).
+The generator assigns one stable synthetic provider ID per source record.
+For each earlier year, service/beneficiary counts use a 4% reduction per year
+of distance from 2023 (rounded, with services kept at least 11). Charges use a
+2% reduction per year. A fixed specialty-name checksum selects a payment rate
+between -4% and +4%; that factor is compounded for each year of distance.
+These rules create comparison scenarios, not estimates of historical changes.
+
+## Verified path
+
+Raw CSV → shared Spark read_raw → stage_records → staging Parquet round-trip →
+build_mart → exported mart CSV → generated browser JSON → procedure list.
+The Databricks notebooks import those same read/stage/mart functions. The local
+run does not exercise Databricks, Airflow, Delta table replacement or Domo services.
+
+Dermatology / HCPCS 99213 / 2023 reconciles 57 rows and 3,777 services to
+$396,247.22 in weighted payment, producing **$104.91**. That is now the value in
+the normal procedure list. The old independently generated mart has been replaced with this shared Spark output.
+
+Independent Decimal tests reconcile service totals, provider counts and three
+weighted payment columns for all 870 mart rows. CI re-executes Spark and compares
+every business column with the committed mart. The app build rejects changed
+source files, transformation code or mart bytes that do not match the run receipt.

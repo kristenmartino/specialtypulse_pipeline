@@ -166,3 +166,11 @@ With this setup:
 
 This is exactly the kind of governance work that matters in a company
 managing healthcare data at scale.
+
+## Direct implementation tests
+
+The policy tests import build_all_rows_policy, build_specialty_policy,
+build_regional_policy and setup_pdp from the deployed module. They exercise the
+actual 13-user configuration and 12 policy groups with a fake API client. No
+copied builders or AST extraction is used. Module import requires no credentials
+and makes no HTTP requests; environment loading occurs only in the CLI entry point.

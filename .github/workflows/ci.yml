@@ -24,7 +24,7 @@ jobs:
           cache: pip
 
       - name: Install dependencies
-        run: pip install ruff pytest apache-airflow apache-airflow-providers-databricks aiofiles
+        run: pip install ruff pytest requests apache-airflow apache-airflow-providers-databricks aiofiles
 
       - name: Lint Python files
         run: ruff check .
@@ -76,6 +76,26 @@ jobs:
           python -m py_compile domo/pdp/pdp_verify.py
           python -m py_compile domo/pdp/pdp_verify_writer.py
           echo "PDP scripts syntax OK"
+
+  spark-reconciliation:
+    name: Shared Spark pipeline reconciliation
+    runs-on: ubuntu-latest
+    env:
+      SPARK_LOCAL_IP: 127.0.0.1
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+      - run: pip install pyspark==4.0.1 pytest
+      - name: Execute shared transformation regressions
+        run: python -m pytest tests/test_spark_pipeline.py -q
+      - name: Reproduce every public mart row from raw inputs
+        run: python scripts/run_local_pipeline.py --check
 
   # ── DOMO APP BUILD ───────────────────────────────────────────────────────────
   app-build:

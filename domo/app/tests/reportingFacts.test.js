@@ -44,7 +44,7 @@ test('review links lead to the specialty behind each observation', () => {
   assert.equal(cutLink.specialty, facts.cut.provider_specialty);
   const outlierLink = facts.focuses.find(f => f.id === 'review-deviation');
   assert.equal(outlierLink.target, 'procedure');
-  assert.equal(outlierLink.specialty, 'Plastic Surgery');
+  assert.equal(outlierLink.specialty, 'General Surgery');
 });
 
 test('procedure ranking uses service volume, latest year and selected specialty', () => {
@@ -63,8 +63,11 @@ test('procedure ranking uses service volume, latest year and selected specialty'
   assert.deepEqual(topProcedures([], 'Dermatology'), []);
   assert.deepEqual(topProcedures(rows, 'Dermatology', 0), []);
   const derm = topProcedures(source.mart, 'Dermatology');
-  assert.equal(derm[0].hcpcs_code, '99213');
-  assert.equal(derm[0].total_services, 580);
+  assert.equal(derm[0].hcpcs_code, '11300');
+  assert.equal(derm[0].total_services, 5767);
+  const reconciled = derm.find(row => row.hcpcs_code === '99213');
+  assert.equal(reconciled.avg_medicare_payment, 104.91);
+  assert.equal(reconciled.total_services, 3777);
   assert.ok(derm.every(r => r.provider_specialty === 'Dermatology' && r.year === 2023));
 });
 

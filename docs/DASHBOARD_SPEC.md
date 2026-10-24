@@ -9,7 +9,7 @@ The opening line states the review task: compare specialty payment trends,
 inspect procedures and review synthetic sales exposure. Case-study and source
 links remain available on each public view. One disclosure explains that all
 reimbursement, sales and usage records are synthetic and that Domo access
-controls are inactive here. Reimbursement records follow the CMS PUF schema.
+controls are inactive here. Reimbursement records follow the CMS PUF schema; 2021–2022 are generated comparison scenarios.
 
 ## Views
 
@@ -23,11 +23,11 @@ controls are inactive here. Reimbursement records follow the CMS PUF schema.
 
 ## Calculation check
 
-Procedure Detail includes a separate expandable check for Dermatology / HCPCS
-99213. It shows the raw fixture's row count, weighted sum, service total and
-verification output. This is independent of the selected dashboard specialty
-and is clearly labeled as a separate raw-fixture check. It does not replace or
-claim lineage for the dashboard's independently generated mart.
+Procedure Detail includes an expandable lineage check for Dermatology / HCPCS
+99213 / 2023. It reconciles 57 source rows and 3,777 services to $104.91. The
+normal procedure list uses this same exported Spark mart row. The check links
+to the input/output artifact and local Spark execution receipt. It demonstrates
+local execution, not external Databricks, Airflow or Domo service operation.
 
 `?view=procedure` opens Procedure Detail directly; recognized view keys are
 market, procedure, pipeline, adoption and pdp. Unknown keys open Market Intelligence.

@@ -1,42 +1,62 @@
-# Reproduce one weighted-payment calculation
+# Reproduce the displayed payment from raw records
 
-This check starts from actual rows in the **synthetic raw fixture**. It produces
-a small verification mart row and displays that output in the public app.
-It does not execute Spark, Airflow or Domo, and it is separate from the dashboard's
-independently generated demonstration mart.
+The public procedure list now uses the actual mart exported by the local Spark
+run. It no longer uses the old independent demonstration mart.
 
-## Inputs and calculation
+## Recorded path
 
-1. Read `data/sample_2023_puf_10k.csv` (9,994 data records for 2023).
-2. Select `provider_type = Dermatology`, `hcpcs_cd = 99213`, `tot_srvcs >= 11`.
-3. The 57 selected rows contain 3,777 services. The generated artifact lists every selected CSV row number and its inputs.
-4. Sum `avg_mdcr_pymt_amt × tot_srvcs`: **$396,247.22**.
-5. Divide by **3,777**: **$104.910569…**, rounded to **$104.91** per service.
+1. Read the three synthetic CMS-schema CSVs (29,982 records). 2021–2022 are constructed comparison scenarios.
+2. Execute read_raw and stage_records from databricks/notebooks/pipeline_transforms.py. The Databricks ingestion/staging notebooks call these same functions.
+3. Write/read staging Parquet, validate 29,982 unique provider/procedure/year keys and required fields.
+4. Execute the shared build_mart function, also called by notebook 03. Validate and export 870 specialty/procedure/year rows.
+5. Generate browser JSON from that exported CSV. The public procedure list reads this data.
 
-The generator uses integer cents for the weighted products and writes
-`data/payment_verification.json`. Its `verification_mart_row` is at specialty ×
-procedure × year grain. The artifact includes a SHA-256 of the source file and
-each input row number, service count and payment in cents. Python's independent
-Decimal calculation checks the selection, sums, rounding, hash and saved output.
+The [run receipt](../../data/pipeline_run.json) records the actual execution time,
+Spark/Python versions, raw/code hashes, mart hash and checks. This proves a local
+Spark run; it does not establish a Databricks, Airflow, Delta replacement or Domo
+service run. Those integrations remain separately unverified.
+
+## One displayed example
+
+For Dermatology / HCPCS 99213 / 2023, select source rows with at least 11 services:
+
+- 57 raw rows; 3,777 services.
+- Sum of payment × services: $396,247.22.
+- $396,247.22 / 3,777 = $104.910569… → **$104.91** per service.
+
+The [UI artifact](../../data/payment_verification.json) lists every selected CSV
+row and input. The procedure list and expandable calculation check read the same
+$104.91 / 3,777-service mart row. There is no separate $122.25 example in the
+current dashboard data.
+
+An equal-row average for this group is $103.80; weighting by services answers a
+different question by giving each service equal weight. Neither calculation
+supports a clinically matched expected price for another procedure.
 
 ## Reproduce
 
+With Java 21 and Python 3.11:
+
 ```bash
+pip install pyspark==4.0.1 pytest requests
+python scripts/run_local_pipeline.py --check
+python -m pytest tests -q
 npm --prefix domo/app run generate:data
-python -m pytest tests/test_payment_trace.py -q
+npm --prefix domo/app test
 npm --prefix domo/app run build:web
 ```
 
+`--check` re-executes all shared transformations and compares every business
+column to the published mart, excluding only the run-specific audit timestamp.
+To deliberately regenerate outputs, omit `--check`, then regenerate the browser
+JSON and verification artifact. To recreate the earlier-year scenario inputs,
+run scripts/generate_scenario_inputs.py before the Spark run.
+
+Independent Python Decimal tests reconcile all 870 groups' services, provider
+counts and three weighted payment columns. Spark regressions exercise the real
+functions for weighting, duplicate-key rejection, suppression before aggregation
+and nonconsecutive-year handling. Policy tests import the deployed builders and
+setup function directly; they do not copy or AST-extract implementation code.
+
 Open [Procedure Detail](https://specialtypulse.kristenmartino.ai/?view=procedure)
-and expand **Verify one calculation · Dermatology, HCPCS 99213**. The displayed
-$104.91 is read from the generated verification output; it is not typed into the
-React component.
-
-## Why the procedure list has a different value
-
-The main procedure list reads `sample_mart_reimbursement_trends.csv`, a separate
-synthetic fixture with $122.25 and 580 services for the same specialty/procedure/year.
-It was not reproduced from this raw CSV. The check therefore does not claim that
-the main dashboard's $122.25 has provider-level lineage in the bundled raw file.
-Rebuilding the complete multi-year mart from reconciled source releases remains
-operational work to be done.
+and expand **Verify one calculation · Dermatology, HCPCS 99213**.

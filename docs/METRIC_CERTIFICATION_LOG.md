@@ -60,7 +60,8 @@ Reconcile complete source releases, compare aggregation alternatives, evaluate t
 
 ## Reproducible calculation evidence
 
-The [payment check](verification/payment-check.md) independently reconciles
-57 raw-fixture rows and 3,777 services to a $104.91 verification output. The
-main dashboard mart is a separate synthetic fixture. No raw-to-dashboard-mart
-lineage, Spark execution or Domo execution is claimed by this check.
+The [payment check](verification/payment-check.md) reconciles 57 raw rows and
+3,777 services to the actual displayed $104.91 mart row. Independent Decimal
+tests cover all 870 mart rows; CI re-executes the shared local Spark path.
+2021–2022 are constructed scenarios. This execution does not establish
+Databricks, Airflow, Domo enforcement or clinical/business outcome validity.

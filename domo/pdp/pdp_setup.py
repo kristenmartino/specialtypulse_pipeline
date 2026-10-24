@@ -32,28 +32,11 @@ Environment variables (or Databricks Secrets):
 
 import csv
 import os
-import sys
 import requests
 from collections import defaultdict
-from dotenv import load_dotenv
 
-load_dotenv(os.path.join(os.path.dirname(__file__), ".env"))
-
-# ── CONFIG ────────────────────────────────────────────────────────────────────
-
-CLIENT_ID     = os.getenv("DOMO_CLIENT_ID")
-CLIENT_SECRET = os.getenv("DOMO_CLIENT_SECRET")
-DATASET_ID    = os.getenv("DOMO_DATASET_ID")
-
-CONFIG_FILE   = os.path.join(os.path.dirname(__file__), "pdp_config.csv")
-API_HOST      = "https://api.domo.com"
-
-if not all([CLIENT_ID, CLIENT_SECRET, DATASET_ID]):
-    print("ERROR: Set DOMO_CLIENT_ID, DOMO_CLIENT_SECRET, and DOMO_DATASET_ID")
-    print("  export DOMO_CLIENT_ID=your-id")
-    print("  export DOMO_CLIENT_SECRET=your-secret")
-    print("  export DOMO_DATASET_ID=your-output-dataset-id")
-    sys.exit(1)
+CONFIG_FILE = os.path.join(os.path.dirname(__file__), "pdp_config.csv")
+API_HOST = "https://api.domo.com"
 
 
 # ── DOMO API CLIENT ───────────────────────────────────────────────────────────
@@ -366,14 +349,25 @@ def _infer_region_name(states: list[str]) -> str:
 
 # ── ENTRY POINT ───────────────────────────────────────────────────────────────
 
-if __name__ == "__main__":
+def main():
+    from dotenv import load_dotenv
+    load_dotenv(os.path.join(os.path.dirname(__file__), ".env"))
+    client_id = os.getenv("DOMO_CLIENT_ID")
+    client_secret = os.getenv("DOMO_CLIENT_SECRET")
+    dataset_id = os.getenv("DOMO_DATASET_ID")
+    if not all([client_id, client_secret, dataset_id]):
+        raise SystemExit("Set DOMO_CLIENT_ID, DOMO_CLIENT_SECRET and DOMO_DATASET_ID")
     print("SpecialtyPulse PDP Setup")
     print("=" * 50)
-    print(f"Target DataSet: {DATASET_ID}")
+    print(f"Target DataSet: {dataset_id}")
     print()
 
-    domo = DomoClient(CLIENT_ID, CLIENT_SECRET)
+    domo = DomoClient(client_id, client_secret)
     config = load_config(CONFIG_FILE)
     email_to_id = build_email_to_user_id(domo)
 
-    setup_pdp(DATASET_ID, config, email_to_id, domo)
+    setup_pdp(dataset_id, config, email_to_id, domo)
+
+
+if __name__ == "__main__":
+    main()

@@ -76,34 +76,30 @@ const sfdc = coerce(parseCsv(readFileSync(resolve(dataDir, "sample_sfdc_pipeline
 writeFileSync(outFile, JSON.stringify({ mart, sfdc }) + "\n");
 console.log(`sourceData.json written: ${mart.length} mart rows, ${sfdc.length} pipeline rows`);
 
-// A separate, reproducible calculation check. The raw fixture is NOT the
-// lineage of sample_mart_reimbursement_trends.csv; both are synthetic fixtures.
+// Build only from the mart exported by the recorded shared Spark execution.
+const receipt = JSON.parse(readFileSync(resolve(dataDir, "pipeline_run.json"), "utf8"));
+const sha256 = (path) => createHash("sha256").update(readFileSync(path)).digest("hex");
+const repoDir = resolve(dataDir, "..");
+for (const [path, expected] of Object.entries({ ...receipt.source_sha256, ...receipt.code_sha256 })) {
+  if (sha256(resolve(repoDir, path)) !== expected) throw new Error(`Pipeline input/code changed: ${path}. Re-run the Spark pipeline.`);
+}
+if (sha256(resolve(dataDir, "sample_mart_reimbursement_trends.csv")) !== receipt.mart_csv_sha256) throw new Error("Mart differs from recorded Spark output");
 const rawFile = resolve(dataDir, "sample_2023_puf_10k.csv");
-const rawText = readFileSync(rawFile, "utf8");
-const inputs = parseCsv(rawText).map((row, index) => ({ row, csv_row: index + 2 }))
+const inputs = parseCsv(readFileSync(rawFile, "utf8")).map((row, index) => ({ row, csv_row: index + 2 }))
   .filter(({ row }) => row.provider_type === "Dermatology" && row.hcpcs_cd === "99213" && Number(row.tot_srvcs) >= 11)
-  .map(({ row, csv_row }) => ({
-    csv_row,
-    total_services: Number(row.tot_srvcs),
-    avg_medicare_payment_cents: Math.round(Number(row.avg_mdcr_pymt_amt) * 100),
-  }));
+  .map(({ row, csv_row }) => ({ csv_row, total_services: Number(row.tot_srvcs), avg_medicare_payment_cents: Math.round(Number(row.avg_mdcr_pymt_amt) * 100) }));
 const totalServices = inputs.reduce((sum, row) => sum + row.total_services, 0);
 const paymentServiceCents = inputs.reduce((sum, row) => sum + row.avg_medicare_payment_cents * row.total_services, 0);
-if (!totalServices || !Number.isSafeInteger(paymentServiceCents)) throw new Error("Invalid verification inputs");
+const displayed = mart.find(row => row.provider_specialty === "Dermatology" && row.hcpcs_code === "99213" && row.year === 2023);
+if (!displayed || displayed.total_services !== totalServices || Math.round(paymentServiceCents / totalServices) !== Math.round(displayed.avg_medicare_payment * 100)) throw new Error("Displayed payment does not reconcile to raw records");
 const trace = {
-  source: "data/sample_2023_puf_10k.csv",
-  source_sha256: createHash("sha256").update(rawText).digest("hex"),
-  provenance: "Synthetic records following the CMS PUF schema; not actual CMS records.",
-  scope: "Offline raw-fixture calculation, separate from the bundled dashboard mart. Not a Databricks or Domo execution receipt.",
+  source: "data/sample_2023_puf_10k.csv", source_sha256: sha256(rawFile),
+  provenance: "Synthetic CMS-schema records. 2021/2022 are generated scenarios, not historical CMS releases.",
+  scope: "Raw CSV through shared local Spark ingestion, staging and mart transformations to the procedure list; Databricks, Airflow and Domo services are not exercised.",
   filter: { provider_specialty: "Dermatology", hcpcs_code: "99213", year: 2023, minimum_services: 11 },
-  source_row_count: inputs.length,
-  payment_service_cents: paymentServiceCents,
-  verification_mart_row: {
-    provider_specialty: "Dermatology", hcpcs_code: "99213", year: 2023,
-    total_services: totalServices,
-    avg_medicare_payment: Math.round(paymentServiceCents / totalServices) / 100,
-  },
-  inputs,
+  source_row_count: inputs.length, payment_service_cents: paymentServiceCents,
+  verification_mart_row: { provider_specialty: displayed.provider_specialty, hcpcs_code: displayed.hcpcs_code, year: displayed.year, total_services: displayed.total_services, avg_medicare_payment: displayed.avg_medicare_payment },
+  pipeline_executed_at: receipt.executed_at, engine: receipt.runtime.engine, mart_rows: receipt.mart_rows, inputs,
 };
 writeFileSync(resolve(dataDir, "payment_verification.json"), JSON.stringify(trace, null, 2) + "\n");
-console.log(`Payment check: ${inputs.length} raw rows, ${totalServices} services, $${trace.verification_mart_row.avg_medicare_payment.toFixed(2)}`);
+console.log(`Reconciled displayed payment: ${inputs.length} raw rows → ${totalServices} services → $${displayed.avg_medicare_payment.toFixed(2)}`);

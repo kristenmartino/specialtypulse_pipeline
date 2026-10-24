@@ -1,24 +1,6 @@
 """Exercise the real setup function offline; never import its credential bootstrap."""
-import ast
-from collections import defaultdict
-from pathlib import Path
-
 import pytest
-
-
-SOURCE = Path(__file__).parents[1] / "domo/pdp/pdp_setup.py"
-FUNCTIONS = {
-    "setup_pdp", "build_all_rows_policy", "build_specialty_policy",
-    "build_regional_policy", "_infer_region_name",
-}
-namespace = {"DomoClient": object, "defaultdict": defaultdict}
-tree = ast.parse(SOURCE.read_text())
-functions = ast.Module(
-    body=[node for node in tree.body if isinstance(node, ast.FunctionDef) and node.name in FUNCTIONS],
-    type_ignores=[],
-)
-exec(compile(functions, str(SOURCE), "exec"), namespace)
-setup_pdp = namespace["setup_pdp"]
+from domo.pdp.pdp_setup import setup_pdp
 
 
 class FakeDomo:

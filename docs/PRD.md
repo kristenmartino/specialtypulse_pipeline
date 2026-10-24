@@ -17,12 +17,12 @@ the market table, inspect its procedures, then compare its active pipeline.
 
 ## Data provenance
 
-All bundled records are synthetic. Reimbursement fixtures follow the CMS
-Medicare Physician PUF schema; they are not actual CMS extracts. The raw fixture
-contains 9,994 records for 2023. The separately generated dashboard mart contains
-570 rows across 2021–2023. The mart was not reproduced from that raw fixture;
-its timestamps are fixture fields, not execution receipts. Sales and usage
-records are also synthetic. See [data provenance](../data/README.md).
+All records are synthetic CMS-schema fixtures. The 2021–2022 inputs are generated
+comparison scenarios, not historical CMS releases. Three raw files contain
+29,982 records; the shared local Spark run produces 870 mart rows. The public
+app uses this exported output. Source, transformation-code and output hashes,
+counts and execution time are recorded in data/pipeline_run.json. Sales and usage
+remain synthetic. See [data provenance](../data/README.md).
 
 ## Current implementation and verification
 
@@ -32,7 +32,7 @@ boundaries listed below.
 
 | Component | Current state | Evidence and limit |
 |---|---|---|
-| CSV ingestion, staging, mart and Domo upload notebooks | Code present | CI compiles notebook syntax; no current Databricks execution receipt is bundled |
+| Shared ingestion, staging and mart transformations | Executed locally with Spark 4.0.1; notebook adapters import the same functions | Recorded local run, independent reconciliation of all 870 rows, CI full-output reproduction; Databricks/Delta I/O and Domo upload not verified |
 | Airflow sequencing and retries | Code present; DAG import validated in CI | Import/task checks do not establish successful notebook execution |
 | SQL DataFlow aggregation, change categories, projections and pressure score | SQL present | Public build executes the JavaScript implementation; no current Domo DataFlow run is verified |
 | Specialty benchmarks and pressure index in public app | Implemented and exercised by regression tests | Computed from the synthetic dashboard mart in the browser |
@@ -40,19 +40,19 @@ boundaries listed below.
 | Synthetic pipeline comparison | Implemented in public app | Joins latest specialty scores by specialty; amounts and scores are displayed separately |
 | Usage view | Implemented in public app | Uses synthetic engagement; no observed product adoption is claimed |
 | Computed dashboard summary and navigation links | Implemented in public app | Deterministic calculations; no model call or AI endpoint |
-| Example policy configuration and schema guard | Code present; offline regression tests | Setup rejects missing filter columns before changing policies |
+| Example policy configuration and schema guard | Directly tested deployed functions | Builders/setup imported without credential or HTTP side effects; schema guard stops incompatible filters before mutation |
 | Public access-policy view | Implemented as example rules and assignments | No simulated pass results; public app does not enforce Domo PDP |
 | Regional access | Planned extension | Needs a separate output retaining provider_state; specialty/year benchmarks omit state |
 | Domo policy verification | Script present; conditional CI job | Domo credentials are required; syntax-only fallback is not live security verification |
 | Metric definitions and stakeholder responsibilities | Written | Project design choices and proposed responsibilities; no external certification or stakeholder sign-off |
-| Raw-fixture payment verification | Implemented and checked independently | Raw CSV → offline verification mart row → public calculation check; not a Spark or Domo run |
+| Displayed payment lineage | Reconciled to the actual dashboard mart | Raw CSV → shared Spark path → exported mart → browser JSON → $104.91 / 3,777 services in the normal procedure list |
 
 ## Current dashboard scope
 
 | View | Available now |
 |---|---|
 | Market Intelligence | Latest specialty ranking, payment-to-charge trends, payment/charge change categories and service-volume comparison |
-| Procedure Detail | Specialty selector; latest-year top ten procedures by service count; payments, flagged rows, facility mix and ratio trend; separate calculation check |
+| Procedure Detail | Specialty selector; latest-year top ten procedures by service count; payments, flagged rows, facility mix and ratio trend; raw-to-displayed-value lineage check |
 | Pipeline Intelligence | Active and won amounts, active pipeline by specialty, scores and owner totals |
 | Adoption Tracking | Users, sessions, average session duration and interactions for the displayed synthetic period |
 | PDP Governance | Role counts, expected policy rules, derived policy-group count and assignments; regional entries marked planned |
@@ -80,11 +80,11 @@ average are separate measures. See [metric definitions](METRIC_CERTIFICATION_LOG
 
 ## Validation and next steps
 
-Build and regression checks run on push and pull requests. The payment check
-reconciles source row numbers, service totals, integer-cent weighted products
-and the generated verification output using an independent Python Decimal test.
-The dashboard renders that output in Procedure Detail. Reproduce it with
-`npm --prefix domo/app run generate:data`, then `python -m pytest tests -q`.
+CI re-executes the shared Spark path and compares every business column with
+the public mart. Independent Decimal tests reconcile all 870 groups. Direct
+policy-builder tests exercise the deployed functions, not copied helpers.
+Reproduce the pipeline with `python scripts/run_local_pipeline.py --check`;
+see [the walkthrough](verification/payment-check.md) for runtime requirements.
 
 Operational use would require complete-source reconciliation, successful
 Databricks/Airflow execution receipts, Domo DataFlow and intended-user policy

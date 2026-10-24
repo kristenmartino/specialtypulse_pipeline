@@ -9,14 +9,15 @@ export default function CalculationCheck({ demoMart }) {
     <details className="calculation-check span-full" id="calculation-check">
       <summary>Verify one calculation · Dermatology, HCPCS 99213</summary>
       <div className="calculation-check-body">
-        <p>This separate check starts with the synthetic raw CSV, not the bundled dashboard mart.</p>
+        <p>This value follows the synthetic raw CSV through the shared Spark ingestion, staging and mart transformations into the procedure list.</p>
         <ol>
           <li><strong>Source:</strong> {trace.source_row_count} Dermatology rows for HCPCS 99213 in the 2023 raw fixture, with at least 11 services per row.</li>
           <li><strong>Calculation:</strong> sum of payment × services = {fmt.usd(trace.payment_service_cents / 100)}; total services = {fmt.num(row.total_services)}.</li>
-          <li><strong>Verification output:</strong> {fmt.usd(trace.payment_service_cents / 100)} ÷ {fmt.num(row.total_services)} = <strong>{fmt.usd(row.avg_medicare_payment)}</strong> average payment per service.</li>
+          <li><strong>Displayed mart output:</strong> {fmt.usd(trace.payment_service_cents / 100)} ÷ {fmt.num(row.total_services)} = <strong>{fmt.usd(row.avg_medicare_payment)}</strong> average payment per service.</li>
         </ol>
-        <p>The procedure list uses an independently generated demo mart. {demoRow && <>Its {fmt.usd(demoRow.avg_medicare_payment)} value is not derived from this raw fixture. </>} This check verifies local arithmetic, not a Databricks or Domo run.</p>
+        <p>The procedure list reads this same mart row: <strong>{fmt.usd(demoRow?.avg_medicare_payment)}</strong> across {fmt.num(demoRow?.total_services)} services. The recorded local Spark run produced {fmt.num(trace.mart_rows)} mart rows. Databricks, Airflow and Domo service execution is not claimed.</p>
         <a href="https://github.com/kristenmartino/specialtypulse_pipeline/blob/main/data/payment_verification.json" target="_blank" rel="noreferrer">Inspect source row numbers, inputs and output ↗</a>
+        <a className="pipeline-receipt-link" href="https://github.com/kristenmartino/specialtypulse_pipeline/blob/main/data/pipeline_run.json" target="_blank" rel="noreferrer">Inspect the Spark run receipt ↗</a>
       </div>
     </details>
   );

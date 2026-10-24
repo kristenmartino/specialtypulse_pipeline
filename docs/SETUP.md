@@ -1,6 +1,7 @@
 > External integration instructions, not a record of successful execution.
-> All bundled data is synthetic. The public dashboard runs from a separate
-> demonstration mart; see [current status](PRD.md) and [data provenance](../data/README.md).
+> All bundled data is synthetic. The public dashboard uses the recorded shared local Spark
+> mart output; see [current status](PRD.md) and [data provenance](../data/README.md).
+> Notebook adapters 01–03 require pipeline_transforms.py alongside them.
 > Domo trial access has ended. Review the target schema and policy configuration
 > before using the optional integration scripts. Regional filters need a separate
 > state-level output. Current public setup is in [the app README](../domo/app/README.md).

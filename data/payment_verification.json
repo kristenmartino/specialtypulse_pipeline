@@ -1,8 +1,8 @@
 {
   "source": "data/sample_2023_puf_10k.csv",
-  "source_sha256": "bad56556df6ee1d23b0532548eee3fb2e78a22c3b88eeb1b2d7b73f2ce8cf62c",
-  "provenance": "Synthetic records following the CMS PUF schema; not actual CMS records.",
-  "scope": "Offline raw-fixture calculation, separate from the bundled dashboard mart. Not a Databricks or Domo execution receipt.",
+  "source_sha256": "7ce9441204f55d8a9a9273f9d21d5e862a58ece27a053054ca8d6a950b44f0e5",
+  "provenance": "Synthetic CMS-schema records. 2021/2022 are generated scenarios, not historical CMS releases.",
+  "scope": "Raw CSV through shared local Spark ingestion, staging and mart transformations to the procedure list; Databricks, Airflow and Domo services are not exercised.",
   "filter": {
     "provider_specialty": "Dermatology",
     "hcpcs_code": "99213",
@@ -18,6 +18,9 @@
     "total_services": 3777,
     "avg_medicare_payment": 104.91
   },
+  "pipeline_executed_at": "2026-10-24T08:09:20.147368+00:00",
+  "engine": "local Apache Spark",
+  "mart_rows": 870,
   "inputs": [
     {
       "csv_row": 117,

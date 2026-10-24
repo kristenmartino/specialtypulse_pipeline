@@ -301,3 +301,5 @@ ul.brief-evidence { padding-left: 20px; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
 }
+
+.pipeline-receipt-link { display: inline-block; margin-left: 20px; }
