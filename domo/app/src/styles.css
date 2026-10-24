@@ -84,6 +84,11 @@ button:disabled { opacity: 0.6; cursor: not-allowed; }
 .tab-btn:focus-visible { outline-offset: -4px; }
 .page-content { flex: 1; min-height: 0; padding: 24px 32px 0; overflow-y: auto; }
 .page-loading { padding: 32px 0; }
+.demo-disclosure { margin: 0 0 24px; padding-bottom: 14px; border-bottom: 1px solid var(--border); color: var(--muted); font-size: 13px; line-height: 1.6; }
+.period-label { grid-column: 1 / -1; color: var(--muted); font-size: 13px; }
+.review-links { display: flex; gap: 12px 24px; flex-wrap: wrap; margin: 20px 0; }
+.review-links button { text-align: left; line-height: 1.6; }
+
 .standalone-note { margin-top: 32px; padding: 18px 0 24px; border-top: 1px solid var(--border); color: var(--muted); font-size: 12px; line-height: 1.6; }
 .page-status-row { display: flex; justify-content: flex-start; margin-bottom: 18px; }
 .data-note { margin-bottom: 20px; padding-bottom: 14px; border-bottom: 1px solid var(--border); font-size: 13px; line-height: 1.6; color: var(--muted); }
@@ -122,6 +127,25 @@ button:disabled { opacity: 0.6; cursor: not-allowed; }
 .focus-chip-value { color: var(--white); font-size: 14px; font-weight: 600; }
 .focus-chip-clear { margin-left: auto; padding: 5px 10px; border: 1px solid var(--border); border-radius: 2px; background: transparent; color: var(--ice); font-size: 13px; cursor: pointer; }
 .focus-chip-clear:hover { border-color: var(--teal-xlt); }
+
+/* Procedure comparisons keep names in the document, outside chart axes. */
+.procedure-controls { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.procedure-controls label { color: var(--muted); font-size: 13px; font-weight: 500; }
+.procedure-controls select { min-width: 220px; max-width: 100%; padding: 9px 32px 9px 12px; background: var(--surface); border: 1px solid var(--border); border-radius: 2px; color: var(--white); font: inherit; cursor: pointer; }
+.procedure-controls select:disabled { cursor: default; color: var(--muted); }
+.procedure-ranking { list-style: none; }
+.procedure-ranking-row { display: grid; grid-template-columns: minmax(220px, 1.4fr) minmax(160px, 1fr) 130px; align-items: center; gap: 24px; padding: 16px 0; border-bottom: 1px solid #263D51; }
+.procedure-ranking-row:last-child { border-bottom: none; }
+.procedure-identity { display: flex; align-items: baseline; gap: 14px; min-width: 0; }
+.procedure-rank { width: 20px; flex-shrink: 0; color: var(--muted); font-size: 12px; font-variant-numeric: tabular-nums; }
+.procedure-name { display: block; color: var(--ice); font-size: 14px; line-height: 1.45; overflow-wrap: anywhere; }
+.procedure-code { display: block; margin-top: 4px; color: var(--muted); font-size: 12px; }
+.procedure-volume { min-width: 0; }
+.procedure-measure { display: block; color: var(--ice); font-size: 13px; font-variant-numeric: tabular-nums; }
+.procedure-bar-track { width: 100%; height: 9px; margin-top: 9px; background: var(--surface-lt); }
+.procedure-bar { height: 100%; background: var(--teal-xlt); }
+.procedure-payment { text-align: right; }
+.procedure-measure-label { display: block; margin-top: 4px; color: var(--muted); font-size: 12px; }
 
 /* Tables retain their width on small screens and scroll within their section. */
 .data-table-wrap, .matrix-scroll { overflow: auto; max-height: 480px; scrollbar-width: thin; }
@@ -189,16 +213,16 @@ button:disabled { opacity: 0.6; cursor: not-allowed; }
 .exec-brief-title { color: var(--ice); font-size: 15px; font-weight: 600; }
 .exec-brief-sub, .exec-brief-unavail { color: var(--muted); font-size: 13px; }
 .exec-brief-actions { display: flex; align-items: center; gap: 14px; }
-.exec-brief-btn, .ai-trigger-btn {
+.exec-brief-btn {
   display: inline-flex; align-items: center; justify-content: center; gap: 8px;
   padding: 8px 14px; border: 1px solid var(--border); border-radius: 2px;
   background: transparent; color: var(--teal-xlt); font-size: 13px; font-weight: 500; cursor: pointer;
 }
-.exec-brief-btn:hover:not(:disabled), .ai-trigger-btn:hover:not(:disabled) { background: var(--surface-lt); border-color: var(--teal-xlt); }
+.exec-brief-btn:hover:not(:disabled) { background: var(--surface-lt); border-color: var(--teal-xlt); }
 .exec-brief-link { background: transparent; border: none; color: var(--muted); font-size: 13px; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
 .exec-brief-link:hover { color: var(--white); }
 .exec-brief-body { padding: 0 0 20px; }
-.exec-brief-text, .ai-output-text { font-size: 14px; line-height: 1.7; color: var(--ice); max-width: 85ch; }
+.exec-brief-text { font-size: 14px; line-height: 1.7; color: var(--ice); max-width: 85ch; }
 .brief-evidence { margin: 18px 0; overflow-x: auto; color: var(--muted); font-size: 13px; }
 .brief-evidence > summary { cursor: pointer; padding-bottom: 10px; }
 ul.brief-evidence { padding-left: 20px; }
@@ -207,15 +231,6 @@ ul.brief-evidence { padding-left: 20px; }
 .brief-evidence table { width: 100%; min-width: 560px; border-collapse: collapse; }
 .brief-evidence th, .brief-evidence td { padding: 8px 12px 8px 0; text-align: left; border-bottom: 1px solid var(--border); font-size: 12px; }
 .brief-evidence th { color: var(--ice); font-weight: 500; }
-.ai-panel { display: flex; flex-direction: column; align-items: flex-start; gap: 16px; }
-.ai-output { width: 100%; padding-top: 14px; border-top: 1px solid var(--border); }
-.ai-output-label { color: var(--ice); font-size: 14px; font-weight: 500; margin-bottom: 10px; }
-.ai-placeholder, .ai-unavailable { color: var(--muted); font-size: 13px; line-height: 1.6; }
-.ai-unavailable { display: flex; gap: 10px; }
-.ai-icon { font-size: 14px; }
-.ai-error { color: #FCA5A5; font-size: 13px; }
-.ai-model-tag { color: var(--muted); font-size: 12px; line-height: 1.6; margin-top: 12px; }
-
 /* Charts use sans-serif labels and monospace only for tooltip values. */
 .recharts-text { fill: var(--muted) !important; font-family: var(--font-sans) !important; }
 .recharts-cartesian-grid-horizontal line, .recharts-cartesian-grid-vertical line { stroke: #263D51; }
@@ -261,6 +276,12 @@ ul.brief-evidence { padding-left: 20px; }
   .insight-strip { flex-direction: column; gap: 20px; }
   .insight-card { padding: 0; border-left: none; flex: auto; }
   .insight-value { font-size: 19px; margin-top: 5px; }
+  .procedure-controls { align-items: stretch; flex-direction: column; gap: 6px; }
+  .procedure-controls select { width: 100%; min-width: 0; }
+  .procedure-ranking-row { grid-template-columns: minmax(0, 1fr) 110px; gap: 12px 20px; }
+  .procedure-identity { grid-column: 1 / -1; gap: 10px; }
+  .procedure-volume { padding-left: 30px; }
+  .procedure-payment { align-self: start; }
   .role-grid { column-gap: 16px; }
   .role-name { font-size: 12px; }
   .exec-brief-heading { gap: 6px; }

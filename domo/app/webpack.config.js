@@ -38,19 +38,5 @@ module.exports = {
     port:   3000,
     open:   true,
     static: path.resolve(__dirname),
-    proxy: [
-      {
-        // Proxy AI requests so the API key stays server-side.
-        // Set ANTHROPIC_API_KEY in your shell before running `npm start`.
-        context: ["/api/anthropic"],
-        target: "https://api.anthropic.com",
-        changeOrigin: true,
-        pathRewrite: { "^/api/anthropic": "" },
-        onProxyReq: (proxyReq) => {
-          const key = process.env.ANTHROPIC_API_KEY || "";
-          if (key) proxyReq.setHeader("x-api-key", key);
-        },
-      },
-    ],
   },
 };

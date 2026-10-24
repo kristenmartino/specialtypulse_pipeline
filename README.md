@@ -117,9 +117,9 @@ on a shared component library (`KpiCard`, `ChartPanel`, `DataTable`, `TabBar`,
 | **Adoption Tracking** | Dashboard engagement and usage by role |
 | **PDP Governance** | Example roles, sample check results and access-policy matrix |
 
-Cross-cutting features include specialty drill-downs, computed callouts and a collapsible dashboard summary after the analysis. The summary includes all specialties' active pipeline totals and shares. An optional Claude call selects a review task from a fixed catalog; the client validates the task and evidence IDs and renders only supported text. Governance summaries are computed from the policy matrix without a model call.
+The dashboard supports specialty drill-downs, ranked procedure views and a collapsible summary. Procedure views rank the latest year's top ten services within the selected specialty. Summary links open the related views directly. All summaries are computed; the app makes no model calls.
 
-The optional AI selector uses a server-side proxy. Without API configuration the computed summary remains available. Standalone policy-check results are explicitly labeled samples and have no generated verification timestamp. CI runs live policy verification only with configured Domo credentials; its fallback checks syntax only.
+The public build has one demo disclosure. Governance results have no generated verification timestamp. CI runs live policy verification only with configured Domo credentials; its fallback checks syntax only.
 
 See [`domo/app/README.md`](domo/app/README.md) for full local-dev, Vercel, and Domo
 publishing instructions.
@@ -148,10 +148,9 @@ specialtypulse_pipeline/
 │   ├── sql_dataflow.sql                ← The SQL DataFlow to build in Domo UI
 │   ├── app/                            ← 5-page dashboard: standalone web (Vercel) + Domo App
 │   │   ├── package.json                ← React 18, Recharts, Webpack 5 (build / build:web)
-│   │   ├── webpack.config.js           ← Build config + AI proxy for local dev
+│   │   ├── webpack.config.js           ← Build config
 │   │   ├── vercel.json                 ← Standalone web build (build:web → dist/)
 │   │   ├── manifest.json               ← Domo app DataSet bindings (6 DataSets)
-│   │   ├── api/anthropic/v1/messages.js ← Vercel Edge AI proxy (key stays server-side)
 │   │   └── src/
 │   │       ├── index.html              ← HTML entry point
 │   │       ├── index.js                ← React DOM mount
@@ -159,7 +158,7 @@ specialtypulse_pipeline/
 │   │       ├── pages/                  ← MarketIntelligence, ProcedureDetail,
 │   │       │                              PipelineIntelligence, AdoptionTracking, PdpGovernance
 │   │       ├── components/             ← KpiCard, ChartPanel, DataTable, TabBar,
-│   │       │                              PressureBadge, ExecutiveBrief, InsightStrip, InfoTip
+│   │       │                              PressureBadge, DashboardSummary, InsightStrip, InfoTip
 │   │       ├── data/                   ← domoFetch.js, mockData.js, constants.js
 │   │       └── styles.css              ← Design tokens, dark theme
 │   └── pdp/
@@ -248,7 +247,6 @@ npm start                 # http://localhost:3000
 # Standalone web build (powers the live demo)
 npm run build:web         # outputs to dist/
 # Deploy on Vercel with project root = domo/app; vercel.json wires build:web → dist/.
-# Set ANTHROPIC_API_KEY in the Vercel project to enable optional review-focus selection.
 
 # Native Domo App
 npm run build && domo publish
@@ -277,7 +275,6 @@ These mirror the GitHub Actions jobs in `.github/workflows/ci.yml`
 - **YoY nulls**: 2021 is the base year — `yoy_*` columns are null for 2021 rows by design
 - **Live demo data**: the hosted site runs on bundled *representative* data, not live Medicare data or live Domo DataSets
 - **Sample vs. contract years**: the data contract spans 2021–2025; the bundled raw sample is 2023 only, and the representative demo data covers 2021–2023
-- **Optional AI selector**: requires host API configuration; without it, computed dashboard and policy summaries remain available.
 - **Airflow 3.x**: the DAG uses `schedule` (not the deprecated `schedule_interval`) and requires `aiofiles`
 
 ---

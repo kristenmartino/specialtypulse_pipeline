@@ -96,7 +96,7 @@ export const DEFINITIONS = {
   marketValidated:
     "Pressure-weighted pipeline = deal amount × specialty pressure score ÷ 100. A heuristic comparison measure, not a validated pipeline value, win probability or forecast.",
   adoptionRate:
-    "Distinct users with a session in the displayed period ÷ configured users. Standalone usage is synthetic, not measured product adoption.",
+    "Distinct users with a session in the displayed period ÷ configured users. The displayed period is shown above the totals.",
 };
 
 export const fmt = {

@@ -36,43 +36,30 @@ function buildBriefFacts(benchmarks, mart, pipeline) {
   const evidence = [];
   const focuses = [];
   if (top) {
-    evidence.push({ id: "pressure", text: `${top.name} has the highest displayed pressure score (${top.pressure.toFixed(1)}/100).` });
+    evidence.push({ id: "pressure", text: `${top.name} has the highest pressure score (${top.pressure.toFixed(1)}/100).` });
     evidence.push({ id: "pipeline", text: `${top.name} has $${top.amount.toLocaleString("en-US")} in active pipeline across ${top.deals} deals${top.share == null ? "" : ` (${(top.share * 100).toFixed(1)}% of the active total)`}.` });
-    focuses.push({ id: "compare-coverage", title: `Compare ${top.name} pipeline coverage`,
-      text: "Review the specialty's share of active pipeline alongside its reimbursement score. The score does not establish buying intent or a pipeline shortfall.", evidenceIds: ["pressure", "pipeline"] });
+    focuses.push({ id: "compare-coverage", title: "Compare pipeline by specialty",
+      text: "Compare pipeline amounts and pressure scores by specialty.", target: "pipeline", specialty: top.name, evidenceIds: ["pressure", "pipeline"] });
   }
   if (cut) {
-    evidence.push({ id: "payment", text: `${cut.provider_specialty} has the largest decline in average procedure-level YoY payment change (${(Number(cut.avg_yoy_payment_change) * 100).toFixed(1)}%). This is not a same-procedure reimbursement-rate estimate.` });
+    evidence.push({ id: "payment", text: `${cut.provider_specialty} has the lowest average procedure-level payment change (${(Number(cut.avg_yoy_payment_change) * 100).toFixed(1)}% year over year).` });
     focuses.push({ id: "review-payment", title: `Review ${cut.provider_specialty} payment changes`,
-      text: "Inspect procedure-level changes and service mix before attributing the specialty average to rate changes or practice costs.", evidenceIds: ["payment"] });
+      text: "Open the specialty’s procedure payments and year-over-year changes.", target: "procedure", specialty: cut.provider_specialty, evidenceIds: ["payment"] });
   }
   if (deviation) {
     evidence.push({ id: "deviation", text: `${deviation.row.hcpcs_description} (${deviation.row.provider_specialty}) is ${(deviation.magnitude * 100).toFixed(1)}% ${deviation.direction} its specialty's blended payment average.` });
-    focuses.push({ id: "review-deviation", title: "Review the largest flagged benchmark deviation",
-      text: "Compare the procedure with clinically comparable services. A specialty's blended average is a screening reference, not an expected payment for every procedure.", evidenceIds: ["deviation"] });
+    focuses.push({ id: "review-deviation", title: `Inspect ${deviation.row.provider_specialty} outliers`,
+      text: "Open the flagged procedure and its payment comparison.", target: "procedure", specialty: deviation.row.provider_specialty, evidenceIds: ["deviation"] });
   }
   return { year: market.year, procedureYear: procedures.year, total, specialties, top, cut, deviation, evidence, focuses };
 }
 
-function buildFocusPrompt(facts, sample) {
-  return `You are a GTM strategy analyst selecting one data-review task. ${sample ? "All figures are portfolio demo data; pipeline is synthetic." : "Use only the supplied dashboard observations."}
-Choose exactly one available review focus. Do not write prose or infer competition, sales readiness, buying intent, practice costs or absent pipeline. The complete active-pipeline totals by specialty are included; not being the largest does not mean absence. Scores are a heuristic, not validated sales probabilities.
-Return ONLY JSON: {"focus_id":"an available focus id","evidence_ids":["the exact evidence ids for that focus"]}.
-DATA: ${JSON.stringify({ year: facts.year, totalActivePipeline: facts.total, specialties: facts.specialties, evidence: facts.evidence })}
-AVAILABLE FOCUSES: ${JSON.stringify(facts.focuses)}`;
-}
-
-function validateFocusSelection(text, facts) {
-  let parsed;
-  try { parsed = JSON.parse(text); } catch { throw new Error("The AI response could not be verified. Use the computed summary below."); }
-  const focus = facts.focuses.find(f => f.id === parsed?.focus_id);
-  if (!focus || !Array.isArray(parsed.evidence_ids) ||
-      Object.keys(parsed).sort().join(",") !== "evidence_ids,focus_id" ||
-      [...parsed.evidence_ids].sort().join(",") !== [...focus.evidenceIds].sort().join(",")) {
-    throw new Error("The AI response did not match the supplied evidence. Use the computed summary below.");
-  }
-  // Never render model-authored prose. Only return a known, evidence-linked task.
-  return focus;
+function topProcedures(rows, specialty, limit = 10) {
+  const count = Number.isInteger(limit) && limit >= 0 ? limit : 10;
+  return latestRows(rows).rows
+    .filter(r => r.provider_specialty === specialty && numeric(r.total_services) && Number(r.total_services) >= 0)
+    .sort((a, b) => Number(b.total_services) - Number(a.total_services) || String(a.hcpcs_code).localeCompare(String(b.hcpcs_code)))
+    .slice(0, count);
 }
 
 function verificationState(checks, sample) {
@@ -81,4 +68,4 @@ function verificationState(checks, sample) {
   return checks.every(c => c.passed === true || c.passed === "true") ? "pass" : "fail";
 }
 
-module.exports = { activePipeline, latestRows, largestDeviation, buildBriefFacts, buildFocusPrompt, validateFocusSelection, verificationState };
+module.exports = { activePipeline, latestRows, largestDeviation, buildBriefFacts, topProcedures, verificationState };

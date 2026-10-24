@@ -8,10 +8,6 @@ import { COMPUTED } from "./computed";
 export const isDomo =
   typeof window !== "undefined" && typeof window.domo !== "undefined";
 
-export const AI_API_URL = isDomo
-  ? "/domo/proxy/v1/messages"
-  : "/api/anthropic/v1/messages";
-
 export function domoFetch(alias) {
   if (isDomo) {
     return window.domo.get(`/data/v1/${alias}?limit=1000`);

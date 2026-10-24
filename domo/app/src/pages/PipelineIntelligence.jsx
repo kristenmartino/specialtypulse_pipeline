@@ -8,7 +8,6 @@ import KpiCard from "../components/KpiCard";
 import DataTable from "../components/DataTable";
 import PressureBadge from "../components/PressureBadge";
 import { activePipeline } from "../data/reportingFacts";
-import { isDomo } from "../data/domoFetch";
 import { CHART_COLORS, TOOLTIP_PROPS, CHART_ANIM, fmt, groupBy, DEFINITIONS } from "../data/constants";
 
 export default function PipelineIntelligence({ pipeline }) {
@@ -63,7 +62,6 @@ export default function PipelineIntelligence({ pipeline }) {
 
   return (
     <div className="page-grid">
-      <p className="data-note">{isDomo ? "Sales dataset" : "Synthetic sales pipeline"} · pressure-weighted amounts are heuristic comparisons, not forecasts or validated deal values.</p>
       {/* KPI Row */}
       <div className="kpi-row span-full">
         <KpiCard label="Active Pipeline" value={fmt.usdCompact(kpis.totalPipe)} sub={fmt.plural(kpis.activeCount, "deal")} color="teal" />
@@ -92,7 +90,7 @@ export default function PipelineIntelligence({ pipeline }) {
       </ChartPanel>
 
       {/* Territory Table */}
-      <ChartPanel title="Territory alignment" subtitle="Pipeline by owner" className="span-full">
+      <ChartPanel title="Pipeline by owner" className="span-full">
         <DataTable columns={ownerColumns} data={ownerData} defaultSort="validatedAmount" />
       </ChartPanel>
     </div>

@@ -7,6 +7,7 @@ import { verificationState } from "../data/reportingFacts";
 
 function OverallStatusBadge({ checks, loading }) {
   const state = verificationState(checks, !isDomo);
+  if (state === "sample") return null;
   const label = loading ? "Loading recorded results…" : state === "sample" ? "Sample verification results" : state === "unknown" ? "No verification results" : state === "pass" ? "Recorded checks passed" : "Recorded check failures";
   return <div className={`status-badge ${state === "sample" || state === "unknown" ? "loading" : state}`}>{label}</div>;
 }
@@ -57,13 +58,14 @@ function RoleSummaryPanel({ config, loading }) {
 }
 
 function VerifyStatusPanel({ checks, loading }) {
+  const sample = verificationState(checks, !isDomo) === "sample";
   return (
     <div className="panel">
       <div className="panel-header">
-        <span className="panel-title">{isDomo ? "Recorded checks" : "Sample checks"}</span>
+        <span className="panel-title">{sample ? "Policy checks" : "Recorded checks"}</span>
         {!loading && checks.length > 0 && (
           <span className="panel-count">
-            {checks.filter(c => c.passed === "true" || c.passed === true).length}/{checks.length} {isDomo ? "recorded passes" : "example passes"}
+            {sample ? `${checks.length} rules` : `${checks.filter(c => c.passed === "true" || c.passed === true).length}/${checks.length} passed`}
           </span>
         )}
       </div>
@@ -86,9 +88,6 @@ function VerifyStatusPanel({ checks, loading }) {
         </div>
       ) : (
         <div className="check-list">
-          <div className="pdp-note">
-            {isDomo ? "These results describe the recorded check run. Review its timestamp and test access as each role before relying on the policies." : "These are illustrative pass results, not a Domo API check or a live security assessment. No verification was run when this page loaded."}
-          </div>
           {checks.map((check, i) => {
             const pass = check.passed === "true" || check.passed === true;
             const sample = verificationState([check], !isDomo) === "sample";
@@ -183,35 +182,17 @@ function PolicyMatrixPanel({ config, loading }) {
   );
 }
 
-function PolicySummaryPanel({ config, checks }) {
-  const full = config.filter(r => r.filter_dimension === "ALL_ROWS").length;
-  const restricted = config.length - full;
-  const state = verificationState(checks, !isDomo);
-  return <section className="panel panel-wide">
-    <div className="panel-header"><span className="panel-title">Policy summary</span></div>
-    <div className="ai-panel">
-      <p>{config.length} {isDomo ? "configured" : "example"} users: {full} with all-row access and {restricted} with dimension filters.</p>
-      <p>{state === "sample" ? "Check results are examples. They do not establish that access is restricted in a live system." : state === "unknown" ? "No recorded verification results are available." : state === "pass" ? "The recorded checks passed. Passing these checks does not establish complete security coverage." : "The recorded results contain failures that require review."}</p>
-      <p className="data-note">Computed from the policy matrix and recorded results. Full-access roles can query every row; filtered roles require testing with the intended user accounts.</p>
-    </div>
-  </section>;
-}
-
 // ── MAIN PAGE COMPONENT ────────────────────────────────────────────────────────
 
 export default function PdpGovernance({ config, checks, loading }) {
 
   return (
     <div>
-      {!isDomo && <p className="data-note">Example policy assignments and sample verification results. This public demo does not enforce Domo row-level security.</p>}
-      <div className="page-status-row">
-        <OverallStatusBadge checks={checks} loading={loading} />
-      </div>
+      {isDomo && <div className="page-status-row"><OverallStatusBadge checks={checks} loading={loading} /></div>}
       <div className="main-grid">
         <RoleSummaryPanel config={config} loading={loading} />
         <VerifyStatusPanel checks={checks} loading={loading} />
         <PolicyMatrixPanel config={config} loading={loading} />
-        <PolicySummaryPanel config={config} checks={checks} />
       </div>
     </div>
   );

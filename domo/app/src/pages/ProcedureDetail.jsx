@@ -1,225 +1,134 @@
 import React, { useMemo } from "react";
 import {
-  BarChart, Bar, AreaChart, Area, LineChart, Line,
-  XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Cell, ReferenceLine,
+  BarChart, Bar, LineChart, Line,
+  XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,
 } from "recharts";
 import ChartPanel from "../components/ChartPanel";
 import DataTable from "../components/DataTable";
 import InsightStrip from "../components/InsightStrip";
-import { largestDeviation } from "../data/reportingFacts";
-import { isDomo } from "../data/domoFetch";
-import { CHART_COLORS, CHART_SERIES, TOOLTIP_PROPS, CHART_ANIM, fmt, groupBy, DEFINITIONS } from "../data/constants";
+import { largestDeviation, topProcedures } from "../data/reportingFacts";
+import { CHART_COLORS, TOOLTIP_PROPS, CHART_ANIM, fmt, DEFINITIONS } from "../data/constants";
 
-export default function ProcedureDetail({ mart, focusSpecialty, onClearFocus }) {
-  // Latest year, all specialties — used for the comparative trend charts.
-  const latestYearAll = useMemo(() => {
-    if (!mart.length) return [];
-    const maxY = Math.max(...mart.map(r => Number(r.year)));
-    return mart.filter(r => Number(r.year) === maxY);
-  }, [mart]);
+export default function ProcedureDetail({ mart, focusSpecialty, onSelectSpecialty }) {
+  const latestYear = useMemo(() => mart.length ? Math.max(...mart.map(r => Number(r.year))) : null, [mart]);
+  const latestRows = useMemo(() => mart.filter(r => Number(r.year) === latestYear), [mart, latestYear]);
+  const specialties = useMemo(() => [...new Set(latestRows.map(r => r.provider_specialty))].sort(), [latestRows]);
+  const selectedSpecialty = specialties.includes(focusSpecialty)
+    ? focusSpecialty
+    : specialties.includes("Dermatology") ? "Dermatology" : specialties[0] || "";
+  const view = useMemo(() => latestRows.filter(r => r.provider_specialty === selectedSpecialty), [latestRows, selectedSpecialty]);
+  const procedures = useMemo(() => topProcedures(latestRows, selectedSpecialty, 10), [latestRows, selectedSpecialty]);
+  const maxServices = procedures.reduce((max, r) => Math.max(max, Number(r.total_services) || 0), 0);
+  const outliers = useMemo(() => view.filter(r => String(r.is_payment_outlier) === "true")
+    .sort((a, b) => Math.abs(Number(b.payment_vs_specialty_pct)) - Math.abs(Number(a.payment_vs_specialty_pct))), [view]);
 
-  // Procedure-level views narrow to the drilled-in specialty when one is set.
-  const view = useMemo(
-    () => focusSpecialty ? latestYearAll.filter(r => r.provider_specialty === focusSpecialty) : latestYearAll,
-    [latestYearAll, focusSpecialty]
-  );
-
-  // Outlier procedures
-  const outliers = useMemo(
-    () => view.filter(r => String(r.is_payment_outlier) === "true")
-      .sort((a, b) => Math.abs(Number(b.payment_vs_specialty_pct)) - Math.abs(Number(a.payment_vs_specialty_pct))),
-    [view]
-  );
-
-  // Payment vs benchmark bar — labeled by procedure name (HCPCS code in tooltip)
-  const benchmarkBar = useMemo(() =>
-    view.slice(0, 12).map(r => ({
-      name: r.hcpcs_description,
-      code: r.hcpcs_code,
-      payment: Number(r.avg_medicare_payment),
-      benchmark: Number(r.specialty_avg_payment),
-      diff: Number(r.payment_vs_specialty_pct),
-    })),
-    [view]
-  );
-
-  // Surfaced "so what" — tracks the focus (specialty-specific when drilled in).
   const insights = useMemo(() => {
-    if (!view.length) return [];
     const items = [];
-
     const deviation = largestDeviation(view);
     if (deviation) items.push({
       tone: "alert",
-      label: "Largest flagged benchmark deviation",
+      label: "Largest flagged payment difference",
       value: `${deviation.row.hcpcs_description} · ${fmt.pct(deviation.magnitude)} ${deviation.direction}`,
-      detail: `${deviation.row.provider_specialty} — versus its blended specialty average.`,
+      detail: "Compared with the specialty average.",
     });
-
-    const flaggedBySpec = {};
-    outliers.forEach(r => { flaggedBySpec[r.provider_specialty] = (flaggedBySpec[r.provider_specialty] || 0) + 1; });
-    const topSpec = Object.entries(flaggedBySpec).sort((a, b) => b[1] - a[1])[0];
-    items.push({
-      tone: "info",
-      label: "Flagged procedures",
-      value: `${outliers.length} flagged`,
-      detail: topSpec ? `Most in ${topSpec[0]} (${topSpec[1]}).` : "None flagged in this view.",
-    });
-
     const cut = [...view].filter(r => r.yoy_payment_change_pct != null && Number(r.yoy_payment_change_pct) < 0)
       .sort((a, b) => Number(a.yoy_payment_change_pct) - Number(b.yoy_payment_change_pct))[0];
     if (cut) items.push({
       tone: "trend",
-      label: "Largest procedure payment decline",
+      label: "Largest payment decline",
       value: `${cut.hcpcs_description} ${fmt.pct(cut.yoy_payment_change_pct)}`,
-      detail: `${cut.provider_specialty} — largest YoY average-payment decline in this view.`,
+      detail: `Average payment, CY${latestYear - 1}–${latestYear}.`,
     });
-
     return items;
-  }, [view, outliers]);
+  }, [view, latestYear]);
 
-  // Facility mix by specialty (latest year, always comparative across specialties)
   const facilityData = useMemo(() => {
-    const bySpec = groupBy(latestYearAll, "provider_specialty");
-    return Object.entries(bySpec).map(([spec, rows]) => {
-      const avgFac = rows.reduce((s, r) => s + Number(r.pct_facility_services), 0) / rows.length;
-      return { specialty: spec, facility: avgFac, office: 1 - avgFac };
-    });
-  }, [latestYearAll]);
+    if (!view.length) return [];
+    const facility = view.reduce((sum, r) => sum + Number(r.pct_facility_services), 0) / view.length;
+    return [{ specialty: selectedSpecialty, facility, office: 1 - facility }];
+  }, [view, selectedSpecialty]);
 
-  // PTCR comparison across years by specialty
-  const ptcrTrend = useMemo(() => {
-    const years = [...new Set(mart.map(r => r.year))].sort();
-    const bySpec = groupBy(mart, "provider_specialty");
-    return years.map(y => {
-      const row = { year: y };
-      Object.entries(bySpec).forEach(([spec, rows]) => {
-        const yr = rows.filter(r => r.year === y);
-        if (yr.length) {
-          row[spec] = yr.reduce((s, r) => s + Number(r.payment_to_charge_ratio), 0) / yr.length;
-        }
-      });
-      return row;
+  const ratioTrend = useMemo(() => {
+    const rows = mart.filter(r => r.provider_specialty === selectedSpecialty);
+    return [...new Set(rows.map(r => Number(r.year)))].sort((a, b) => a - b).map(year => {
+      const current = rows.filter(r => Number(r.year) === year);
+      return { year, ratio: current.reduce((sum, r) => sum + Number(r.payment_to_charge_ratio), 0) / current.length };
     });
-  }, [mart]);
-
-  // Cap the multi-specialty trend to the 8 highest-volume specialties (19 total).
-  const trendSpecialties = useMemo(() => {
-    const tot = {};
-    latestYearAll.forEach(r => { tot[r.provider_specialty] = (tot[r.provider_specialty] || 0) + Number(r.total_services); });
-    return Object.entries(tot).sort((a, b) => b[1] - a[1]).slice(0, 8).map(x => x[0]);
-  }, [latestYearAll]);
-  const colorCycle = CHART_SERIES;
+  }, [mart, selectedSpecialty]);
 
   const outlierColumns = [
     { key: "hcpcs_code", label: "HCPCS" },
-    { key: "hcpcs_description", label: "Description" },
-    { key: "provider_specialty", label: "Specialty" },
-    { key: "avg_medicare_payment", label: "Avg Payment", render: (v) => fmt.usd(v) },
-    { key: "specialty_avg_payment", label: "Specialty Avg", render: (v) => fmt.usd(v) },
-    { key: "payment_vs_specialty_pct", label: "vs Benchmark", render: (v) => {
-      // Every row here is already a flagged outlier — direction is informational,
-      // not good/bad. Single "flagged" color + arrow avoids implying a positive
-      // deviation is desirable.
+    { key: "hcpcs_description", label: "Procedure" },
+    { key: "avg_medicare_payment", label: "Avg payment", render: v => fmt.usd(v) },
+    { key: "specialty_avg_payment", label: "Specialty avg", render: v => fmt.usd(v) },
+    { key: "payment_vs_specialty_pct", label: "Difference", render: v => {
       const n = Number(v);
-      const arrow = n > 0 ? "↑" : "↓";
-      return (
-        <span style={{ color: CHART_COLORS.gold, fontFamily: "var(--font-mono)", fontSize: 11 }}>
-          {arrow} {fmt.pct(Math.abs(n))}
-        </span>
-      );
-    }},
-    { key: "total_services", label: "Services", render: (v) => fmt.num(v) },
+      return <span style={{ color: CHART_COLORS.gold }}>{fmt.pct(Math.abs(n))} {n < 0 ? "below" : n > 0 ? "above" : "at"}</span>;
+    } },
+    { key: "total_services", label: "Services", render: v => fmt.num(v) },
   ];
 
   return (
     <div className="page-grid">
-      {focusSpecialty && (
-        <div className="focus-chip span-full">
-          <span className="focus-chip-label">Drilled in:</span>
-          <span className="focus-chip-value">{focusSpecialty}</span>
-          <span className="focus-chip-note">procedure views below are filtered to this specialty</span>
-          <button className="focus-chip-clear" onClick={onClearFocus}>Clear ✕</button>
-        </div>
-      )}
+      <div className="procedure-controls span-full">
+        <label htmlFor="procedure-specialty">Specialty</label>
+        <select id="procedure-specialty" value={selectedSpecialty} onChange={event => onSelectSpecialty?.(event.target.value)} disabled={!specialties.length}>
+          {!specialties.length && <option value="">No specialties available</option>}
+          {specialties.map(specialty => <option key={specialty} value={specialty}>{specialty}</option>)}
+        </select>
+      </div>
 
-      {!isDomo && <p className="data-note">Bundled procedure sample. Blended specialty averages are screening references, not procedure-specific expected rates.</p>}
-      <InsightStrip items={insights} />
+      {insights.length > 0 && <InsightStrip items={insights} />}
 
-      {/* Outlier Table */}
-      <ChartPanel
-        title="Payment outlier procedures"
-        subtitle={`${outliers.length} flagged${focusSpecialty ? ` · ${focusSpecialty}` : ""}`}
-        info={DEFINITIONS.paymentOutlier}
-        className="span-full"
-      >
-        {outliers.length ? (
-          <DataTable columns={outlierColumns} data={outliers} defaultSort="payment_vs_specialty_pct" />
-        ) : (
-          <div className="empty-state">
-            <span className="empty-icon">{"◌"}</span>
-            No flagged outlier procedures{focusSpecialty ? ` for ${focusSpecialty}` : ""}.
-          </div>
-        )}
+      <ChartPanel title="Most-used procedures" subtitle={`Top 10 by service count · ${latestYear ? `CY${latestYear}` : "No data"}${selectedSpecialty ? ` · ${selectedSpecialty}` : ""}`} className="span-full">
+        {procedures.length ? (
+          <ol className="procedure-ranking" aria-label={`Procedures in ${selectedSpecialty}, ranked by service count`}>
+            {procedures.map((procedure, index) => {
+              const services = Number(procedure.total_services) || 0;
+              return <li className="procedure-ranking-row" key={`${procedure.provider_specialty}-${procedure.hcpcs_code}`}>
+                <div className="procedure-identity">
+                  <span className="procedure-rank" aria-hidden="true">{index + 1}</span>
+                  <div><span className="procedure-name">{procedure.hcpcs_description}</span><span className="procedure-code">HCPCS {procedure.hcpcs_code}</span></div>
+                </div>
+                <div className="procedure-volume">
+                  <span className="procedure-measure">{fmt.num(services)} services</span>
+                  <div className="procedure-bar-track" aria-hidden="true"><div className="procedure-bar" style={{ width: `${maxServices ? (services / maxServices) * 100 : 0}%` }} /></div>
+                </div>
+                <div className="procedure-payment"><span className="procedure-measure">{fmt.usd(procedure.avg_medicare_payment)}</span><span className="procedure-measure-label">Avg payment</span></div>
+              </li>;
+            })}
+          </ol>
+        ) : <p className="empty-state">No procedure data available for this specialty.</p>}
       </ChartPanel>
 
-      {/* Payment vs Benchmark */}
-      <ChartPanel title="Payment vs specialty benchmark" subtitle="Latest year, by procedure">
-        <ResponsiveContainer width="100%" height={280}>
-          <BarChart data={benchmarkBar} margin={{ bottom: 4 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="rgba(10,126,140,0.15)" />
-            <XAxis
-              dataKey="name"
-              stroke={CHART_COLORS.muted}
-              tick={{ fontSize: 10 }}
-              interval={0}
-              tickFormatter={v => (String(v).length > 11 ? `${String(v).slice(0, 10)}…` : v)}
-            />
-            <YAxis tickFormatter={v => `$${v}`} stroke={CHART_COLORS.muted} tick={{ fontSize: 11 }} />
-            <Tooltip
-              formatter={(v) => fmt.usd(v)}
-              labelFormatter={(label, payload) => {
-                const row = payload && payload[0] && payload[0].payload;
-                return row ? `${row.name} · HCPCS ${row.code}` : label;
-              }}
-              {...TOOLTIP_PROPS}
-            />
-            <Legend wrapperStyle={{ fontSize: 11 }} />
-            <Bar dataKey="payment" name="Procedure Payment" fill={CHART_COLORS.tealXlt} radius={[4, 4, 0, 0]} {...CHART_ANIM} />
-            <Bar dataKey="benchmark" name="Specialty Avg" fill={CHART_COLORS.gold} radius={[4, 4, 0, 0]} opacity={0.6} {...CHART_ANIM} />
-          </BarChart>
-        </ResponsiveContainer>
+      <ChartPanel title="Flagged procedures" subtitle={`${outliers.length} flagged · ${selectedSpecialty || "No specialty"}`} info={DEFINITIONS.paymentOutlier} className="span-full">
+        {outliers.length ? <DataTable columns={outlierColumns} data={outliers} defaultSort="payment_vs_specialty_pct" /> : <p className="empty-state">No flagged procedures for {selectedSpecialty || "this specialty"}.</p>}
       </ChartPanel>
 
-      {/* Facility Mix */}
-      <ChartPanel title="Facility vs office mix" subtitle="By specialty, latest year" info={DEFINITIONS.facilityMix}>
-        <ResponsiveContainer width="100%" height={280}>
-          <BarChart data={facilityData} layout="vertical">
-            <CartesianGrid strokeDasharray="3 3" stroke="rgba(10,126,140,0.15)" />
-            <XAxis type="number" tickFormatter={v => fmt.pct0(v)} domain={[0, 1]} stroke={CHART_COLORS.muted} tick={{ fontSize: 11 }} />
-            <YAxis dataKey="specialty" type="category" width={130} stroke={CHART_COLORS.muted} tick={{ fontSize: 10 }} />
-            <Tooltip formatter={(v) => fmt.pct(v)} {...TOOLTIP_PROPS} />
-            <Legend wrapperStyle={{ fontSize: 11 }} />
-            <Bar dataKey="facility" name="Facility" stackId="a" fill={CHART_COLORS.teal} {...CHART_ANIM} />
-            <Bar dataKey="office" name="Office" stackId="a" fill={CHART_COLORS.slate} {...CHART_ANIM} />
-          </BarChart>
-        </ResponsiveContainer>
-      </ChartPanel>
-
-      {/* PTCR Comparison Lines */}
-      <ChartPanel title="Payment-to-charge ratio trend" subtitle="By specialty across years · top 8 by volume" info={DEFINITIONS.ptcr} className="span-full">
-        <ResponsiveContainer width="100%" height={280}>
-          <LineChart data={ptcrTrend}>
+      <ChartPanel title="Payment-to-charge ratio" subtitle={selectedSpecialty} info={DEFINITIONS.ptcr}>
+        {ratioTrend.length ? <ResponsiveContainer width="100%" height={240}>
+          <LineChart data={ratioTrend} margin={{ left: 4, right: 16 }}>
             <CartesianGrid strokeDasharray="3 3" stroke="rgba(10,126,140,0.15)" />
             <XAxis dataKey="year" stroke={CHART_COLORS.muted} tick={{ fontSize: 11 }} />
             <YAxis tickFormatter={v => fmt.pct(v)} domain={["auto", "auto"]} stroke={CHART_COLORS.muted} tick={{ fontSize: 11 }} />
-            <Tooltip formatter={(v) => fmt.pct(v)} {...TOOLTIP_PROPS} />
-            <Legend wrapperStyle={{ fontSize: 11 }} />
-            {trendSpecialties.map((s, i) => (
-              <Line key={s} type="monotone" dataKey={s} stroke={colorCycle[i % colorCycle.length]} strokeWidth={2} dot={{ r: 3 }} {...CHART_ANIM} />
-            ))}
+            <Tooltip formatter={v => fmt.pct(v)} {...TOOLTIP_PROPS} />
+            <Line type="monotone" dataKey="ratio" name="Payment-to-charge ratio" stroke={CHART_COLORS.tealXlt} strokeWidth={2} dot={{ r: 3 }} {...CHART_ANIM} />
           </LineChart>
-        </ResponsiveContainer>
+        </ResponsiveContainer> : <p className="empty-state">No trend data available.</p>}
+      </ChartPanel>
+
+      <ChartPanel title="Facility vs office mix" subtitle={`${selectedSpecialty || "No specialty"}${latestYear ? ` · CY${latestYear}` : ""}`} info={DEFINITIONS.facilityMix}>
+        {facilityData.length ? <ResponsiveContainer width="100%" height={160}>
+          <BarChart data={facilityData} layout="vertical" margin={{ left: 4, right: 16 }}>
+            <CartesianGrid strokeDasharray="3 3" stroke="rgba(10,126,140,0.15)" />
+            <XAxis type="number" tickFormatter={v => fmt.pct0(v)} domain={[0, 1]} stroke={CHART_COLORS.muted} tick={{ fontSize: 11 }} />
+            <YAxis dataKey="specialty" type="category" hide />
+            <Tooltip formatter={v => fmt.pct(v)} {...TOOLTIP_PROPS} />
+            <Legend wrapperStyle={{ fontSize: 11 }} />
+            <Bar dataKey="facility" name="Facility" stackId="a" fill={CHART_COLORS.tealXlt} {...CHART_ANIM} />
+            <Bar dataKey="office" name="Office" stackId="a" fill={CHART_COLORS.slate} {...CHART_ANIM} />
+          </BarChart>
+        </ResponsiveContainer> : <p className="empty-state">No facility data available.</p>}
       </ChartPanel>
     </div>
   );

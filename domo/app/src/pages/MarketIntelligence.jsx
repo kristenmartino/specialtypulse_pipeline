@@ -7,7 +7,6 @@ import ChartPanel from "../components/ChartPanel";
 import DataTable from "../components/DataTable";
 import PressureBadge from "../components/PressureBadge";
 import InsightStrip from "../components/InsightStrip";
-import { isDomo } from "../data/domoFetch";
 import { CHART_COLORS, CHART_SERIES, PRESSURE_COLORS, COMPRESSION_COLORS, TOOLTIP_PROPS, CHART_ANIM, fmt, DEFINITIONS } from "../data/constants";
 
 export default function MarketIntelligence({ benchmarks, onDrill }) {
@@ -75,7 +74,7 @@ export default function MarketIntelligence({ benchmarks, onDrill }) {
       tone: "alert",
       label: "Highest pressure",
       value: `${top.provider_specialty} · ${fmt.score(top.pressure_index)}`,
-      detail: "Highest score in this dataset; not a sales recommendation.",
+      detail: `CY${maxY} · highest of ${latest.length} specialties.`,
     });
 
     let mover = null, moverDelta = -Infinity;
@@ -98,9 +97,9 @@ export default function MarketIntelligence({ benchmarks, onDrill }) {
       .sort((a, b) => Number(a.avg_yoy_payment_change) - Number(b.avg_yoy_payment_change))[0];
     if (comp) items.push({
       tone: "trend",
-      label: "Largest average payment decline",
+      label: "Lowest average payment change",
       value: `${comp.provider_specialty} ${fmt.pct(comp.avg_yoy_payment_change)}`,
-      detail: `Average procedure-level YoY change; service mix may differ.`,
+      detail: `Average change across procedures, CY${prevY}–${maxY}.`,
     });
 
     return items;
@@ -111,7 +110,7 @@ export default function MarketIntelligence({ benchmarks, onDrill }) {
     { key: "pressure_index", label: "Pressure Index", render: (v) => <strong>{fmt.score(v)}</strong> },
     { key: "pressure_tier", label: "Tier", render: (v) => <PressureBadge tier={v} /> },
     { key: "avg_ptcr", label: "Avg PTCR", render: (v) => fmt.pct(v) },
-    { key: "compression_driver", label: "Driver" },
+    { key: "compression_driver", label: "Change pattern" },
     { key: "total_services", label: "Services", render: (v) => fmt.num(v) },
     { key: "total_providers", label: "Providers", render: (v) => fmt.num(v) },
     { key: "outlier_procedure_count", label: "Outliers" },
@@ -119,7 +118,6 @@ export default function MarketIntelligence({ benchmarks, onDrill }) {
 
   return (
     <div className="page-grid">
-      <p className="data-note">{isDomo ? "Reimbursement comparisons" : "Bundled reimbursement sample"} · project-defined pressure score. Scores do not establish buying intent.</p>
       <InsightStrip items={insights} />
 
       {/* Pressure Index Table */}
@@ -154,7 +152,7 @@ export default function MarketIntelligence({ benchmarks, onDrill }) {
       </ChartPanel>
 
       {/* Compression Drivers */}
-      <ChartPanel title="Compression drivers" subtitle={`CY${maxYear} distribution`} info={DEFINITIONS.compressionDriver}>
+      <ChartPanel title="Payment and charge changes" subtitle={`CY${maxYear} distribution`} info={DEFINITIONS.compressionDriver}>
         <ResponsiveContainer width="100%" height={260}>
           <BarChart data={driverData} layout="vertical">
             <CartesianGrid strokeDasharray="3 3" stroke="rgba(10,126,140,0.15)" />

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback, useRef } from "react";
 import { domoFetch, isDomo } from "./data/domoFetch";
 import { fmt } from "./data/constants";
 import TabBar from "./components/TabBar";
-import ExecutiveBrief from "./components/ExecutiveBrief";
+import DashboardSummary from "./components/DashboardSummary";
 import MarketIntelligence from "./pages/MarketIntelligence";
 import ProcedureDetail from "./pages/ProcedureDetail";
 import PipelineIntelligence from "./pages/PipelineIntelligence";
@@ -23,9 +23,14 @@ export default function App() {
   const [lastFetch, setLastFetch] = useState(null);
   const [fetchError, setFetchError] = useState(false);
   // Drill-down focus: a specialty selected on Market Intelligence narrows
-  // Procedure Detail. Persists until cleared via the focus chip.
+  // Procedure Detail. Persists when switching between pages.
   const [focusSpecialty, setFocusSpecialty] = useState(null);
   const drillToSpecialty = (specialty) => { setFocusSpecialty(specialty); setTab("procedure"); };
+  const navigateToResult = (target, specialty) => {
+    if (target === "procedure") setFocusSpecialty(specialty);
+    setTab(target);
+    if (contentRef.current) contentRef.current.scrollTop = 0;
+  };
   const contentRef = useRef(null);
 
   // DataSet state
@@ -97,7 +102,7 @@ export default function App() {
     }
     switch (tab) {
       case "market":    return <MarketIntelligence benchmarks={benchmarks} onDrill={drillToSpecialty} />;
-      case "procedure": return <ProcedureDetail mart={mart} focusSpecialty={focusSpecialty} onClearFocus={() => setFocusSpecialty(null)} />;
+      case "procedure": return <ProcedureDetail mart={mart} focusSpecialty={focusSpecialty} onSelectSpecialty={setFocusSpecialty} />;
       case "pipeline":  return <PipelineIntelligence pipeline={pipeline} />;
       case "adoption":  return <AdoptionTracking engagement={engagement} config={config} />;
       case "pdp":       return <PdpGovernance config={config} checks={checks} loading={false} />;
@@ -121,7 +126,7 @@ export default function App() {
             <span className="val">
               {isDomo
                 ? (lastFetch ? fmt.date(lastFetch.toISOString()) : "—")
-                : "Demo data · CY2021–2023"}
+                : "CY2021–2023"}
             </span>
           </div>
         </div>
@@ -136,19 +141,16 @@ export default function App() {
         id={`panel-${tab}`}
         aria-labelledby={`tab-${tab}`}
       >
+        {!isDomo && <p className="demo-disclosure">
+          Demo: sample Medicare reimbursements, synthetic sales and usage, and example access checks. Domo access controls are not active here.
+        </p>}
         <div className="page-fade" key={tab}>
           {renderPage()}
         </div>
         {!loading && !fetchError && ["market", "procedure", "pipeline"].includes(tab) && (
-          <ExecutiveBrief benchmarks={benchmarks} mart={mart} pipeline={pipeline} />
+          <DashboardSummary benchmarks={benchmarks} mart={mart} pipeline={pipeline} onNavigate={navigateToResult} />
         )}
-        {!isDomo && (
-          <footer className="standalone-note">
-            Portfolio demo. Reimbursement views use bundled sample data; sales and usage
-            data are synthetic. Access policies and check results are examples, not a live
-            security assessment.
-          </footer>
-        )}
+
       </main>
     </div>
   );

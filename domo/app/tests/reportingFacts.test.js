@@ -1,21 +1,18 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
-const { buildBriefFacts, buildFocusPrompt, validateFocusSelection, largestDeviation, verificationState } = require('../src/data/reportingFacts');
+const { buildBriefFacts, topProcedures, largestDeviation, verificationState } = require('../src/data/reportingFacts');
 const { aggregateMart, enrichBenchmarks, buildPipelineIntelligence } = require('../src/data/pressureIndex');
 const source = require('../src/data/sourceData.json');
 const benchmarks = enrichBenchmarks(aggregateMart(source.mart));
 const pipeline = buildPipelineIntelligence(source.sfdc, benchmarks);
 const facts = buildBriefFacts(benchmarks, source.mart, pipeline);
 
-test('Dermatology pipeline is preserved in facts and AI input, not inferred absent from another leader', () => {
+test('Dashboard summary reconciles active pipeline by specialty', () => {
   const derm = facts.specialties.find(r => r.name === 'Dermatology');
   assert.equal(derm.amount, 4579800);
   assert.ok(derm.deals > 0 && derm.share > 0);
   assert.equal(facts.total, facts.specialties.reduce((s, r) => s + r.amount, 0));
   assert.ok(Math.abs(facts.specialties.reduce((s,r) => s + r.share,0) - 1) < 1e-10);
-  const prompt = buildFocusPrompt(facts, true);
-  assert.ok(prompt.includes('4579800'));
-  assert.ok(prompt.includes('pipeline is synthetic'));
   assert.equal(facts.specialties.length, new Set([...benchmarks.filter(r => r.year === facts.year).map(r => r.provider_specialty), ...pipeline.filter(r => !['Closed Won','Closed Lost'].includes(r.stage)).map(r => r.account_specialty)]).size);
 });
 
@@ -41,17 +38,34 @@ test('empty and no-decline datasets do not manufacture observations', () => {
   assert.equal(positive.specialties[0].share, null);
 });
 
-test('AI output can select a supported task but cannot introduce prose or unsupported evidence', () => {
-  for (const focus of facts.focuses) {
-    assert.equal(validateFocusSelection(JSON.stringify({ focus_id: focus.id, evidence_ids: focus.evidenceIds }), facts), focus);
-  }
-  for (const text of [
-    'Dermatology has no pipeline.', '{', 'null',
-    JSON.stringify({ focus_id: 'invented', evidence_ids: [] }),
-    JSON.stringify({ focus_id: 'compare-coverage', evidence_ids: ['competition'] }),
-    JSON.stringify({ focus_id: 'compare-coverage', evidence_ids: ['pressure'] }),
-    JSON.stringify({ focus_id: 'compare-coverage', evidence_ids: ['pressure','pipeline'], prose: 'Sales team is too comfortable.' }),
-  ]) assert.throws(() => validateFocusSelection(text, facts));
+test('review links lead to the specialty behind each observation', () => {
+  const cutLink = facts.focuses.find(f => f.id === 'review-payment');
+  assert.equal(cutLink.target, 'procedure');
+  assert.equal(cutLink.specialty, facts.cut.provider_specialty);
+  const outlierLink = facts.focuses.find(f => f.id === 'review-deviation');
+  assert.equal(outlierLink.target, 'procedure');
+  assert.equal(outlierLink.specialty, 'Plastic Surgery');
+});
+
+test('procedure ranking uses service volume, latest year and selected specialty', () => {
+  const rows = [
+    { year: 2022, provider_specialty: 'Dermatology', hcpcs_code: 'old', total_services: 9999 },
+    { year: 2023, provider_specialty: 'Dermatology', hcpcs_code: 'b', total_services: 50 },
+    { year: 2023, provider_specialty: 'Dermatology', hcpcs_code: 'a', total_services: 50 },
+    { year: 2023, provider_specialty: 'Dermatology', hcpcs_code: 'c', total_services: 100 },
+    { year: 2023, provider_specialty: 'Urology', hcpcs_code: 'other', total_services: 1000 },
+    { year: 2023, provider_specialty: 'Dermatology', hcpcs_code: 'invalid', total_services: null },
+  ];
+  const before = JSON.stringify(rows);
+  assert.deepEqual(topProcedures(rows, 'Dermatology', 2).map(r => r.hcpcs_code), ['c', 'a']);
+  assert.equal(JSON.stringify(rows), before);
+  assert.deepEqual(topProcedures(rows, 'missing'), []);
+  assert.deepEqual(topProcedures([], 'Dermatology'), []);
+  assert.deepEqual(topProcedures(rows, 'Dermatology', 0), []);
+  const derm = topProcedures(source.mart, 'Dermatology');
+  assert.equal(derm[0].hcpcs_code, '99213');
+  assert.equal(derm[0].total_services, 580);
+  assert.ok(derm.every(r => r.provider_specialty === 'Dermatology' && r.year === 2023));
 });
 
 test('sample, absent and recorded verification remain distinct', () => {

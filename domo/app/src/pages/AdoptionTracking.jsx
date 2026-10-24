@@ -5,7 +5,6 @@ import {
 } from "recharts";
 import ChartPanel from "../components/ChartPanel";
 import KpiCard from "../components/KpiCard";
-import { isDomo } from "../data/domoFetch";
 import { CHART_COLORS, TOOLTIP_PROPS, CHART_ANIM, fmt, groupBy, DEFINITIONS } from "../data/constants";
 
 export default function AdoptionTracking({ engagement, config }) {
@@ -71,12 +70,12 @@ export default function AdoptionTracking({ engagement, config }) {
 
   return (
     <div className="page-grid">
-      <p className="data-note">{isDomo ? "Recorded usage" : "Synthetic usage example; not observed product adoption"} · {period}.</p>
+      <p className="period-label">{period}</p>
       {/* KPI Row */}
       <div className="kpi-row span-full">
         <KpiCard label="Active Users" value={activeUsers.length} sub={`of ${totalProvisioned} provisioned`} color="teal" />
         <KpiCard label="Total Sessions" value={engagement.length} sub="Displayed period" color="blue" />
-        <KpiCard label="Avg Session" value={`${Math.floor(avgSessionDuration / 60)}m ${avgSessionDuration % 60}s`} sub="Duration" color="gold" />
+        <KpiCard label="Avg Session" value={`${Math.floor(avgSessionDuration / 60)}m ${avgSessionDuration % 60}s`} sub="Per session" color="gold" />
         <KpiCard
           label="Adoption Rate"
           value={totalProvisioned > 0 ? fmt.pct0(activeUsers.length / totalProvisioned) : "\u2014"}
@@ -87,7 +86,7 @@ export default function AdoptionTracking({ engagement, config }) {
       </div>
 
       {/* Daily users trend */}
-      <ChartPanel title="Daily active users" subtitle="Users per day">
+      <ChartPanel title="Daily active users">
         <ResponsiveContainer width="100%" height={260}>
           <LineChart data={weeklyData}>
             <CartesianGrid strokeDasharray="3 3" stroke="rgba(10,126,140,0.15)" />
@@ -102,7 +101,7 @@ export default function AdoptionTracking({ engagement, config }) {
       </ChartPanel>
 
       {/* Most viewed pages */}
-      <ChartPanel title="Most viewed pages" subtitle="By total views">
+      <ChartPanel title="Most viewed pages">
         <ResponsiveContainer width="100%" height={260}>
           <BarChart data={pageViews} layout="vertical">
             <CartesianGrid strokeDasharray="3 3" stroke="rgba(10,126,140,0.15)" />
@@ -117,7 +116,7 @@ export default function AdoptionTracking({ engagement, config }) {
       </ChartPanel>
 
       {/* Top card interactions */}
-      <ChartPanel title="Top card interactions" subtitle="Most interacted components">
+      <ChartPanel title="Card interactions">
         <ResponsiveContainer width="100%" height={260}>
           <BarChart data={cardViews} layout="vertical">
             <CartesianGrid strokeDasharray="3 3" stroke="rgba(10,126,140,0.15)" />
