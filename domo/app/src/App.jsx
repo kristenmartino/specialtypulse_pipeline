@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef } from "react";
+import React, { useState, useEffect, useLayoutEffect, useCallback, useRef, useReducer, useMemo } from "react";
 import { domoFetch, isDomo } from "./data/domoFetch";
 import { fmt } from "./data/constants";
 import TabBar from "./components/TabBar";
@@ -9,6 +9,8 @@ import ProcedureDetail from "./pages/ProcedureDetail";
 import PipelineIntelligence from "./pages/PipelineIntelligence";
 import AdoptionTracking from "./pages/AdoptionTracking";
 import PdpGovernance from "./pages/PdpGovernance";
+import { buildReviewHandoff } from "./data/reviewFacts";
+import { initialReviewState, getReviewDraft, reviewReducer } from "./data/reviewDraft";
 
 const TAB_LABELS = {
   market:    "Market Intelligence",
@@ -26,13 +28,13 @@ export default function App() {
   const [loading, setLoading] = useState(true);
   const [lastFetch, setLastFetch] = useState(null);
   const [fetchError, setFetchError] = useState(false);
-  // Drill-down focus: a specialty selected on Market Intelligence narrows
-  // Procedure Detail. Persists when switching between pages.
-  const [focusSpecialty, setFocusSpecialty] = useState(null);
-  const [reviewSpecialty, setReviewSpecialty] = useState('');
-  const drillToSpecialty = (specialty) => { setFocusSpecialty(specialty); setTab("procedure"); };
+  const [reviewState, dispatchReview] = useReducer(reviewReducer, initialReviewState);
+  const [reviewOpen, setReviewOpen] = useState(false);
+  const [focusEditor, setFocusEditor] = useState(0);
+  const selectSpecialty = specialty => dispatchReview({ type: 'select', specialty });
+  const drillToSpecialty = (specialty) => { selectSpecialty(specialty); setTab("procedure"); };
   const navigateToResult = (target, specialty) => {
-    if (target === "procedure") setFocusSpecialty(specialty);
+    if (specialty) selectSpecialty(specialty);
     setTab(target);
     if (contentRef.current) contentRef.current.scrollTop = 0;
   };
@@ -45,6 +47,15 @@ export default function App() {
   const [pipeline, setPipeline]       = useState([]);
   const [mart, setMart]               = useState([]);
   const [engagement, setEngagement]   = useState([]);
+
+  const defaultSpecialty = useMemo(() => buildReviewHandoff(benchmarks, pipeline)?.specialty || '', [benchmarks, pipeline]);
+  const selectedSpecialty = reviewState.specialty || defaultSpecialty;
+  const draft = getReviewDraft(reviewState, selectedSpecialty);
+  const openBrief = () => { setReviewOpen(true); setFocusEditor(value => value + 1); setTab('market'); };
+  const addProcedure = procedure => {
+    dispatchReview({ type: 'add-procedure', specialty: procedure.provider_specialty, procedure });
+    openBrief();
+  };
 
   const fetchData = useCallback(async () => {
     setLoading(true);
@@ -82,7 +93,7 @@ export default function App() {
   }, [fetchData]);
 
   // Each tab is its own view: reset scroll and title on switch.
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (contentRef.current) contentRef.current.scrollTop = 0;
     document.title = `SpecialtyPulse · ${TAB_LABELS[tab]}`;
   }, [tab]);
@@ -106,8 +117,8 @@ export default function App() {
       );
     }
     switch (tab) {
-      case "market":    return <>{!isDomo && <ReviewHandoff benchmarks={benchmarks} pipeline={pipeline} onNavigate={navigateToResult} selected={reviewSpecialty} onSelect={setReviewSpecialty} />}<MarketIntelligence benchmarks={benchmarks} onDrill={drillToSpecialty} /></>;
-      case "procedure": return <ProcedureDetail mart={mart} focusSpecialty={focusSpecialty} onSelectSpecialty={setFocusSpecialty} />;
+      case "market":    return <>{!isDomo && <ReviewHandoff benchmarks={benchmarks} pipeline={pipeline} onNavigate={navigateToResult} selected={selectedSpecialty} onSelect={selectSpecialty} draft={draft} onEdit={(field, value) => dispatchReview({ type: 'edit', specialty: selectedSpecialty, field, value })} onRemove={id => dispatchReview({ type: 'remove-procedure', specialty: selectedSpecialty, id })} open={reviewOpen} onOpenChange={setReviewOpen} focusEditor={focusEditor} />}<MarketIntelligence benchmarks={benchmarks} onDrill={drillToSpecialty} /></>;
+      case "procedure": return <ProcedureDetail mart={mart} focusSpecialty={selectedSpecialty} onSelectSpecialty={selectSpecialty} onAddProcedure={addProcedure} onOpenBrief={openBrief} />;
       case "pipeline":  return <PipelineIntelligence pipeline={pipeline} />;
       case "adoption":  return <AdoptionTracking engagement={engagement} config={config} />;
       case "pdp":       return <PdpGovernance config={config} checks={checks} loading={false} />;

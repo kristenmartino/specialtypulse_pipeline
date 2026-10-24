@@ -1,4 +1,5 @@
 const { buildBriefFacts, latestRows } = require('./reportingFacts');
+const { draftCompleteness } = require('./reviewDraft');
 
 const reviewQuestions = [
   { owner: 'Specialty analyst', question: 'Do the source records, service mix and calculation explain the payment comparison?', next: 'Trace a procedure to its inputs and record any unresolved data or interpretation issue.' },
@@ -23,8 +24,9 @@ function buildReviewHandoff(benchmarks, pipeline, requestedSpecialty) {
   };
 }
 
-function reviewHandoffText(review) {
+function reviewHandoffText(review, draft) {
   if (!review) return '';
+  if (draft) draft = { ...draft, evidence: draft.evidence.filter(item => item.specialty === review.specialty) };
   const change = review.paymentChange == null ? 'Unavailable' : `${(review.paymentChange * 100).toFixed(1)}%`;
   return [
     '# Sample specialty-review handoff',
@@ -40,8 +42,23 @@ function reviewHandoffText(review) {
     `- Scenario pressure score: ${review.score == null ? 'Unavailable' : review.score.toFixed(1)}/100. Project-defined and unvalidated against sales outcomes.`,
     `- Average procedure-level payment change: ${change}; a constructed scenario comparison.`,
     `- Synthetic active pipeline: $${review.amount.toLocaleString('en-US')} across ${review.deals} deals${review.share == null ? '' : ` (${(review.share * 100).toFixed(1)}% of active pipeline)`}.`,
+    ...(draft ? [
+      '',
+      '## Analyst draft — unverified',
+      `Completeness: ${draftCompleteness(draft).count}/4 brief elements. This checks presence, not accuracy or approval.`,
+      '',
+      '### Selected procedure evidence',
+      ...draft.evidence.map(item =>
+        `- ${item.specialty} / HCPCS ${item.code} / CY${item.year}: ${item.description}; average payment per service ${item.payment == null ? 'unavailable' : `$${item.payment.toFixed(2)}`}; ${item.services == null ? 'unavailable' : item.services.toLocaleString('en-US')} services. Source: synthetic reporting mart.`),
+      ...(!draft.evidence.length ? ['Not selected.'] : []),
+      '',
+      `Observation: ${draft.observation.trim() || 'Not entered.'}`,
+      `Open question: ${draft.question.trim() || 'Not entered.'}`,
+      `Next reviewer: ${draft.reviewer.trim() || 'Not entered.'}`,
+      `Requested next check: ${draft.nextCheck.trim() || 'Not entered.'}`,
+    ] : []),
     '',
-    '## Proposed follow-up',
+    '## Suggested follow-up checks',
     ...review.questions.flatMap(item => [`- ${item.owner}: ${item.question}`, `  Next check: ${item.next}`]),
     '',
     'This is an example work product. No stakeholder review, account validation, approved shortlist or business outcome is recorded.',

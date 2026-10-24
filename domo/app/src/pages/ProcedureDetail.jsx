@@ -11,7 +11,7 @@ import InsightStrip from "../components/InsightStrip";
 import { largestDeviation, topProcedures } from "../data/reportingFacts";
 import { CHART_COLORS, TOOLTIP_PROPS, CHART_ANIM, fmt, DEFINITIONS } from "../data/constants";
 
-export default function ProcedureDetail({ mart, focusSpecialty, onSelectSpecialty }) {
+export default function ProcedureDetail({ mart, focusSpecialty, onSelectSpecialty, onAddProcedure, onOpenBrief }) {
   const latestYear = useMemo(() => mart.length ? Math.max(...mart.map(r => Number(r.year))) : null, [mart]);
   const latestRows = useMemo(() => mart.filter(r => Number(r.year) === latestYear), [mart, latestYear]);
   const specialties = useMemo(() => [...new Set(latestRows.map(r => r.provider_specialty))].sort(), [latestRows]);
@@ -78,6 +78,7 @@ export default function ProcedureDetail({ mart, focusSpecialty, onSelectSpecialt
           {!specialties.length && <option value="">No specialties available</option>}
           {specialties.map(specialty => <option key={specialty} value={specialty}>{specialty}</option>)}
         </select>
+        {!isDomo && <button type="button" className="exec-brief-link" onClick={onOpenBrief}>Return to {selectedSpecialty} brief →</button>}
       </div>
 
       {!isDomo && <CalculationCheck demoMart={mart} />}
@@ -89,7 +90,7 @@ export default function ProcedureDetail({ mart, focusSpecialty, onSelectSpecialt
           <ol className="procedure-ranking" aria-label={`Procedures in ${selectedSpecialty}, ranked by service count`}>
             {procedures.map((procedure, index) => {
               const services = Number(procedure.total_services) || 0;
-              return <li className="procedure-ranking-row" key={`${procedure.provider_specialty}-${procedure.hcpcs_code}`}>
+              return <li className={`procedure-ranking-row${isDomo ? '' : ' procedure-with-action'}`} key={`${procedure.provider_specialty}-${procedure.hcpcs_code}`}>
                 <div className="procedure-identity">
                   <span className="procedure-rank" aria-hidden="true">{index + 1}</span>
                   <div><span className="procedure-name">{procedure.hcpcs_description}</span><span className="procedure-code">HCPCS {procedure.hcpcs_code}</span></div>
@@ -99,6 +100,7 @@ export default function ProcedureDetail({ mart, focusSpecialty, onSelectSpecialt
                   <div className="procedure-bar-track" aria-hidden="true"><div className="procedure-bar" style={{ width: `${maxServices ? (services / maxServices) * 100 : 0}%` }} /></div>
                 </div>
                 <div className="procedure-payment"><span className="procedure-measure">{fmt.usd(procedure.avg_medicare_payment)}</span><span className="procedure-measure-label">Avg payment</span></div>
+                {!isDomo && <button type="button" className="procedure-add" aria-label={`Add ${procedure.hcpcs_description} (HCPCS ${procedure.hcpcs_code}) to brief`} onClick={() => onAddProcedure(procedure)}>Add to brief</button>}
               </li>;
             })}
           </ol>
