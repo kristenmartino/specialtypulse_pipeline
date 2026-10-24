@@ -1,36 +1,63 @@
-import React, { useMemo, useEffect, useRef } from 'react';
+import React, { useMemo, useEffect, useRef, useState } from 'react';
 import { buildReviewHandoff, reviewHandoffText } from '../data/reviewFacts';
 import { draftCompleteness } from '../data/reviewDraft';
 import { latestRows } from '../data/reportingFacts';
 import { fmt } from '../data/constants';
 import ReviewEvaluation from './ReviewEvaluation';
-import ProcedureEvidence from './ProcedureEvidence';
+import ProcedureEvidence, { ProcedureEvidenceSummary } from './ProcedureEvidence';
 
 export default function ReviewHandoff({ benchmarks, pipeline, onNavigate, selected, onSelect, draft, onEdit, onRemove, open, onOpenChange, focusEditor }) {
   const specialties = useMemo(() => [...new Set(latestRows(benchmarks).rows.map(row => row.provider_specialty))].sort(), [benchmarks]);
   const review = useMemo(() => buildReviewHandoff(benchmarks, pipeline, selected), [benchmarks, pipeline, selected]);
   const editorRef = useRef(null);
+  const specialtyRef = useRef(null);
+  const [startRequest, setStartRequest] = useState(0);
   useEffect(() => {
-    if (focusEditor && open && editorRef.current) {
+    if (startRequest && open && specialtyRef.current) {
+      specialtyRef.current.focus({ preventScroll: true });
+      specialtyRef.current.scrollIntoView({ block: 'center' });
+    }
+  }, [startRequest, open]);
+  useEffect(() => {
+    if (focusEditor && open && !startRequest && editorRef.current) {
       editorRef.current.focus({ preventScroll: true });
       editorRef.current.scrollIntoView({ block: 'start' });
     }
-  }, [focusEditor, open]);
+  }, [focusEditor, open, startRequest]);
   if (!review) return null;
   const completeness = draftCompleteness(draft);
   const filename = `specialtypulse-${review.specialty.toLowerCase().replace(/[^a-z0-9]+/g, '-')}-review.md`;
   return (
-    <details className="review-handoff" open={open} onToggle={event => onOpenChange(event.currentTarget.open)}>
+    <>
+    <section className="review-start" aria-labelledby="review-start-heading">
+      <div>
+        <h2 id="review-start-heading">Start a specialty review</h2>
+        <p>Compare procedure evidence and prepare a brief for a sales or operations lead.</p>
+      </div>
+      <button type="button" className="review-start-button" aria-controls="review-handoff" aria-expanded={open} onClick={() => { onOpenChange(true); setStartRequest(value => value + 1); }}>Start review →</button>
+      <ol aria-label="Review workflow">
+        <li>Choose a specialty</li>
+        <li>Compare procedure evidence</li>
+        <li>Prepare and download a brief</li>
+      </ol>
+    </section>
+    <details id="review-handoff" className="review-handoff" open={open} onToggle={event => onOpenChange(event.currentTarget.open)}>
       <summary>Prepare a specialty review · sample handoff</summary>
       <div className="review-handoff-body">
         <p>Choose a specialty, inspect its procedures and add evidence to a draft for a sales or operations lead.</p>
         <div className="procedure-controls">
           <label htmlFor="review-specialty">Example specialty</label>
-          <select id="review-specialty" value={review.specialty} onChange={event => onSelect(event.target.value)}>
+          <select id="review-specialty" ref={specialtyRef} value={review.specialty} onChange={event => onSelect(event.target.value)}>
             {specialties.map(name => <option key={name} value={name}>{name}</option>)}
           </select>
         </div>
         <p className="review-status">{review.status} The initial selection uses the highest scenario score; it is not an account-prioritization decision.</p>
+        <div className="review-links">
+          <button type="button" className="exec-brief-link" onClick={() => onNavigate('procedure', review.specialty)}>Inspect {review.specialty} procedures →</button>
+          <button type="button" className="exec-brief-link" onClick={() => onNavigate('pipeline', review.specialty)}>Compare pipeline exposure →</button>
+        </div>
+        <details className="review-evaluation review-context">
+          <summary>Specialty context · sample data</summary>
         <h3>Sample handoff: {review.specialty}</h3>
         <p><strong>Recipient:</strong> Sales or operations lead. <strong>Requested next step:</strong> review the supporting observations and assign the follow-up questions below.</p>
         <ul>
@@ -38,17 +65,21 @@ export default function ReviewHandoff({ benchmarks, pipeline, onNavigate, select
           <li>Average procedure-level payment change: <strong>{fmt.pct(review.paymentChange)}</strong> in the constructed CY{review.year - 1}–{review.year} comparison.</li>
           <li>Synthetic active pipeline: <strong>{fmt.usd0(review.amount)}</strong> across {review.deals} deals{review.share == null ? '' : ` (${fmt.pct(review.share)} of active pipeline)`}.</li>
         </ul>
-        <div className="review-links">
-          <button type="button" className="exec-brief-link" onClick={() => onNavigate('procedure', review.specialty)}>Inspect {review.specialty} procedures →</button>
-          <button type="button" className="exec-brief-link" onClick={() => onNavigate('pipeline', review.specialty)}>Compare pipeline exposure →</button>
-        </div>
+        </details>
         <section className="review-editor" aria-labelledby="review-editor-heading">
           <h3 id="review-editor-heading" tabIndex={-1} ref={editorRef}>Draft brief: {review.specialty}</h3>
           <p>Drafts stay in this tab until you reload. Each specialty keeps its own notes. Download to keep a copy.</p>
           <h4>Selected procedure evidence</h4>
           {draft.evidence.length ? <ul className="review-evidence">
             {draft.evidence.map(item => <li key={item.id}>
-              <div><strong>{item.description}</strong> · {item.specialty} / HCPCS {item.code} / CY{item.year}<ProcedureEvidence evidence={item} /></div>
+              <div>
+                <strong>{item.description}</strong> · HCPCS {item.code} · CY{item.priorYear}–{item.year}
+                <ProcedureEvidenceSummary evidence={item} />
+                <details className="review-evidence-detail">
+                  <summary>View HCPCS {item.code} comparison and sources</summary>
+                  <ProcedureEvidence evidence={item} />
+                </details>
+              </div>
               <button type="button" className="exec-brief-link" aria-label={`Remove HCPCS ${item.code} from brief`} onClick={() => onRemove(item.id)}>Remove</button>
             </li>)}
           </ul> : <p>No procedure selected. Use “Inspect {review.specialty} procedures” above, then “Add to brief.”</p>}
@@ -83,5 +114,6 @@ export default function ReviewHandoff({ benchmarks, pipeline, onNavigate, select
         <ReviewEvaluation />
       </div>
     </details>
+    </>
   );
 }

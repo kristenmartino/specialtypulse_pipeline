@@ -305,6 +305,13 @@ ul.brief-evidence { padding-left: 20px; }
 .pipeline-receipt-link { display: inline-block; margin-left: 20px; }
 
 .review-handoff { border-block: 1px solid var(--border); padding: 14px 0; margin-bottom: 24px; font-size: 13px; line-height: 1.6; }
+.review-start { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 18px 32px; padding: 4px 0 24px; }
+.review-start h2 { color: var(--white); font-size: 26px; font-weight: 600; letter-spacing: -0.03em; line-height: 1.25; }
+.review-start p { margin-top: 8px; color: var(--muted); font-size: 14px; }
+.review-start-button { padding: 12px 20px; border: 1px solid var(--teal-xlt); border-radius: 2px; background: var(--teal-xlt); color: var(--navy); font-weight: 600; cursor: pointer; }
+.review-start-button:hover { background: var(--ice); border-color: var(--ice); }
+.review-start ol { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 12px 40px; padding-left: 20px; color: var(--ice); font-size: 13px; }
+.review-start li { padding-left: 2px; }
 .review-handoff > summary, .review-evaluation > summary { cursor: pointer; color: var(--ice); font-weight: 500; }
 .review-handoff-body { max-width: 86ch; padding-top: 16px; color: var(--muted); }
 .review-handoff-body p { margin: 0 0 14px; }
@@ -334,6 +341,11 @@ ul.brief-evidence { padding-left: 20px; }
 .review-fields input::placeholder, .review-fields textarea::placeholder { color: var(--muted); }
 .review-evidence > li { display: flex; gap: 16px; justify-content: space-between; align-items: baseline; }
 .review-evidence span { overflow-wrap: anywhere; }
+.review-evidence-summary { color: var(--muted); font-size: 12px; margin: 4px 0 8px !important; }
+.review-evidence-detail { margin-top: 6px; }
+.review-evidence-detail > summary { cursor: pointer; color: var(--teal-xlt); font-size: 12px; }
+.review-evidence-detail[open] { margin-bottom: 18px; }
+.review-context { margin-bottom: 20px; }
 .review-checklist { color: var(--muted); font-size: 12px; }
 .review-editor > a { display: inline-block; margin-bottom: 10px; }
 .procedure-with-action { grid-template-columns: minmax(200px, 1.4fr) minmax(120px, 1fr) 100px 112px; gap: 20px; }
@@ -357,4 +369,10 @@ ul.brief-evidence { padding-left: 20px; }
   .procedure-with-action { grid-template-columns: minmax(0, 1fr) 110px; gap: 12px 20px; }
   .procedure-with-action .procedure-identity { grid-column: 1 / -1; }
   .procedure-with-action .procedure-add { grid-column: 1 / -1; justify-self: start; margin-left: 30px; }
+}
+@media (max-width: 600px) {
+  .review-start { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+  .review-start h2 { font-size: 23px; }
+  .review-start-button { justify-self: start; }
+  .review-start ol { flex-direction: column; gap: 8px; }
 }

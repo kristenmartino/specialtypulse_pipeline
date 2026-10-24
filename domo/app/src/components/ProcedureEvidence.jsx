@@ -5,6 +5,10 @@ const signed = (value, format) => value == null ? 'Unavailable' : `${value > 0 ?
 const change = (delta, ratio, format) => delta == null ? 'Unavailable' : `${signed(delta, format)} (${ratio == null ? 'percentage unavailable' : signed(ratio, fmt.pct)})`;
 const scenario = year => year <= 2022 ? 'Generated comparison scenario' : 'Synthetic base records';
 
+export function ProcedureEvidenceSummary({ evidence }) {
+  return <p className="review-evidence-summary">Payment {fmt.usd(evidence.priorPayment)} → {fmt.usd(evidence.payment)} ({evidence.paymentChange == null ? 'change unavailable' : signed(evidence.paymentChange, fmt.pct)}). Services {fmt.num(evidence.priorServices)} → {fmt.num(evidence.services)} ({evidence.volumeChange == null ? 'change unavailable' : signed(evidence.volumeChange, fmt.pct)}).</p>;
+}
+
 export default function ProcedureEvidence({ evidence, references = true }) {
   const ref = evidence.references;
   return <div className="procedure-evidence">
