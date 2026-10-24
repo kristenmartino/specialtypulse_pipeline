@@ -1,0 +1,308 @@
+{
+  "source": "data/sample_2023_puf_10k.csv",
+  "source_sha256": "bad56556df6ee1d23b0532548eee3fb2e78a22c3b88eeb1b2d7b73f2ce8cf62c",
+  "provenance": "Synthetic records following the CMS PUF schema; not actual CMS records.",
+  "scope": "Offline raw-fixture calculation, separate from the bundled dashboard mart. Not a Databricks or Domo execution receipt.",
+  "filter": {
+    "provider_specialty": "Dermatology",
+    "hcpcs_code": "99213",
+    "year": 2023,
+    "minimum_services": 11
+  },
+  "source_row_count": 57,
+  "payment_service_cents": 39624722,
+  "verification_mart_row": {
+    "provider_specialty": "Dermatology",
+    "hcpcs_code": "99213",
+    "year": 2023,
+    "total_services": 3777,
+    "avg_medicare_payment": 104.91
+  },
+  "inputs": [
+    {
+      "csv_row": 117,
+      "total_services": 16,
+      "avg_medicare_payment_cents": 7190
+    },
+    {
+      "csv_row": 355,
+      "total_services": 111,
+      "avg_medicare_payment_cents": 11840
+    },
+    {
+      "csv_row": 482,
+      "total_services": 121,
+      "avg_medicare_payment_cents": 8602
+    },
+    {
+      "csv_row": 768,
+      "total_services": 113,
+      "avg_medicare_payment_cents": 11182
+    },
+    {
+      "csv_row": 1392,
+      "total_services": 64,
+      "avg_medicare_payment_cents": 9648
+    },
+    {
+      "csv_row": 1421,
+      "total_services": 63,
+      "avg_medicare_payment_cents": 13154
+    },
+    {
+      "csv_row": 2022,
+      "total_services": 12,
+      "avg_medicare_payment_cents": 11526
+    },
+    {
+      "csv_row": 2123,
+      "total_services": 112,
+      "avg_medicare_payment_cents": 9397
+    },
+    {
+      "csv_row": 2132,
+      "total_services": 87,
+      "avg_medicare_payment_cents": 7766
+    },
+    {
+      "csv_row": 2264,
+      "total_services": 30,
+      "avg_medicare_payment_cents": 12322
+    },
+    {
+      "csv_row": 2305,
+      "total_services": 79,
+      "avg_medicare_payment_cents": 8822
+    },
+    {
+      "csv_row": 2441,
+      "total_services": 116,
+      "avg_medicare_payment_cents": 12425
+    },
+    {
+      "csv_row": 2445,
+      "total_services": 116,
+      "avg_medicare_payment_cents": 11797
+    },
+    {
+      "csv_row": 2597,
+      "total_services": 61,
+      "avg_medicare_payment_cents": 8331
+    },
+    {
+      "csv_row": 2716,
+      "total_services": 91,
+      "avg_medicare_payment_cents": 9306
+    },
+    {
+      "csv_row": 3115,
+      "total_services": 68,
+      "avg_medicare_payment_cents": 11672
+    },
+    {
+      "csv_row": 3139,
+      "total_services": 34,
+      "avg_medicare_payment_cents": 9380
+    },
+    {
+      "csv_row": 3211,
+      "total_services": 85,
+      "avg_medicare_payment_cents": 10671
+    },
+    {
+      "csv_row": 3394,
+      "total_services": 37,
+      "avg_medicare_payment_cents": 8820
+    },
+    {
+      "csv_row": 3435,
+      "total_services": 106,
+      "avg_medicare_payment_cents": 9902
+    },
+    {
+      "csv_row": 3471,
+      "total_services": 49,
+      "avg_medicare_payment_cents": 10210
+    },
+    {
+      "csv_row": 3505,
+      "total_services": 135,
+      "avg_medicare_payment_cents": 11999
+    },
+    {
+      "csv_row": 3537,
+      "total_services": 91,
+      "avg_medicare_payment_cents": 11595
+    },
+    {
+      "csv_row": 3747,
+      "total_services": 77,
+      "avg_medicare_payment_cents": 12799
+    },
+    {
+      "csv_row": 3859,
+      "total_services": 29,
+      "avg_medicare_payment_cents": 7848
+    },
+    {
+      "csv_row": 3876,
+      "total_services": 48,
+      "avg_medicare_payment_cents": 12427
+    },
+    {
+      "csv_row": 4231,
+      "total_services": 34,
+      "avg_medicare_payment_cents": 12259
+    },
+    {
+      "csv_row": 4426,
+      "total_services": 64,
+      "avg_medicare_payment_cents": 9588
+    },
+    {
+      "csv_row": 4654,
+      "total_services": 95,
+      "avg_medicare_payment_cents": 9186
+    },
+    {
+      "csv_row": 4698,
+      "total_services": 113,
+      "avg_medicare_payment_cents": 9534
+    },
+    {
+      "csv_row": 4952,
+      "total_services": 70,
+      "avg_medicare_payment_cents": 12009
+    },
+    {
+      "csv_row": 5307,
+      "total_services": 38,
+      "avg_medicare_payment_cents": 11086
+    },
+    {
+      "csv_row": 5679,
+      "total_services": 53,
+      "avg_medicare_payment_cents": 12500
+    },
+    {
+      "csv_row": 5706,
+      "total_services": 122,
+      "avg_medicare_payment_cents": 8289
+    },
+    {
+      "csv_row": 5715,
+      "total_services": 93,
+      "avg_medicare_payment_cents": 9214
+    },
+    {
+      "csv_row": 5790,
+      "total_services": 63,
+      "avg_medicare_payment_cents": 11412
+    },
+    {
+      "csv_row": 5853,
+      "total_services": 126,
+      "avg_medicare_payment_cents": 10478
+    },
+    {
+      "csv_row": 5970,
+      "total_services": 54,
+      "avg_medicare_payment_cents": 9882
+    },
+    {
+      "csv_row": 7079,
+      "total_services": 47,
+      "avg_medicare_payment_cents": 7944
+    },
+    {
+      "csv_row": 7128,
+      "total_services": 12,
+      "avg_medicare_payment_cents": 11471
+    },
+    {
+      "csv_row": 7165,
+      "total_services": 70,
+      "avg_medicare_payment_cents": 13355
+    },
+    {
+      "csv_row": 7267,
+      "total_services": 62,
+      "avg_medicare_payment_cents": 9541
+    },
+    {
+      "csv_row": 7431,
+      "total_services": 55,
+      "avg_medicare_payment_cents": 11324
+    },
+    {
+      "csv_row": 7594,
+      "total_services": 11,
+      "avg_medicare_payment_cents": 8643
+    },
+    {
+      "csv_row": 8040,
+      "total_services": 58,
+      "avg_medicare_payment_cents": 12534
+    },
+    {
+      "csv_row": 8180,
+      "total_services": 90,
+      "avg_medicare_payment_cents": 9954
+    },
+    {
+      "csv_row": 8273,
+      "total_services": 27,
+      "avg_medicare_payment_cents": 9256
+    },
+    {
+      "csv_row": 8526,
+      "total_services": 46,
+      "avg_medicare_payment_cents": 9608
+    },
+    {
+      "csv_row": 8563,
+      "total_services": 44,
+      "avg_medicare_payment_cents": 12064
+    },
+    {
+      "csv_row": 8753,
+      "total_services": 63,
+      "avg_medicare_payment_cents": 9214
+    },
+    {
+      "csv_row": 8959,
+      "total_services": 11,
+      "avg_medicare_payment_cents": 8156
+    },
+    {
+      "csv_row": 9300,
+      "total_services": 11,
+      "avg_medicare_payment_cents": 8264
+    },
+    {
+      "csv_row": 9576,
+      "total_services": 20,
+      "avg_medicare_payment_cents": 12520
+    },
+    {
+      "csv_row": 9700,
+      "total_services": 110,
+      "avg_medicare_payment_cents": 13779
+    },
+    {
+      "csv_row": 9713,
+      "total_services": 93,
+      "avg_medicare_payment_cents": 9468
+    },
+    {
+      "csv_row": 9903,
+      "total_services": 16,
+      "avg_medicare_payment_cents": 10362
+    },
+    {
+      "csv_row": 9912,
+      "total_services": 55,
+      "avg_medicare_payment_cents": 8116
+    }
+  ]
+}

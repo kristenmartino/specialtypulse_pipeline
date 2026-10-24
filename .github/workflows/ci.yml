@@ -29,8 +29,8 @@ jobs:
       - name: Lint Python files
         run: ruff check .
 
-      - name: Offline PDP policy regression checks
-        run: python -m pytest tests/test_pdp_policy_builders.py tests/test_pdp_schema_guard.py -q
+      - name: Offline policy and payment regression checks
+        run: python -m pytest tests -q
 
       - name: Validate Airflow DAG
         env:

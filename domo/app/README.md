@@ -2,7 +2,7 @@
 
 A React app with five views: reimbursement comparisons, procedure detail, sales pipeline, usage and access policies.
 
-The public demo uses bundled reimbursement samples (2021–2023), synthetic sales and usage, and example policy-check results. The shell discloses this once. A configured Domo runtime reads DataSets and recorded check timestamps instead.
+The public demo uses synthetic reimbursement records following the CMS PUF schema (2021–2023), synthetic sales and usage, and example policy rules. The shell discloses this once. A configured Domo runtime reads DataSets and recorded check timestamps instead.
 
 ## Using the dashboard
 
@@ -39,3 +39,10 @@ groups across 13 assignments. Regional rows are marked planned: the current
 specialty/year output omits state, so those filters need a separate output that
 retains `provider_state`. Setup checks schema compatibility before changing
 policies.
+
+The opening task and project links explain what to review. Procedure Detail also
+contains a separate raw-fixture calculation check. The main dashboard mart is
+independently generated; the check's $104.91 is not lineage for the procedure
+list's $122.25. See [the evidence walkthrough](../../docs/verification/payment-check.md)
+and [file-level provenance](../../data/README.md). `?view=procedure` opens that
+view directly; unknown view keys use Market Intelligence.

@@ -5,6 +5,8 @@ import {
 } from "recharts";
 import ChartPanel from "../components/ChartPanel";
 import DataTable from "../components/DataTable";
+import CalculationCheck from "../components/CalculationCheck";
+import { isDomo } from "../data/domoFetch";
 import InsightStrip from "../components/InsightStrip";
 import { largestDeviation, topProcedures } from "../data/reportingFacts";
 import { CHART_COLORS, TOOLTIP_PROPS, CHART_ANIM, fmt, DEFINITIONS } from "../data/constants";
@@ -77,6 +79,8 @@ export default function ProcedureDetail({ mart, focusSpecialty, onSelectSpecialt
           {specialties.map(specialty => <option key={specialty} value={specialty}>{specialty}</option>)}
         </select>
       </div>
+
+      {!isDomo && <CalculationCheck demoMart={mart} />}
 
       {insights.length > 0 && <InsightStrip items={insights} />}
 

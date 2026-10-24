@@ -18,7 +18,10 @@ const TAB_LABELS = {
 };
 
 export default function App() {
-  const [tab, setTab] = useState("market");
+  const [tab, setTab] = useState(() => {
+    const requested = new URLSearchParams(window.location.search).get("view");
+    return Object.prototype.hasOwnProperty.call(TAB_LABELS, requested) ? requested : "market";
+  });
   const [loading, setLoading] = useState(true);
   const [lastFetch, setLastFetch] = useState(null);
   const [fetchError, setFetchError] = useState(false);
@@ -141,9 +144,16 @@ export default function App() {
         id={`panel-${tab}`}
         aria-labelledby={`tab-${tab}`}
       >
-        {!isDomo && <p className="demo-disclosure">
-          Demo: sample Medicare reimbursements, synthetic sales and usage, and example access checks. Domo access controls are not active here.
-        </p>}
+        {!isDomo && <>
+          <div className="demo-intro">
+            <p>Compare specialty payment trends, inspect procedure differences, and review synthetic sales exposure.</p>
+            <nav aria-label="Project links">
+              <a href="https://kristenmartino.ai/work/specialtypulse-pipeline" target="_blank" rel="noreferrer">Case study ↗</a>
+              <a href="https://github.com/kristenmartino/specialtypulse_pipeline" target="_blank" rel="noreferrer">Source ↗</a>
+            </nav>
+          </div>
+          <p className="demo-disclosure">Demo: synthetic reimbursement records following the CMS PUF schema, synthetic sales and usage, and example access rules. Domo access controls are not active here.</p>
+        </>}
         <div className="page-fade" key={tab}>
           {renderPage()}
         </div>

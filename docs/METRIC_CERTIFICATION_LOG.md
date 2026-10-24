@@ -11,7 +11,7 @@ At specialty × procedure × year grain:
 
 `SUM(avg_medicare_payment × total_services) / SUM(total_services)`
 
-Volume weighting gives each billed service equal weight. A simple provider average gives small and large providers equal weight; standardized payment answers a separate geographic-adjustment question. Neither is interchangeable with this measure. The bundled demo is a sample, not a population estimate.
+Volume weighting gives each billed service equal weight. A simple provider average gives small and large providers equal weight; standardized payment answers a separate geographic-adjustment question. Neither is interchangeable with this measure. The bundled demo uses synthetic records following the CMS PUF schema, not a population estimate.
 
 ## 2. Payment-to-charge ratio
 
@@ -56,4 +56,11 @@ The displayed `payment_vs_specialty_pct` is a separate measure: `(procedure paym
 
 ## Validation required for operational use
 
-Reconcile complete source releases, compare aggregation alternatives, evaluate the score against outcomes and obtain actual metric-owner approval. Policy verification requires a configured Domo instance and tests as intended user accounts. The public dashboard's sample pass results provide no live security assurance.
+Reconcile complete source releases, compare aggregation alternatives, evaluate the score against outcomes and obtain actual metric-owner approval. Policy verification requires a configured Domo instance and tests as intended user accounts. The public dashboard presents example access rules and assignments, not passing check results or live security assurance.
+
+## Reproducible calculation evidence
+
+The [payment check](verification/payment-check.md) independently reconciles
+57 raw-fixture rows and 3,777 services to a $104.91 verification output. The
+main dashboard mart is a separate synthetic fixture. No raw-to-dashboard-mart
+lineage, Spark execution or Domo execution is claimed by this check.

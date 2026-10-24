@@ -84,6 +84,16 @@ button:disabled { opacity: 0.6; cursor: not-allowed; }
 .tab-btn:focus-visible { outline-offset: -4px; }
 .page-content { flex: 1; min-height: 0; padding: 24px 32px 0; overflow-y: auto; }
 .page-loading { padding: 32px 0; }
+.demo-intro { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 8px 24px; margin-bottom: 10px; }
+.demo-intro p { margin: 0; font-size: 14px; line-height: 1.6; }
+.demo-intro nav { display: flex; gap: 20px; flex-wrap: wrap; font-size: 13px; }
+.demo-intro a, .calculation-check a { color: var(--teal-xlt); text-underline-offset: 3px; }
+.calculation-check { border-block: 1px solid var(--border); padding: 14px 0; font-size: 13px; line-height: 1.6; }
+.calculation-check summary { cursor: pointer; color: var(--ice); }
+.calculation-check-body { max-width: 78ch; padding-top: 12px; color: var(--muted); }
+.calculation-check-body p { margin: 0 0 12px; }
+.calculation-check-body ol { margin: 0 0 12px; padding-left: 22px; }
+.calculation-check-body li + li { margin-top: 8px; }
 .demo-disclosure { margin: 0 0 24px; padding-bottom: 14px; border-bottom: 1px solid var(--border); color: var(--muted); font-size: 13px; line-height: 1.6; }
 .period-label { grid-column: 1 / -1; color: var(--muted); font-size: 13px; }
 .review-links { display: flex; gap: 12px 24px; flex-wrap: wrap; margin: 20px 0; }

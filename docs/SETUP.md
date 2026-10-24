@@ -1,3 +1,10 @@
+> External integration instructions, not a record of successful execution.
+> All bundled data is synthetic. The public dashboard runs from a separate
+> demonstration mart; see [current status](PRD.md) and [data provenance](../data/README.md).
+> Domo trial access has ended. Review the target schema and policy configuration
+> before using the optional integration scripts. Regional filters need a separate
+> state-level output. Current public setup is in [the app README](../domo/app/README.md).
+
 # Setup Guide — SpecialtyPulse Pipeline
 
 Step-by-step instructions to get the full pipeline running.

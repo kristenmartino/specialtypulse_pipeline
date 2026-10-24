@@ -1,6 +1,6 @@
 # PDP Security Design — SpecialtyPulse
 
-> Portfolio design document. Stakeholder roles, team workflows and approval processes are illustrative, not recorded interviews or sign-off. The public app uses sample reimbursement data, synthetic sales/usage data and sample security-check results. Live policy checks require Domo credentials. Some specifications below describe planned or historical behavior; current UI labels and summary behavior are documented in `domo/app/README.md`.
+> Portfolio design document. Stakeholder roles, team workflows and approval processes are illustrative, not recorded interviews or sign-off. The public app uses synthetic reimbursement records following the CMS PUF schema, synthetic sales/usage data and example access rules. Live policy checks require Domo credentials. Some specifications below describe planned or historical behavior; current UI labels and summary behavior are documented in `domo/app/README.md`.
 
 Personalized Data Permissions (PDP) is Domo's row-level security system.
 It filters DataSet rows per user or group at query time — users see the same
