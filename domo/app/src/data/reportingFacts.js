@@ -68,4 +68,9 @@ function verificationState(checks, sample) {
   return checks.every(c => c.passed === true || c.passed === "true") ? "pass" : "fail";
 }
 
-module.exports = { activePipeline, latestRows, largestDeviation, buildBriefFacts, topProcedures, verificationState };
+// Matches setup_pdp's role + dimension + value grouping, before user resolution.
+function policyGroupCount(config) {
+  return new Set(config.map(row => JSON.stringify([row.role, row.filter_dimension, row.filter_values]))).size;
+}
+
+module.exports = { policyGroupCount, activePipeline, latestRows, largestDeviation, buildBriefFacts, topProcedures, verificationState };

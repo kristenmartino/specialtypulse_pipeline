@@ -13,7 +13,9 @@ What this does:
 
 Critical: Apply PDP to the OUTPUT DataSet (DataFlow output), NOT the input.
   Input:  specialtypulse_mart_reimbursement_trends  ← NO PDP here
-  Output: specialtypulse_specialty_benchmarks       ← PDP applied here
+  Output: specialtypulse_specialty_benchmarks       ← specialty / All Rows policies only
+  Regional policies are planned: they need a separate output retaining provider_state.
+  The full example config is rejected for specialty benchmarks before policies change.
 
 See PDP_DESIGN.md for the full security model and the explanation of why
 PDP on DataFlow inputs silently fails.
@@ -91,6 +93,16 @@ class DomoClient:
         )
         resp.raise_for_status()
         return resp.json()
+
+    def get_dataset_columns(self, dataset_id: str) -> set[str]:
+        """Read the target schema before changing any policies."""
+        resp = requests.get(
+            f"{self.base}/v1/datasets/{dataset_id}",
+            headers=self.headers,
+            timeout=30,
+        )
+        resp.raise_for_status()
+        return {column["name"] for column in resp.json()["schema"]["columns"]}
 
     def get_pdp_policies(self, dataset_id: str) -> list:
         """Fetch existing PDP policies for a DataSet."""
@@ -252,6 +264,17 @@ def setup_pdp(dataset_id: str, config: list[dict], email_to_id: dict, domo: Domo
       3. Delete existing policies (clean slate)
       4. Create new policies from config
     """
+
+    # Reject incompatible config before resolving users or deleting policies.
+    columns = domo.get_dataset_columns(dataset_id)
+    required = {row["filter_dimension"] for row in config if row["filter_dimension"] != "ALL_ROWS"}
+    missing_columns = required - columns
+    if missing_columns:
+        raise ValueError(
+            f"Output schema is missing PDP filter columns: {', '.join(sorted(missing_columns))}. "
+            "Existing policies were not changed. Specialty benchmarks omit provider_state; "
+            "regional policies require a separate state-level output and matching config."
+        )
 
     # ── STEP 1: Resolve email → user ID ──────────────────────────────────────
     resolved = []

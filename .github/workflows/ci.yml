@@ -24,10 +24,13 @@ jobs:
           cache: pip
 
       - name: Install dependencies
-        run: pip install ruff apache-airflow apache-airflow-providers-databricks aiofiles
+        run: pip install ruff pytest apache-airflow apache-airflow-providers-databricks aiofiles
 
       - name: Lint Python files
         run: ruff check .
+
+      - name: Offline PDP policy regression checks
+        run: python -m pytest tests/test_pdp_policy_builders.py tests/test_pdp_schema_guard.py -q
 
       - name: Validate Airflow DAG
         env:

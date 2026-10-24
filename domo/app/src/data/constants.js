@@ -7,8 +7,8 @@ import ChartTooltip from "../components/ChartTooltip";
 
 // ── ROLE METADATA ──────────────────────────────────────────────────────────────
 export const ROLE_META = {
-  finance_admin:     { label: "Finance Admin",     icon: "\u25C8", color: "gold",   desc: "Full access \u2014 all specialties, all states" },
-  executive:         { label: "Executive",         icon: "\u25C6", color: "gold",   desc: "Full access \u2014 C-suite visibility" },
+  finance_admin:     { label: "Finance Admin",     icon: "\u25C8", color: "gold",   desc: "All benchmark rows" },
+  executive:         { label: "Executive",         icon: "\u25C6", color: "gold",   desc: "All benchmark rows" },
   specialty_analyst: { label: "Specialty Analyst",  icon: "\u25CE", color: "teal",   desc: "Own specialty only" },
   regional_sales:    { label: "Regional Sales",    icon: "\u25C9", color: "blue",   desc: "Assigned region states only" },
 };

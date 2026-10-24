@@ -97,3 +97,19 @@ test('standalone governance examples load without generating timestamps', () => 
     assert.equal(check.is_sample, true);
   }
 });
+
+test('policy totals follow config groups, including shared executive assignments', () => {
+  const { policyGroupCount } = require('../src/data/reportingFacts');
+  const fs = require('fs');
+  const vm = require('vm');
+  const code = fs.readFileSync(require.resolve('../src/data/mockData.js'), 'utf8').replace('export const MOCK_DATA', 'const MOCK_DATA');
+  const sandbox = {};
+  vm.runInNewContext(code + '\nthis.data = MOCK_DATA;', sandbox);
+  const config = sandbox.data.pdp_config;
+  assert.equal(config.length, 13);
+  assert.equal(policyGroupCount(config), 12);
+  assert.equal(policyGroupCount(config.filter(row => row.filter_dimension !== 'provider_state')), 7);
+  assert.equal(policyGroupCount([...config, { ...config[1], email: 'another-executive@example.com' }]), 12);
+  assert.equal(policyGroupCount([...config, { ...config[3], filter_values: 'Urology' }]), 13);
+  assert.equal(policyGroupCount([]), 0);
+});

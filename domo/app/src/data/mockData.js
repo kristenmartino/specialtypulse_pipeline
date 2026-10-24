@@ -30,9 +30,9 @@ export const MOCK_DATA = {
 
   // ── PDP VERIFY RESULTS ─────────────────────────────────────────────────────
   pdp_verify_results: [
-    { check_name: "Output DataSet has PDP",            passed: "true",  message: "Output DataSet has 8 PDP policies",                  run_at: null, is_sample: true },
+    { check_name: "Output DataSet has PDP",            passed: "true",  message: "Apply configured policies supported by the output",                  run_at: null, is_sample: true },
     { check_name: "Input DataSet has NO PDP",          passed: "true",  message: "Input DataSet has no PDP \u2014 correct",             run_at: null, is_sample: true },
-    { check_name: "Filter columns exist in schema",    passed: "true",  message: "provider_specialty, provider_state exist in schema", run_at: null, is_sample: true },
+    { check_name: "Filter columns exist in schema",    passed: "true",  message: "Regional filters need a separate output retaining provider_state", run_at: null, is_sample: true },
     { check_name: "All config users in policies",      passed: "true",  message: "All 13 config users appear in policies",             run_at: null, is_sample: true },
     { check_name: "No conflicting policy assignments", passed: "true",  message: "No users in conflicting policies",                   run_at: null, is_sample: true },
     { check_name: "All Rows policies present",         passed: "true",  message: "Found 2 All Rows (open) policies",                   run_at: null, is_sample: true },

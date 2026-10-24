@@ -1,13 +1,13 @@
 import React from "react";
 import { ROLE_META, fmt } from "../data/constants";
 import { isDomo } from "../data/domoFetch";
-import { verificationState } from "../data/reportingFacts";
+import { policyGroupCount, verificationState } from "../data/reportingFacts";
 
 const EXAMPLE_RULES = [
-  ["Output access", "Apply the eight configured policies to the reporting output."],
+  ["Output access", "Apply the configured policies supported by the reporting output."],
   ["Input access", "Keep these output policies off the input DataSet."],
-  ["Filter columns", "Include provider_specialty and provider_state in the output schema."],
-  ["User coverage", "Assign each of the 13 configured users to an access policy."],
+  ["Regional access (planned)", "Specialty benchmarks omit state. Regional filters need a separate output that retains provider_state."],
+  ["User coverage", "Assign each user to a policy supported by the target output."],
   ["Conflicting assignments", "Check for assignments that grant unintended access."],
   ["Unrestricted roles", "Allow Finance admin and Executive roles to see all rows."],
 ];
@@ -56,7 +56,7 @@ function RoleSummaryPanel({ config, loading }) {
 
                 </div>
                 <div className="role-count">{roleCounts[role] || 0}</div>
-                <div className="role-desc">{meta.desc}</div>
+                <div className="role-desc">{!isDomo && role === "regional_sales" ? "Planned: assigned region states" : meta.desc}</div>
               </div>
             );
           })}
@@ -136,7 +136,7 @@ function PolicyMatrixPanel({ config, loading }) {
     <div className="panel panel-wide">
       <div className="panel-header">
         <span className="panel-title">Access policy matrix</span>
-        <span className="panel-count">{config.length} assignments</span>
+        <span className="panel-count">{policyGroupCount(config)} groups · {config.length} assignments</span>
       </div>
       {loading ? (
         <div>
@@ -188,7 +188,7 @@ function PolicyMatrixPanel({ config, loading }) {
                       </div>
                     )}
                   </td>
-                  <td><span className="notes-cell">{row.notes}</span></td>
+                  <td><span className="notes-cell">{!isDomo && row.filter_dimension === "provider_state" ? `Planned: ${row.notes}` : row.notes}</span></td>
                 </tr>
               ))}
             </tbody>

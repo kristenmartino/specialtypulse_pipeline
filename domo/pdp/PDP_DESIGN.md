@@ -51,7 +51,18 @@ This is documented in `pdp_setup.py` and enforced via the Domo API.
 
 ## Security model
 
-Four roles, two filter dimensions:
+The bundled SQL output, `specialtypulse_specialty_benchmarks`, has one row per
+specialty and year. It retains `provider_specialty` but omits `provider_state`.
+Specialty and All Rows policies fit that output. **Regional access is planned**:
+it requires a separate output that retains state and computes benchmarks at that
+grain. A state filter cannot restrict rows in the current specialty-only output.
+
+`pdp_config.csv` contains 13 example assignments grouped into 12 policies by
+role, filter dimension and filter values: seven specialty/All Rows groups and
+five planned regional groups. These are configuration counts, not deployed policies.
+The public dashboard calculates its group count from the displayed assignments.
+
+Four roles, two filter dimensions in the proposed model:
 
 | Role | Specialty filter | State filter | Notes |
 |---|---|---|---|
@@ -97,6 +108,12 @@ domo/pdp/
 ---
 
 ## Running the PDP setup
+
+The script checks the target schema before deleting or creating policies. The
+full example config fails against specialty benchmarks because it includes state
+filters. For that output, use only specialty and All Rows assignments. Regional
+assignments require their own state-level output and matching config. Do not
+combine the two sets on an output that lacks either filter column.
 
 ```bash
 # 1. Edit pdp_config.csv with your actual Domo user emails

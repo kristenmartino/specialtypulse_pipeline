@@ -32,3 +32,10 @@ For Domo, configure the DataSet bindings in `manifest.json`, build with `npm run
 `pdp_verify_writer.py` records policy-check results. CI runs it with configured Domo credentials; without credentials the governance job checks syntax. Sample results never receive a generated verification timestamp.
 
 The standalone access page presents example rules as expected conditions, without simulated pass/fail results. Synthetic usage labels match the current dashboard views.
+
+Policy group totals come from the displayed assignments, using the same role,
+filter dimension and value grouping as the setup script. The example has 12
+groups across 13 assignments. Regional rows are marked planned: the current
+specialty/year output omits state, so those filters need a separate output that
+retains `provider_state`. Setup checks schema compatibility before changing
+policies.
