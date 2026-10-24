@@ -86,7 +86,7 @@ export default function AdoptionTracking({ engagement, config }) {
       </div>
 
       {/* Daily users trend */}
-      <ChartPanel title="Daily active users">
+      <ChartPanel title="Daily users and sessions">
         <ResponsiveContainer width="100%" height={260}>
           <LineChart data={weeklyData}>
             <CartesianGrid strokeDasharray="3 3" stroke="rgba(10,126,140,0.15)" />

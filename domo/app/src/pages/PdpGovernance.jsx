@@ -3,6 +3,15 @@ import { ROLE_META, fmt } from "../data/constants";
 import { isDomo } from "../data/domoFetch";
 import { verificationState } from "../data/reportingFacts";
 
+const EXAMPLE_RULES = [
+  ["Output access", "Apply the eight configured policies to the reporting output."],
+  ["Input access", "Keep these output policies off the input DataSet."],
+  ["Filter columns", "Include provider_specialty and provider_state in the output schema."],
+  ["User coverage", "Assign each of the 13 configured users to an access policy."],
+  ["Conflicting assignments", "Check for assignments that grant unintended access."],
+  ["Unrestricted roles", "Allow Finance admin and Executive roles to see all rows."],
+];
+
 // ── SUB-COMPONENTS ─────────────────────────────────────────────────────────────
 
 function OverallStatusBadge({ checks, loading }) {
@@ -59,10 +68,18 @@ function RoleSummaryPanel({ config, loading }) {
 
 function VerifyStatusPanel({ checks, loading }) {
   const sample = verificationState(checks, !isDomo) === "sample";
+  if (sample) return (
+    <div className="panel">
+      <div className="panel-header"><span className="panel-title">Example policy rules</span><span className="panel-count">{EXAMPLE_RULES.length} rules</span></div>
+      <dl className="check-list">
+        {EXAMPLE_RULES.map(([name, expected]) => <div className="check-item" key={name}><div className="check-body"><dt className="check-name">{name}</dt><dd className="check-msg">{expected}</dd></div></div>)}
+      </dl>
+    </div>
+  );
   return (
     <div className="panel">
       <div className="panel-header">
-        <span className="panel-title">{sample ? "Policy checks" : "Recorded checks"}</span>
+        <span className="panel-title">Recorded checks</span>
         {!loading && checks.length > 0 && (
           <span className="panel-count">
             {sample ? `${checks.length} rules` : `${checks.filter(c => c.passed === "true" || c.passed === true).length}/${checks.length} passed`}

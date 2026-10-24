@@ -10,7 +10,7 @@ Select a specialty on the market table to open its procedures. Procedure Detail 
 
 The collapsible dashboard summary computes observations and pipeline shares from the loaded data. Review links open the relevant view directly. There are no model calls or AI endpoints.
 
-Pressure-weighted pipeline is deal amount × pressure score ÷ 100. Metric definitions and assumptions are in `../../docs/METRIC_CERTIFICATION_LOG.md`. The legacy field name `market_validated_amount` is retained for Domo compatibility.
+The public pipeline page shows active and won dollars separately from specialty pressure scores. It does not display pressure-weighted dollars. The legacy `market_validated_amount` field remains in the DataFlow contract for compatibility. Metric definitions and assumptions are in `../../docs/METRIC_CERTIFICATION_LOG.md`.
 
 ## Local preview and checks
 
@@ -30,3 +30,5 @@ The Vercel project builds `domo/app` with `npm run build:web`. Its production do
 For Domo, configure the DataSet bindings in `manifest.json`, build with `npm run build`, and use the Domo CLI to publish. Domo trial access has ended; a new configured instance is required to run live checks.
 
 `pdp_verify_writer.py` records policy-check results. CI runs it with configured Domo credentials; without credentials the governance job checks syntax. Sample results never receive a generated verification timestamp.
+
+The standalone access page presents example rules as expected conditions, without simulated pass/fail results. Synthetic usage labels match the current dashboard views.

@@ -88,13 +88,11 @@ export const DEFINITIONS = {
   ptcr:
     "Payment-to-Charge Ratio: average Medicare payment ÷ average submitted charge. Specialty views average procedure-level ratios. This is not a practice profit-margin measure.",
   compressionDriver:
-    "Classification based on changes in specialty average payment and charge: Payment Decline, Charge Inflation, Both, Improving, Stable or Base Year. Submitted charges are not practice operating costs; these labels do not establish causality.",
+    "Year-over-year changes in specialty average payment and submitted charge. “Payments down, charges up” means both changes occurred. Submitted charges are not practice operating costs; these labels do not establish causality.",
   paymentOutlier:
     "Flagged when a procedure's payment-to-charge ratio is more than two standard deviations below its specialty mean for the year. The displayed payment deviation compares against the specialty's blended average, not a procedure-specific expected rate.",
   facilityMix:
     "Share of services delivered in a facility setting (hospital/ASC), averaged across the specialty's procedures.",
-  marketValidated:
-    "Pressure-weighted pipeline = deal amount × specialty pressure score ÷ 100. A heuristic comparison measure, not a validated pipeline value, win probability or forecast.",
   adoptionRate:
     "Distinct users with a session in the displayed period ÷ configured users. The displayed period is shown above the totals.",
 };
@@ -148,3 +146,13 @@ export function weightedAvg(rows, valueKey, weightKey) {
   });
   return sumW > 0 ? sumWV / sumW : null;
 }
+
+// Keep DataFlow category values intact while giving readers explicit labels.
+export const CHANGE_LABELS = {
+  "Both": "Payments down, charges up",
+  "Charge Inflation": "Charges increased",
+  "Payment Decline": "Payments decreased",
+  "Improving": "Payment-to-charge ratio increased",
+  "Stable": "No decline in ratio",
+  "Base Year": "First year",
+};

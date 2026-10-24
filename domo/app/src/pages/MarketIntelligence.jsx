@@ -7,7 +7,7 @@ import ChartPanel from "../components/ChartPanel";
 import DataTable from "../components/DataTable";
 import PressureBadge from "../components/PressureBadge";
 import InsightStrip from "../components/InsightStrip";
-import { CHART_COLORS, CHART_SERIES, PRESSURE_COLORS, COMPRESSION_COLORS, TOOLTIP_PROPS, CHART_ANIM, fmt, DEFINITIONS } from "../data/constants";
+import { CHART_COLORS, CHART_SERIES, PRESSURE_COLORS, COMPRESSION_COLORS, TOOLTIP_PROPS, CHART_ANIM, fmt, DEFINITIONS, CHANGE_LABELS } from "../data/constants";
 
 export default function MarketIntelligence({ benchmarks, onDrill }) {
   // Most recent year data for the pressure table
@@ -38,7 +38,7 @@ export default function MarketIntelligence({ benchmarks, onDrill }) {
       const d = r.compression_driver || "Unknown";
       counts[d] = (counts[d] || 0) + 1;
     });
-    return Object.entries(counts).map(([name, count]) => ({ name, count }));
+    return Object.entries(counts).map(([name, count]) => ({ name: CHANGE_LABELS[name] || name, category: name, count }));
   }, [latestYear]);
 
   // Scatter: volume vs compression
@@ -109,8 +109,8 @@ export default function MarketIntelligence({ benchmarks, onDrill }) {
     { key: "provider_specialty", label: "Specialty" },
     { key: "pressure_index", label: "Pressure Index", render: (v) => <strong>{fmt.score(v)}</strong> },
     { key: "pressure_tier", label: "Tier", render: (v) => <PressureBadge tier={v} /> },
-    { key: "avg_ptcr", label: "Avg PTCR", render: (v) => fmt.pct(v) },
-    { key: "compression_driver", label: "Change pattern" },
+    { key: "avg_ptcr", label: "Payment-to-charge ratio", render: (v) => fmt.pct(v) },
+    { key: "compression_driver", label: "Change pattern", render: v => CHANGE_LABELS[v] || v },
     { key: "total_services", label: "Services", render: (v) => fmt.num(v) },
     { key: "total_providers", label: "Providers", render: (v) => fmt.num(v) },
     { key: "outlier_procedure_count", label: "Outliers" },
@@ -136,7 +136,7 @@ export default function MarketIntelligence({ benchmarks, onDrill }) {
       </ChartPanel>
 
       {/* Compression Trend */}
-      <ChartPanel title="Reimbursement compression trend" subtitle="Payment-to-Charge Ratio by year · top 8 by pressure" info={DEFINITIONS.ptcr}>
+      <ChartPanel title="Payment-to-charge ratio trend" subtitle="Payment-to-Charge Ratio by year · top 8 by pressure" info={DEFINITIONS.ptcr}>
         <ResponsiveContainer width="100%" height={260}>
           <LineChart data={trendData}>
             <CartesianGrid strokeDasharray="3 3" stroke="rgba(10,126,140,0.15)" />
@@ -157,11 +157,11 @@ export default function MarketIntelligence({ benchmarks, onDrill }) {
           <BarChart data={driverData} layout="vertical">
             <CartesianGrid strokeDasharray="3 3" stroke="rgba(10,126,140,0.15)" />
             <XAxis type="number" allowDecimals={false} stroke={CHART_COLORS.muted} tick={{ fontSize: 11 }} />
-            <YAxis dataKey="name" type="category" width={120} stroke={CHART_COLORS.muted} tick={{ fontSize: 11 }} />
+            <YAxis dataKey="name" type="category" width={180} stroke={CHART_COLORS.muted} tick={{ fontSize: 11 }} />
             <Tooltip {...TOOLTIP_PROPS} />
             <Bar dataKey="count" name="Specialties" radius={[0, 4, 4, 0]} {...CHART_ANIM}>
               {driverData.map((d, i) => (
-                <Cell key={i} fill={COMPRESSION_COLORS[d.name] || CHART_COLORS.muted} />
+                <Cell key={i} fill={COMPRESSION_COLORS[d.category] || CHART_COLORS.muted} />
               ))}
             </Bar>
           </BarChart>
@@ -169,15 +169,15 @@ export default function MarketIntelligence({ benchmarks, onDrill }) {
       </ChartPanel>
 
       {/* Volume vs Compression Scatter */}
-      <ChartPanel title="Volume vs compression" subtitle="Bubble size = pressure index" className="span-full">
+      <ChartPanel title="Service volume and payment-to-charge ratio" subtitle="Bubble size = pressure index" className="span-full">
         <ResponsiveContainer width="100%" height={300}>
           <ScatterChart margin={{ top: 12, right: 24, bottom: 4, left: 4 }}>
             <CartesianGrid strokeDasharray="3 3" stroke="rgba(10,126,140,0.15)" />
             <XAxis type="number" dataKey="services" name="Services" domain={["auto", "auto"]} tickFormatter={v => `${(v / 1e3).toFixed(0)}K`} stroke={CHART_COLORS.muted} tick={{ fontSize: 11 }} />
-            <YAxis type="number" dataKey="ptcr" name="PTCR" domain={["auto", "auto"]} tickFormatter={v => fmt.pct(v)} stroke={CHART_COLORS.muted} tick={{ fontSize: 11 }} />
+            <YAxis type="number" dataKey="ptcr" name="Payment-to-charge ratio" domain={["auto", "auto"]} tickFormatter={v => fmt.pct(v)} stroke={CHART_COLORS.muted} tick={{ fontSize: 11 }} />
             <ZAxis type="number" dataKey="pressure" name="Pressure Index" range={[120, 900]} />
             <Tooltip
-              formatter={(v, name) => name === "PTCR" ? fmt.pct(v) : name === "Services" ? fmt.num(v) : name === "Pressure Index" ? fmt.score(v) : v}
+              formatter={(v, name) => name === "Payment-to-charge ratio" ? fmt.pct(v) : name === "Services" ? fmt.num(v) : name === "Pressure Index" ? fmt.score(v) : v}
               labelFormatter={() => ""}
               {...TOOLTIP_PROPS}
             />
