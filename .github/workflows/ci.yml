@@ -89,6 +89,10 @@ jobs:
         working-directory: domo/app
         run: npm install
 
+      - name: Dashboard regression checks
+        working-directory: domo/app
+        run: npm test
+
       - name: Build Domo App
         working-directory: domo/app
         run: npm run build

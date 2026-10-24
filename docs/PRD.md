@@ -1,5 +1,7 @@
 # Product Requirements Document: SpecialtyPulse
 
+> Portfolio design document. Stakeholder roles, team workflows and approval processes are illustrative, not recorded interviews or sign-off. The public app uses sample reimbursement data, synthetic sales/usage data and sample security-check results. Live policy checks require Domo credentials. Some specifications below describe planned or historical behavior; current UI labels and summary behavior are documented in `domo/app/README.md`.
+
 **Version:** 1.0
 **Author:** Kristen Martino
 **Last updated:** March 2026
@@ -46,7 +48,7 @@ In production, this external market intelligence would be joined with internal S
 
 ### 2.1 Primary personas
 
-**RevOps VP (David Draddy archetype)**
+**RevOps VP (Revenue leadership persona archetype)**
 
 - Presents pipeline and revenue analytics to the CRO and board
 - Needs: numbers he can trust, governance he can point to, reporting that drives sales behavior
@@ -54,7 +56,7 @@ In production, this external market intelligence would be joined with internal S
 - Key concern: "Are these numbers right, and will my team actually use this?"
 - Default metric view: **volume-weighted averages** (matches board reporting methodology)
 
-**GTM Analytics Director (Thomas Danh archetype)**
+**GTM Analytics Director (Analytics leadership persona archetype)**
 
 - Builds and maintains the analytical infrastructure
 - Needs: standardized metrics, adoption tracking, prescriptive capabilities
@@ -238,7 +240,7 @@ Implemented through:
   - Compression trajectory (is it getting worse? from the predictive layer)
   - Volume growth (is this a growing market despite compression?)
   - Provider count (is the addressable market large enough?)
-- **Tier labels**: "Immediate Opportunity," "Emerging Opportunity," "Monitor," "Low Priority"
+- **Tier labels**: "High pressure," "Elevated pressure," "Monitor," "Low pressure"
 - **Ranked specialty table**: the anchor card on Page 1, showing ModMed's nine specialties ranked by Pressure Index with tier labels and key supporting metrics
 - **Territory-level prescriptive view**: Pressure Index by state, filterable by specialty, so a regional sales manager sees where the urgency is in their geography
 - **Pipeline × Market Intelligence**: when joined with Salesforce data, the Pressure Index enriches pipeline opportunities — a deal in a high-pressure specialty is more likely to close because the practice pain is real and growing

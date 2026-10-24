@@ -1,12 +1,10 @@
 # SpecialtyPulse Pipeline
 
-**A production-style data pipeline demonstrating the Databricks → Airflow → Domo architecture, with a 5-page analytics dashboard delivered both as a native Domo App and as a standalone web build.**
+A healthcare analytics portfolio project with PySpark notebooks, an Airflow DAG, Domo integration code and a five-page React dashboard.
 
-**▶ Live demo: [specialtypulse.kristenmartino.ai](https://specialtypulse.kristenmartino.ai)**
-The hosted dashboard runs on bundled *representative* data — the production
-delivery was a Domo custom app behind row-level security (PDP).
+**[Public demo](https://specialtypulse.kristenmartino.ai)** — bundled reimbursement samples (CY2021–2023), synthetic sales and usage data, and illustrative policy-check results. This is not an operational healthcare deployment or live security assessment. The Domo trial has ended; live policy verification requires a configured Domo instance.
 
-Source data: CMS Medicare Physician & Other Practitioners PUF, 2021–2025
+The source contract supports additional years; bundled demo coverage is 2021–2023. Metric weights are design assumptions, not validated sales predictors. Stakeholder roles and approval workflows are illustrative; no executive sign-off is claimed.
 
 ---
 
@@ -29,7 +27,7 @@ and Domo serves as the BI and executive reporting layer.
 │   TRANSFORMATION LAYER   │    │        DELIVERY LAYER           │
 │  Databricks (Free Ed.)   │    │   Dashboard (dual-mode)         │
 │                          │    │                                 │
-│  01_ingest_cms_puf       │    │  Production: native Domo App    │
+│  01_ingest_cms_puf       │    │  Domo runtime: native App    │
 │     ↓                    │    │  • DataSet: mart_reimb_trends   │
 │  02_staging              │───▶│  • SQL DataFlow: benchmarks     │
 │     ↓                    │    │  • PDP: row-level security      │
@@ -47,7 +45,7 @@ The dashboard is a single React codebase that runs in two modes: as a native
 when `window.domo` is absent — that fallback is what powers the live demo above.
 
 > **Pipeline boundary:** the Databricks notebooks + Airflow DAG build and deliver
-> the certified Delta mart to Domo. The Domo **SQL DataFlow** (specialty benchmarks,
+> the reporting Delta mart to Domo. The Domo **SQL DataFlow** (specialty benchmarks,
 > compression drivers, projections, and the Reimbursement Pressure Index) and the
 > **dashboard** are built inside Domo / the React app — they are *not* executed by
 > the Databricks/Airflow pipeline. See `docs/PRD.md` §5.2–5.3 for per-component
@@ -63,7 +61,7 @@ when `window.domo` is absent — that fallback is what powers the live demo abov
 | Databricks Free Edition | Databricks (production) | PySpark transformations on raw data |
 | Local Airflow via Astro CLI | Apache Airflow (managed) | DAG orchestration, scheduling, retries |
 | Domo API push script | Databricks → Domo connector | Landing clean data into Domo DataSets |
-| Domo SQL DataFlow | Domo SQL DataFlow | Certified metric definitions |
+| Domo SQL DataFlow | Domo SQL DataFlow | Documented metric definitions |
 | Domo App (native, behind PDP) | Domo dashboard | Executive / operational reporting (production) |
 | Standalone web build (Vercel) | — | Public demo surface on representative data |
 | Delta tables (Unity Catalog) | S3 + Delta Lake | Intermediate storage between layers |
@@ -81,15 +79,15 @@ when `window.domo` is absent — that fallback is what powers the live demo abov
 | **Owner** | Kristen Martino — pipeline runs annually post-CMS release |
 | **Refresh** | Annual (triggered manually after CMS data release) |
 | **Domo DataSet** | `specialtypulse_mart_reimbursement_trends` |
-| **Certified by** | Metrics certified per `docs/METRIC_CERTIFICATION_LOG.md`; enforced via in-pipeline null/uniqueness/range assertions |
+| **Definitions** | Formulas documented in `docs/METRIC_CERTIFICATION_LOG.md`; enforced via in-pipeline null/uniqueness/range assertions |
 
 ---
 
-## Certified Metric Definitions
+## Metric definitions
 
 These definitions are enforced in the Databricks mart notebook and the
 Domo SQL DataFlow. Any change requires a version bump and an entry in `docs/METRIC_CERTIFICATION_LOG.md`.
-The five certified metrics below match the five entries in that log.
+The five definitions below match the five entries in that log. No external certification is claimed.
 
 | Metric | Definition | Grain |
 |---|---|---|
@@ -100,7 +98,7 @@ The five certified metrics below match the five entries in that log.
 | `is_payment_outlier` | `payment_to_charge_ratio` > 2 stddev below specialty mean for that year | specialty × hcpcs × year |
 
 `total_services` and `specialty_avg_payment` are mart/benchmark columns the dashboard
-consumes, but they are **not** certified metric definitions — they are not in
+consumes, but they are not among the five metric entries in
 `docs/METRIC_CERTIFICATION_LOG.md`.
 
 ---
@@ -115,17 +113,13 @@ on a shared component library (`KpiCard`, `ChartPanel`, `DataTable`, `TabBar`,
 |---|---|
 | **Market Intelligence** | Specialty-level reimbursement pressure, benchmarks, and YoY trends |
 | **Procedure Detail** | Drill-down into individual HCPCS procedures and payment-to-charge ratios |
-| **Pipeline Intelligence** | Salesforce opportunities scored against market reimbursement pressure |
+| **Pipeline Intelligence** | Synthetic opportunities compared with reimbursement pressure |
 | **Adoption Tracking** | Dashboard engagement and usage by role |
-| **PDP Governance** | Role distribution, live verify-check status, and the access-policy matrix |
+| **PDP Governance** | Example roles, sample check results and access-policy matrix |
 
-Cross-cutting features: a cross-page **Executive Brief** (AskGTM-style synthesis),
-drill-down navigation, and surfaced insight callouts. The Executive Brief and the
-PDP AI governance summary call Claude through a **server-side proxy** so the API key
-never reaches the client — Domo's App Proxy inside Domo, and a Vercel Edge function
-(`domo/app/api/anthropic/v1/messages.js`) on the web build. When no
-`ANTHROPIC_API_KEY` is configured, those buttons degrade to a clear "not configured"
-message.
+Cross-cutting features include specialty drill-downs, computed callouts and a collapsible dashboard summary after the analysis. The summary includes all specialties' active pipeline totals and shares. An optional Claude call selects a review task from a fixed catalog; the client validates the task and evidence IDs and renders only supported text. Governance summaries are computed from the policy matrix without a model call.
+
+The optional AI selector uses a server-side proxy. Without API configuration the computed summary remains available. Standalone policy-check results are explicitly labeled samples and have no generated verification timestamp. CI runs live policy verification only with configured Domo credentials; its fallback checks syntax only.
 
 See [`domo/app/README.md`](domo/app/README.md) for full local-dev, Vercel, and Domo
 publishing instructions.
@@ -161,7 +155,7 @@ specialtypulse_pipeline/
 │   │   └── src/
 │   │       ├── index.html              ← HTML entry point
 │   │       ├── index.js                ← React DOM mount
-│   │       ├── App.jsx                 ← Tab shell + Executive Brief
+│   │       ├── App.jsx                 ← Tab shell + computed summary
 │   │       ├── pages/                  ← MarketIntelligence, ProcedureDetail,
 │   │       │                              PipelineIntelligence, AdoptionTracking, PdpGovernance
 │   │       ├── components/             ← KpiCard, ChartPanel, DataTable, TabBar,
@@ -254,7 +248,7 @@ npm start                 # http://localhost:3000
 # Standalone web build (powers the live demo)
 npm run build:web         # outputs to dist/
 # Deploy on Vercel with project root = domo/app; vercel.json wires build:web → dist/.
-# Set ANTHROPIC_API_KEY in the Vercel project to enable AI summaries.
+# Set ANTHROPIC_API_KEY in the Vercel project to enable optional review-focus selection.
 
 # Native Domo App
 npm run build && domo publish
@@ -283,7 +277,7 @@ These mirror the GitHub Actions jobs in `.github/workflows/ci.yml`
 - **YoY nulls**: 2021 is the base year — `yoy_*` columns are null for 2021 rows by design
 - **Live demo data**: the hosted site runs on bundled *representative* data, not live Medicare data or live Domo DataSets
 - **Sample vs. contract years**: the data contract spans 2021–2025; the bundled raw sample is 2023 only, and the representative demo data covers 2021–2023
-- **AI summaries**: require an `ANTHROPIC_API_KEY` on the deployment; without one the Executive Brief / governance-summary buttons show a clear "not configured" message
+- **Optional AI selector**: requires host API configuration; without it, computed dashboard and policy summaries remain available.
 - **Airflow 3.x**: the DAG uses `schedule` (not the deprecated `schedule_interval`) and requires `aiofiles`
 
 ---

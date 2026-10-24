@@ -6,6 +6,8 @@ import {
 import ChartPanel from "../components/ChartPanel";
 import DataTable from "../components/DataTable";
 import InsightStrip from "../components/InsightStrip";
+import { largestDeviation } from "../data/reportingFacts";
+import { isDomo } from "../data/domoFetch";
 import { CHART_COLORS, CHART_SERIES, TOOLTIP_PROPS, CHART_ANIM, fmt, groupBy, DEFINITIONS } from "../data/constants";
 
 export default function ProcedureDetail({ mart, focusSpecialty, onClearFocus }) {
@@ -24,7 +26,7 @@ export default function ProcedureDetail({ mart, focusSpecialty, onClearFocus }) 
 
   // Outlier procedures
   const outliers = useMemo(
-    () => view.filter(r => r.is_payment_outlier === "true")
+    () => view.filter(r => String(r.is_payment_outlier) === "true")
       .sort((a, b) => Math.abs(Number(b.payment_vs_specialty_pct)) - Math.abs(Number(a.payment_vs_specialty_pct))),
     [view]
   );
@@ -46,13 +48,12 @@ export default function ProcedureDetail({ mart, focusSpecialty, onClearFocus }) 
     if (!view.length) return [];
     const items = [];
 
-    const over = [...view].filter(r => r.is_payment_outlier === "true")
-      .sort((a, b) => Number(b.payment_vs_specialty_pct) - Number(a.payment_vs_specialty_pct))[0];
-    if (over) items.push({
+    const deviation = largestDeviation(view);
+    if (deviation) items.push({
       tone: "alert",
-      label: "Largest over-benchmark",
-      value: `${over.hcpcs_description} ↑ ${fmt.pct(over.payment_vs_specialty_pct)}`,
-      detail: `${over.provider_specialty} — vs the specialty's blended average (a screening signal).`,
+      label: "Largest flagged benchmark deviation",
+      value: `${deviation.row.hcpcs_description} · ${fmt.pct(deviation.magnitude)} ${deviation.direction}`,
+      detail: `${deviation.row.provider_specialty} — versus its blended specialty average.`,
     });
 
     const flaggedBySpec = {};
@@ -65,13 +66,13 @@ export default function ProcedureDetail({ mart, focusSpecialty, onClearFocus }) 
       detail: topSpec ? `Most in ${topSpec[0]} (${topSpec[1]}).` : "None flagged in this view.",
     });
 
-    const cut = [...view].filter(r => r.yoy_payment_change_pct != null)
+    const cut = [...view].filter(r => r.yoy_payment_change_pct != null && Number(r.yoy_payment_change_pct) < 0)
       .sort((a, b) => Number(a.yoy_payment_change_pct) - Number(b.yoy_payment_change_pct))[0];
     if (cut) items.push({
       tone: "trend",
-      label: "Steepest payment cut",
+      label: "Largest procedure payment decline",
       value: `${cut.hcpcs_description} ${fmt.pct(cut.yoy_payment_change_pct)}`,
-      detail: `${cut.provider_specialty} — sharpest YoY reimbursement drop.`,
+      detail: `${cut.provider_specialty} — largest YoY average-payment decline in this view.`,
     });
 
     return items;
@@ -142,6 +143,7 @@ export default function ProcedureDetail({ mart, focusSpecialty, onClearFocus }) 
         </div>
       )}
 
+      {!isDomo && <p className="data-note">Bundled procedure sample. Blended specialty averages are screening references, not procedure-specific expected rates.</p>}
       <InsightStrip items={insights} />
 
       {/* Outlier Table */}

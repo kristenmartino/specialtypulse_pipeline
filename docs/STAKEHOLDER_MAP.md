@@ -1,5 +1,7 @@
 # Stakeholder Map: SpecialtyPulse
 
+> Portfolio design document. Stakeholder roles, team workflows and approval processes are illustrative, not recorded interviews or sign-off. The public app uses sample reimbursement data, synthetic sales/usage data and sample security-check results. Live policy checks require Domo credentials. Some specifications below describe planned or historical behavior; current UI labels and summary behavior are documented in `domo/app/README.md`.
+
 **Companion to:** `docs/PRD.md`
 **Author:** Kristen Martino
 **Last updated:** March 2026

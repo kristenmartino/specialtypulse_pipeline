@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useMemo, useRef } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import { domoFetch, isDomo } from "./data/domoFetch";
 import { fmt } from "./data/constants";
 import TabBar from "./components/TabBar";
@@ -17,41 +17,11 @@ const TAB_LABELS = {
   pdp:       "PDP Governance",
 };
 
-// The signature mark: an ECG trace beside the wordmark whose beat rate is
-// driven by the top pressure index — the market's pulse, literally.
-const PULSE_PATH = "M0 15 H34 L40 15 L45 4 L52 26 L57 15 H88 L94 15 L99 7 L105 23 L110 15 H150";
-
-function HeaderPulse({ benchmarks }) {
-  const topPressure = useMemo(() => {
-    if (!benchmarks.length) return null;
-    const maxY = Math.max(...benchmarks.map(r => Number(r.year)));
-    const latest = benchmarks.filter(r => Number(r.year) === maxY);
-    return Math.max(...latest.map(r => Number(r.pressure_index)));
-  }, [benchmarks]);
-
-  if (topPressure == null || !isFinite(topPressure)) return null;
-  // Map pressure 0–100 → beat period 2.6s–1.0s.
-  const dur = Math.max(1.0, 2.6 - (topPressure / 100) * 1.6).toFixed(2);
-
-  return (
-    <svg
-      className="header-pulse"
-      width="150"
-      height="30"
-      viewBox="0 0 150 30"
-      aria-hidden="true"
-      style={{ "--pulse-dur": `${dur}s` }}
-    >
-      <path className="pulse-track" d={PULSE_PATH} />
-      <path className="pulse-trace" d={PULSE_PATH} pathLength="400" />
-    </svg>
-  );
-}
-
 export default function App() {
   const [tab, setTab] = useState("market");
   const [loading, setLoading] = useState(true);
   const [lastFetch, setLastFetch] = useState(null);
+  const [fetchError, setFetchError] = useState(false);
   // Drill-down focus: a specialty selected on Market Intelligence narrows
   // Procedure Detail. Persists until cleared via the focus chip.
   const [focusSpecialty, setFocusSpecialty] = useState(null);
@@ -68,6 +38,7 @@ export default function App() {
 
   const fetchData = useCallback(async () => {
     setLoading(true);
+    setFetchError(false);
     try {
       const [cfg, chk, bench, pipe, m, eng] = await Promise.all([
         domoFetch("pdp_config"),
@@ -86,6 +57,7 @@ export default function App() {
       setLastFetch(new Date());
     } catch (err) {
       console.error("Failed to fetch Domo DataSets:", err);
+      setFetchError(true);
     } finally {
       setLoading(false);
     }
@@ -115,6 +87,14 @@ export default function App() {
         </div>
       );
     }
+    if (fetchError) {
+      return (
+        <div className="empty-state" role="alert">
+          <p>Dashboard data could not be loaded.</p>
+          <button className="exec-brief-btn" onClick={fetchData}>Try again</button>
+        </div>
+      );
+    }
     switch (tab) {
       case "market":    return <MarketIntelligence benchmarks={benchmarks} onDrill={drillToSpecialty} />;
       case "procedure": return <ProcedureDetail mart={mart} focusSpecialty={focusSpecialty} onClearFocus={() => setFocusSpecialty(null)} />;
@@ -134,25 +114,20 @@ export default function App() {
             <div className="header-title">SpecialtyPulse</div>
             <div className="header-subtitle">{TAB_LABELS[tab]}</div>
           </div>
-          {!loading && <HeaderPulse benchmarks={benchmarks} />}
         </div>
         <div className="header-right">
           <div className="header-meta">
-            <span>{isDomo ? "Last fetched" : "Data vintage"}</span>
+            <span>{isDomo ? "Last fetched" : "Portfolio demo"}</span>
             <span className="val">
               {isDomo
                 ? (lastFetch ? fmt.date(lastFetch.toISOString()) : "—")
-                : "Representative · CY2021–2023"}
+                : "Demo data · CY2021–2023"}
             </span>
           </div>
         </div>
       </header>
 
       <TabBar active={tab} onChange={setTab} />
-
-      {!loading && (
-        <ExecutiveBrief benchmarks={benchmarks} mart={mart} pipeline={pipeline} />
-      )}
 
       <main
         className="page-content"
@@ -164,17 +139,17 @@ export default function App() {
         <div className="page-fade" key={tab}>
           {renderPage()}
         </div>
+        {!loading && !fetchError && ["market", "procedure", "pipeline"].includes(tab) && (
+          <ExecutiveBrief benchmarks={benchmarks} mart={mart} pipeline={pipeline} />
+        )}
+        {!isDomo && (
+          <footer className="standalone-note">
+            Portfolio demo. Reimbursement views use bundled sample data; sales and usage
+            data are synthetic. Access policies and check results are examples, not a live
+            security assessment.
+          </footer>
+        )}
       </main>
-
-      {!isDomo && (
-        <footer className="standalone-note">
-          Standalone demo build on representative data — originally delivered as a Domo
-          custom app behind PDP row-level security. The Reimbursement Pressure Index is
-          computed in your browser from the pipeline's mart (a JavaScript port of the Domo
-          SQL DataFlow), not hard-coded. The PDP policies shown are the verified
-          configuration from the pipeline repo.
-        </footer>
-      )}
     </div>
   );
 }

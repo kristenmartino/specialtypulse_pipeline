@@ -1,25 +1,16 @@
-# SpecialtyPulse PDP Governance — Domo App
+# SpecialtyPulse dashboard
 
-A native Domo App that displays the PDP security state for SpecialtyPulse.
-Lives inside your Domo instance. Reads live DataSets via `domo.js`.
+A five-page React app for reimbursement comparisons, procedure detail, synthetic pipeline comparisons, synthetic usage and example Domo access policies.
 
----
+## Data and verification boundaries
 
-## What it shows
+The standalone build computes reimbursement benchmarks from a bundled pipeline sample (CY2021–2023). Sales and usage data are synthetic. Governance assignments and pass results are illustrative; page load does not run policy checks or create a verification timestamp. In a configured Domo runtime, the data bridge reads DataSets and displays recorded check results. Those results still require review of their timestamp and intended-user access testing.
 
-**Role distribution** — count of users per role (finance admin, executive,
-specialty analyst, regional sales) with color-coded cards.
+## Summaries and AI
 
-**Verify check status** — live results from `pdp_verify_writer.py` showing
-all 6 governance checks with pass/fail indicators and messages.
+Chart callouts and the collapsible dashboard summary are computed. All active-pipeline totals and specialty shares are available in the summary. Its optional AI selector receives these facts and chooses a review task from a fixed catalog. Invalid task IDs, evidence IDs, extra prose or truncated responses are rejected. Only catalog text and computed evidence are displayed. The policy summary is deterministic and makes no model call.
 
-**Access policy matrix** — full table of every user, their role, filter
-dimension, and exact access scope (all rows / specialty filter / state chips).
-
-**AI governance summary** — click to generate a plain-English summary of
-the current security state using Claude, streamed in real time.
-
----
+Pressure-weighted pipeline is deal amount × pressure score ÷ 100, not a forecast or validated deal value. The legacy field `market_validated_amount` remains for Domo compatibility. Score bands describe pressure rather than commercial opportunity. Metric definitions and limitations are in `../../docs/METRIC_CERTIFICATION_LOG.md`.
 
 ## Local development
 
@@ -35,9 +26,8 @@ npm start
 ```
 
 The app runs in mock mode locally — the `domoFetch()` function returns
-sample data from `MOCK_DATA` in `App.jsx` when `window.domo` is not
-present. Swap to real data by updating `MOCK_DATA` to match your actual
-DataSet structure.
+computed sample benchmarks and static governance/usage examples when `window.domo` is not
+present. Configure real DataSet bindings in the Domo manifest to use a Domo deployment.
 
 ---
 
@@ -54,14 +44,14 @@ npm run build:web
 ```
 
 Deploying on Vercel: set the project root to `domo/app` — `vercel.json`
-points the build at `npm run build:web` and serves `dist/`. The AI explain
+points the build at `npm run build:web` and serves `dist/`. The optional AI focus-selection
 feature routes through `api/anthropic/v1/messages.js` (an Edge function that
-keeps the key server-side and only accepts the dashboard's own request shape);
+keeps the key server-side and restricts model, token count and prompt prefix; this is not authentication);
 set `ANTHROPIC_API_KEY` in the Vercel project to enable it. Without the key,
 the button degrades to a clear "not configured" message.
 
 A footer note on the standalone build discloses that it runs on
-representative data and that the production delivery was a Domo custom app.
+representative data and that the Domo integration requires a configured runtime.
 
 ---
 
@@ -115,41 +105,21 @@ Once both exist, update their IDs in `manifest.json` and run `domo dev`.
 
 ---
 
-## The AI explain feature
+## Optional AI focus selection
 
-The "Explain current policy state" button calls the Anthropic API via a
-server-side proxy using streaming. The response appears word-by-word.
+The dashboard summary offers **Suggest a review focus** when the deployment reports AI availability. The non-streaming request uses Claude with a 200-token response budget. The key remains in the Vercel Edge function or configured Domo App Proxy.
 
-The API key is never exposed in the client bundle:
-- **In Domo**: requests route through Domo's App Proxy (`/domo/proxy/`).
-  Requires a `proxyId` entry in `manifest.json` pointing to the Anthropic
-  API — see [Domo App Proxy docs](https://developer.domo.com/portal/1845fc11dbbe3-app-proxy).
-- **Local dev**: requests route through webpack devServer proxy at
-  `/api/anthropic/v1/messages`, which injects the key from the
-  `ANTHROPIC_API_KEY` environment variable
+The model returns a task ID and evidence IDs. The client accepts only an available task with its exact supporting IDs. It displays catalog text and computed observations, never model-authored prose. The policy summary does not use AI.
+
+## Verification flow
+
+`pdp_setup.py` configures policies. `pdp_verify_writer.py` records API check results in a Domo DataSet. A configured Domo app reads those recorded results; the public app uses examples instead. CI invokes the live writer only when Domo credentials are available and otherwise performs syntax checks. Neither a sample pass nor a syntax check establishes live row-level access.
+
+## Checks
 
 ```bash
-# To enable AI explain locally:
-export ANTHROPIC_API_KEY="your-key"
-npm start
-```
-
-The prompt is built from live DataSet state — it summarizes role counts,
-specialties covered, regions covered, and verify check status into a
-governance summary suitable for a VP of Data Engineering.
-
----
-
-## Architecture note
-
-```
-pdp_config.csv (version controlled in Git)
-    ↓
-pdp_setup.py → creates Domo PDP policies via API
-    ↓
-pdp_verify_writer.py → checks policies, writes results to Domo DataSet
-    ↓
-Domo App reads both DataSets via domo.js → displays live state
-    ↓
-GitHub Actions runs pdp_verify_writer.py nightly → badge stays green
+npm test
+npm run build
+npm run build:web
+node scripts/verify-index.js
 ```

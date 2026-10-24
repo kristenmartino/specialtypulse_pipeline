@@ -7,12 +7,14 @@ import ChartPanel from "../components/ChartPanel";
 import KpiCard from "../components/KpiCard";
 import DataTable from "../components/DataTable";
 import PressureBadge from "../components/PressureBadge";
+import { activePipeline } from "../data/reportingFacts";
+import { isDomo } from "../data/domoFetch";
 import { CHART_COLORS, TOOLTIP_PROPS, CHART_ANIM, fmt, groupBy, DEFINITIONS } from "../data/constants";
 
 export default function PipelineIntelligence({ pipeline }) {
   // Pipeline by specialty with pressure overlay
   const specData = useMemo(() => {
-    const bySpec = groupBy(pipeline, "account_specialty");
+    const bySpec = groupBy(activePipeline(pipeline), "account_specialty");
     return Object.entries(bySpec).map(([spec, rows]) => ({
       specialty: spec,
       totalAmount: rows.reduce((s, r) => s + Number(r.amount), 0),
@@ -22,7 +24,7 @@ export default function PipelineIntelligence({ pipeline }) {
     })).sort((a, b) => b.totalAmount - a.totalAmount);
   }, [pipeline]);
 
-  // KPI: market-validated total
+  // KPI: pressure-weighted total
   const kpis = useMemo(() => {
     const active = pipeline.filter(r => r.stage !== "Closed Won" && r.stage !== "Closed Lost");
     const totalPipe = active.reduce((s, r) => s + Number(r.amount), 0);
@@ -54,35 +56,36 @@ export default function PipelineIntelligence({ pipeline }) {
     { key: "region", label: "Region" },
     { key: "deals", label: "Active Deals" },
     { key: "totalAmount", label: "Pipeline", render: (v) => fmt.usd0(v) },
-    { key: "validatedAmount", label: "Market-Validated", render: (v) => fmt.usd0(v) },
+    { key: "validatedAmount", label: "Pressure-weighted pipeline", render: (v) => fmt.usd0(v) },
     { key: "avgPressure", label: "Avg Pressure", render: (v) => fmt.score(v) },
     { key: "topTier", label: "Top Tier", render: (v) => <PressureBadge tier={v} /> },
   ];
 
   return (
     <div className="page-grid">
+      <p className="data-note">{isDomo ? "Sales dataset" : "Synthetic sales pipeline"} · pressure-weighted amounts are heuristic comparisons, not forecasts or validated deal values.</p>
       {/* KPI Row */}
       <div className="kpi-row span-full">
         <KpiCard label="Active Pipeline" value={fmt.usdCompact(kpis.totalPipe)} sub={fmt.plural(kpis.activeCount, "deal")} color="teal" />
-        <KpiCard label="Market-Validated" value={fmt.usdCompact(kpis.validatedPipe)} sub="Adjusted by pressure index" info={DEFINITIONS.marketValidated} color="gold" />
+        <KpiCard label="Pressure-weighted pipeline" value={fmt.usdCompact(kpis.validatedPipe)} sub="Adjusted by pressure index" info={DEFINITIONS.marketValidated} color="gold" />
         <KpiCard label="Closed Won" value={fmt.usdCompact(kpis.wonTotal)} sub={fmt.plural(kpis.wonCount, "deal")} color="green" />
       </div>
 
       {/* Pipeline x Pressure Combo */}
-      <ChartPanel title="Pipeline amount vs pressure index" subtitle="By specialty" info={DEFINITIONS.marketValidated} className="span-full">
+      <ChartPanel title="Pipeline amount vs pressure index" subtitle="Active deals by specialty" info={DEFINITIONS.marketValidated} className="span-full">
         <ResponsiveContainer width="100%" height={300}>
           <ComposedChart data={specData}>
             <CartesianGrid strokeDasharray="3 3" stroke="rgba(10,126,140,0.15)" />
             <XAxis dataKey="specialty" stroke={CHART_COLORS.muted} tick={{ fontSize: 10 }} />
-            <YAxis yAxisId="left" tickFormatter={v => `$${(v / 1e3).toFixed(0)}K`} stroke={CHART_COLORS.muted} tick={{ fontSize: 11 }} />
+            <YAxis yAxisId="left" tickFormatter={v => fmt.usdCompact(v)} stroke={CHART_COLORS.muted} tick={{ fontSize: 11 }} />
             <YAxis yAxisId="right" orientation="right" domain={[0, 100]} stroke={CHART_COLORS.gold} tick={{ fontSize: 11 }} />
             <Tooltip
               formatter={(v, name) => name === "Pressure Index" ? fmt.score(v) : fmt.usd0(v)}
               {...TOOLTIP_PROPS}
             />
             <Legend wrapperStyle={{ fontSize: 11 }} />
-            <Bar yAxisId="left" dataKey="totalAmount" name="Total Pipeline" fill={CHART_COLORS.teal} radius={[4, 4, 0, 0]} opacity={0.6} {...CHART_ANIM} />
-            <Bar yAxisId="left" dataKey="validatedAmount" name="Market-Validated" fill={CHART_COLORS.tealXlt} radius={[4, 4, 0, 0]} {...CHART_ANIM} />
+            <Bar yAxisId="left" dataKey="totalAmount" name="Active pipeline" fill={CHART_COLORS.teal} radius={[4, 4, 0, 0]} opacity={0.6} {...CHART_ANIM} />
+            <Bar yAxisId="left" dataKey="validatedAmount" name="Pressure-weighted pipeline" fill={CHART_COLORS.tealXlt} radius={[4, 4, 0, 0]} {...CHART_ANIM} />
             <Line yAxisId="right" type="monotone" dataKey="pressureIndex" name="Pressure Index" stroke={CHART_COLORS.gold} strokeWidth={2} dot={{ r: 4, fill: CHART_COLORS.gold }} {...CHART_ANIM} />
           </ComposedChart>
         </ResponsiveContainer>

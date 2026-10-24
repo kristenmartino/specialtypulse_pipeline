@@ -1,5 +1,7 @@
 # Dashboard Specification: SpecialtyPulse
 
+> Portfolio design document. Stakeholder roles, team workflows and approval processes are illustrative, not recorded interviews or sign-off. The public app uses sample reimbursement data, synthetic sales/usage data and sample security-check results. Live policy checks require Domo credentials. Some specifications below describe planned or historical behavior; current UI labels and summary behavior are documented in `domo/app/README.md`.
+
 **Companion to:** `docs/PRD.md`
 **Builder:** Kristen Martino
 **Domo instance:** [your-instance].domo.com
@@ -84,7 +86,7 @@ This DataFlow produces the primary analytical dataset powering Pages 1 and 2 of 
 | volume_score | DECIMAL | Normalized 0-100 score from volume growth rate |
 | market_size_score | DECIMAL | Normalized 0-100 score from provider count |
 | pressure_index | DECIMAL | Weighted composite: 0.30 × compression + 0.30 × trajectory + 0.25 × volume + 0.15 × market_size |
-| pressure_tier | STRING | "Immediate Opportunity" (≥70) / "Emerging" (50-69) / "Monitor" (30-49) / "Low Priority" (<30) |
+| pressure_tier | STRING | "High pressure" (≥70) / "Emerging" (50-69) / "Monitor" (30-49) / "Low pressure" (<30) |
 
 ---
 
@@ -130,7 +132,7 @@ Only the most recent year's market data joins to pipeline — we're enriching cu
 | Name | Formula logic | Purpose |
 |---|---|---|
 | compression_driver_label | Displays compression_driver with icon: 📉 Payment Decline, 📈 Charge Inflation, ⚠ Both, ✅ Improving | Visual diagnostic indicator |
-| pressure_tier_label | Displays pressure_tier with color context: 🔴 Immediate, 🟡 Emerging, 🔵 Monitor, ⚪ Low Priority | Prescriptive tier visualization |
+| pressure_tier_label | Displays pressure_tier with color context: 🔴 Immediate, 🟡 Emerging, 🔵 Monitor, ⚪ Low pressure | Prescriptive tier visualization |
 | projection_label | "Projected (High Confidence)" or "Projected (Directional Estimate)" based on projection_confidence | Ensures forecast values are always labeled |
 | metric_calc_label | "Volume-Weighted (Certified)" / "Standardized (Geo-Adjusted)" / "Simple Avg (Reference)" based on which column is displayed | Metric disambiguation — always visible |
 | pipeline_priority_label | CASE on market_validated_amount tiers: "High Priority Deal", "Standard", "Below Threshold" | Prescriptive deal-level signal |
@@ -141,7 +143,7 @@ Only the most recent year's market data joins to pipeline — we're enriching cu
 
 ### Page 1: Market Intelligence
 
-**Audience:** David Draddy, Regional Sales Managers, Thomas Danh
+**Audience:** Revenue leadership persona, Regional Sales Managers, Analytics leadership persona
 **Purpose:** Where should we focus? Answers the Monday morning question.
 **Maturity pillars:** All four — this page IS the maturity ladder in action.
 
@@ -157,7 +159,7 @@ Only the most recent year's market data joins to pipeline — we're enriching cu
 | Pillar | **Prescriptive** |
 | Question answered | Which specialties should the sales team prioritize this quarter? |
 
-This is the first thing David sees. A ranked list of ModMed's specialties with a clear tier label and the supporting evidence. No chart interpretation needed — the table says "Dermatology: Immediate Opportunity" and provides the why.
+This is the first thing David sees. A ranked list of ModMed's specialties with a clear tier label and the supporting evidence. No chart interpretation needed — the table says "Dermatology: High pressure" and provides the why.
 
 #### Card 1.2 — Compression Trend with Forecast
 
@@ -219,7 +221,7 @@ For a regional sales manager filtered by PDP to their states, this shows exactly
 
 ### Page 2: Procedure Detail
 
-**Audience:** Specialty Analysts, Thomas Danh
+**Audience:** Specialty Analysts, Analytics leadership persona
 **Purpose:** Diagnostic deep-dive within a specialty.
 **Maturity pillars:** Diagnostic primarily, with descriptive foundation.
 
@@ -279,7 +281,7 @@ This card is the living version of the metric disambiguation from the PRD. When 
 
 ### Page 3: Pipeline Intelligence
 
-**Audience:** David Draddy, Regional Sales Managers
+**Audience:** Revenue leadership persona, Regional Sales Managers
 **Purpose:** Where market intelligence meets pipeline execution.
 **Maturity pillars:** Prescriptive.
 
@@ -327,7 +329,7 @@ If Dermatology has the highest pressure index but minimal pipeline, that's a gap
 
 ### Page 4: Adoption Tracking
 
-**Audience:** Thomas Danh, David Draddy
+**Audience:** Analytics leadership persona, Revenue leadership persona
 **Purpose:** Is anyone actually using this dashboard?
 **Maturity pillars:** Meta — this page tracks the adoption of the other pages.
 
@@ -372,7 +374,7 @@ If specialty analysts show steady weekly usage but regional sales drops off afte
 
 ### Page 5: PDP Governance
 
-**Audience:** Thomas Danh (primary), David Draddy (quarterly review)
+**Audience:** Analytics leadership persona (primary), Revenue leadership persona (quarterly review)
 **Purpose:** Security state and compliance.
 **Implementation:** Embedded Domo App (domo/app)
 
@@ -417,8 +419,8 @@ Content is defined in `domo/app/src/App.jsx`:
 |---|---|---|---|
 | Pressure Index summary | Regional Sales Managers | Weekly (Monday AM) | Card 1.1 filtered to their territory (via PDP) |
 | Specialty deep-dive | Specialty Analysts | Monthly | Page 2 filtered to their specialty |
-| Adoption report | Thomas Danh | Weekly | Page 4 summary |
-| Full dashboard link | David Draddy | Quarterly (pre-QBR) | All pages, unfiltered |
+| Adoption report | Analytics leadership persona | Weekly | Page 4 summary |
+| Full dashboard link | Revenue leadership persona | Quarterly (pre-QBR) | All pages, unfiltered |
 
 ---
 
@@ -432,7 +434,7 @@ Consistent with existing Domo App design tokens:
 | Accent | #0A7E8C (teal) |
 | Alert/highlight | #F4A830 (gold) |
 | Typography | System default in Domo |
-| Pressure Index colors | Red (#DC3C3C) = Immediate, Amber (#F4A830) = Emerging, Blue (#0A7E8C) = Monitor, Gray (#7A92A3) = Low Priority |
+| Pressure Index colors | Red (#DC3C3C) = Immediate, Amber (#F4A830) = Emerging, Blue (#0A7E8C) = Monitor, Gray (#7A92A3) = Low pressure |
 
 ---
 

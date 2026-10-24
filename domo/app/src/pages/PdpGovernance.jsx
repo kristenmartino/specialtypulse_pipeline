@@ -1,28 +1,14 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React from "react";
 import { ROLE_META, fmt } from "../data/constants";
-import { AI_API_URL, isDomo } from "../data/domoFetch";
+import { isDomo } from "../data/domoFetch";
+import { verificationState } from "../data/reportingFacts";
 
 // ── SUB-COMPONENTS ─────────────────────────────────────────────────────────────
 
-function PulseDot({ passed, loading }) {
-  if (loading) return <span className="pulse-dot gray" />;
-  return <span className={`pulse-dot ${passed ? "green" : "red"}`} />;
-}
-
 function OverallStatusBadge({ checks, loading }) {
-  if (loading) return (
-    <div className="status-badge loading">
-      <PulseDot loading />
-      Checking...
-    </div>
-  );
-  const allPass = checks.length > 0 && checks.every(c => c.passed === "true");
-  return (
-    <div className={`status-badge ${allPass ? "pass" : "fail"}`}>
-      <PulseDot passed={allPass} />
-      {allPass ? "All checks passing" : "Check failures detected"}
-    </div>
-  );
+  const state = verificationState(checks, !isDomo);
+  const label = loading ? "Loading recorded results…" : state === "sample" ? "Sample verification results" : state === "unknown" ? "No verification results" : state === "pass" ? "Recorded checks passed" : "Recorded check failures";
+  return <div className={`status-badge ${state === "sample" || state === "unknown" ? "loading" : state}`}>{label}</div>;
 }
 
 function RoleSummaryPanel({ config, loading }) {
@@ -56,8 +42,8 @@ function RoleSummaryPanel({ config, loading }) {
             return (
               <div key={role} className="role-card">
                 <div className="role-card-header">
-                  <span className="role-name">{meta.label.toUpperCase()}</span>
-                  <span className={`role-icon ${meta.color}`}>{meta.icon}</span>
+                  <span className="role-name">{meta.label}</span>
+
                 </div>
                 <div className="role-count">{roleCounts[role] || 0}</div>
                 <div className="role-desc">{meta.desc}</div>
@@ -74,10 +60,10 @@ function VerifyStatusPanel({ checks, loading }) {
   return (
     <div className="panel">
       <div className="panel-header">
-        <span className="panel-title">Verify checks</span>
+        <span className="panel-title">{isDomo ? "Recorded checks" : "Sample checks"}</span>
         {!loading && checks.length > 0 && (
           <span className="panel-count">
-            {checks.filter(c => c.passed === "true").length}/{checks.length} passing
+            {checks.filter(c => c.passed === "true" || c.passed === true).length}/{checks.length} {isDomo ? "recorded passes" : "example passes"}
           </span>
         )}
       </div>
@@ -101,18 +87,15 @@ function VerifyStatusPanel({ checks, loading }) {
       ) : (
         <div className="check-list">
           <div className="pdp-note">
-            <strong>Why two checks look redundant.</strong> In Domo, a PDP policy
-            attached to a DataFlow <em>input</em> is silently dropped at run time, so
-            the output then serves every row to every user while still looking
-            governed. Policies must live on the <em>output</em>. These checks prove
-            that's where they are (and that the input has none).
+            {isDomo ? "These results describe the recorded check run. Review its timestamp and test access as each role before relying on the policies." : "These are illustrative pass results, not a Domo API check or a live security assessment. No verification was run when this page loaded."}
           </div>
           {checks.map((check, i) => {
-            const pass = check.passed === "true";
+            const pass = check.passed === "true" || check.passed === true;
+            const sample = verificationState([check], !isDomo) === "sample";
             return (
-              <div key={i} className={`check-item ${pass ? "pass" : "fail"}`}>
-                <span className={`check-icon ${pass ? "pass" : "fail"}`}>
-                  {pass ? "\u2713" : "\u2717"}
+              <div key={i} className={`check-item ${sample ? "sample" : pass ? "pass" : "fail"}`}>
+                <span className={`check-icon ${sample ? "sample" : pass ? "pass" : "fail"}`}>
+                  {sample ? "—" : pass ? "\u2713" : "\u2717"}
                 </span>
                 <div className="check-body">
                   <div className="check-name">{check.check_name}</div>
@@ -121,9 +104,9 @@ function VerifyStatusPanel({ checks, loading }) {
               </div>
             );
           })}
-          {checks[0]?.run_at && (
+          {verificationState(checks, !isDomo) !== "sample" && checks[0]?.run_at && (
             <div style={{ fontSize: 11, color: "var(--muted)", fontFamily: "var(--font-mono)", marginTop: 4 }}>
-              Last run: {fmt.date(checks[0].run_at)}
+              Recorded run: {fmt.date(checks[0].run_at)}
             </div>
           )}
         </div>
@@ -200,186 +183,27 @@ function PolicyMatrixPanel({ config, loading }) {
   );
 }
 
-function AIExplainPanel({ config, checks }) {
-  const [output,    setOutput]    = useState("");
-  const [loading,   setLoading]   = useState(false);
-  const [error,     setError]     = useState("");
-  const [streaming, setStreaming] = useState(false);
-  // In Domo the proxy is always present; standalone, probe whether a key is set.
-  const [available, setAvailable] = useState(isDomo ? true : null);
-
-  useEffect(() => {
-    if (isDomo) return;
-    let cancelled = false;
-    fetch("/api/anthropic/health")
-      .then(r => r.ok ? r.json() : { configured: false })
-      .then(j => { if (!cancelled) setAvailable(Boolean(j.configured)); })
-      .catch(() => { if (!cancelled) setAvailable(false); });
-    return () => { cancelled = true; };
-  }, []);
-
-  const buildPrompt = useCallback(() => {
-    const roleCounts = {};
-    config.forEach(r => { roleCounts[r.role] = (roleCounts[r.role] || 0) + 1; });
-
-    const specialties = config
-      .filter(r => r.filter_dimension === "provider_specialty")
-      .map(r => r.filter_values);
-
-    const regions = config
-      .filter(r => r.filter_dimension === "provider_state")
-      .map(r => r.notes);
-
-    const failedChecks = checks.filter(c => c.passed !== "true");
-    const allPass = failedChecks.length === 0 && checks.length > 0;
-
-    return `You are a data governance analyst reviewing PDP (row-level security) policies for a healthcare analytics platform called SpecialtyPulse.
-
-Here is the current policy configuration:
-- Total users: ${config.length}
-- Finance/Executive (full access): ${(roleCounts["finance_admin"] || 0) + (roleCounts["executive"] || 0)} users
-- Specialty analysts (filtered by specialty): ${roleCounts["specialty_analyst"] || 0} users covering: ${specialties.join(", ")}
-- Regional sales (filtered by state): ${roleCounts["regional_sales"] || 0} users covering: ${regions.join(", ")}
-
-Verify check status: ${allPass ? "ALL PASSING" : `${failedChecks.length} FAILED: ${failedChecks.map(c => c.check_name).join(", ")}`}
-
-Write a concise 3-4 sentence plain English summary of this security state for a VP of Data Engineering. Cover:
-1. Who has full access vs restricted access and why
-2. Whether the governance checks are healthy
-3. One specific governance risk or strength worth noting
-
-Be direct and specific. No preamble. No bullet points. Just clear sentences.`;
-  }, [config, checks]);
-
-  const explain = async () => {
-    if (!config.length) return;
-    setLoading(true);
-    setStreaming(false);
-    setError("");
-    setOutput("");
-
-    try {
-      const response = await fetch(AI_API_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "anthropic-version": "2023-06-01",
-        },
-        body: JSON.stringify({
-          model:      "claude-sonnet-4-6",
-          max_tokens: 300,
-          stream:     true,
-          messages:   [{ role: "user", content: buildPrompt() }],
-        }),
-      });
-
-      if (!response.ok) throw new Error(`API error: ${response.status}`);
-
-      setStreaming(true);
-      const reader = response.body.getReader();
-      const decoder = new TextDecoder();
-      let buffer = "";
-
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-
-        buffer += decoder.decode(value, { stream: true });
-        const lines = buffer.split("\n");
-        buffer = lines.pop();
-
-        for (const line of lines) {
-          if (!line.startsWith("data: ")) continue;
-          const data = line.slice(6).trim();
-          if (data === "[DONE]") continue;
-          try {
-            const parsed = JSON.parse(data);
-            if (parsed.type === "content_block_delta" && parsed.delta?.text) {
-              setOutput(prev => prev + parsed.delta.text);
-            }
-          } catch {}
-        }
-      }
-    } catch (err) {
-      // 404/503 = no proxy or no key on this host (standalone build); network
-      // failures surface as TypeError. Anything else is a real API error.
-      const notConfigured =
-        /API error: (404|405|500|501|503)/.test(err.message || "") || err.name === "TypeError";
-      setError(
-        notConfigured
-          ? "AI summary isn't configured on this deployment — it runs in the Domo-hosted build, or here once an API key is set on the host."
-          : err.message || "Failed to generate explanation.",
-      );
-    } finally {
-      setLoading(false);
-      setStreaming(false);
-    }
-  };
-
-  return (
-    <div className="panel panel-wide">
-      <div className="panel-header">
-        <span className="panel-title">AI governance summary</span>
-        <span className="panel-count" style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--teal-lt)" }}>
-          claude-sonnet
-        </span>
-      </div>
-      <div className="ai-panel">
-        {available === false ? (
-          <div className="ai-unavailable">
-            <span className="ai-icon">{"\u25C8"}</span>
-            <span>
-              The AI summary runs in the Domo-hosted build. To enable it on this
-              standalone deployment, set <code>ANTHROPIC_API_KEY</code> in the host
-              environment. The key stays server-side behind the request proxy.
-            </span>
-          </div>
-        ) : (
-          <button
-            className="ai-trigger-btn"
-            onClick={explain}
-            disabled={loading || config.length === 0 || available === null}
-          >
-            <span className="ai-icon">{"\u25C8"}</span>
-            {loading ? "Generating..." : available === null ? "Checking availability\u2026" : "Explain current policy state"}
-          </button>
-        )}
-
-        {available !== false && (
-        <div className="ai-output">
-          <div className="ai-output-label">Governance summary</div>
-          {error ? (
-            <div className="ai-error">{error}</div>
-          ) : output ? (
-            <>
-              <div className={`ai-output-text ${streaming ? "streaming" : ""}`}>
-                {output}
-              </div>
-              {!streaming && (
-                <div className="ai-model-tag">Generated by Claude</div>
-              )}
-            </>
-          ) : (
-            <div className="ai-placeholder">
-              Click the button above to generate a plain-English summary of the current
-              PDP security state — who can see what, whether governance checks are healthy,
-              and any risks worth flagging.
-            </div>
-          )}
-        </div>
-        )}
-      </div>
+function PolicySummaryPanel({ config, checks }) {
+  const full = config.filter(r => r.filter_dimension === "ALL_ROWS").length;
+  const restricted = config.length - full;
+  const state = verificationState(checks, !isDomo);
+  return <section className="panel panel-wide">
+    <div className="panel-header"><span className="panel-title">Policy summary</span></div>
+    <div className="ai-panel">
+      <p>{config.length} {isDomo ? "configured" : "example"} users: {full} with all-row access and {restricted} with dimension filters.</p>
+      <p>{state === "sample" ? "Check results are examples. They do not establish that access is restricted in a live system." : state === "unknown" ? "No recorded verification results are available." : state === "pass" ? "The recorded checks passed. Passing these checks does not establish complete security coverage." : "The recorded results contain failures that require review."}</p>
+      <p className="data-note">Computed from the policy matrix and recorded results. Full-access roles can query every row; filtered roles require testing with the intended user accounts.</p>
     </div>
-  );
+  </section>;
 }
 
 // ── MAIN PAGE COMPONENT ────────────────────────────────────────────────────────
 
 export default function PdpGovernance({ config, checks, loading }) {
-  const allChecksPass = !loading && checks.length > 0 && checks.every(c => c.passed === "true");
 
   return (
     <div>
+      {!isDomo && <p className="data-note">Example policy assignments and sample verification results. This public demo does not enforce Domo row-level security.</p>}
       <div className="page-status-row">
         <OverallStatusBadge checks={checks} loading={loading} />
       </div>
@@ -387,7 +211,7 @@ export default function PdpGovernance({ config, checks, loading }) {
         <RoleSummaryPanel config={config} loading={loading} />
         <VerifyStatusPanel checks={checks} loading={loading} />
         <PolicyMatrixPanel config={config} loading={loading} />
-        <AIExplainPanel config={config} checks={checks} />
+        <PolicySummaryPanel config={config} checks={checks} />
       </div>
     </div>
   );

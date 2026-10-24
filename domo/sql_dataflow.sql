@@ -190,7 +190,7 @@ SELECT
           + 0.15 * GREATEST(0, LEAST(100,
                 cur.total_providers * 100.0
                 / NULLIF(MAX(cur.total_providers) OVER (), 0)))
-        , 1) >= 70 THEN 'Immediate Opportunity'
+        , 1) >= 70 THEN 'High pressure'
         WHEN ROUND(
             0.30 * GREATEST(0, LEAST(100, (1 - cur.avg_ptcr) * 100))
           + 0.30 * GREATEST(0, LEAST(100,
@@ -203,7 +203,7 @@ SELECT
           + 0.15 * GREATEST(0, LEAST(100,
                 cur.total_providers * 100.0
                 / NULLIF(MAX(cur.total_providers) OVER (), 0)))
-        , 1) >= 50 THEN 'Emerging'
+        , 1) >= 50 THEN 'Elevated pressure'
         WHEN ROUND(
             0.30 * GREATEST(0, LEAST(100, (1 - cur.avg_ptcr) * 100))
           + 0.30 * GREATEST(0, LEAST(100,
@@ -216,8 +216,8 @@ SELECT
           + 0.15 * GREATEST(0, LEAST(100,
                 cur.total_providers * 100.0
                 / NULLIF(MAX(cur.total_providers) OVER (), 0)))
-        , 1) >= 30 THEN 'Monitor'
-        ELSE 'Low Priority'
+        , 1) >= 30 THEN 'Moderate pressure'
+        ELSE 'Low pressure'
     END                                                             AS pressure_tier
 
 FROM `_tmp_base_benchmarks` cur

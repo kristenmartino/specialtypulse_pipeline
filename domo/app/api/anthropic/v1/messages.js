@@ -1,16 +1,14 @@
-// Vercel Edge proxy for the dashboard's AI governance summary.
+// Vercel Edge proxy for the dashboard's optional review-focus selector.
 // Mirrors the local webpack devServer proxy: the API key stays server-side
 // (set ANTHROPIC_API_KEY in the Vercel project). Streams the response through.
 export const config = { runtime: "edge" };
 
 const ALLOWED_MODELS = ["claude-sonnet-4-6"];
 const MAX_TOKENS_CAP = 400;
-// The proxy serves exactly two dashboard features; a request's prompt must
-// open with one of these prefixes or it's rejected — so the key-backed
-// endpoint can't be repurposed for arbitrary prompts.
+// Limit requests to the dashboard selector shape. Prefix checks are input
+// restrictions, not authentication or proof of an authorized caller.
 const ALLOWED_PREFIXES = [
-  "You are a data governance analyst", // PDP Governance summary
-  "You are a GTM strategy analyst",    // cross-page Executive Brief
+  "You are a GTM strategy analyst",    // evidence-linked review focus
 ];
 
 export default async function handler(req) {

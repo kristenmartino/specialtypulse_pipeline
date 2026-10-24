@@ -48,10 +48,10 @@ export const CHART_SERIES = [
 ];
 
 export const PRESSURE_COLORS = {
-  "Immediate Opportunity": "#F4A830",
-  "Emerging":              "#12A4B4",
-  "Monitor":               "#8CA3B5",
-  "Low Priority":          "#3A5568",
+  "High pressure": "#F4A830",
+  "Elevated pressure":              "#12A4B4",
+  "Moderate pressure":               "#8CA3B5",
+  "Low pressure":          "#3A5568",
 };
 
 export const COMPRESSION_COLORS = {
@@ -82,21 +82,21 @@ export const CHART_ANIM = {
 // ── FORMATTERS ─────────────────────────────────────────────────────────────────
 export const DEFINITIONS = {
   pressureIndex:
-    "Reimbursement Pressure Index (0\u2013100): a composite of payment-to-charge compression, year-over-year payment change, and service volume. Higher = more reimbursement pressure on the specialty. Certified metric \u2014 defined once in the pipeline's metric log.",
+    "Reimbursement Pressure Index (0–100): 30% payment-to-charge compression, 30% change in that ratio, 25% service-volume change and 15% relative provider count. Project-defined weights; not validated against sales outcomes.",
   pressureTier:
-    "Buckets the Pressure Index into action tiers: Immediate Opportunity (highest), Emerging, Monitor, Low Priority.",
+    "Score bands: High pressure ≥70; Elevated pressure ≥50; Moderate pressure ≥30; Low pressure <30. These bands describe the heuristic score, not purchasing urgency.",
   ptcr:
-    "Payment-to-Charge Ratio: average Medicare-allowed payment \u00f7 average submitted charge. Lower = steeper reimbursement compression.",
+    "Payment-to-Charge Ratio: average Medicare payment ÷ average submitted charge. Specialty views average procedure-level ratios. This is not a practice profit-margin measure.",
   compressionDriver:
-    "What's driving compression this year: Payment Decline, Charge Inflation, Both, Improving, Stable, or Base Year (first year \u2014 no prior to compare against).",
+    "Classification based on changes in specialty average payment and charge: Payment Decline, Charge Inflation, Both, Improving, Stable or Base Year. Submitted charges are not practice operating costs; these labels do not establish causality.",
   paymentOutlier:
-    "Flagged when a procedure's average Medicare payment deviates materially from the specialty's average. The arrow shows direction; the value is the % difference. Note: the benchmark is the specialty's blended average across all procedures, so intrinsically expensive procedures (e.g. major surgery) can read high \u2014 magnitude is a screening signal, not a verdict.",
+    "Flagged when a procedure's payment-to-charge ratio is more than two standard deviations below its specialty mean for the year. The displayed payment deviation compares against the specialty's blended average, not a procedure-specific expected rate.",
   facilityMix:
-    "Share of services delivered in a facility setting (hospital/ASC) vs. an office setting, averaged across the specialty's procedures.",
+    "Share of services delivered in a facility setting (hospital/ASC), averaged across the specialty's procedures.",
   marketValidated:
-    "Pipeline amount weighted by the account specialty's Reimbursement Pressure Index \u2014 a directional adjustment that discounts deals in low-pressure specialties and holds those under pressure. Representative model, not a forecast.",
+    "Pressure-weighted pipeline = deal amount × specialty pressure score ÷ 100. A heuristic comparison measure, not a validated pipeline value, win probability or forecast.",
   adoptionRate:
-    "Active users (logged at least one session) \u00f7 provisioned users.",
+    "Distinct users with a session in the displayed period ÷ configured users. Standalone usage is synthetic, not measured product adoption.",
 };
 
 export const fmt = {
@@ -119,7 +119,7 @@ export const fmt = {
     if (!iso) return "\u2014";
     try {
       return new Date(iso).toLocaleString("en-US", {
-        month: "short", day: "numeric", hour: "2-digit", minute: "2-digit",
+        year: "numeric", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit",
       });
     } catch { return iso; }
   },

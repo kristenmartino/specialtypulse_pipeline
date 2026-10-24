@@ -7,6 +7,7 @@ import ChartPanel from "../components/ChartPanel";
 import DataTable from "../components/DataTable";
 import PressureBadge from "../components/PressureBadge";
 import InsightStrip from "../components/InsightStrip";
+import { isDomo } from "../data/domoFetch";
 import { CHART_COLORS, CHART_SERIES, PRESSURE_COLORS, COMPRESSION_COLORS, TOOLTIP_PROPS, CHART_ANIM, fmt, DEFINITIONS } from "../data/constants";
 
 export default function MarketIntelligence({ benchmarks, onDrill }) {
@@ -74,7 +75,7 @@ export default function MarketIntelligence({ benchmarks, onDrill }) {
       tone: "alert",
       label: "Highest pressure",
       value: `${top.provider_specialty} · ${fmt.score(top.pressure_index)}`,
-      detail: `${top.pressure_tier} tier — the specialty to lead with.`,
+      detail: "Highest score in this dataset; not a sales recommendation.",
     });
 
     let mover = null, moverDelta = -Infinity;
@@ -93,13 +94,13 @@ export default function MarketIntelligence({ benchmarks, onDrill }) {
     });
 
     const comp = [...latest]
-      .filter(r => r.avg_yoy_payment_change != null)
+      .filter(r => r.avg_yoy_payment_change != null && Number(r.avg_yoy_payment_change) < 0)
       .sort((a, b) => Number(a.avg_yoy_payment_change) - Number(b.avg_yoy_payment_change))[0];
     if (comp) items.push({
       tone: "trend",
-      label: "Sharpest payment cut",
+      label: "Largest average payment decline",
       value: `${comp.provider_specialty} ${fmt.pct(comp.avg_yoy_payment_change)}`,
-      detail: `Largest YoY drop in avg Medicare payment — driver: ${comp.compression_driver}.`,
+      detail: `Average procedure-level YoY change; service mix may differ.`,
     });
 
     return items;
@@ -118,6 +119,7 @@ export default function MarketIntelligence({ benchmarks, onDrill }) {
 
   return (
     <div className="page-grid">
+      <p className="data-note">{isDomo ? "Reimbursement comparisons" : "Bundled reimbursement sample"} · project-defined pressure score. Scores do not establish buying intent.</p>
       <InsightStrip items={insights} />
 
       {/* Pressure Index Table */}
@@ -173,7 +175,7 @@ export default function MarketIntelligence({ benchmarks, onDrill }) {
         <ResponsiveContainer width="100%" height={300}>
           <ScatterChart margin={{ top: 12, right: 24, bottom: 4, left: 4 }}>
             <CartesianGrid strokeDasharray="3 3" stroke="rgba(10,126,140,0.15)" />
-            <XAxis type="number" dataKey="services" name="Services" domain={["auto", "auto"]} tickFormatter={v => `${(v / 1e6).toFixed(1)}M`} stroke={CHART_COLORS.muted} tick={{ fontSize: 11 }} />
+            <XAxis type="number" dataKey="services" name="Services" domain={["auto", "auto"]} tickFormatter={v => `${(v / 1e3).toFixed(0)}K`} stroke={CHART_COLORS.muted} tick={{ fontSize: 11 }} />
             <YAxis type="number" dataKey="ptcr" name="PTCR" domain={["auto", "auto"]} tickFormatter={v => fmt.pct(v)} stroke={CHART_COLORS.muted} tick={{ fontSize: 11 }} />
             <ZAxis type="number" dataKey="pressure" name="Pressure Index" range={[120, 900]} />
             <Tooltip

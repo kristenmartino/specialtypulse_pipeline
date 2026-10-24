@@ -5,6 +5,7 @@ import {
 } from "recharts";
 import ChartPanel from "../components/ChartPanel";
 import KpiCard from "../components/KpiCard";
+import { isDomo } from "../data/domoFetch";
 import { CHART_COLORS, TOOLTIP_PROPS, CHART_ANIM, fmt, groupBy, DEFINITIONS } from "../data/constants";
 
 export default function AdoptionTracking({ engagement, config }) {
@@ -61,6 +62,8 @@ export default function AdoptionTracking({ engagement, config }) {
     }));
   }, [engagement]);
 
+  const dates = [...new Set(engagement.map(r => r.view_date))].sort();
+  const period = dates.length ? `${dates[0]} to ${dates[dates.length - 1]}` : "No sessions";
   const totalProvisioned = config.length;
   const avgSessionDuration = engagement.length
     ? Math.round(engagement.reduce((s, r) => s + Number(r.session_duration_seconds), 0) / engagement.length)
@@ -68,10 +71,11 @@ export default function AdoptionTracking({ engagement, config }) {
 
   return (
     <div className="page-grid">
+      <p className="data-note">{isDomo ? "Recorded usage" : "Synthetic usage example; not observed product adoption"} · {period}.</p>
       {/* KPI Row */}
       <div className="kpi-row span-full">
         <KpiCard label="Active Users" value={activeUsers.length} sub={`of ${totalProvisioned} provisioned`} color="teal" />
-        <KpiCard label="Total Sessions" value={engagement.length} sub="All time" color="blue" />
+        <KpiCard label="Total Sessions" value={engagement.length} sub="Displayed period" color="blue" />
         <KpiCard label="Avg Session" value={`${Math.floor(avgSessionDuration / 60)}m ${avgSessionDuration % 60}s`} sub="Duration" color="gold" />
         <KpiCard
           label="Adoption Rate"
