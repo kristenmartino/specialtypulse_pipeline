@@ -4,10 +4,10 @@ import { isDomo } from "../data/domoFetch";
 import { policyGroupCount, verificationState } from "../data/reportingFacts";
 
 const EXAMPLE_RULES = [
-  ["Output access", "Apply the configured policies supported by the reporting output."],
+  ["Output access", "Use specialty and full-access policies on specialty benchmarks."],
   ["Input access", "Keep these output policies off the input DataSet."],
-  ["Regional access (planned)", "Specialty benchmarks omit state. Regional filters need a separate output that retains provider_state."],
-  ["User coverage", "Assign each user to a policy supported by the target output."],
+  ["Regional access (planned)", "Regional policies require a state-level output that retains provider_state."],
+  ["User coverage", "Assign each specialty analyst to their specialty policy."],
   ["Conflicting assignments", "Check for assignments that grant unintended access."],
   ["Unrestricted roles", "Allow Finance admin and Executive roles to see all rows."],
 ];

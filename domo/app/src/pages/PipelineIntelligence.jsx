@@ -53,7 +53,7 @@ export default function PipelineIntelligence({ pipeline }) {
     { key: "deals", label: "Active Deals" },
     { key: "totalAmount", label: "Pipeline", render: (v) => fmt.usd0(v) },
     { key: "avgPressure", label: "Avg Pressure", render: (v) => fmt.score(v) },
-    { key: "topTier", label: "Top Tier", render: (v) => <PressureBadge tier={v} /> },
+    { key: "topTier", label: "Highest pressure tier", render: (v) => <PressureBadge tier={v} /> },
   ];
 
   return (
