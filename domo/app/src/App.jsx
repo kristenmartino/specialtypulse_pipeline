@@ -12,6 +12,7 @@ import PdpGovernance from "./pages/PdpGovernance";
 import { buildReviewHandoff } from "./data/reviewFacts";
 import { initialReviewState, getReviewDraft, reviewReducer } from "./data/reviewDraft";
 import { readReviewLocation, reviewSearch } from "./data/reviewLocation";
+import { businessSetting } from "./data/salesContext";
 
 const TAB_LABELS = {
   market:    "Market Intelligence",
@@ -127,7 +128,7 @@ export default function App() {
     switch (tab) {
       case "market":    return <>{!isDomo && <ReviewHandoff benchmarks={benchmarks} pipeline={pipeline} onNavigate={navigateToResult} selected={selectedSpecialty} onSelect={selectSpecialty} draft={draft} onEdit={(field, value) => dispatchReview({ type: 'edit', specialty: selectedSpecialty, field, value })} onRemove={id => dispatchReview({ type: 'remove-procedure', specialty: selectedSpecialty, id })} open={reviewOpen} onOpenChange={setReviewOpen} focusEditor={focusEditor} />}<MarketIntelligence benchmarks={benchmarks} onDrill={drillToSpecialty} /></>;
       case "procedure": return <ProcedureDetail mart={mart} focusSpecialty={selectedSpecialty} onSelectSpecialty={selectSpecialty} onAddProcedure={addProcedure} onOpenBrief={openBrief} procedureCode={procedureCode} onSelectProcedure={setProcedureCode} comparisonYear={comparisonYear} onSelectYear={setComparisonYear} />;
-      case "pipeline":  return <PipelineIntelligence pipeline={pipeline} />;
+      case "pipeline":  return <PipelineIntelligence pipeline={pipeline} isSample={!isDomo} />;
       case "adoption":  return <AdoptionTracking engagement={engagement} config={config} />;
       case "pdp":       return <PdpGovernance config={config} checks={checks} loading={false} />;
       default:          return null;
@@ -150,7 +151,7 @@ export default function App() {
             <span className="val">
               {isDomo
                 ? (lastFetch ? fmt.date(lastFetch.toISOString()) : "—")
-                : "CY2021–2023"}
+                : (tab === 'pipeline' ? 'Static sales fixture' : 'Reimbursement CY2021–2023')}
             </span>
           </div>
         </div>
@@ -167,13 +168,14 @@ export default function App() {
       >
         {!isDomo && <>
           <div className="demo-intro">
-            <p>For specialty analysts preparing a payment-pattern review for a sales or operations lead. Identify what needs investigation and what questions to hand off.</p>
+            <p>For specialty analysts supporting healthcare-software sales. Compare payment patterns and prepare questions for a sales or operations lead.</p>
             <nav aria-label="Project links">
               <a href="https://kristenmartino.ai/work/specialtypulse-pipeline" target="_blank" rel="noreferrer">Case study ↗</a>
               <a href="https://github.com/kristenmartino/specialtypulse_pipeline" target="_blank" rel="noreferrer">Source ↗</a>
             </nav>
           </div>
           <p className="demo-disclosure">Demo: synthetic CMS-schema records; 2021–2022 are generated comparison scenarios. Sales, usage and access rules are illustrative. Domo access controls are not active here.</p>
+          <details className="review-evaluation"><summary>Assumed business setting</summary><p>{businessSetting}</p><p>Reimbursement signals help frame discovery questions. Account conversations must establish customer needs before recommending software or prioritizing outreach.</p></details>
         </>}
         <div className="page-fade" key={tab}>
           {renderPage()}

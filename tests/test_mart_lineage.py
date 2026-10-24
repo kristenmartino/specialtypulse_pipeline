@@ -12,11 +12,13 @@ ROOT = Path(__file__).parents[1]
 
 def test_all_published_mart_payments_and_volumes_reconcile_to_raw_inputs():
     groups = defaultdict(list)
+    specialty_providers = defaultdict(set)
     for year in (2021, 2022, 2023):
         with (ROOT / f"data/sample_{year}_puf_10k.csv").open(newline="") as source:
             for row in csv.DictReader(source):
                 if int(row["tot_srvcs"]) >= 11:
                     groups[(row["provider_type"].strip(), row["hcpcs_cd"].strip(), year)].append(row)
+                    specialty_providers[(row["provider_type"].strip(), year)].add(row["npi"])
     with (ROOT / "data/sample_mart_reimbursement_trends.csv").open(newline="") as source:
         mart = list(csv.DictReader(source))
     assert len(mart) == len(groups) == 870
@@ -26,6 +28,7 @@ def test_all_published_mart_payments_and_volumes_reconcile_to_raw_inputs():
         services = sum(int(row["tot_srvcs"]) for row in rows)
         assert int(output["total_services"]) == services
         assert int(output["total_providers"]) == len({row["npi"] for row in rows})
+        assert int(output["specialty_total_providers"]) == len(specialty_providers[(output["provider_specialty"], int(output["year"]))])
         for raw_column, mart_column in [("avg_mdcr_pymt_amt", "avg_medicare_payment"), ("avg_sbmtd_chrg", "avg_submitted_charge"), ("avg_mdcr_stdzd_amt", "avg_medicare_standardized_amount")]:
             expected = (sum(Decimal(row[raw_column]) * int(row["tot_srvcs"]) for row in rows) / services).quantize(Decimal("0.01"), rounding=ROUND_HALF_UP)
             assert Decimal(output[mart_column]) == expected, (output["surrogate_key"], mart_column)

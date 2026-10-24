@@ -100,6 +100,7 @@ DOMO_SCHEMA = Schema([
     Column(ColumnType.LONG,     "total_services"),
     Column(ColumnType.LONG,     "total_beneficiaries"),
     Column(ColumnType.LONG,     "total_providers"),
+    Column(ColumnType.LONG,     "specialty_total_providers"),
     Column(ColumnType.DECIMAL,  "pct_facility_services"),
     Column(ColumnType.DECIMAL,  "avg_medicare_payment"),
     Column(ColumnType.DECIMAL,  "avg_submitted_charge"),

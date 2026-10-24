@@ -62,12 +62,20 @@ function aggregateMart(martRows) {
   for (const key of Object.keys(groups)) {
     const rows = groups[key];
     const totalServices = sum(rows, "total_services");
+    // This specialty/year distinct count is repeated on procedure rows by Spark.
+    // Fail closed on an old or inconsistent mart instead of summing distincts.
+    const providerCounts = new Set(rows.map(r => toNum(r.specialty_total_providers)));
+    const providers = [...providerCounts][0];
+    if (providerCounts.size !== 1 || !Number.isInteger(providers) || providers < 0 ||
+        rows.some(r => toNum(r.total_providers) > providers)) {
+      throw new Error(`Missing or inconsistent specialty/year distinct provider count: ${key}`);
+    }
     out.push({
       provider_specialty: rows[0].provider_specialty,
       year: Number(rows[0].year),
       total_services: totalServices,
       total_beneficiaries: sum(rows, "total_beneficiaries"),
-      total_providers: sum(rows, "total_providers"),
+      total_providers: providers,
       distinct_procedures: new Set(rows.map((r) => r.hcpcs_code)).size,
       specialty_avg_payment: round(safeDiv(sumProduct(rows, "avg_medicare_payment", "total_services"), totalServices), 2),
       specialty_avg_charge: round(safeDiv(sumProduct(rows, "avg_submitted_charge", "total_services"), totalServices), 2),

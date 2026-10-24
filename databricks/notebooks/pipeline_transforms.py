@@ -279,6 +279,11 @@ def stage_records(raw, year):
 
 
 def build_mart(staging):
+    # A provider may bill several procedures. Count at specialty/year grain
+    # before reducing to procedure rows; procedure distinct counts cannot be summed.
+    specialty_providers = staging.groupBy("provider_specialty", "year").agg(
+        F.countDistinct("provider_npi").alias("specialty_total_providers")
+    )
     # Aggregate from provider-level to specialty-level
     # Volume-weighted average ensures payment metrics are correct at aggregate grain
     aggregated = (
@@ -324,6 +329,8 @@ def build_mart(staging):
             ).alias("pct_facility_services"),
         )
     )
+
+    aggregated = aggregated.join(specialty_providers, ["provider_specialty", "year"], "inner")
 
     # Re-derive payment_to_charge_ratio at aggregate level
     aggregated = aggregated.withColumn(
@@ -481,6 +488,7 @@ def build_mart(staging):
             "total_services",
             "total_beneficiaries",
             "total_providers",
+            "specialty_total_providers",
             "pct_facility_services",
             # Payments (certified)
             "avg_medicare_payment",

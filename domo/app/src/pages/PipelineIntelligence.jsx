@@ -8,9 +8,10 @@ import KpiCard from "../components/KpiCard";
 import DataTable from "../components/DataTable";
 import PressureBadge from "../components/PressureBadge";
 import { activePipeline } from "../data/reportingFacts";
+import { amountBasis, salesDateScope } from "../data/salesContext";
 import { CHART_COLORS, TOOLTIP_PROPS, CHART_ANIM, fmt, groupBy } from "../data/constants";
 
-export default function PipelineIntelligence({ pipeline }) {
+export default function PipelineIntelligence({ pipeline, isSample = false }) {
   // Active pipeline totals and independent specialty scores.
   const specData = useMemo(() => {
     const bySpec = groupBy(activePipeline(pipeline), "account_specialty");
@@ -58,10 +59,15 @@ export default function PipelineIntelligence({ pipeline }) {
 
   return (
     <div className="page-grid">
+      {isSample && <section className="span-full review-evaluation" aria-label="Sales amount and date scope">
+        <h2>Sales amount and date scope</h2>
+        <p>{amountBasis}</p>
+        <p>{salesDateScope}</p>
+      </section>}
       {/* KPI Row */}
       <div className="kpi-row span-full">
-        <KpiCard label="Active Pipeline" value={fmt.usdCompact(kpis.totalPipe)} sub={fmt.plural(kpis.activeCount, "deal")} color="teal" />
-        <KpiCard label="Closed Won" value={fmt.usdCompact(kpis.wonTotal)} sub={fmt.plural(kpis.wonCount, "deal")} color="green" />
+        <KpiCard label={isSample ? "Active pipeline · ACV" : "Active Pipeline"} value={fmt.usdCompact(kpis.totalPipe)} sub={fmt.plural(kpis.activeCount, "deal")} color="teal" />
+        <KpiCard label={isSample ? "Closed won · ACV" : "Closed Won"} value={fmt.usdCompact(kpis.wonTotal)} sub={fmt.plural(kpis.wonCount, "deal")} color="green" />
       </div>
 
       {/* Pipeline amounts are shown separately from specialty pressure scores. */}

@@ -112,7 +112,7 @@ export default function MarketIntelligence({ benchmarks, onDrill }) {
     { key: "avg_ptcr", label: "Payment-to-charge ratio", render: (v) => fmt.pct(v) },
     { key: "compression_driver", label: "Change pattern", render: v => CHANGE_LABELS[v] || v },
     { key: "total_services", label: "Services", render: (v) => fmt.num(v) },
-    { key: "total_providers", label: "Providers", render: (v) => fmt.num(v) },
+    { key: "total_providers", label: "Distinct providers", render: (v) => fmt.num(v) },
     { key: "outlier_procedure_count", label: "Outliers" },
   ];
 

@@ -18,7 +18,7 @@
     "total_services": 3777,
     "avg_medicare_payment": 104.91
   },
-  "pipeline_executed_at": "2026-10-24T08:09:20.147368+00:00",
+  "pipeline_executed_at": "2026-10-24T16:33:01.946977+00:00",
   "engine": "local Apache Spark",
   "mart_rows": 870,
   "inputs": [

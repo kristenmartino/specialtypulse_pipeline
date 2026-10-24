@@ -72,8 +72,10 @@ is different from a ratio of totals. Submitted charges are not operating costs.
 
 The pressure index combines compression, ratio change, service-volume change
 and relative provider totals with project-defined weights. It is a comparison
-heuristic, not purchase probability or a validated sales forecast. A provider
-appearing under several procedures can contribute to several procedure totals.
+heuristic, not purchase probability or a validated sales forecast. Providers are counted distinctly from staged provider IDs at specialty/year
+grain before procedure aggregation. The repeated specialty_total_providers field
+is carried on each procedure row; the DataFlow and browser use that count once,
+never the sum of procedure-level provider counts.
 The outlier flag and displayed deviation from the blended specialty payment
 average are separate measures. See [metric definitions](METRIC_CERTIFICATION_LOG.md).
 

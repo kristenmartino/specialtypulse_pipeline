@@ -23,6 +23,26 @@ of distance from 2023 (rounded, with services kept at least 11). Charges use a
 between -4% and +4%; that factor is compounded for each year of distance.
 These rules create comparison scenarios, not estimates of historical changes.
 
+## Specialty provider counts
+
+The shared Spark mart counts distinct staged provider IDs at specialty/year grain
+across all procedures, then repeats `specialty_total_providers` on each procedure
+row. The browser and SQL DataFlow take that repeated count once for the table and
+index. Procedure-level `total_providers` remains a distinct count for that procedure.
+An overlap regression includes a provider billing multiple procedures; independent
+CSV reconciliation checks specialty counts for every published row. The current
+fixture assigns one ID per record, so correcting the rollup leaves its scores unchanged.
+
+## Sales fixture interpretation
+
+For the demo, `amount` is assumed annual contract value (ACV) in USD for software
+subscriptions. The original fixture did not define that basis. Active totals are
+unweighted and exclude Closed Won and Closed Lost; won ACV is not recognized revenue.
+The invented scenario snapshot is August 31, 2026. The source capture date was not
+recorded; stages remain as supplied. All 500 opportunities are included without a
+period filter. Created dates run September 2, 2025–February 24, 2026; close dates
+run October 11, 2025–August 14, 2026. These dates are separate from the reimbursement years.
+
 ## Verified path
 
 Raw CSV → shared Spark read_raw → stage_records → staging Parquet round-trip →

@@ -82,7 +82,7 @@ export const CHART_ANIM = {
 // ── FORMATTERS ─────────────────────────────────────────────────────────────────
 export const DEFINITIONS = {
   pressureIndex:
-    "Reimbursement Pressure Index (0–100): 30% payment-to-charge compression, 30% change in that ratio, 25% service-volume change and 15% relative provider count. Project-defined weights; not validated against sales outcomes.",
+    "Reimbursement Pressure Index (0–100): 30% payment-to-charge compression, 30% change in that ratio, 25% service-volume change and 15% relative distinct provider count. Providers are deduplicated within each specialty and year across all procedures. Project-defined weights; not validated against sales outcomes.",
   pressureTier:
     "Score bands: High pressure ≥70; Elevated pressure ≥50; Moderate pressure ≥30; Low pressure <30. These bands describe the heuristic score, not purchasing urgency.",
   ptcr:

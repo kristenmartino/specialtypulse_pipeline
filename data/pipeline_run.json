@@ -1,9 +1,9 @@
 {
-  "executed_at": "2026-10-24T08:09:20.147368+00:00",
+  "executed_at": "2026-10-24T16:33:01.946977+00:00",
   "runtime": {
     "engine": "local Apache Spark",
     "pyspark": "4.0.1",
-    "python": "3.11.15"
+    "python": "3.13.13"
   },
   "scope": "Local Spark execution of shared notebook transformations; not a Databricks, Airflow or Domo service run.",
   "source_sha256": {
@@ -12,7 +12,7 @@
     "data/sample_2023_puf_10k.csv": "7ce9441204f55d8a9a9273f9d21d5e862a58ece27a053054ca8d6a950b44f0e5"
   },
   "code_sha256": {
-    "databricks/notebooks/pipeline_transforms.py": "1a76f2fd6acd087b7d5271e370dac9c65041bbc1893703814debe7bbed877f8c",
+    "databricks/notebooks/pipeline_transforms.py": "8a09a6685cb5e0d05a232380ba203879e2c256893085c7e4daeb8a29ac8eb418",
     "scripts/run_local_pipeline.py": "ad1d128761898c96d5891848b534a683b49161bea78ccc0b8923e794519427f2",
     "scripts/generate_scenario_inputs.py": "21cb25fe704ebaf61472cdd8db5cce24dd291db74f8c791e5d0718a14914a132"
   },
@@ -24,8 +24,8 @@
     2022,
     2023
   ],
-  "mart_business_sha256": "1f3c55c8b819684397f965b3cb903adcf6c00f452c68ea563d3767281f27e2c1",
-  "mart_csv_sha256": "a6d9d80a9933139be878c05439d20d453ec308e040d430038067ad33ebe066f5",
+  "mart_business_sha256": "12f1aad93471cbd347a0648a3fb6e66aa9005cf42e1852939f0d913d0fb9c17f",
+  "mart_csv_sha256": "98c53448e2d18a842a40167517300f4ad83bf51d640ba6432bfd71761be7c893",
   "quality_checks": [
     "unique provider/procedure/year staging keys",
     "required fields",

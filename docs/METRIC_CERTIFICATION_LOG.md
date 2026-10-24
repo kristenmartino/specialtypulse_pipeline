@@ -34,7 +34,7 @@ The component scores are bounded to 0–100:
 - Compression: `(1 - avg_ptcr) × 100`.
 - Trajectory: `50 + ((prior_ptcr - avg_ptcr) / prior_ptcr) × 500`; 50 when there is no prior benchmark.
 - Volume: `50 + avg_yoy_volume_change × 500`; 50 when the change is absent.
-- Market size: provider count relative to the maximum across benchmark rows.
+- Market size: specialty/year distinct provider count relative to the maximum across benchmark rows. Spark counts distinct staged provider IDs across all procedures in each specialty/year. The mart repeats this value as specialty_total_providers; SQL and JavaScript take it once rather than summing procedure distinct counts.
 
 The weights are project-defined assumptions. Equal weighting and compression-only ranking are plausible alternatives. No stakeholder-consensus claim or sales-outcome validation supports the chosen weights.
 
@@ -53,6 +53,20 @@ The displayed `payment_vs_specialty_pct` is a separate measure: `(procedure paym
 | Pressure-weighted pipeline | Deal amount × specialty pressure score ÷ 100 | Heuristic comparison, not a validated pipeline value or forecast. The legacy column name `market_validated_amount` is retained for Domo compatibility. |
 | Next-year payment-to-charge estimate | Current ratio + mean historical annual ratio change | Linear extrapolation; the variability label is not a statistical confidence interval. |
 | Adoption rate | Distinct users with a session in the displayed period ÷ configured users | Standalone usage is synthetic and does not establish product adoption. |
+
+## Sales amount and date scope
+
+For this synthetic demo, `amount` is **assumed annual contract value (ACV) in USD**
+for healthcare-software subscriptions. This interpretation is a project assumption;
+the source fixture supplied no contract-value definition. Active pipeline sums
+unweighted amounts for stages other than Closed Won and Closed Lost. Closed-won
+ACV is a separate stage total, not recognized revenue, cash collected or a forecast.
+
+The **invented scenario snapshot is August 31, 2026**. The source capture date was
+not recorded, and stages remain as supplied. The view includes all 500 fixture
+opportunities without a reporting-period filter: created dates September 2, 2025
+to February 24, 2026; close dates October 11, 2025 to August 14, 2026. The sales
+scenario date is separate from reimbursement CY2021–2023.
 
 ## Validation required for operational use
 

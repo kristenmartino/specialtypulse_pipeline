@@ -61,7 +61,7 @@ function coerce(rows, numericCols) {
 }
 
 const MART_NUM = [
-  "year", "total_services", "total_beneficiaries", "total_providers",
+  "year", "total_services", "total_beneficiaries", "total_providers", "specialty_total_providers",
   "pct_facility_services", "avg_medicare_payment", "avg_submitted_charge",
   "avg_medicare_standardized_amount", "payment_to_charge_ratio",
   "prior_year_services", "yoy_volume_change_pct", "prior_year_avg_payment",

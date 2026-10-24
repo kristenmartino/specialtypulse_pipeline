@@ -1,6 +1,7 @@
 const { buildBriefFacts, latestRows } = require('./reportingFacts');
 const { draftCompleteness } = require('./reviewDraft');
 const { procedureEvidenceText } = require('./procedureFacts');
+const { businessSetting, amountBasis, salesDateScope } = require('./salesContext');
 
 const reviewQuestions = [
   { owner: 'Specialty analyst', question: 'Do the source records, service mix and calculation explain the payment comparison?', next: 'Trace a procedure to its inputs and record any unresolved data or interpretation issue.' },
@@ -38,6 +39,9 @@ function reviewHandoffText(review, draft) {
     '',
     'Purpose: Identify a payment pattern to investigate and prepare questions for the next reviewer.',
     'Data: Synthetic CMS-schema records; 2021–2022 are generated comparison scenarios. Sales are synthetic.',
+    businessSetting,
+    amountBasis,
+    salesDateScope,
     '',
     '## Supporting observations',
     `- Scenario pressure score: ${review.score == null ? 'Unavailable' : review.score.toFixed(1)}/100. Project-defined and unvalidated against sales outcomes.`,

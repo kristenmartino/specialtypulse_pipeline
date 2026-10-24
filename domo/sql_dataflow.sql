@@ -29,7 +29,9 @@ SELECT
     -- Volume metrics
     SUM(total_services)                                             AS total_services,
     SUM(total_beneficiaries)                                        AS total_beneficiaries,
-    SUM(total_providers)                                            AS total_providers,
+    -- Distinct provider count computed upstream at specialty/year grain.
+    -- The value repeats on each procedure row; never sum procedure distincts.
+    MAX(specialty_total_providers)                                  AS total_providers,
     COUNT(DISTINCT hcpcs_code)                                      AS distinct_procedures,
 
     -- Payment metrics (volume-weighted)

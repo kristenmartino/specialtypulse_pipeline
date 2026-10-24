@@ -49,6 +49,7 @@ def test_raw_ingestion_staging_and_weighted_mart_share_the_notebook_path(spark, 
     assert row.avg_medicare_payment == 26.0
     assert row.total_services == 100
     assert row.total_providers == 2
+    assert row.specialty_total_providers == 2
     assert row.yoy_payment_change_pct is None
 
 
@@ -73,3 +74,25 @@ def test_missing_consecutive_year_does_not_become_a_one_year_change(spark, tmp_p
     rows = build_mart(stage21.unionByName(stage23)).orderBy("year").collect()
     assert [row.year for row in rows] == [2021, 2023]
     assert all(row.prior_year_avg_payment is None and row.yoy_payment_change_pct is None for row in rows)
+
+
+def test_specialty_year_distinct_providers_do_not_sum_procedure_counts(spark, tmp_path):
+    path = raw_file(tmp_path)
+    with path.open(newline="") as source:
+        rows = list(csv.DictReader(source))
+    # The first provider also bills a second procedure in the same specialty/year.
+    rows.append({**rows[0], "hcpcs_cd": "99214"})
+    rows.append({**rows[0], "npi": "9000000003", "provider_type": "Urology"})
+    with path.open("w", newline="") as target:
+        writer = csv.DictWriter(target, fieldnames=list(rows[0]))
+        writer.writeheader()
+        writer.writerows(rows)
+    stage23 = stage_records(read_raw(spark, path, 2023), 2023)
+    assert validate_stage(stage23) == 4
+    stage22 = stage_records(read_raw(spark, path, 2022), 2022).filter("provider_npi = '9000000001'")
+    result = build_mart(stage23.unionByName(stage22)).collect()
+    derm23 = [row for row in result if row.provider_specialty == "Dermatology" and row.year == 2023]
+    assert sum(row.total_providers for row in derm23) == 3
+    assert {row.specialty_total_providers for row in derm23} == {2}
+    assert {row.specialty_total_providers for row in result if row.year == 2022} == {1}
+    assert {row.specialty_total_providers for row in result if row.provider_specialty == "Urology"} == {1}

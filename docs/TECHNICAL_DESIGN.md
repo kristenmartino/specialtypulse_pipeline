@@ -113,3 +113,13 @@ Reconcile complete source releases; collect Databricks and Airflow execution
 receipts; run DataFlows in Domo; verify each intended user's output access;
 replace synthetic CRM and usage data with controlled sources; and evaluate the
 index against outcomes before using it for sales prioritization.
+
+## Distinct specialty provider contract
+
+`build_mart` counts distinct `provider_npi` at specialty/year grain directly from
+staging, joins it to procedure rows as `specialty_total_providers`, and retains
+procedure-level `total_providers` separately. The Domo upload schema includes the
+new field. Transform 1 uses MAX of the repeated specialty count; the browser
+requires the field to be consistent and never falls back to summed distincts.
+Existing external Domo datasets must be migrated to this schema before using the
+updated DataFlow. No Domo migration or external execution is claimed here.

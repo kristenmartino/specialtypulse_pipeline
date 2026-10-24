@@ -7,6 +7,15 @@ lead. The decision is which scenario needs further investigation and which
 questions the receiving reviewer should check before a commercial recommendation.
 This is an independent prototype.
 
+Assumed business setting: the analyst supports a healthcare-software vendor selling
+electronic health record (EHR), practice management (PM) and revenue cycle
+management (RCM) subscriptions to specialty practices. The sales or operations
+lead decides which questions warrant analyst verification or account discovery
+before discussing a software recommendation. Reimbursement signals concern the
+practice; opportunity amounts concern the hypothetical vendor's software contracts.
+Account conversations must establish needs before a recommendation or outreach
+priority. This setting is a design assumption, not recorded customer discovery.
+
 ## Problem hypothesis to validate
 
 Assumed current workflow: an analyst compares payment tables, checks pipeline
@@ -37,6 +46,12 @@ the page reloads; download to keep a copy. Missing fields remain marked.
 The four-element completeness indicator checks presence, not accuracy or approval.
 The facts come from the selected specialty's latest benchmark and active
 synthetic deals; closed-won and closed-lost deals are excluded from active exposure.
+For this demo, amount is assumed annual contract value (ACV) in USD. These are
+unweighted opportunity amounts; closed-won ACV is not recognized revenue or a
+forecast. The invented scenario snapshot is August 31, 2026. The source capture
+date was not recorded. Stages are shown as supplied; all 500 rows are included
+without a period filter. Created dates span September 2, 2025–February 24, 2026;
+close dates span October 11, 2025–August 14, 2026.
 
 The example begins with the highest score in the constructed scenario. That is
 an example focus, not an approved account shortlist. The brief includes:

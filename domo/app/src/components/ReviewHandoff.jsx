@@ -5,6 +5,7 @@ import { latestRows } from '../data/reportingFacts';
 import { fmt } from '../data/constants';
 import ReviewEvaluation from './ReviewEvaluation';
 import ProcedureEvidence, { ProcedureEvidenceSummary } from './ProcedureEvidence';
+import { amountBasis, salesDateScope } from '../data/salesContext';
 
 export default function ReviewHandoff({ benchmarks, pipeline, onNavigate, selected, onSelect, draft, onEdit, onRemove, open, onOpenChange, focusEditor }) {
   const specialties = useMemo(() => [...new Set(latestRows(benchmarks).rows.map(row => row.provider_specialty))].sort(), [benchmarks]);
@@ -65,6 +66,8 @@ export default function ReviewHandoff({ benchmarks, pipeline, onNavigate, select
           <li>Average procedure-level payment change: <strong>{fmt.pct(review.paymentChange)}</strong> in the constructed CY{review.year - 1}–{review.year} comparison.</li>
           <li>Synthetic active pipeline: <strong>{fmt.usd0(review.amount)}</strong> across {review.deals} deals{review.share == null ? '' : ` (${fmt.pct(review.share)} of active pipeline)`}.</li>
         </ul>
+        <p>{amountBasis}</p>
+        <p>{salesDateScope}</p>
         </details>
         <section className="review-editor" aria-labelledby="review-editor-heading">
           <h3 id="review-editor-heading" tabIndex={-1} ref={editorRef}>Draft brief: {review.specialty}</h3>
