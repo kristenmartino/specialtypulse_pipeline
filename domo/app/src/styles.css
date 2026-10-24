@@ -332,13 +332,27 @@ ul.brief-evidence { padding-left: 20px; }
 .review-fields input, .review-fields textarea { width: 100%; min-width: 0; padding: 10px 12px; background: var(--surface); border: 1px solid var(--border); border-radius: 2px; color: var(--white); font: inherit; line-height: 1.6; }
 .review-fields textarea { resize: vertical; }
 .review-fields input::placeholder, .review-fields textarea::placeholder { color: var(--muted); }
-.review-evidence li { display: flex; gap: 16px; justify-content: space-between; align-items: baseline; }
+.review-evidence > li { display: flex; gap: 16px; justify-content: space-between; align-items: baseline; }
 .review-evidence span { overflow-wrap: anywhere; }
 .review-checklist { color: var(--muted); font-size: 12px; }
 .review-editor > a { display: inline-block; margin-bottom: 10px; }
 .procedure-with-action { grid-template-columns: minmax(200px, 1.4fr) minmax(120px, 1fr) 100px 112px; gap: 20px; }
 .procedure-add { padding: 8px 10px; border: 1px solid var(--border); background: var(--surface); border-radius: 2px; color: var(--teal-xlt); font-size: 13px; cursor: pointer; }
 .procedure-add:hover { border-color: var(--teal-xlt); }
+.comparison-controls { margin-bottom: 20px; }
+.comparison-controls select { min-width: 0; }
+.comparison-controls #comparison-procedure { flex: 1 1 300px; }
+.comparison-heading { color: var(--ice); font-size: 16px; margin-bottom: 14px; }
+.procedure-evidence { color: var(--muted); font-size: 13px; line-height: 1.6; margin: 12px 0 20px; }
+.procedure-evidence p { margin: 14px 0; }
+.procedure-evidence a { color: var(--teal-xlt); text-underline-offset: 3px; }
+.procedure-evidence code { overflow-wrap: anywhere; font-size: 11px; }
+.comparison-table-wrap { width: 100%; overflow-x: auto; }
+.comparison-table { width: 100%; min-width: 420px; border-collapse: collapse; text-align: left; }
+.comparison-table th, .comparison-table td { padding: 10px 14px 10px 0; border-bottom: 1px solid var(--border); vertical-align: top; font-variant-numeric: tabular-nums; }
+.comparison-table th { color: var(--ice); font-weight: 500; }
+.comparison-table th span { display: block; color: var(--muted); font-size: 11px; font-weight: 400; }
+.review-evidence li > div { min-width: 0; flex: 1; }
 @media (max-width: 800px) {
   .procedure-with-action { grid-template-columns: minmax(0, 1fr) 110px; gap: 12px 20px; }
   .procedure-with-action .procedure-identity { grid-column: 1 / -1; }

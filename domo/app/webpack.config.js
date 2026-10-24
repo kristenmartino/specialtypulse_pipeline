@@ -1,4 +1,6 @@
 const path                = require("path");
+const { execFileSync } = require('node:child_process');
+const { DefinePlugin } = require('webpack');
 const HtmlWebpackPlugin   = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
@@ -31,6 +33,7 @@ module.exports = {
   },
   resolve: { extensions: [".js", ".jsx"] },
   plugins: [
+    new DefinePlugin({ __SP_SOURCE_REVISION__: JSON.stringify(execFileSync('git', ['rev-parse', 'HEAD'], { cwd: __dirname, encoding: 'utf8' }).trim()) }),
     new HtmlWebpackPlugin({ template: "./src/index.html", filename: "index.html" }),
     new MiniCssExtractPlugin({ filename: process.env.WEB_BUILD ? "styles.[contenthash].css" : "styles.css" }),
   ],

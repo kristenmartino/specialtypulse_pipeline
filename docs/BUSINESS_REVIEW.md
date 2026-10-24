@@ -24,10 +24,14 @@ infrequent or existing reports meet the need, reconsider the product scope.
 
 Market Intelligence includes **Prepare a specialty review · sample handoff**.
 One shared specialty selection connects the brief and Procedure Detail. The
-analyst adds a procedure from the service-count ranking, then writes an
+analyst compares the same specialty and HCPCS code across consecutive years,
+adds the comparison (or a procedure from the service-count ranking), then writes an
 observation and its limits, an open question, a next reviewer and a requested
 check. The Markdown download includes the procedure's specialty, HCPCS code,
-year, payment and service count alongside those unverified analyst notes.
+both years' payments and service counts, absolute and percentage changes, and
+those unverified analyst notes. Percentages use the previous year as the
+denominator; payment differences use mart values rounded to cents. Missing
+inputs or zero denominators leave percentages unavailable.
 Each specialty keeps a separate draft across tab changes. Drafts last until
 the page reloads; download to keep a copy. Missing fields remain marked.
 The four-element completeness indicator checks presence, not accuracy or approval.
@@ -45,6 +49,32 @@ an example focus, not an approved account shortlist. The brief includes:
 All records are synthetic. Earlier-year payment changes are generated comparison
 scenarios. The pressure score has not been validated against sales outcomes.
 Downloading a brief does not send it to a recipient or establish stakeholder review.
+
+## Portable verification
+
+Each selected comparison includes a link that reopens the exact specialty, HCPCS
+code and comparison year. Exported evidence links pin the reporting mart, raw
+input files, run receipt and reproduction guide to the app build's repository
+revision. The mart/input SHA-256 values and recorded execution time identify the
+snapshot. The live link uses the current demo; pinned files preserve the original
+evidence if the public data changes.
+
+The raw filter uses provider_type, hcpcs_cd and tot_srvcs >= 11. The existing
+payment_verification.json raw-row trace covers only Dermatology / 99213 / 2023;
+it is included only when that year and procedure are in the comparison.
+
+## Completed illustrative handoff
+
+This example demonstrates the output; it records no stakeholder use or assignment.
+Open Dermatology / HCPCS 99213 / CY2023 and choose **Add comparison to brief**.
+
+- Evidence: generated 2022 scenario $108.05 / 3,626 services; synthetic 2023 base $104.91 / 3,777 services. Payment −$3.14 (−2.9%); services +151 (+4.2%).
+- Observation and limits: payment per service falls while service count rises in the constructed comparison. Generated prior-year inputs cannot establish a historical payment trend, its cause or account need.
+- Open question: Which source rows and service mix explain this constructed change?
+- Next reviewer: Specialty analyst.
+- Requested check: match Dermatology / 99213 in the pinned 2022/2023 inputs and mart; reproduce weighted payments and service counts, then record unresolved data or interpretation issues for the sales or operations lead.
+- Context: scenario score 66.6; 53 synthetic active deals worth $4,579,800 (11.4% of active pipeline). Those amounts are separate from the procedure comparison and score.
+- Status: illustrative draft; source/account validation remains pending. Downloading sends or assigns nothing.
 
 ## Proposed handoff responsibilities
 

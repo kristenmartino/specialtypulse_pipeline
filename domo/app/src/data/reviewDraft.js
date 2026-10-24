@@ -2,6 +2,7 @@ const emptyDraft = { evidence: [], observation: '', question: '', reviewer: '', 
 const initialReviewState = { specialty: '', drafts: {} };
 const draftFields = ['observation', 'question', 'reviewer', 'nextCheck'];
 const numeric = value => value != null && value !== '' && Number.isFinite(Number(value));
+const { buildProcedureComparison, evidenceReferences } = require('./procedureFacts');
 
 function getReviewDraft(state, specialty) {
   return state.drafts[specialty] || emptyDraft;
@@ -20,13 +21,9 @@ function reviewReducer(state, action) {
   } else if (action.type === 'add-procedure') {
     const row = action.procedure;
     if (!row || row.provider_specialty !== specialty || !row.hcpcs_code || !numeric(row.year)) return state;
-    const evidence = {
-      id: `${row.year}-${row.hcpcs_code}`,
-      specialty, year: Number(row.year), code: String(row.hcpcs_code),
-      description: row.hcpcs_description,
-      payment: numeric(row.avg_medicare_payment) ? Number(row.avg_medicare_payment) : null,
-      services: numeric(row.total_services) ? Number(row.total_services) : null,
-    };
+    const comparison = buildProcedureComparison(action.mart || [row], specialty, row.hcpcs_code, row.year);
+    if (!comparison) return state;
+    const evidence = { ...comparison, references: evidenceReferences(comparison) };
     next = { ...draft, evidence: [...draft.evidence.filter(item => item.id !== evidence.id), evidence] };
   } else if (action.type === 'remove-procedure') {
     next = { ...draft, evidence: draft.evidence.filter(item => item.id !== action.id) };

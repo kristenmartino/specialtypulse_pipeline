@@ -58,5 +58,28 @@ functions for weighting, duplicate-key rejection, suppression before aggregation
 and nonconsecutive-year handling. Policy tests import the deployed builders and
 setup function directly; they do not copy or AST-extract implementation code.
 
-Open [Procedure Detail](https://specialtypulse.kristenmartino.ai/?view=procedure)
+Open [Dermatology / 99213 / CY2023](https://specialtypulse.kristenmartino.ai/?view=procedure&specialty=Dermatology&hcpcs=99213&year=2023)
 and expand **Verify one calculation · Dermatology, HCPCS 99213**.
+
+
+## Same-procedure comparison and portable references
+
+The 2022 Dermatology / 99213 mart row has $108.05 per service and 3,626 services.
+The 2023 row has $104.91 and 3,777 services. Using those displayed mart values:
+
+- Payment difference: 10,491 cents − 10,805 cents = −314 cents (−$3.14).
+- Payment change: −314 / 10,805 = −2.906…%, displayed as −2.9%.
+- Service difference: 3,777 − 3,626 = 151.
+- Service change: 151 / 3,626 = 4.164…%, displayed as +4.2%.
+
+The comparison uses an exact specialty/HCPCS match and the immediately prior
+year, not a specialty blend or the nearest available year. A missing prior row
+or value leaves the change unavailable. A zero prior value leaves percentage
+change unavailable. 2021–2022 remain generated scenarios, not observed history.
+
+The brief carries both rows, changes, the exact live comparison URL, a versioned
+mart link and its SHA-256, both synthetic raw input links/hashes, the local Spark
+receipt and the reproduction guide. Webpack embeds the build's Git revision for
+these file links. The detailed payment_verification.json trace covers 2023 only;
+the prior-year value is traceable through its raw input file and the shared
+pipeline, not through that single-year trace.

@@ -4,6 +4,7 @@ import { draftCompleteness } from '../data/reviewDraft';
 import { latestRows } from '../data/reportingFacts';
 import { fmt } from '../data/constants';
 import ReviewEvaluation from './ReviewEvaluation';
+import ProcedureEvidence from './ProcedureEvidence';
 
 export default function ReviewHandoff({ benchmarks, pipeline, onNavigate, selected, onSelect, draft, onEdit, onRemove, open, onOpenChange, focusEditor }) {
   const specialties = useMemo(() => [...new Set(latestRows(benchmarks).rows.map(row => row.provider_specialty))].sort(), [benchmarks]);
@@ -47,7 +48,7 @@ export default function ReviewHandoff({ benchmarks, pipeline, onNavigate, select
           <h4>Selected procedure evidence</h4>
           {draft.evidence.length ? <ul className="review-evidence">
             {draft.evidence.map(item => <li key={item.id}>
-              <span><strong>{item.description}</strong> · {item.specialty} / HCPCS {item.code} / CY{item.year}<br />{fmt.usd(item.payment)} average payment per service · {fmt.num(item.services)} services · synthetic reporting mart</span>
+              <div><strong>{item.description}</strong> · {item.specialty} / HCPCS {item.code} / CY{item.year}<ProcedureEvidence evidence={item} /></div>
               <button type="button" className="exec-brief-link" aria-label={`Remove HCPCS ${item.code} from brief`} onClick={() => onRemove(item.id)}>Remove</button>
             </li>)}
           </ul> : <p>No procedure selected. Use “Inspect {review.specialty} procedures” above, then “Add to brief.”</p>}

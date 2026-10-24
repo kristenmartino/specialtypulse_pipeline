@@ -6,12 +6,14 @@ import {
 import ChartPanel from "../components/ChartPanel";
 import DataTable from "../components/DataTable";
 import CalculationCheck from "../components/CalculationCheck";
+import ProcedureEvidence from "../components/ProcedureEvidence";
+import { buildProcedureComparison, evidenceReferences } from "../data/procedureFacts";
 import { isDomo } from "../data/domoFetch";
 import InsightStrip from "../components/InsightStrip";
 import { largestDeviation, topProcedures } from "../data/reportingFacts";
 import { CHART_COLORS, TOOLTIP_PROPS, CHART_ANIM, fmt, DEFINITIONS } from "../data/constants";
 
-export default function ProcedureDetail({ mart, focusSpecialty, onSelectSpecialty, onAddProcedure, onOpenBrief }) {
+export default function ProcedureDetail({ mart, focusSpecialty, onSelectSpecialty, onAddProcedure, onOpenBrief, procedureCode, onSelectProcedure, comparisonYear, onSelectYear }) {
   const latestYear = useMemo(() => mart.length ? Math.max(...mart.map(r => Number(r.year))) : null, [mart]);
   const latestRows = useMemo(() => mart.filter(r => Number(r.year) === latestYear), [mart, latestYear]);
   const specialties = useMemo(() => [...new Set(latestRows.map(r => r.provider_specialty))].sort(), [latestRows]);
@@ -21,6 +23,15 @@ export default function ProcedureDetail({ mart, focusSpecialty, onSelectSpecialt
   const view = useMemo(() => latestRows.filter(r => r.provider_specialty === selectedSpecialty), [latestRows, selectedSpecialty]);
   const procedures = useMemo(() => topProcedures(latestRows, selectedSpecialty, 10), [latestRows, selectedSpecialty]);
   const maxServices = procedures.reduce((max, r) => Math.max(max, Number(r.total_services) || 0), 0);
+  const comparisonProcedures = useMemo(() => [...new Map(mart.filter(row => row.provider_specialty === selectedSpecialty)
+    .map(row => [String(row.hcpcs_code), row.hcpcs_description])).entries()].sort(([a], [b]) => a.localeCompare(b)), [mart, selectedSpecialty]);
+  const years = useMemo(() => [...new Set(mart.filter(row => row.provider_specialty === selectedSpecialty).map(row => Number(row.year)))].sort((a, b) => b - a), [mart, selectedSpecialty]);
+  const code = procedureCode || String(procedures[0]?.hcpcs_code || '');
+  const year = comparisonYear ?? latestYear;
+  const comparison = useMemo(() => {
+    const result = buildProcedureComparison(mart, selectedSpecialty, code, year);
+    return result ? { ...result, references: evidenceReferences(result) } : null;
+  }, [mart, selectedSpecialty, code, year]);
   const outliers = useMemo(() => view.filter(r => String(r.is_payment_outlier) === "true")
     .sort((a, b) => Math.abs(Number(b.payment_vs_specialty_pct)) - Math.abs(Number(a.payment_vs_specialty_pct))), [view]);
 
@@ -81,7 +92,27 @@ export default function ProcedureDetail({ mart, focusSpecialty, onSelectSpecialt
         {!isDomo && <button type="button" className="exec-brief-link" onClick={onOpenBrief}>Return to {selectedSpecialty} brief →</button>}
       </div>
 
-      {!isDomo && <CalculationCheck demoMart={mart} />}
+      {!isDomo && <ChartPanel title="Compare one procedure" subtitle={`${selectedSpecialty} · HCPCS ${code}`} className="span-full">
+        <div className="procedure-controls comparison-controls">
+          <label htmlFor="comparison-procedure">Procedure comparison</label>
+          <select id="comparison-procedure" value={code} onChange={event => onSelectProcedure(event.target.value)}>
+            {!comparisonProcedures.some(([value]) => value === code) && <option value={code}>Requested HCPCS unavailable: {code}</option>}
+            {comparisonProcedures.map(([value, description]) => <option key={value} value={value}>{value} · {description}</option>)}
+          </select>
+          <label htmlFor="comparison-year">Comparison year</label>
+          <select id="comparison-year" value={year || ''} onChange={event => onSelectYear(Number(event.target.value))}>
+            {!years.includes(year) && <option value={year || ''}>Requested year unavailable: {year}</option>}
+            {years.map(value => <option key={value} value={value}>CY{value - 1} → CY{value}</option>)}
+          </select>
+        </div>
+        {comparison ? <>
+          <h3 className="comparison-heading">{comparison.description} · HCPCS {comparison.code}</h3>
+          <ProcedureEvidence evidence={comparison} />
+          <button type="button" className="procedure-add" onClick={() => onAddProcedure(mart.find(row => row.provider_specialty === comparison.specialty && String(row.hcpcs_code) === comparison.code && Number(row.year) === comparison.year))}>Add comparison to brief</button>
+        </> : <p className="empty-state">No comparison found for this specialty, procedure and year. Choose a procedure or year above.</p>}
+      </ChartPanel>}
+
+      {!isDomo && comparison?.specialty === 'Dermatology' && comparison.code === '99213' && [comparison.year, comparison.priorYear].includes(2023) && <CalculationCheck demoMart={mart} />}
 
       {insights.length > 0 && <InsightStrip items={insights} />}
 

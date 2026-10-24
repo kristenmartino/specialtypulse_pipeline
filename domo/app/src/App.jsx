@@ -11,6 +11,7 @@ import AdoptionTracking from "./pages/AdoptionTracking";
 import PdpGovernance from "./pages/PdpGovernance";
 import { buildReviewHandoff } from "./data/reviewFacts";
 import { initialReviewState, getReviewDraft, reviewReducer } from "./data/reviewDraft";
+import { readReviewLocation, reviewSearch } from "./data/reviewLocation";
 
 const TAB_LABELS = {
   market:    "Market Intelligence",
@@ -21,17 +22,20 @@ const TAB_LABELS = {
 };
 
 export default function App() {
-  const [tab, setTab] = useState(() => {
-    const requested = new URLSearchParams(window.location.search).get("view");
-    return Object.prototype.hasOwnProperty.call(TAB_LABELS, requested) ? requested : "market";
-  });
+  const [initialLocation] = useState(() => readReviewLocation(window.location.search));
+  const [tab, setTab] = useState(initialLocation.tab);
   const [loading, setLoading] = useState(true);
   const [lastFetch, setLastFetch] = useState(null);
   const [fetchError, setFetchError] = useState(false);
-  const [reviewState, dispatchReview] = useReducer(reviewReducer, initialReviewState);
+  const [reviewState, dispatchReview] = useReducer(reviewReducer, { ...initialReviewState, specialty: initialLocation.specialty });
+  const [procedureCode, setProcedureCode] = useState(initialLocation.code);
+  const [comparisonYear, setComparisonYear] = useState(initialLocation.year);
   const [reviewOpen, setReviewOpen] = useState(false);
   const [focusEditor, setFocusEditor] = useState(0);
-  const selectSpecialty = specialty => dispatchReview({ type: 'select', specialty });
+  const selectSpecialty = specialty => {
+    if (specialty !== reviewState.specialty) { setProcedureCode(''); setComparisonYear(null); }
+    dispatchReview({ type: 'select', specialty });
+  };
   const drillToSpecialty = (specialty) => { selectSpecialty(specialty); setTab("procedure"); };
   const navigateToResult = (target, specialty) => {
     if (specialty) selectSpecialty(specialty);
@@ -53,7 +57,7 @@ export default function App() {
   const draft = getReviewDraft(reviewState, selectedSpecialty);
   const openBrief = () => { setReviewOpen(true); setFocusEditor(value => value + 1); setTab('market'); };
   const addProcedure = procedure => {
-    dispatchReview({ type: 'add-procedure', specialty: procedure.provider_specialty, procedure });
+    dispatchReview({ type: 'add-procedure', specialty: procedure.provider_specialty, procedure, mart });
     openBrief();
   };
 
@@ -98,6 +102,10 @@ export default function App() {
     document.title = `SpecialtyPulse · ${TAB_LABELS[tab]}`;
   }, [tab]);
 
+  useEffect(() => {
+    if (!isDomo && !loading) window.history.replaceState(null, '', reviewSearch({ tab, specialty: selectedSpecialty, code: procedureCode, year: comparisonYear }));
+  }, [tab, selectedSpecialty, procedureCode, comparisonYear, loading]);
+
   const renderPage = () => {
     if (loading) {
       return (
@@ -118,7 +126,7 @@ export default function App() {
     }
     switch (tab) {
       case "market":    return <>{!isDomo && <ReviewHandoff benchmarks={benchmarks} pipeline={pipeline} onNavigate={navigateToResult} selected={selectedSpecialty} onSelect={selectSpecialty} draft={draft} onEdit={(field, value) => dispatchReview({ type: 'edit', specialty: selectedSpecialty, field, value })} onRemove={id => dispatchReview({ type: 'remove-procedure', specialty: selectedSpecialty, id })} open={reviewOpen} onOpenChange={setReviewOpen} focusEditor={focusEditor} />}<MarketIntelligence benchmarks={benchmarks} onDrill={drillToSpecialty} /></>;
-      case "procedure": return <ProcedureDetail mart={mart} focusSpecialty={selectedSpecialty} onSelectSpecialty={selectSpecialty} onAddProcedure={addProcedure} onOpenBrief={openBrief} />;
+      case "procedure": return <ProcedureDetail mart={mart} focusSpecialty={selectedSpecialty} onSelectSpecialty={selectSpecialty} onAddProcedure={addProcedure} onOpenBrief={openBrief} procedureCode={procedureCode} onSelectProcedure={setProcedureCode} comparisonYear={comparisonYear} onSelectYear={setComparisonYear} />;
       case "pipeline":  return <PipelineIntelligence pipeline={pipeline} />;
       case "adoption":  return <AdoptionTracking engagement={engagement} config={config} />;
       case "pdp":       return <PdpGovernance config={config} checks={checks} loading={false} />;

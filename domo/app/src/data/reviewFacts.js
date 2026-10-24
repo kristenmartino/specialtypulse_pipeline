@@ -1,5 +1,6 @@
 const { buildBriefFacts, latestRows } = require('./reportingFacts');
 const { draftCompleteness } = require('./reviewDraft');
+const { procedureEvidenceText } = require('./procedureFacts');
 
 const reviewQuestions = [
   { owner: 'Specialty analyst', question: 'Do the source records, service mix and calculation explain the payment comparison?', next: 'Trace a procedure to its inputs and record any unresolved data or interpretation issue.' },
@@ -48,8 +49,7 @@ function reviewHandoffText(review, draft) {
       `Completeness: ${draftCompleteness(draft).count}/4 brief elements. This checks presence, not accuracy or approval.`,
       '',
       '### Selected procedure evidence',
-      ...draft.evidence.map(item =>
-        `- ${item.specialty} / HCPCS ${item.code} / CY${item.year}: ${item.description}; average payment per service ${item.payment == null ? 'unavailable' : `$${item.payment.toFixed(2)}`}; ${item.services == null ? 'unavailable' : item.services.toLocaleString('en-US')} services. Source: synthetic reporting mart.`),
+      ...draft.evidence.flatMap(procedureEvidenceText),
       ...(!draft.evidence.length ? ['Not selected.'] : []),
       '',
       `Observation: ${draft.observation.trim() || 'Not entered.'}`,
