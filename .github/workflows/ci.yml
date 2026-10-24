@@ -30,12 +30,14 @@ jobs:
         run: ruff check .
 
       - name: Validate Airflow DAG
+        env:
+          AIRFLOW__CORE__LOAD_EXAMPLES: "false"
         run: |
           python -c "
           import sys
           sys.path.insert(0, 'airflow/include')
           from airflow.models import DagBag
-          bag = DagBag(dag_folder='airflow/dags', include_examples=False)
+          bag = DagBag(dag_folder='airflow/dags')
           errors = bag.import_errors
           if errors:
               for path, err in errors.items():
