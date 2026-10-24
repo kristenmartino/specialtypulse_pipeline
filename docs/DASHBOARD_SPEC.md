@@ -5,11 +5,18 @@
 
 ## Entry and provenance
 
-The opening line states the review task: compare specialty payment trends,
-inspect procedures and review synthetic sales exposure. Case-study and source
-links remain available on each public view. One disclosure explains that all
-reimbursement, sales and usage records are synthetic and that Domo access
-controls are inactive here. Reimbursement records follow the CMS PUF schema; 2021–2022 are generated comparison scenarios.
+The opening identifies a specialty analyst preparing a payment-pattern review for
+a sales or operations lead. The intended decision is what to investigate and what
+questions to hand off. Case-study and source links remain available. The disclosure
+identifies synthetic CMS-schema inputs, generated 2021–2022 comparison scenarios,
+illustrative sales/usage/access rules and inactive Domo controls.
+
+Market Intelligence contains a collapsed sample-handoff panel before the charts.
+A specialty selector updates its computed observations; links open procedures or
+pipeline comparison. A downloadable Markdown brief contains questions, proposed
+receiving roles, next checks and pending validation. Nothing is sent to a recipient.
+The nested proposed acceptance criteria describe a future user evaluation with no
+observed outcomes claimed. See [the business review plan](BUSINESS_REVIEW.md).
 
 ## Views
 

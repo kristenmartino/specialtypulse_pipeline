@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback, useRef } from "react";
 import { domoFetch, isDomo } from "./data/domoFetch";
 import { fmt } from "./data/constants";
 import TabBar from "./components/TabBar";
+import ReviewHandoff from "./components/ReviewHandoff";
 import DashboardSummary from "./components/DashboardSummary";
 import MarketIntelligence from "./pages/MarketIntelligence";
 import ProcedureDetail from "./pages/ProcedureDetail";
@@ -28,6 +29,7 @@ export default function App() {
   // Drill-down focus: a specialty selected on Market Intelligence narrows
   // Procedure Detail. Persists when switching between pages.
   const [focusSpecialty, setFocusSpecialty] = useState(null);
+  const [reviewSpecialty, setReviewSpecialty] = useState('');
   const drillToSpecialty = (specialty) => { setFocusSpecialty(specialty); setTab("procedure"); };
   const navigateToResult = (target, specialty) => {
     if (target === "procedure") setFocusSpecialty(specialty);
@@ -104,7 +106,7 @@ export default function App() {
       );
     }
     switch (tab) {
-      case "market":    return <MarketIntelligence benchmarks={benchmarks} onDrill={drillToSpecialty} />;
+      case "market":    return <>{!isDomo && <ReviewHandoff benchmarks={benchmarks} pipeline={pipeline} onNavigate={navigateToResult} selected={reviewSpecialty} onSelect={setReviewSpecialty} />}<MarketIntelligence benchmarks={benchmarks} onDrill={drillToSpecialty} /></>;
       case "procedure": return <ProcedureDetail mart={mart} focusSpecialty={focusSpecialty} onSelectSpecialty={setFocusSpecialty} />;
       case "pipeline":  return <PipelineIntelligence pipeline={pipeline} />;
       case "adoption":  return <AdoptionTracking engagement={engagement} config={config} />;
@@ -146,7 +148,7 @@ export default function App() {
       >
         {!isDomo && <>
           <div className="demo-intro">
-            <p>Compare specialty payment trends, inspect procedure differences, and review synthetic sales exposure.</p>
+            <p>For specialty analysts preparing a payment-pattern review for a sales or operations lead. Identify what needs investigation and what questions to hand off.</p>
             <nav aria-label="Project links">
               <a href="https://kristenmartino.ai/work/specialtypulse-pipeline" target="_blank" rel="noreferrer">Case study ↗</a>
               <a href="https://github.com/kristenmartino/specialtypulse_pipeline" target="_blank" rel="noreferrer">Source ↗</a>

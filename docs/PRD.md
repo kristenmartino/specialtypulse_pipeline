@@ -6,14 +6,21 @@
 
 ## Purpose and intended workflow
 
-An analyst compares specialty payment trends, opens a specialty's procedure
-records and examines synthetic sales exposure. The project demonstrates data
-modeling, metric definitions, dashboard navigation and example access-policy
-logic. It does not establish sales prioritization accuracy or business impact.
+A specialty analyst prepares a payment-pattern review for a sales or operations
+lead. The proposed decision is which scenario warrants further investigation and
+what questions should be handed to the receiving reviewer before a commercial
+recommendation. This independent prototype has no recorded stakeholder discovery,
+user-test outcome or business-impact measurement.
 
-The public app has five views: Market Intelligence, Procedure Detail, Pipeline
-Intelligence, Adoption Tracking and PDP Governance. Start with a specialty in
-the market table, inspect its procedures, then compare its active pipeline.
+Market Intelligence includes a selectable, computed sample handoff and Markdown
+download. It identifies supporting observations, open questions, proposed receiving
+roles and next checks. Source/account validation is explicitly pending. Proposed
+acceptance criteria describe a future review exercise; see [business workflow and
+evaluation plan](BUSINESS_REVIEW.md).
+
+The app has five views: Market Intelligence, Procedure Detail, Pipeline Intelligence,
+Adoption Tracking and PDP Governance. An analyst can move from the sample brief to
+related procedures or pipeline comparison without treating the score as a sales decision.
 
 ## Data provenance
 

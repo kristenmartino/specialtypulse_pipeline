@@ -7,8 +7,11 @@ and Airflow DAG source, Domo integration code, and a public five-view React dash
 [Case study](https://kristenmartino.ai/work/specialtypulse-pipeline) ·
 [Implementation status](docs/PRD.md) · [Calculation evidence](docs/verification/payment-check.md)
 
-Compare specialty payment trends, inspect procedure differences and review
-synthetic sales exposure. Selecting a specialty opens its procedure detail.
+A specialty analyst prepares a payment-pattern review for a sales or operations
+lead: identify which scenario to investigate and what questions to hand off.
+Market Intelligence includes a selectable sample brief and Markdown download,
+with source/account validation pending. [Proposed acceptance criteria](docs/BUSINESS_REVIEW.md)
+describe how a future user evaluation would assess the workflow. Selecting a specialty opens its procedure detail.
 The summary calculates observations and links to the underlying views.
 
 ## Data provenance

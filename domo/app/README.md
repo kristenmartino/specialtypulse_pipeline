@@ -6,6 +6,14 @@ The public demo uses synthetic reimbursement records following the CMS PUF schem
 
 ## Using the dashboard
 
+The intended reviewer is a specialty analyst preparing a payment-pattern review
+for a sales or operations lead. In Market Intelligence, expand **Prepare a
+specialty review · sample handoff**, select an example specialty and download the
+brief. It names supporting observations, open questions, receiving roles and next
+checks. Validation remains pending; the download does not send a message.
+The nested acceptance criteria are a proposed user-evaluation plan, not results.
+See [the business workflow](../../docs/BUSINESS_REVIEW.md).
+
 Select a specialty on the market table to open its procedures. Procedure Detail has a specialty selector; its callouts, flagged rows, facility mix and payment-ratio trend follow that selection. Most-used procedures are the latest year's top ten by service count, with full descriptions, HCPCS codes and average payments.
 
 The collapsible dashboard summary computes observations and pipeline shares from the loaded data. Review links open the relevant view directly. There are no model calls or AI endpoints.
