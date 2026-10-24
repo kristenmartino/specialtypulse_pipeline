@@ -2,7 +2,7 @@ const { buildBriefFacts, latestRows } = require('./reportingFacts');
 
 const reviewQuestions = [
   { owner: 'Specialty analyst', question: 'Do the source records, service mix and calculation explain the payment comparison?', next: 'Trace a procedure to its inputs and record any unresolved data or interpretation issue.' },
-  { owner: 'Sales operations lead', question: 'Are the opportunities current, and what account needs support further review?', next: 'Confirm deal stages and account context; a specialty-level score does not establish account need.' },
+  { owner: 'Sales operations lead', question: 'Are deal stages current, and what do account notes say about the customer’s needs?', next: 'Confirm deal stages and account context; a specialty-level score does not establish account need.' },
   { owner: 'Sales or operations lead', question: 'What evidence is needed before a commercial recommendation?', next: 'Confirm the next reviewer and the evidence to request. Source and account validation remain pending.' },
 ];
 

@@ -37,14 +37,13 @@ export default function ReviewHandoff({ benchmarks, pipeline, onNavigate, select
         </div>
         <details className="review-evaluation">
           <summary>Proposed acceptance criteria</summary>
-          <p>Future user-evaluation plan. No user-test results or business outcomes have been collected.</p>
-          <p>Ask an intended reviewer to prepare a specialty brief from the demo. Observe where help is needed and record the interpretation, missing evidence and recipient feedback.</p>
+          <p>This workflow and its evaluation criteria are proposed. No stakeholder validation, user evaluation or business outcomes have been recorded.</p>
+          <p>Ask an analyst to prepare a brief and a sales or operations lead to review it. Note where help is needed, any interpretation errors, missing evidence and the lead’s feedback.</p>
           <ol>
             <li><strong>Explain the focus:</strong> identify the chosen specialty, cite a payment comparison and pipeline exposure, and recognize that the data is synthetic.</li>
             <li><strong>Interpret the measures:</strong> explain the payment denominator and distinguish a scenario score from a sales recommendation.</li>
-            <li><strong>Make a usable handoff:</strong> state an unresolved question, a receiving role and a next check. The receiving reviewer can identify what is being requested.</li>
+            <li><strong>Make a usable handoff:</strong> state an unresolved question, who reviews it next and what they should check. The next reviewer can explain the requested follow-up.</li>
           </ol>
-          <p>These criteria evaluate the proposed review workflow. They do not demonstrate adoption, time savings or improved sales decisions.</p>
         </details>
       </div>
     </details>

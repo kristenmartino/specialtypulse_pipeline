@@ -2,11 +2,10 @@
 
 ## Intended reviewer and decision
 
-A specialty analyst prepares a payment-pattern review for a sales or operations
+A specialty analyst prepares a review of payment patterns for a sales or operations
 lead. The decision is which scenario needs further investigation and which
 questions the receiving reviewer should check before a commercial recommendation.
-This is an independent prototype design, not a workflow validated through
-stakeholder interviews or observed operational use.
+This is an independent prototype.
 
 ## Work product in the public demo
 
@@ -30,27 +29,23 @@ Downloading a brief does not send it to a recipient or establish stakeholder rev
 
 ## Proposed handoff responsibilities
 
-| Receiving role | Question | Requested next check |
+| Who reviews it next | Question | Requested next check |
 |---|---|---|
 | Specialty analyst | Do source records, service mix and calculation explain the comparison? | Trace a procedure to inputs and record unresolved interpretation or data issues |
-| Sales operations lead | Are opportunities current, and what account needs support further review? | Confirm deal stages and account context; specialty-level scores do not establish account need |
+| Sales operations lead | Are deal stages current, and what do account notes say about the customer’s needs? | Confirm deal stages and account context; specialty-level scores do not establish account need |
 | Sales or operations lead | What evidence is needed before a commercial recommendation? | Confirm the next reviewer and evidence request; validation remains pending |
 
 These are proposed responsibilities, not a recorded approval process.
 
 ## Proposed acceptance criteria
 
-Ask an intended reviewer to prepare a specialty brief, then ask the receiving
-reviewer to explain what follow-up is requested. Observe where coaching is needed.
-Record interpretation errors, missing evidence, unanswered questions and recipient
-feedback. No user-test results or business outcomes have been collected.
+This workflow and its evaluation criteria are proposed. No stakeholder validation, user evaluation or business outcomes have been recorded.
+
+Ask an analyst to prepare a brief and a sales or operations lead to review it.
+Note where help is needed, any interpretation errors, missing evidence and the lead’s feedback.
 
 | Criterion | Observable behavior in a future evaluation |
 |---|---|
 | Explain the focus | Reviewer identifies the specialty, cites a payment comparison and pipeline exposure, and recognizes that the inputs are synthetic |
 | Interpret the measures | Reviewer explains the payment denominator and distinguishes a scenario score from a sales recommendation |
-| Make a usable handoff | Brief states an unresolved question, receiving role and next check; the recipient can identify the requested follow-up |
-
-These criteria assess the proposed review workflow. They are not proof of adoption,
-time savings, lead quality or sales improvement. Such claims would require actual
-observation, a defined baseline and appropriate outcome validation.
+| Make a usable handoff | Brief states an unresolved question, who reviews it next and what they should check; the next reviewer can explain the requested follow-up |
