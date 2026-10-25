@@ -15,9 +15,9 @@ export default function CalculationCheck({ demoMart }) {
           <li><strong>Calculation:</strong> sum of payment × services = {fmt.usd(trace.payment_service_cents / 100)}; total services = {fmt.num(row.total_services)}.</li>
           <li><strong>Displayed mart output:</strong> {fmt.usd(trace.payment_service_cents / 100)} ÷ {fmt.num(row.total_services)} = <strong>{fmt.usd(row.avg_medicare_payment)}</strong> average payment per service.</li>
         </ol>
-        <p>The procedure list reads this same mart row: <strong>{fmt.usd(demoRow?.avg_medicare_payment)}</strong> across {fmt.num(demoRow?.total_services)} services. The recorded local Spark run produced {fmt.num(trace.mart_rows)} mart rows. Databricks, Airflow and Domo service execution is not claimed.</p>
+        <p>The procedure list reads this same mart row: <strong>{fmt.usd(demoRow?.avg_medicare_payment)}</strong> across {fmt.num(demoRow?.total_services)} services. The selected {trace.engine} run produced {fmt.num(trace.mart_rows)} mart rows.</p>
         <a href="https://github.com/kristenmartino/specialtypulse_pipeline/blob/main/data/payment_verification.json" target="_blank" rel="noreferrer">Inspect source row numbers, inputs and output ↗</a>
-        <a className="pipeline-receipt-link" href="https://github.com/kristenmartino/specialtypulse_pipeline/blob/main/data/pipeline_run.json" target="_blank" rel="noreferrer">Inspect the Spark run receipt ↗</a>
+        <a className="pipeline-receipt-link" href="https://github.com/kristenmartino/specialtypulse_pipeline/blob/main/data/pipeline_run.json" target="_blank" rel="noreferrer">Inspect the local reconciliation receipt ↗</a>
       </div>
     </details>
   );

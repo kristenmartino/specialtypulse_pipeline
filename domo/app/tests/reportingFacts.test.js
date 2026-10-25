@@ -94,11 +94,9 @@ test('standalone governance examples load without generating timestamps', () => 
   const code = fs.readFileSync(require.resolve('../src/data/mockData.js'), 'utf8').replace('export const MOCK_DATA', 'const MOCK_DATA');
   const sandbox = {};
   vm.runInNewContext(code + '\nthis.data = MOCK_DATA;', sandbox);
-  assert.ok(sandbox.data.pdp_verify_results.length > 0);
-  for (const check of sandbox.data.pdp_verify_results) {
-    assert.equal(check.run_at, null);
-    assert.equal(check.is_sample, true);
-  }
+  assert.equal(sandbox.data.access_examples.length, 0);
+  assert.ok(sandbox.data.access_config.length > 0);
+  assert.equal(sandbox.data.pdp_verify_results, undefined);
 });
 
 test('policy totals follow config groups, including shared executive assignments', () => {
@@ -108,7 +106,7 @@ test('policy totals follow config groups, including shared executive assignments
   const code = fs.readFileSync(require.resolve('../src/data/mockData.js'), 'utf8').replace('export const MOCK_DATA', 'const MOCK_DATA');
   const sandbox = {};
   vm.runInNewContext(code + '\nthis.data = MOCK_DATA;', sandbox);
-  const config = sandbox.data.pdp_config;
+  const config = sandbox.data.access_config;
   assert.equal(config.length, 13);
   assert.equal(policyGroupCount(config), 12);
   assert.equal(policyGroupCount(config.filter(row => row.filter_dimension !== 'provider_state')), 7);

@@ -5,10 +5,9 @@
 # pyspark is provided by the Databricks runtime — do not install locally
 # dbutils is provided by the Databricks runtime — do not install locally
 
-# --- Domo integration ---
-pydomo>=0.3.0               # Domo SDK for Dataset API push and PDP management
-python-dotenv>=1.0            # Optional PDP CLI environment loading
-requests>=2.28               # HTTP client (pydomo dependency + standalone API calls)
+# --- Deployment ---
+databricks-sdk==0.157.0
+requests==2.32.5
 
 # --- Airflow (install separately via Astro CLI or pip) ---
 # apache-airflow is managed by the Astro CLI runtime

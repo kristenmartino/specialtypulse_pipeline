@@ -67,7 +67,7 @@ test('download preserves both years, edits, immutable artifact links, hashes and
   const comparison = buildProcedureComparison(source.mart, 'Dermatology', '99213', 2023);
   const revision = '1234567890abcdef1234567890abcdef12345678';
   const references = evidenceReferences(comparison, revision);
-  assert.ok(references.mart.includes(`/blob/${revision}/data/sample_mart_reimbursement_trends.csv`));
+  assert.ok(references.mart.includes(`/blob/${revision}/${source.pipeline?.martPath || "data/sample_mart_reimbursement_trends.csv"}`));
   assert.equal(references.sources.length, 2);
   assert.ok(references.sources.every(item => item.sha256.length === 64));
   assert.ok(references.calculation.endsWith('/data/payment_verification.json'));
@@ -79,7 +79,7 @@ test('download preserves both years, edits, immutable artifact links, hashes and
   const benchmarks = enrichBenchmarks(aggregateMart(source.mart));
   const pipeline = buildPipelineIntelligence(source.sfdc, benchmarks);
   const text = reviewHandoffText(buildReviewHandoff(benchmarks, pipeline, 'Dermatology'), draft);
-  for (const expected of ['CY2022 $108.05 / 3,626 services', 'CY2023 $104.91 / 3,777 services', 'Payment change: −$3.14 (−2.9%)', 'Service change: +151 (+4.2%)', 'generated comparison scenarios', 'Snapshot SHA-256:', 'Local Spark run receipt', 'Reopen live comparison', draft.observation]) assert.ok(text.includes(expected), expected);
+  for (const expected of ['CY2022 $108.05 / 3,626 services', 'CY2023 $104.91 / 3,777 services', 'Payment change: −$3.14 (−2.9%)', 'Service change: +151 (+4.2%)', 'generated comparison scenarios', 'Snapshot SHA-256:', 'run receipt', 'Reopen live comparison', draft.observation]) assert.ok(text.includes(expected), expected);
   const parsed = readReviewLocation(new URL(draft.evidence[0].references.reopen).search);
   assert.equal(parsed.specialty, 'Dermatology');
   assert.equal(parsed.code, '99213');

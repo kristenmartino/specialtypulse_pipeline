@@ -94,13 +94,3 @@ CERTIFIED_METRICS = {
         "certified":  True,
     },
 }
-
-# ── DOMO CONFIG ───────────────────────────────────────────────────────────────
-DOMO_DATASET_NAME = "specialtypulse_mart_reimbursement_trends"
-DOMO_DATASET_DESC = (
-    "CERTIFIED — SpecialtyPulse mart. "
-    "Grain: provider_specialty × hcpcs_code × year. "
-    "Source: CMS Medicare Physician PUF 2021-2025. "
-    "Owner: Kristen Martino. "
-    "Do not modify schema without updating certified metric definitions."
-)

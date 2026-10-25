@@ -1,13 +1,13 @@
 {
-  "name": "specialtypulse-pdp-governance",
+  "name": "specialtypulse-dashboard",
   "version": "1.0.0",
-  "description": "PDP Governance Dashboard \u2014 native Domo App",
+  "description": "Specialty review dashboard using validated Spark exports",
   "scripts": {
-    "dev": "ryuu dev",
+    "dev": "webpack serve --mode development",
     "generate:data": "node scripts/generate-source-data.mjs",
     "prebuild": "npm run generate:data",
     "prebuild:web": "npm run generate:data",
-    "build": "webpack --mode production",
+    "build": "WEB_BUILD=1 webpack --mode production",
     "build:web": "WEB_BUILD=1 webpack --mode production",
     "start": "webpack serve --mode development",
     "test": "node --test tests/*.test.js"
@@ -25,7 +25,6 @@
     "css-loader": "^6.8.1",
     "html-webpack-plugin": "^5.5.3",
     "mini-css-extract-plugin": "^2.7.6",
-    "ryuu": "latest",
     "style-loader": "^3.3.3",
     "webpack": "^5.88.0",
     "webpack-cli": "^5.1.4",

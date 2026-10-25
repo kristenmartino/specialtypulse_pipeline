@@ -7,9 +7,9 @@
  * pressureIndex.js — so the numbers shown are the scoring formula's actual
  * output, not hard-coded.
  *
- * domoFetch serves these for the three mart-derived aliases and falls back to
- * mockData.js for the governance/telemetry aliases (pdp_config,
- * pdp_verify_results, engagement).
+ * dashboardData serves these for the three mart-derived aliases and falls back to
+ * mockData.js for the governance/telemetry aliases (access_config,
+ * access_examples, engagement).
  */
 import sourceData from "./sourceData.json";
 import { aggregateMart, enrichBenchmarks, buildPipelineIntelligence } from "./pressureIndex";

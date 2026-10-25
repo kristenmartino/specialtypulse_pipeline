@@ -72,7 +72,7 @@ export const TOOLTIP_PROPS = {
 };
 
 // Chart value animations are off: Recharts drives them with requestAnimationFrame,
-// which throttles in occluded iframes (Domo dashboards, background tabs) and leaves
+// which throttles in occluded iframes (embedded dashboards, background tabs) and leaves
 // series invisible for seconds. Panels already choreograph their own entrance —
 // data must be readable the instant a chart exists.
 export const CHART_ANIM = {

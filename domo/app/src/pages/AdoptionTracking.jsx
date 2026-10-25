@@ -6,7 +6,6 @@ import {
 import ChartPanel from "../components/ChartPanel";
 import KpiCard from "../components/KpiCard";
 import ReviewEvaluation from "../components/ReviewEvaluation";
-import { isDomo } from "../data/domoFetch";
 import { CHART_COLORS, TOOLTIP_PROPS, CHART_ANIM, fmt, groupBy, DEFINITIONS } from "../data/constants";
 
 export default function AdoptionTracking({ engagement, config }) {
@@ -72,7 +71,7 @@ export default function AdoptionTracking({ engagement, config }) {
 
   return (
     <div className="page-grid">
-      {!isDomo && <div className="data-note">
+      {<div className="data-note">
         <p>These synthetic session counts illustrate activity. They do not measure whether analysts produce more complete briefs or recipients need fewer clarifications.</p>
         <ReviewEvaluation />
       </div>}
