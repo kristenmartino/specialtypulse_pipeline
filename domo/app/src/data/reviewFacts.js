@@ -1,7 +1,7 @@
 const { buildBriefFacts, latestRows } = require('./reportingFacts');
 const { draftCompleteness } = require('./reviewDraft');
 const { procedureEvidenceText } = require('./procedureFacts');
-const { businessSetting, amountBasis, salesDateScope, salesScenarioDate } = require('./salesContext');
+const { businessSetting, amountBasis, salesDateScope, salesScenarioDate, salesEvidenceText } = require('./salesContext');
 const { pipelineHygiene, pipelineHygieneText, firstSalesCheck } = require('./pipelineHygiene');
 
 const reviewQuestions = [
@@ -51,6 +51,8 @@ function reviewHandoffText(review, draft) {
     `- Average procedure-level payment change: ${change}; a constructed scenario comparison.`,
     `- Synthetic open-stage pipeline: $${review.amount.toLocaleString('en-US')} across ${review.deals} deals${review.share == null ? '' : ` (${(review.share * 100).toFixed(1)}% of open-stage pipeline)`}. Includes overdue open opportunities.`,
     ...(review.hygiene ? ['', '## Sales follow-up first', pipelineHygieneText(review.hygiene), firstSalesCheck] : []),
+    '',
+    ...salesEvidenceText(review.specialty),
     ...(draft ? [
       '',
       '## Analyst draft — unverified',

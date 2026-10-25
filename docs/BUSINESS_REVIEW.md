@@ -85,6 +85,12 @@ revision. The mart/input SHA-256 values and recorded execution time identify the
 snapshot. The live link uses the current demo; pinned files preserve the original
 evidence if the public data changes.
 
+Every exported brief also links to the synthetic sales CSV and sales metric
+definitions at the build's repository revision. Reproduction instructions state
+the selected account_specialty, open-stage exclusions, overdue-date filter and
+all-specialty denominator for pipeline share. The sales reference is included
+even when the draft has no procedure evidence.
+
 The raw filter uses provider_type, hcpcs_cd and tot_srvcs >= 11. The existing
 payment_verification.json raw-row trace covers only Dermatology / 99213 / 2023;
 it is included only when that year and procedure are in the comparison.
