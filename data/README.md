@@ -42,6 +42,10 @@ The invented scenario snapshot is August 31, 2026. The source capture date was n
 recorded; stages remain as supplied. All 500 opportunities are included without a
 period filter. Created dates run September 2, 2025–February 24, 2026; close dates
 run October 11, 2025–August 14, 2026. These dates are separate from the reimbursement years.
+At the scenario snapshot, all 472 open opportunities ($40,178,200 assumed ACV)
+are overdue by 17–324 days. The app flags that backlog and requests stage/close-date
+review before planning; totals continue to include the supplied open records.
+
 
 ## Verified path
 

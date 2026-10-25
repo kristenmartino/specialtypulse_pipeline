@@ -181,7 +181,7 @@ export default function App() {
           {renderPage()}
         </div>
         {!loading && !fetchError && ["market", "procedure", "pipeline"].includes(tab) && (
-          <DashboardSummary benchmarks={benchmarks} mart={mart} pipeline={pipeline} onNavigate={navigateToResult} />
+          <DashboardSummary benchmarks={benchmarks} mart={mart} pipeline={pipeline} onNavigate={navigateToResult} isSample={!isDomo} />
         )}
 
       </main>

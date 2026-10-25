@@ -37,9 +37,9 @@ function buildBriefFacts(benchmarks, mart, pipeline) {
   const focuses = [];
   if (top) {
     evidence.push({ id: "pressure", text: `${top.name} has the highest pressure score (${top.pressure.toFixed(1)}/100).` });
-    evidence.push({ id: "pipeline", text: `${top.name} has $${top.amount.toLocaleString("en-US")} in active pipeline across ${top.deals} deals${top.share == null ? "" : ` (${(top.share * 100).toFixed(1)}% of the active total)`}.` });
+    evidence.push({ id: "pipeline", text: `${top.name} has $${top.amount.toLocaleString("en-US")} in open-stage pipeline across ${top.deals} deals${top.share == null ? "" : ` (${(top.share * 100).toFixed(1)}% of the open-stage total)`}.` });
     focuses.push({ id: "compare-coverage", title: "Compare pipeline by specialty",
-      text: "Compare pipeline amounts and pressure scores by specialty.", target: "pipeline", specialty: top.name, evidenceIds: ["pressure", "pipeline"] });
+      text: "Compare open-stage amounts and pressure scores by specialty.", target: "pipeline", specialty: top.name, evidenceIds: ["pressure", "pipeline"] });
   }
   if (cut) {
     evidence.push({ id: "payment", text: `${cut.provider_specialty} has the lowest average procedure-level payment change (${(Number(cut.avg_yoy_payment_change) * 100).toFixed(1)}% year over year).` });

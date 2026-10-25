@@ -68,6 +68,15 @@ opportunities without a reporting-period filter: created dates September 2, 2025
 to February 24, 2026; close dates October 11, 2025 to August 14, 2026. The sales
 scenario date is separate from reimbursement CY2021–2023.
 
+Overdue open opportunities have a valid close date strictly before the scenario
+snapshot. The calculation excludes Closed Won and Closed Lost, uses UTC calendar
+days, and reports missing or invalid close dates separately. Amounts sum in integer
+cents; an invalid amount leaves the affected aggregate unavailable. At August 31,
+all 472 open opportunities / $40,178,200 assumed ACV are overdue by 17–324 days.
+This balance remains inside the open-stage total and must be reconciled with sales
+operations before planning. No date, stage or opportunity is changed automatically.
+
+
 ## Validation required for operational use
 
 Reconcile complete source releases, compare aggregation alternatives, evaluate the score against outcomes and obtain actual metric-owner approval. Policy verification requires a configured Domo instance and tests as intended user accounts. The public dashboard presents example access rules and assignments, not passing check results or live security assurance.

@@ -1,11 +1,13 @@
 const { buildBriefFacts, latestRows } = require('./reportingFacts');
 const { draftCompleteness } = require('./reviewDraft');
 const { procedureEvidenceText } = require('./procedureFacts');
-const { businessSetting, amountBasis, salesDateScope } = require('./salesContext');
+const { businessSetting, amountBasis, salesDateScope, salesScenarioDate } = require('./salesContext');
+const { pipelineHygiene, pipelineHygieneText, firstSalesCheck } = require('./pipelineHygiene');
 
 const reviewQuestions = [
+  { owner: 'Sales operations lead', question: 'Which open opportunities need their stages and close dates corrected before planning?', next: firstSalesCheck },
   { owner: 'Specialty analyst', question: 'Do the source records, service mix and calculation explain the payment comparison?', next: 'Trace a procedure to its inputs and record any unresolved data or interpretation issue.' },
-  { owner: 'Sales operations lead', question: 'Are deal stages current, and what do account notes say about the customer’s needs?', next: 'Confirm deal stages and account context; a specialty-level score does not establish account need.' },
+  { owner: 'Sales operations lead', question: 'What do account notes say about the customer’s needs?', next: 'Confirm account context; a specialty-level score does not establish account need.' },
   { owner: 'Sales or operations lead', question: 'What evidence is needed before a commercial recommendation?', next: 'Confirm the next reviewer and the evidence to request. Source and account validation remain pending.' },
 ];
 
@@ -21,6 +23,7 @@ function buildReviewHandoff(benchmarks, pipeline, requestedSpecialty) {
     specialty: selected.name, year: Number(benchmark.year), score: selected.pressure,
     paymentChange: change == null || change === '' || !Number.isFinite(Number(change)) ? null : Number(change),
     amount: selected.amount, deals: selected.deals, share: selected.share,
+    hygiene: pipelineHygiene(pipeline.filter(row => row.account_specialty === selected.name), salesScenarioDate),
     status: 'Sample only — source and account validation pending.',
     questions: reviewQuestions,
   };
@@ -46,7 +49,8 @@ function reviewHandoffText(review, draft) {
     '## Supporting observations',
     `- Scenario pressure score: ${review.score == null ? 'Unavailable' : review.score.toFixed(1)}/100. Project-defined and unvalidated against sales outcomes.`,
     `- Average procedure-level payment change: ${change}; a constructed scenario comparison.`,
-    `- Synthetic active pipeline: $${review.amount.toLocaleString('en-US')} across ${review.deals} deals${review.share == null ? '' : ` (${(review.share * 100).toFixed(1)}% of active pipeline)`}.`,
+    `- Synthetic open-stage pipeline: $${review.amount.toLocaleString('en-US')} across ${review.deals} deals${review.share == null ? '' : ` (${(review.share * 100).toFixed(1)}% of open-stage pipeline)`}. Includes overdue open opportunities.`,
+    ...(review.hygiene ? ['', '## Sales follow-up first', pipelineHygieneText(review.hygiene), firstSalesCheck] : []),
     ...(draft ? [
       '',
       '## Analyst draft — unverified',

@@ -8,10 +8,12 @@ import KpiCard from "../components/KpiCard";
 import DataTable from "../components/DataTable";
 import PressureBadge from "../components/PressureBadge";
 import { activePipeline } from "../data/reportingFacts";
-import { amountBasis, salesDateScope } from "../data/salesContext";
+import { amountBasis, salesDateScope, salesScenarioDate } from "../data/salesContext";
+import { pipelineHygiene, pipelineHygieneText, firstSalesCheck } from "../data/pipelineHygiene";
 import { CHART_COLORS, TOOLTIP_PROPS, CHART_ANIM, fmt, groupBy } from "../data/constants";
 
 export default function PipelineIntelligence({ pipeline, isSample = false }) {
+  const hygiene = useMemo(() => isSample ? pipelineHygiene(pipeline, salesScenarioDate) : null, [pipeline, isSample]);
   // Active pipeline totals and independent specialty scores.
   const specData = useMemo(() => {
     const bySpec = groupBy(activePipeline(pipeline), "account_specialty");
@@ -51,27 +53,34 @@ export default function PipelineIntelligence({ pipeline, isSample = false }) {
   const ownerColumns = [
     { key: "owner", label: "Owner" },
     { key: "region", label: "Region" },
-    { key: "deals", label: "Active Deals" },
-    { key: "totalAmount", label: "Pipeline", render: (v) => fmt.usd0(v) },
+    { key: "deals", label: isSample ? "Open deals" : "Active Deals" },
+    { key: "totalAmount", label: isSample ? "Open-stage ACV" : "Pipeline", render: (v) => fmt.usd0(v) },
     { key: "avgPressure", label: "Avg Pressure", render: (v) => fmt.score(v) },
     { key: "topTier", label: "Highest pressure tier", render: (v) => <PressureBadge tier={v} /> },
   ];
 
   return (
     <div className="page-grid">
-      {isSample && <section className="span-full review-evaluation" aria-label="Sales amount and date scope">
-        <h2>Sales amount and date scope</h2>
-        <p>{amountBasis}</p>
-        <p>{salesDateScope}</p>
+      {hygiene && <section className="span-full pipeline-hygiene" aria-label="Overdue pipeline review">
+        <h2>Review overdue pipeline first</h2>
+        <p>{pipelineHygieneText(hygiene)}</p>
+        <p>{firstSalesCheck}</p>
       </section>}
       {/* KPI Row */}
       <div className="kpi-row span-full">
-        <KpiCard label={isSample ? "Active pipeline · ACV" : "Active Pipeline"} value={fmt.usdCompact(kpis.totalPipe)} sub={fmt.plural(kpis.activeCount, "deal")} color="teal" />
+        <KpiCard label={isSample ? "Open-stage pipeline · ACV" : "Active Pipeline"} value={fmt.usdCompact(kpis.totalPipe)} sub={fmt.plural(kpis.activeCount, "deal")} color="teal" />
         <KpiCard label={isSample ? "Closed won · ACV" : "Closed Won"} value={fmt.usdCompact(kpis.wonTotal)} sub={fmt.plural(kpis.wonCount, "deal")} color="green" />
+        {hygiene && <KpiCard label="Overdue open ACV" value={fmt.usdCompact(hygiene.overdueAmount)} sub={`${hygiene.overdueCount} overdue open deals`} color="gold" />}
       </div>
 
+      {isSample && <details className="span-full review-evaluation">
+        <summary>Sales amount and date scope</summary>
+        <p>{amountBasis}</p>
+        <p>{salesDateScope}</p>
+      </details>}
+
       {/* Pipeline amounts are shown separately from specialty pressure scores. */}
-      <ChartPanel title="Pipeline by specialty" subtitle="Active deals" className="span-full">
+      <ChartPanel title="Pipeline by specialty" subtitle={isSample ? "Open deals · includes overdue" : "Active deals"} className="span-full">
         <ResponsiveContainer width="100%" height={300}>
           <BarChart data={specData}>
             <CartesianGrid strokeDasharray="3 3" stroke="rgba(10,126,140,0.15)" />
@@ -82,7 +91,7 @@ export default function PipelineIntelligence({ pipeline, isSample = false }) {
               {...TOOLTIP_PROPS}
             />
             <Legend wrapperStyle={{ fontSize: 11 }} />
-            <Bar dataKey="totalAmount" name="Active pipeline" fill={CHART_COLORS.tealXlt} radius={[4, 4, 0, 0]} {...CHART_ANIM} />
+            <Bar dataKey="totalAmount" name={isSample ? "Open-stage ACV" : "Active pipeline"} fill={CHART_COLORS.tealXlt} radius={[4, 4, 0, 0]} {...CHART_ANIM} />
           </BarChart>
         </ResponsiveContainer>
       </ChartPanel>
@@ -91,7 +100,7 @@ export default function PipelineIntelligence({ pipeline, isSample = false }) {
         <DataTable columns={[
           { key: "specialty", label: "Specialty" },
           { key: "pressureIndex", label: "Pressure score", render: v => fmt.score(v) },
-          { key: "count", label: "Active deals" },
+          { key: "count", label: isSample ? "Open deals" : "Active deals" },
         ]} data={specData} defaultSort="pressureIndex" />
       </ChartPanel>
 

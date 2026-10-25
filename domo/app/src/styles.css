@@ -321,6 +321,10 @@ ul.brief-evidence { padding-left: 20px; }
 .review-handoff .procedure-controls { margin: 14px 0; flex-wrap: wrap; }
 .review-handoff select { max-width: 100%; }
 .review-status { font-size: 12px; }
+.pipeline-hygiene { border-left: 2px solid var(--gold); padding: 4px 16px; color: var(--ice); }
+.pipeline-hygiene h2 { font-size: 17px; margin: 0 0 10px; }
+.pipeline-hygiene p { margin: 0 0 10px; line-height: 1.6; }
+.pipeline-hygiene p:last-child { margin-bottom: 0; }
 .review-questions { margin: 18px 0; }
 .review-questions > div { border-top: 1px solid var(--border); padding: 12px 0; }
 .review-questions dt { color: var(--ice); font-weight: 500; }

@@ -53,6 +53,17 @@ date was not recorded. Stages are shown as supplied; all 500 rows are included
 without a period filter. Created dates span September 2, 2025–February 24, 2026;
 close dates span October 11, 2025–August 14, 2026.
 
+At that snapshot, all **472 open opportunities / $40,178,200 assumed USD ACV**
+have close dates before August 31: **100% of open deals, 17–324 days overdue**.
+The open-stage total includes this backlog. Overdue means an open opportunity's
+valid close date is strictly before the scenario date; closed stages are excluded,
+and missing/invalid dates are reported separately. The dashboard and downloaded
+brief calculate these facts from the fixture, including specialty-specific totals.
+First sales follow-up: reconcile stages and close dates with sales operations
+before planning. Record confirmed changes; overdue dates alone do not close or
+remove opportunities. No actual CRM updates or sales review are claimed.
+
+
 The example begins with the highest score in the constructed scenario. That is
 an example focus, not an approved account shortlist. The brief includes:
 
@@ -86,15 +97,16 @@ Open Dermatology / HCPCS 99213 / CY2023 and choose **Add comparison to brief**.
 - Evidence: generated 2022 scenario $108.05 / 3,626 services; synthetic 2023 base $104.91 / 3,777 services. Payment −$3.14 (−2.9%); services +151 (+4.2%).
 - Observation and limits: payment per service falls while service count rises in the constructed comparison. Generated prior-year inputs cannot establish a historical payment trend, its cause or account need.
 - Open question: Which source rows and service mix explain this constructed change?
-- Next reviewer: Specialty analyst.
-- Requested check: match Dermatology / 99213 in the pinned 2022/2023 inputs and mart; reproduce weighted payments and service counts, then record unresolved data or interpretation issues for the sales or operations lead.
-- Context: scenario score 66.6; 53 synthetic active deals worth $4,579,800 (11.4% of active pipeline). Those amounts are separate from the procedure comparison and score.
+- Next reviewers: Sales operations lead for stage/date review; specialty analyst for calculation review.
+- Requested check: first reconcile the 53 Dermatology open opportunities and their past-due close dates with sales operations, then match Dermatology / 99213 in the pinned 2022/2023 inputs and mart; reproduce weighted payments and service counts, then record unresolved data or interpretation issues for the sales or operations lead.
+- Context: scenario score 66.6; 53 synthetic open deals worth $4,579,800 assumed USD ACV (11.4% of open-stage pipeline). All 53 are overdue at the scenario snapshot. These remain in the open-stage total pending review; the amount is separate from the procedure comparison and score.
 - Status: illustrative draft; source/account validation remains pending. Downloading sends or assigns nothing.
 
 ## Proposed handoff responsibilities
 
 | Who reviews it next | Question | Requested next check |
 |---|---|---|
+| Sales operations lead — first sales follow-up | Which stages and close dates need correction before planning? | Reconcile open opportunities and record confirmed stage/date changes; keep overdue deals in the supplied total until reviewed |
 | Specialty analyst | Do source records, service mix and calculation explain the comparison? | Trace a procedure to inputs and record unresolved interpretation or data issues |
 | Sales operations lead | Are deal stages current, and what do account notes say about the customer’s needs? | Confirm deal stages and account context; specialty-level scores do not establish account need |
 | Sales or operations lead | What evidence is needed before a commercial recommendation? | Confirm the next reviewer and evidence request; validation remains pending |

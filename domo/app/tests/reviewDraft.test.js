@@ -59,5 +59,5 @@ test('a missing procedure payment stays unavailable rather than becoming zero', 
   const state = reviewReducer(initialReviewState, { type: 'add-procedure', specialty: 'Dermatology', procedure: { ...dermatology, avg_medicare_payment: null, total_services: '' } });
   const text = reviewHandoffText(buildReviewHandoff(benchmarks, [], 'Dermatology'), getReviewDraft(state, 'Dermatology'));
   assert.ok(text.includes('payment per service unavailable; unavailable services'));
-  assert.ok(!text.includes('$0.00'));
+  assert.ok(!text.includes('average payment per service $0.00')); // A valid zero overdue ACV is independent of missing payment evidence.
 });

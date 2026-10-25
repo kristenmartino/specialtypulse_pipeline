@@ -6,6 +6,7 @@ import { fmt } from '../data/constants';
 import ReviewEvaluation from './ReviewEvaluation';
 import ProcedureEvidence, { ProcedureEvidenceSummary } from './ProcedureEvidence';
 import { amountBasis, salesDateScope } from '../data/salesContext';
+import { pipelineHygieneText, firstSalesCheck } from '../data/pipelineHygiene';
 
 export default function ReviewHandoff({ benchmarks, pipeline, onNavigate, selected, onSelect, draft, onEdit, onRemove, open, onOpenChange, focusEditor }) {
   const specialties = useMemo(() => [...new Set(latestRows(benchmarks).rows.map(row => row.provider_specialty))].sort(), [benchmarks]);
@@ -53,6 +54,7 @@ export default function ReviewHandoff({ benchmarks, pipeline, onNavigate, select
           </select>
         </div>
         <p className="review-status">{review.status} The initial selection uses the highest scenario score; it is not an account-prioritization decision.</p>
+        {review.hygiene.overdueCount > 0 && <p className="review-status"><strong>Sales follow-up first:</strong> {review.hygiene.overdueCount} of {review.hygiene.openCount} open deals have overdue close dates. Verify stages and dates before planning.</p>}
         <div className="review-links">
           <button type="button" className="exec-brief-link" onClick={() => onNavigate('procedure', review.specialty)}>Inspect {review.specialty} procedures →</button>
           <button type="button" className="exec-brief-link" onClick={() => onNavigate('pipeline', review.specialty)}>Compare pipeline exposure →</button>
@@ -64,8 +66,10 @@ export default function ReviewHandoff({ benchmarks, pipeline, onNavigate, select
         <ul>
           <li>Scenario pressure score: <strong>{fmt.score(review.score)}/100</strong>, using project-defined weights.</li>
           <li>Average procedure-level payment change: <strong>{fmt.pct(review.paymentChange)}</strong> in the constructed CY{review.year - 1}–{review.year} comparison.</li>
-          <li>Synthetic active pipeline: <strong>{fmt.usd0(review.amount)}</strong> across {review.deals} deals{review.share == null ? '' : ` (${fmt.pct(review.share)} of active pipeline)`}.</li>
+          <li>Synthetic open-stage pipeline: <strong>{fmt.usd0(review.amount)}</strong> across {review.deals} deals{review.share == null ? '' : ` (${fmt.pct(review.share)} of open-stage pipeline)`}. Includes overdue open opportunities.</li>
         </ul>
+        <p>{pipelineHygieneText(review.hygiene)}</p>
+        <p>{firstSalesCheck}</p>
         <p>{amountBasis}</p>
         <p>{salesDateScope}</p>
         </details>
