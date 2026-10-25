@@ -1,12 +1,12 @@
 /**
  * pressureIndex.js
  * ---------------------------------------------------------------------------
- * Faithful JavaScript port of domo/sql_dataflow.sql (Transforms 1–3).
+ * Dashboard aggregation and project-defined pressure score.
  *
  * The standalone build runs this in the browser at load time, so the
  * Reimbursement Pressure Index shown in the dashboard is computed by the real
  * scoring formula over the pipeline's mart — not shipped as hard-coded values.
- * (In the Domo deployment the same logic ran as a SQL DataFlow.)
+ * Earlier SQL integration source is retained under archive/domo.
  *
  * Authored as CommonJS so it is importable by both webpack (the app) and Node
  * (scripts/verify-index.js, which checks the numbers without a browser).

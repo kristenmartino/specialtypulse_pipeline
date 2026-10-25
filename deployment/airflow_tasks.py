@@ -4,22 +4,23 @@ import json
 import os
 from pathlib import Path
 
-from deployment.domo_delivery import authenticate, deliver_and_verify
+from deployment.export_release import publish_export
 
 
 def validate_connections():
-    required = ["DATABRICKS_HOST", "DATABRICKS_TOKEN", "SPECIALTYPULSE_DATABRICKS_JOB_ID", "DOMO_CLIENT_ID", "DOMO_CLIENT_SECRET"]
+    required = ["DATABRICKS_HOST", "SPECIALTYPULSE_DATABRICKS_JOB_ID"]
     missing = [key for key in required if not os.getenv(key, "").strip()]
     if missing:
         raise ValueError("Deployment is not connected; missing settings: " + ", ".join(missing))
     if not os.environ["DATABRICKS_HOST"].startswith("https://"):
         raise ValueError("Databricks host must use HTTPS")
     int(os.environ["SPECIALTYPULSE_DATABRICKS_JOB_ID"])
-    # Fail before compute is started when Domo access is unavailable.
-    authenticate(os.environ["DOMO_CLIENT_ID"], os.environ["DOMO_CLIENT_SECRET"])
+    from databricks.sdk import WorkspaceClient
+    # Supports the CLI OAuth profile or an explicitly configured deployment token.
+    WorkspaceClient().current_user.me()
 
 
-def push_verified_export(ti, run_id, **context):
+def publish_verified_export(ti, run_id, **context):
     from databricks.sdk import WorkspaceClient
     from databricks.sdk.service.jobs import RunResultState
     client = WorkspaceClient()
@@ -37,11 +38,8 @@ def push_verified_export(ti, run_id, **context):
     data = downloaded.contents.read()
     if hashlib.sha256(data).hexdigest() != receipt["export_sha256"]:
         raise ValueError("Databricks exported file differs from its run receipt")
-    session = authenticate(os.environ["DOMO_CLIENT_ID"], os.environ["DOMO_CLIENT_SECRET"])
-    delivered = deliver_and_verify(session, data.decode(), os.getenv("SPECIALTYPULSE_DOMO_DATASET_ID", ""))
-    if delivered["business_sha256"] != receipt["mart_business_sha256"]:
-        raise ValueError("Domo and Databricks business hashes differ")
-    result = {"airflow_run_id": run_id, "databricks_run_id": parent_id, "databricks": receipt, "domo": delivered}
+    release = publish_export(os.environ["SPECIALTYPULSE_DATA_DIR"], data.decode(), receipt)
+    result = {"airflow_run_id": run_id, "databricks_run_id": parent_id, "databricks": receipt, "release": release}
     directory = Path(os.getenv("SPECIALTYPULSE_RECEIPTS_DIR", "/opt/airflow/receipts"))
     directory.mkdir(parents=True, exist_ok=True)
     (directory / f"databricks-{parent_id}.json").write_text(json.dumps(result, indent=2) + "\n")
@@ -49,7 +47,7 @@ def push_verified_export(ti, run_id, **context):
 
 
 def notify_success(ti):
-    result = ti.xcom_pull(task_ids="push_to_domo")
-    if not result or result["domo"]["status"] != "verified":
-        raise ValueError("No verified Domo delivery receipt")
-    print(f"Verified synthetic pipeline: Databricks run {result['databricks_run_id']}; {result['domo']['rows']} Domo rows")
+    result = ti.xcom_pull(task_ids="publish_dashboard_export")
+    if not result or result["databricks"]["status"] != "verified":
+        raise ValueError("No verified dashboard export receipt")
+    print(f"Verified synthetic pipeline: Databricks run {result['databricks_run_id']}; {result['release']['rows']} dashboard rows selected for release")

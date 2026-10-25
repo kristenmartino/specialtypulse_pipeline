@@ -6,7 +6,7 @@ on:
   pull_request:
     branches: [main]
   schedule:
-    - cron: "0 9 * * *"   # 9am UTC daily — nightly governance check
+    - cron: "0 9 * * *"   # 9am UTC daily — regression checks
   workflow_dispatch:       # manual trigger for interview demos
 
 jobs:
@@ -29,7 +29,7 @@ jobs:
       - name: Lint Python files
         run: ruff check .
 
-      - name: Offline policy and payment regression checks
+      - name: Offline export and payment regression checks
         run: python -m pytest tests -q
 
       - name: Validate Airflow DAG
@@ -54,7 +54,7 @@ jobs:
           print(f'Tasks: {task_ids}')
           assert 'validate_inputs' in task_ids
           assert 'run_databricks_pipeline' in task_ids
-          assert 'push_to_domo'     in task_ids
+          assert 'publish_dashboard_export'     in task_ids
           assert 'notify_success'   in task_ids
           print('DAG validation passed')
           "
@@ -68,12 +68,6 @@ jobs:
             python -m py_compile /tmp/_nb_check.py && echo "  OK"
           done
 
-      - name: Validate PDP scripts syntax
-        run: |
-          python -m py_compile domo/pdp/pdp_setup.py
-          python -m py_compile domo/pdp/pdp_verify.py
-          python -m py_compile domo/pdp/pdp_verify_writer.py
-          echo "PDP scripts syntax OK"
 
   spark-reconciliation:
     name: Shared Spark pipeline reconciliation
@@ -95,9 +89,9 @@ jobs:
       - name: Reproduce every public mart row from raw inputs
         run: python scripts/run_local_pipeline.py --check
 
-  # ── DOMO APP BUILD ───────────────────────────────────────────────────────────
+  # ── REACT DASHBOARD BUILD ───────────────────────────────────────────────────────────
   app-build:
-    name: Domo App build
+    name: React dashboard build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -116,65 +110,12 @@ jobs:
         working-directory: domo/app
         run: npm test
 
-      - name: Build Domo App
+      - name: Build React dashboard
         working-directory: domo/app
         run: npm run build
 
       - name: Verify build output
         working-directory: domo/app
         run: |
-          test -f index.html  && echo "index.html present"
-          test -f bundle.js   && echo "bundle.js present"
-          test -f styles.css  && echo "styles.css present"
-
-  # ── PDP GOVERNANCE CHECK ─────────────────────────────────────────────────────
-  # Runs against live Domo when secrets are present.
-  # Falls back to mock mode (validates script logic only) when secrets absent.
-  pdp-verify:
-    name: PDP governance verify
-    runs-on: ubuntu-latest
-    needs: validate      # only run if lint passes
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
-          cache: pip
-
-      - name: Install dependencies
-        run: pip install requests
-
-      - name: Check if Domo secrets available
-        id: check-secrets
-        env:
-          DOMO_CID: ${{ secrets.DOMO_CLIENT_ID }}
-        run: |
-          if [ -n "$DOMO_CID" ]; then
-            echo "has_secrets=true" >> $GITHUB_OUTPUT
-          else
-            echo "has_secrets=false" >> $GITHUB_OUTPUT
-          fi
-
-      - name: Run PDP verify against live Domo
-        if: steps.check-secrets.outputs.has_secrets == 'true'
-        env:
-          DOMO_CLIENT_ID:              ${{ secrets.DOMO_CLIENT_ID }}
-          DOMO_CLIENT_SECRET:          ${{ secrets.DOMO_CLIENT_SECRET }}
-          DOMO_DATASET_ID:             ${{ secrets.DOMO_DATASET_ID }}
-          DOMO_INPUT_DATASET_ID:       ${{ secrets.DOMO_INPUT_DATASET_ID }}
-          DOMO_VERIFY_RESULTS_DATASET_ID: ${{ secrets.DOMO_VERIFY_RESULTS_DATASET_ID }}
-        run: python domo/pdp/pdp_verify_writer.py
-
-      - name: Run PDP verify in mock mode (no secrets)
-        if: steps.check-secrets.outputs.has_secrets == 'false'
-        run: |
-          echo "Domo secrets not configured — running syntax check only"
-          python -c "
-          import ast, sys
-          for f in ['domo/pdp/pdp_verify_writer.py']:
-              with open(f) as fh:
-                  ast.parse(fh.read())
-              print(f'  {f} — syntax OK')
-          print('Mock mode passed (add DOMO_* secrets to enable live verify)')
-          "
+          test -f dist/index.html
+          test -n "$(find dist -maxdepth 1 -name 'bundle.*.js' -print -quit)"

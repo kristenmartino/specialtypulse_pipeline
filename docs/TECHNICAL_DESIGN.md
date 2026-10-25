@@ -1,3 +1,5 @@
+> Migration note: the current implementation uses Databricks, Airflow and the React dashboard. Domo-specific sections below describe the archived integration. See [current deployment](../deployment/README.md) and [current project status](../README.md).
+
 # SpecialtyPulse technical design
 
 **Owner:** Kristen Martino

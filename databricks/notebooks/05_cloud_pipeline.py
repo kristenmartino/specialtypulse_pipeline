@@ -96,7 +96,9 @@ receipt = {
     "mart_business_sha256": checked["business_sha256"],
     "export_sha256": hashlib.sha256(csv_path.read_bytes()).hexdigest(),
     "export_path": str(csv_path), "tables": [raw_table, stage_table, mart_table],
-    "scope": "Synthetic fixture pipeline and Delta readback; Domo delivery is verified separately in Airflow",
+    "source_sha256": {key: value for key, value in manifest["file_sha256"].items() if "puf_10k.csv" in key},
+    "code_sha256": {key: value for key, value in manifest["file_sha256"].items() if key.endswith(".py")},
+    "scope": "Synthetic fixture pipeline and Delta readback; Airflow validates the exported artifact for the React build",
 }
 (output_dir / "databricks-receipt.json").write_text(json.dumps(receipt, indent=2) + "\n")
 dbutils.notebook.exit(json.dumps(receipt))

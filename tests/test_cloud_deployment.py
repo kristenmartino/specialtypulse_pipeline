@@ -7,7 +7,9 @@ import pytest
 
 from deployment.contracts import assert_matches, csv_records
 from deployment.deploy_databricks import plan
-from deployment.domo_delivery import DATASET_NAME, deliver_and_verify, domo_schema
+from deployment.export_release import publish_export
+import hashlib
+import json
 from deployment.airflow_tasks import validate_connections
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -69,61 +71,51 @@ def test_plan_rejects_unsafe_targets(catalog, prefix, path):
 
 
 def test_missing_connections_fail_before_any_external_run(monkeypatch):
-    for key in ["DATABRICKS_HOST", "DATABRICKS_TOKEN", "SPECIALTYPULSE_DATABRICKS_JOB_ID", "DOMO_CLIENT_ID", "DOMO_CLIENT_SECRET"]:
+    for key in ["DATABRICKS_HOST", "DATABRICKS_TOKEN", "SPECIALTYPULSE_DATABRICKS_JOB_ID"]:
         monkeypatch.delenv(key, raising=False)
     with pytest.raises(ValueError, match="Deployment is not connected"):
         validate_connections()
 
 
-class Response:
-    def __init__(self, data=None, text="", failure=False):
-        self.data, self.text, self.failure = data, text, failure
 
-    def raise_for_status(self):
-        if self.failure:
-            raise RuntimeError("HTTP failure")
-
-    def json(self):
-        return self.data
+def export_receipt(content=MART):
+    checked = assert_matches(content, MART)
+    return {"status": "verified", "run_key": "12345", "executed_at": "2026-10-25T00:00:00Z",
+            "source_revision": "test-revision", "export_sha256": hashlib.sha256(content.encode()).hexdigest(),
+            "mart_rows": checked["rows"], "mart_business_sha256": checked["business_sha256"]}
 
 
-class DomoSession:
-    def __init__(self, *, name=DATASET_NAME, content=MART, rows=870, fail_put=False):
-        self.name, self.content, self.rows, self.fail_put = name, content, rows, fail_put
-        self.writes = []
-
-    def get(self, url, **kwargs):
-        if url.endswith("/data"):
-            return Response(text=self.content)
-        fields, _ = csv_records(MART)
-        return Response({"name": self.name, "schema": domo_schema(fields), "rows": self.rows, "updatedAt": "2026-10-25"})
-
-    def put(self, url, **kwargs):
-        self.writes.append(kwargs)
-        return Response(failure=self.fail_put)
+def test_publish_validated_cloud_export_atomically(tmp_path):
+    (tmp_path / "sample_mart_reimbursement_trends.csv").write_text(MART)
+    release = publish_export(tmp_path, MART, export_receipt())
+    assert release["rows"] == 870
+    assert json.loads((tmp_path / "dashboard_release.json").read_text()) == release
+    assert (tmp_path / release["mart"]).read_text() == MART
+    assert publish_export(tmp_path, MART, export_receipt()) == release
 
 
-def test_delivery_requires_both_metadata_and_full_readback():
-    session = DomoSession()
-    result = deliver_and_verify(session, MART, "dedicated-test-id", attempts=1)
-    assert result["status"] == "verified" and result["rows"] == 870
-    assert session.writes[0]["params"] == {"updateMethod": "REPLACE"}
-    assert session.writes[0]["data"] == MART.encode()
+@pytest.mark.parametrize("change", ["bytes", "rows", "values", "status"])
+def test_failed_export_never_changes_release_pointer(tmp_path, change):
+    (tmp_path / "sample_mart_reimbursement_trends.csv").write_text(MART)
+    (tmp_path / "dashboard_release.json").write_text('{"existing":true}')
+    receipt = export_receipt()
+    if change == "bytes":
+        receipt["export_sha256"] = "wrong"
+    if change == "rows":
+        receipt["mart_rows"] = 1
+    if change == "values":
+        receipt["mart_business_sha256"] = "wrong"
+    if change == "status":
+        receipt["status"] = "pending"
+    with pytest.raises(ValueError):
+        publish_export(tmp_path, MART, receipt)
+    assert json.loads((tmp_path / "dashboard_release.json").read_text()) == {"existing": True}
 
 
-@pytest.mark.parametrize("content,rows", [(MART, 869), (MART.replace("104.91", "104.90"), 870)])
-def test_delivery_fails_on_metadata_or_value_mismatch(content, rows):
-    with pytest.raises(ValueError, match="Domo exported rows"):
-        deliver_and_verify(DomoSession(content=content, rows=rows), MART, "id", attempts=1)
-
-
-def test_delivery_refuses_unrelated_dataset_before_writing():
-    session = DomoSession(name="another-project")
+def test_prior_run_artifacts_cannot_be_overwritten(tmp_path):
+    (tmp_path / "sample_mart_reimbursement_trends.csv").write_text(MART)
+    publish_export(tmp_path, MART, export_receipt())
+    receipt = export_receipt()
+    receipt["source_revision"] = "different"
     with pytest.raises(ValueError, match="Refusing"):
-        deliver_and_verify(session, MART, "id", attempts=1)
-    assert session.writes == []
-
-
-def test_failed_upload_never_reports_success():
-    with pytest.raises(RuntimeError, match="HTTP failure"):
-        deliver_and_verify(DomoSession(fail_put=True), MART, "id", attempts=1)
+        publish_export(tmp_path, MART, receipt)

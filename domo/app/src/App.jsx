@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useLayoutEffect, useCallback, useRef, useReducer, useMemo } from "react";
-import { domoFetch, isDomo } from "./data/domoFetch";
-import { fmt } from "./data/constants";
+import { dashboardData } from "./data/dashboardData";
 import TabBar from "./components/TabBar";
 import ReviewHandoff from "./components/ReviewHandoff";
 import DashboardSummary from "./components/DashboardSummary";
@@ -19,14 +18,13 @@ const TAB_LABELS = {
   procedure: "Procedure Detail",
   pipeline:  "Pipeline Intelligence",
   adoption:  "Adoption Tracking",
-  pdp:       "PDP Governance",
+  pdp:       "Access examples",
 };
 
 export default function App() {
   const [initialLocation] = useState(() => readReviewLocation(window.location.search));
   const [tab, setTab] = useState(initialLocation.tab);
   const [loading, setLoading] = useState(true);
-  const [lastFetch, setLastFetch] = useState(null);
   const [fetchError, setFetchError] = useState(false);
   const [reviewState, dispatchReview] = useReducer(reviewReducer, { ...initialReviewState, specialty: initialLocation.specialty });
   const [procedureCode, setProcedureCode] = useState(initialLocation.code);
@@ -67,12 +65,12 @@ export default function App() {
     setFetchError(false);
     try {
       const [cfg, chk, bench, pipe, m, eng] = await Promise.all([
-        domoFetch("pdp_config"),
-        domoFetch("pdp_verify_results"),
-        domoFetch("specialty_benchmarks"),
-        domoFetch("pipeline_intelligence"),
-        domoFetch("mart"),
-        domoFetch("engagement"),
+        dashboardData("access_config"),
+        dashboardData("access_examples"),
+        dashboardData("specialty_benchmarks"),
+        dashboardData("pipeline_intelligence"),
+        dashboardData("mart"),
+        dashboardData("engagement"),
       ]);
       setConfig(cfg || []);
       setChecks(chk || []);
@@ -80,9 +78,8 @@ export default function App() {
       setPipeline(pipe || []);
       setMart(m || []);
       setEngagement(eng || []);
-      setLastFetch(new Date());
     } catch (err) {
-      console.error("Failed to fetch Domo DataSets:", err);
+      console.error("Failed to load dashboard data:", err);
       setFetchError(true);
     } finally {
       setLoading(false);
@@ -91,11 +88,6 @@ export default function App() {
 
   useEffect(() => { fetchData(); }, [fetchData]);
 
-  useEffect(() => {
-    if (isDomo && window.domo?.onDataUpdate) {
-      window.domo.onDataUpdate(() => fetchData());
-    }
-  }, [fetchData]);
 
   // Each tab is its own view: reset scroll and title on switch.
   useLayoutEffect(() => {
@@ -104,7 +96,7 @@ export default function App() {
   }, [tab]);
 
   useEffect(() => {
-    if (!isDomo && !loading) window.history.replaceState(null, '', reviewSearch({ tab, specialty: selectedSpecialty, code: procedureCode, year: comparisonYear }));
+    if (!loading) window.history.replaceState(null, '', reviewSearch({ tab, specialty: selectedSpecialty, code: procedureCode, year: comparisonYear }));
   }, [tab, selectedSpecialty, procedureCode, comparisonYear, loading]);
 
   const renderPage = () => {
@@ -126,9 +118,9 @@ export default function App() {
       );
     }
     switch (tab) {
-      case "market":    return <>{!isDomo && <ReviewHandoff benchmarks={benchmarks} pipeline={pipeline} onNavigate={navigateToResult} selected={selectedSpecialty} onSelect={selectSpecialty} draft={draft} onEdit={(field, value) => dispatchReview({ type: 'edit', specialty: selectedSpecialty, field, value })} onRemove={id => dispatchReview({ type: 'remove-procedure', specialty: selectedSpecialty, id })} open={reviewOpen} onOpenChange={setReviewOpen} focusEditor={focusEditor} />}<MarketIntelligence benchmarks={benchmarks} onDrill={drillToSpecialty} /></>;
+      case "market":    return <><ReviewHandoff benchmarks={benchmarks} pipeline={pipeline} onNavigate={navigateToResult} selected={selectedSpecialty} onSelect={selectSpecialty} draft={draft} onEdit={(field, value) => dispatchReview({ type: 'edit', specialty: selectedSpecialty, field, value })} onRemove={id => dispatchReview({ type: 'remove-procedure', specialty: selectedSpecialty, id })} open={reviewOpen} onOpenChange={setReviewOpen} focusEditor={focusEditor} /><MarketIntelligence benchmarks={benchmarks} onDrill={drillToSpecialty} /></>;
       case "procedure": return <ProcedureDetail mart={mart} focusSpecialty={selectedSpecialty} onSelectSpecialty={selectSpecialty} onAddProcedure={addProcedure} onOpenBrief={openBrief} procedureCode={procedureCode} onSelectProcedure={setProcedureCode} comparisonYear={comparisonYear} onSelectYear={setComparisonYear} />;
-      case "pipeline":  return <PipelineIntelligence pipeline={pipeline} isSample={!isDomo} />;
+      case "pipeline":  return <PipelineIntelligence pipeline={pipeline} isSample={true} />;
       case "adoption":  return <AdoptionTracking engagement={engagement} config={config} />;
       case "pdp":       return <PdpGovernance config={config} checks={checks} loading={false} />;
       default:          return null;
@@ -147,12 +139,8 @@ export default function App() {
         </div>
         <div className="header-right">
           <div className="header-meta">
-            <span>{isDomo ? "Last fetched" : "Portfolio demo"}</span>
-            <span className="val">
-              {isDomo
-                ? (lastFetch ? fmt.date(lastFetch.toISOString()) : "—")
-                : (tab === 'pipeline' ? 'Static sales fixture' : 'Reimbursement CY2021–2023')}
-            </span>
+            <span>Portfolio demo</span>
+            <span className="val">{tab === 'pipeline' ? 'Static sales fixture' : 'Reimbursement CY2021–2023'}</span>
           </div>
         </div>
       </header>
@@ -166,7 +154,7 @@ export default function App() {
         id={`panel-${tab}`}
         aria-labelledby={`tab-${tab}`}
       >
-        {!isDomo && <>
+        <>
           <div className="demo-intro">
             <p>For specialty analysts supporting healthcare-software sales. Compare payment patterns and prepare questions for a sales or operations lead.</p>
             <nav aria-label="Project links">
@@ -174,14 +162,14 @@ export default function App() {
               <a href="https://github.com/kristenmartino/specialtypulse_pipeline" target="_blank" rel="noreferrer">Source ↗</a>
             </nav>
           </div>
-          <p className="demo-disclosure">Demo: synthetic CMS-schema records; 2021–2022 are generated comparison scenarios. Sales, usage and access rules are illustrative. Domo access controls are not active here.</p>
+          <p className="demo-disclosure">Demo: synthetic CMS-schema records; 2021–2022 are generated comparison scenarios. Sales, usage and access rules are illustrative. This public demo does not enforce user-specific access.</p>
           <details className="review-evaluation"><summary>Assumed business setting</summary><p>{businessSetting}</p><p>Reimbursement signals help frame discovery questions. Account conversations must establish customer needs before recommending software or prioritizing outreach.</p></details>
-        </>}
+        </>
         <div className="page-fade" key={tab}>
           {renderPage()}
         </div>
         {!loading && !fetchError && ["market", "procedure", "pipeline"].includes(tab) && (
-          <DashboardSummary benchmarks={benchmarks} mart={mart} pipeline={pipeline} onNavigate={navigateToResult} isSample={!isDomo} />
+          <DashboardSummary benchmarks={benchmarks} mart={mart} pipeline={pipeline} onNavigate={navigateToResult} isSample={true} />
         )}
 
       </main>

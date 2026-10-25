@@ -1,4 +1,5 @@
 const receipt = require('../../../../data/pipeline_run.json');
+const pipeline = require('./sourceData.json').pipeline;
 
 const numeric = value => value != null && value !== '' && Number.isFinite(Number(value));
 const numberOrNull = value => numeric(value) ? Number(value) : null;
@@ -42,9 +43,10 @@ function evidenceReferences(comparison, revision = sourceRevision) {
   const blob = path => `${repository}/blob/${revision}/${path}`;
   const years = [...new Set([comparison.priorYear, comparison.year])];
   return {
-    revision, executedAt: receipt.executed_at, martSha256: receipt.mart_csv_sha256,
-    mart: blob('data/sample_mart_reimbursement_trends.csv'),
-    receipt: blob('data/pipeline_run.json'),
+    revision, executedAt: pipeline?.executedAt || receipt.executed_at, martSha256: pipeline?.martSha256 || receipt.mart_csv_sha256,
+    engine: pipeline?.engine || receipt.runtime.engine,
+    mart: blob(pipeline?.martPath || 'data/sample_mart_reimbursement_trends.csv'),
+    receipt: blob(pipeline?.receiptPath || 'data/pipeline_run.json'),
     method: blob('docs/verification/payment-check.md'),
     reopen: comparisonUrl(comparison.specialty, comparison.code, comparison.year),
     sources: years.map(year => {
@@ -73,7 +75,7 @@ function procedureEvidenceText(item) {
     `  [Reopen live comparison](${ref.reopen})`,
     `  [Reporting mart snapshot](${ref.mart}) — filter provider_specialty=${item.specialty}, hcpcs_code=${item.code}, years=${item.priorYear},${item.year}.`,
     `  Snapshot SHA-256: ${ref.martSha256}. Repository revision: ${ref.revision}.`,
-    `  [Local Spark run receipt](${ref.receipt}) — recorded execution ${ref.executedAt}.`,
+    `  [${ref.engine || 'local Spark'} run receipt](${ref.receipt}) — recorded execution ${ref.executedAt}.`,
     ...ref.sources.map(source => source.url
       ? `  [CY${source.year} synthetic raw inputs](${source.url}) — SHA-256 ${source.sha256}. Filter provider_type=${item.specialty}, hcpcs_cd=${item.code}, tot_srvcs>=11; payment is weighted by services.`
       : `  CY${source.year} raw inputs unavailable.`),

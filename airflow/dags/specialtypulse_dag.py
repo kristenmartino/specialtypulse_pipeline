@@ -1,7 +1,7 @@
 """Annual synthetic fixture refresh; paused until external access is verified.
 
-Airflow starts the saved serverless Databricks job, then uploads its verified
-mart export to Domo. Every business value is read back before reporting success.
+Airflow starts the saved serverless Databricks job, verifies its persisted mart
+export, and selects a versioned artifact for the next React dashboard release.
 """
 import hashlib
 import os
@@ -11,7 +11,7 @@ from airflow import DAG
 from airflow.providers.standard.operators.python import PythonOperator
 from airflow.providers.databricks.operators.databricks import DatabricksRunNowOperator
 
-from deployment.airflow_tasks import notify_success, push_verified_export, validate_connections
+from deployment.airflow_tasks import notify_success, publish_verified_export, validate_connections
 
 
 def idempotency_key(value):
@@ -21,7 +21,7 @@ def idempotency_key(value):
 
 with DAG(
     dag_id="specialtypulse_annual_pipeline",
-    description="Synthetic fixtures → verified Databricks Delta mart → verified Domo DataSet",
+    description="Synthetic fixtures → Databricks Delta mart → validated React dashboard export",
     schedule="@yearly",
     start_date=datetime(2026, 1, 1, tzinfo=timezone.utc),
     catchup=False,
@@ -29,7 +29,7 @@ with DAG(
     is_paused_upon_creation=True,
     default_args={"owner": "kristen.martino", "retries": 1, "retry_delay": timedelta(minutes=2)},
     user_defined_filters={"specialtypulse_idempotency": idempotency_key},
-    tags=["specialtypulse", "synthetic", "databricks", "domo"],
+    tags=["specialtypulse", "synthetic", "databricks", "react"],
 ) as dag:
     validate = PythonOperator(task_id="validate_inputs", python_callable=validate_connections)
     pipeline = DatabricksRunNowOperator(
@@ -41,7 +41,7 @@ with DAG(
         do_xcom_push=True,
         execution_timeout=timedelta(minutes=40),
     )
-    delivery = PythonOperator(task_id="push_to_domo", python_callable=push_verified_export,
+    delivery = PythonOperator(task_id="publish_dashboard_export", python_callable=publish_verified_export,
                               execution_timeout=timedelta(minutes=10))
     complete = PythonOperator(task_id="notify_success", python_callable=notify_success)
     validate >> pipeline >> delivery >> complete

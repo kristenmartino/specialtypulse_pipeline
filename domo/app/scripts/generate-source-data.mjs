@@ -7,12 +7,11 @@
  * port in src/data/pressureIndex.js — i.e. the Index is computed by the real
  * scoring formula, not hard-coded.
  *
- * To refresh from a different mart export (e.g. a real multi-year CMS run),
- * drop the new CSV over data/sample_mart_reimbursement_trends.csv and run:
- *     npm run generate:data
+ * Airflow selects verified cloud exports with data/dashboard_release.json.
+ * The build rejects exports that differ from the pinned synthetic business values.
  */
 import { createHash } from "node:crypto";
-import { readFileSync, writeFileSync } from "node:fs";
+import { readFileSync, writeFileSync, existsSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, resolve } from "node:path";
 
@@ -70,10 +69,37 @@ const MART_NUM = [
 ];
 const SFDC_NUM = ["account_providers", "win_probability", "amount", "days_in_stage"];
 
-const mart = coerce(parseCsv(readFileSync(resolve(dataDir, "sample_mart_reimbursement_trends.csv"), "utf8")), MART_NUM);
+const baselineCsv = readFileSync(resolve(dataDir, "sample_mart_reimbursement_trends.csv"), "utf8");
+const releasePath = resolve(dataDir, "dashboard_release.json");
+const release = existsSync(releasePath) ? JSON.parse(readFileSync(releasePath, "utf8")) : null;
+const safeDataPath = relative => {
+  const path = resolve(dataDir, relative);
+  if (!path.startsWith(dataDir + "/")) throw new Error("Export path leaves the data directory");
+  return path;
+};
+const selectedCsv = release ? readFileSync(safeDataPath(release.mart), "utf8") : baselineCsv;
+const mart = coerce(parseCsv(selectedCsv), MART_NUM);
+const selectedReceipt = release ? JSON.parse(readFileSync(safeDataPath(release.receipt), "utf8")) : null;
+if (release) {
+  const sha = createHash("sha256").update(selectedCsv).digest("hex");
+  if (selectedReceipt.status !== "verified" || sha !== release.export_sha256 || sha !== selectedReceipt.export_sha256 ||
+      String(selectedReceipt.run_key) !== String(release.run_id) || selectedReceipt.source_revision !== release.source_revision ||
+      mart.length !== release.rows || mart.length !== selectedReceipt.mart_rows) throw new Error("Invalid Databricks export receipt");
+  const baseline = coerce(parseCsv(baselineCsv), MART_NUM);
+  const canonical = rows => rows.map(row => {
+    const copy = { ...row }; delete copy.mart_built_at;
+    copy.is_payment_outlier = String(copy.is_payment_outlier).toLowerCase();
+    return copy;
+  }).sort((a,b) => a.surrogate_key.localeCompare(b.surrogate_key));
+  if (JSON.stringify(canonical(mart)) !== JSON.stringify(canonical(baseline))) throw new Error("Cloud export differs from reconciled business values");
+}
 const sfdc = coerce(parseCsv(readFileSync(resolve(dataDir, "sample_sfdc_pipeline.csv"), "utf8")), SFDC_NUM);
 
-writeFileSync(outFile, JSON.stringify({ mart, sfdc }) + "\n");
+const pipeline = release ? {
+  engine: release.engine, executedAt: release.executed_at, martPath: 'data/' + release.mart,
+  receiptPath: 'data/' + release.receipt, martSha256: release.export_sha256, runId: release.run_id,
+} : null;
+writeFileSync(outFile, JSON.stringify({ mart, sfdc, pipeline }) + "\n");
 console.log(`sourceData.json written: ${mart.length} mart rows, ${sfdc.length} pipeline rows`);
 
 // Build only from the mart exported by the recorded shared Spark execution.
@@ -95,11 +121,11 @@ if (!displayed || displayed.total_services !== totalServices || Math.round(payme
 const trace = {
   source: "data/sample_2023_puf_10k.csv", source_sha256: sha256(rawFile),
   provenance: "Synthetic CMS-schema records. 2021/2022 are generated scenarios, not historical CMS releases.",
-  scope: "Raw CSV through shared local Spark ingestion, staging and mart transformations to the procedure list; Databricks, Airflow and Domo services are not exercised.",
+  scope: "Raw CSV through shared local Spark ingestion, staging and mart transformations to the procedure list; Databricks and Airflow service execution is recorded separately when a cloud release is selected.",
   filter: { provider_specialty: "Dermatology", hcpcs_code: "99213", year: 2023, minimum_services: 11 },
   source_row_count: inputs.length, payment_service_cents: paymentServiceCents,
   verification_mart_row: { provider_specialty: displayed.provider_specialty, hcpcs_code: displayed.hcpcs_code, year: displayed.year, total_services: displayed.total_services, avg_medicare_payment: displayed.avg_medicare_payment },
-  pipeline_executed_at: receipt.executed_at, engine: receipt.runtime.engine, mart_rows: receipt.mart_rows, inputs,
+  pipeline_executed_at: pipeline?.executedAt || receipt.executed_at, engine: pipeline?.engine || receipt.runtime.engine, mart_rows: mart.length, inputs,
 };
 writeFileSync(resolve(dataDir, "payment_verification.json"), JSON.stringify(trace, null, 2) + "\n");
 console.log(`Reconciled displayed payment: ${inputs.length} raw rows → ${totalServices} services → $${displayed.avg_medicare_payment.toFixed(2)}`);

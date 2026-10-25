@@ -16,13 +16,12 @@ services:
       DATABRICKS_HOST: ${DATABRICKS_HOST:-}
       DATABRICKS_TOKEN: ${DATABRICKS_TOKEN:-}
       SPECIALTYPULSE_DATABRICKS_JOB_ID: ${SPECIALTYPULSE_DATABRICKS_JOB_ID:-}
-      DOMO_CLIENT_ID: ${DOMO_CLIENT_ID:-}
-      DOMO_CLIENT_SECRET: ${DOMO_CLIENT_SECRET:-}
-      SPECIALTYPULSE_DOMO_DATASET_ID: ${SPECIALTYPULSE_DOMO_DATASET_ID:-}
+      SPECIALTYPULSE_DATA_DIR: /opt/airflow/dashboard-data
       AIRFLOW_CONN_DATABRICKS_DEFAULT: ${AIRFLOW_CONN_DATABRICKS_DEFAULT:-}
     volumes:
       - airflow-state:/opt/airflow
       - ../../airflow/dags:/opt/airflow/dags:ro
+      - ../../data:/opt/airflow/dashboard-data
       - ./receipts:/opt/airflow/receipts
     healthcheck:
       test: ["CMD", "curl", "--fail", "http://localhost:8080/api/v2/monitor/health"]

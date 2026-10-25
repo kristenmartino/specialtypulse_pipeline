@@ -1,94 +1,86 @@
-# SpecialtyPulse external deployment
+# SpecialtyPulse deployment
 
-This is the deployment path for the existing **synthetic portfolio fixtures**.
-It does not convert those fixtures into historical CMS data. The public Vercel
-dashboard continues to use its pinned build-time artifact.
+Current stack: **Databricks → Airflow-validated export → existing React dashboard**.
+Domo is archived and is not required by this workflow.
 
-## Execution status — October 25, 2026
+## Current verification status
 
-- Databricks: no authenticated workspace configured; cloud execution pending.
-- Airflow: local Docker runtime healthy, DAG imports without errors and is paused;
-  an annual schedule is defined but not enabled. End-to-end execution is pending access.
-- Domo: saved OAuth credentials return HTTP 400; live delivery verification blocked.
-- No Databricks run, Domo delivery, DataFlow, App, card or live PDP success is claimed.
+The local Airflow Docker runtime is healthy. The annual DAG loads without import
+errors and remains paused until an authenticated Databricks run can be verified.
+The local Spark baseline is verified; Databricks execution, Airflow-triggered
+cloud execution and selected cloud-export publication require separate receipts.
+An imported DAG or running UI alone does not establish a completed pipeline.
 
-## Architecture
+## Deploy Databricks
 
-`Airflow preflight → saved serverless Databricks job → Domo API upload/readback → receipt`
-
-The Databricks job reads all three pinned years, uses the unchanged shared Spark
-transformations, writes raw/staging/mart Unity Catalog Delta tables, and compares
-all 870 mart business rows against the reconciled public artifact. Delta overwrite
-replaces each table in a single table commit; the three tables are not one
-cross-table transaction. A run-specific Volume export carries its SHA-256 and
-business-content hash. Airflow only delivers an export from a successful run and
-checks its bytes before upload. Domo returns every business row for comparison.
-
-Domo delivery runs in the Airflow worker, so Databricks does not receive Domo
-credentials or require outbound access to Domo. Delivery uses a dedicated
-`specialtypulse_synthetic_mart_v1` DataSet and refuses a different name/schema.
-It does not overwrite the legacy Domo App's DataSets. A verified DataSet delivery
-still requires separate DataFlow, card, App mapping and intended-user/PDP checks
-before those integrations can be described as verified.
-
-## Databricks
-
-1. Sign in to an existing workspace, or create a Free Edition workspace through
-   https://www.databricks.com/learn/free-edition. The account owner completes any
-   signup terms and access authorization. Find the workspace URL and catalog name.
-2. Configure the Databricks SDK with authorized credentials outside the repository.
-   For this local portfolio setup it reads `DATABRICKS_HOST` and `DATABRICKS_TOKEN`.
-3. Install `databricks-sdk==0.157.0 requests==2.32.5` in an isolated Python environment.
-4. Review the plan, then apply to the selected catalog and a dedicated user path:
+Use the official CLI's OAuth login for the selected workspace:
 
 ```sh
+databricks auth login --host WORKSPACE_URL --profile SPECIALTYPULSE
+export DATABRICKS_CONFIG_PROFILE=SPECIALTYPULSE
 python -m deployment.deploy_databricks --catalog YOUR_CATALOG --workspace-root /Workspace/Users/YOUR_EMAIL/specialtypulse
-# Same command plus --apply performs the remote changes.
+# Add --apply to the same command after reviewing the plan.
 ```
 
-The script requires an existing catalog, creates dedicated schemas and a managed
-Volume, uploads fixture/module files, and creates a serverless job with no second
-schedule. No paid cluster configuration, ACL or secret scope is created. A repeat
-deployment updates only the job recorded in ignored `deployment/.state.json`.
-First run the job manually and inspect its receipt and Delta tables before
-enabling the Airflow schedule. Free Edition compute quotas still apply.
+Install `databricks-sdk==0.157.0` in an isolated Python environment. Keep credentials
+outside Git and chat. The script requires an existing catalog, creates dedicated
+schemas and a managed Volume, uploads pinned fixtures/modules, and creates one
+serverless job. No second schedule or paid classic cluster is created. Deployment
+state is saved in ignored `deployment/.state.json`.
 
-## Local Airflow
+The job uses unchanged shared Spark transformations for all three fixture years.
+Each Delta table replacement is atomic for that table; the three tables are not
+one transaction. It checks all 870 persisted mart business rows against the
+reconciled baseline and saves a run-specific export plus receipt. The data remains
+synthetic, regardless of execution platform.
+
+## Airflow
 
 ```sh
 docker compose -f deployment/airflow/compose.yaml up -d --build
 docker compose -f deployment/airflow/compose.yaml exec airflow airflow dags list-import-errors
 ```
 
-The UI is bound to http://127.0.0.1:8087. The `portfolio` admin password is generated
-by Airflow and stored in the private Docker volume. This standalone local runtime
-is for a portfolio deployment; it needs this computer and Docker running.
+The UI is bound to http://127.0.0.1:8087. This standalone local runtime requires
+this computer and Docker running. The generated `portfolio` admin password is
+stored in its private Docker volume.
 
-The DAG is created **paused**, with `@yearly`, catchup disabled and one active run.
-This is an annual fixture refresh, not a CMS release-detection sensor. Configure
-`deployment/airflow/.env` from the example, use the job ID in the deployment state,
-then recreate the container. Keep real credentials out of Git and chat. Configure
-the Databricks connection JSON as well as the SDK credentials. Preflight fails
-before compute if required settings or Domo access are missing.
+Configure the Databricks connection and job ID using the ignored
+`deployment/airflow/.env`. The token example is an optional authentication method;
+short-lived OAuth access tokens alone cannot support unattended annual execution.
+Persistent scheduling needs refresh-capable credentials accessible to the worker.
+The DAG has one active run, catchup disabled and `@yearly` (an annual fixture
+refresh, not automatic CMS release detection). Keep it paused until the complete
+manual path is verified and recurring authentication is configured.
 
-After a successful manual end-to-end run and receipt review:
+`validate_inputs → run_databricks_pipeline → publish_dashboard_export → notify_success`
 
-```sh
-docker compose -f deployment/airflow/compose.yaml exec airflow airflow dags unpause specialtypulse_annual_pipeline
-```
+The delivery task reads only a successful Databricks run's export, verifies its
+bytes and every business value, saves immutable files under
+`data/releases/databricks-RUN_ID`, and atomically changes
+`data/dashboard_release.json`. It records an Airflow receipt separately. Repeated
+publishes of the same run are idempotent; changed artifacts for an existing run
+are rejected. No Domo service, SDK, credential or DataSet is involved.
 
-Verify that the scheduler is healthy, the DAG is unpaused, its next annual run is
-listed, and the manual run contains matching Databricks and Domo receipts. An
-imported DAG or a running UI alone is not a successful pipeline or active schedule.
+## Publish the dashboard
 
-## Offline checks
+The existing Vercel project builds `domo/app` (a historical directory name). It
+uses the selected cloud export when present, otherwise the verified local Spark
+artifact. The build checks the cloud receipt, file hash, source revision, row count
+and full business values before creating browser JSON. Source/transform hashes
+for the local baseline are also checked.
 
-`python -m pytest tests/test_cloud_deployment.py -q` exercises fixture integrity,
-job specification, failed credentials, schema guards, delivery errors, missing or
-changed rows and full business-value readback using test doubles. These are code
-checks, not evidence of a Databricks or Domo service run.
+After a successful Airflow run, review and commit its selected release files,
+receipt and updated `sourceData.json`, build/test the dashboard, then publish.
+Scheduled export creation and public website publication are distinct steps.
+Downloaded briefs pin the selected export and receipt at the deployed revision.
+The public dashboard remains a synthetic-data demo with illustrative access
+assignments; no authenticated row-level access control is claimed.
 
-References: [Databricks serverless limits](https://docs.databricks.com/aws/en/getting-started/free-edition-limitations),
-[Delta overwrite semantics](https://docs.databricks.com/aws/en/delta/selective-overwrite),
-[Airflow Databricks operator](https://airflow.apache.org/docs/apache-airflow-providers-databricks/stable/operators/run_now.html),
-[Airflow local Docker guidance](https://airflow.apache.org/docs/apache-airflow/stable/howto/docker-compose/).
+## Checks
+
+`python -m pytest tests -q` checks deployment configuration, release promotion,
+wrong hashes, wrong values, incomplete receipts and immutable-run protection.
+`npm test --prefix domo/app` checks dashboard calculations and brief exports.
+CI also re-executes Spark and reproduces the full mart. Offline checks do not
+replace live Databricks execution or an observed Airflow run.

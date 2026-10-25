@@ -5,7 +5,7 @@ const TABS = [
   { id: "procedure", label: "Procedure Detail" },
   { id: "pipeline",  label: "Pipeline Intelligence" },
   { id: "adoption",  label: "Adoption Tracking" },
-  { id: "pdp",       label: "PDP Governance" },
+  { id: "pdp",       label: "Access examples" },
 ];
 
 export default function TabBar({ active, onChange }) {

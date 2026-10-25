@@ -2,7 +2,7 @@
   "source": "data/sample_2023_puf_10k.csv",
   "source_sha256": "7ce9441204f55d8a9a9273f9d21d5e862a58ece27a053054ca8d6a950b44f0e5",
   "provenance": "Synthetic CMS-schema records. 2021/2022 are generated scenarios, not historical CMS releases.",
-  "scope": "Raw CSV through shared local Spark ingestion, staging and mart transformations to the procedure list; Databricks, Airflow and Domo services are not exercised.",
+  "scope": "Raw CSV through shared local Spark ingestion, staging and mart transformations to the procedure list; Databricks and Airflow service execution is recorded separately when a cloud release is selected.",
   "filter": {
     "provider_specialty": "Dermatology",
     "hcpcs_code": "99213",
