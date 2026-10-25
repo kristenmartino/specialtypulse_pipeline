@@ -1,0 +1,34 @@
+name: specialtypulse-airflow
+services:
+  airflow:
+    build:
+      context: ../..
+      dockerfile: deployment/airflow/Dockerfile
+    image: specialtypulse-airflow:3.1.8
+    command: standalone
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8087:8080"
+    environment:
+      AIRFLOW__CORE__LOAD_EXAMPLES: "false"
+      AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: "true"
+      AIRFLOW__CORE__SIMPLE_AUTH_MANAGER_USERS: "portfolio:admin"
+      DATABRICKS_HOST: ${DATABRICKS_HOST:-}
+      DATABRICKS_TOKEN: ${DATABRICKS_TOKEN:-}
+      SPECIALTYPULSE_DATABRICKS_JOB_ID: ${SPECIALTYPULSE_DATABRICKS_JOB_ID:-}
+      DOMO_CLIENT_ID: ${DOMO_CLIENT_ID:-}
+      DOMO_CLIENT_SECRET: ${DOMO_CLIENT_SECRET:-}
+      SPECIALTYPULSE_DOMO_DATASET_ID: ${SPECIALTYPULSE_DOMO_DATASET_ID:-}
+      AIRFLOW_CONN_DATABRICKS_DEFAULT: ${AIRFLOW_CONN_DATABRICKS_DEFAULT:-}
+    volumes:
+      - airflow-state:/opt/airflow
+      - ../../airflow/dags:/opt/airflow/dags:ro
+      - ./receipts:/opt/airflow/receipts
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:8080/api/v2/monitor/health"]
+      interval: 20s
+      timeout: 10s
+      retries: 10
+      start_period: 60s
+volumes:
+  airflow-state:

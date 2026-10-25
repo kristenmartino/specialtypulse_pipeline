@@ -37,6 +37,10 @@ airflow/airflow.db
 .databricks/
 *.dbc
 
+# Deployment state, service credentials and live execution receipts
+deployment/.state.json
+deployment/airflow/receipts/
+
 # IDE
 .vscode/
 .idea/

@@ -107,3 +107,10 @@ syntax and provides no live security assurance.
 [External environment setup](docs/SETUP.md) ·
 [Metric definitions](docs/METRIC_CERTIFICATION_LOG.md) ·
 [Policy model](domo/pdp/PDP_DESIGN.md)
+
+## External deployment
+
+[Deployment runbook](deployment/README.md): serverless Databricks execution of
+the pinned synthetic fixtures, Airflow orchestration, and Domo API delivery with
+full business-row readback. Service access and live execution remain pending;
+the runbook distinguishes preparation, local runtime checks and external runs.

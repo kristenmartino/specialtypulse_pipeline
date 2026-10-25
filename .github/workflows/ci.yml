@@ -24,7 +24,7 @@ jobs:
           cache: pip
 
       - name: Install dependencies
-        run: pip install ruff pytest requests apache-airflow apache-airflow-providers-databricks aiofiles
+        run: pip install ruff pytest requests==2.32.5 apache-airflow==3.1.8 apache-airflow-providers-databricks==7.10.0 databricks-sdk==0.157.0 aiofiles
 
       - name: Lint Python files
         run: ruff check .
@@ -53,9 +53,7 @@ jobs:
           task_ids = [t.task_id for t in dag.tasks]
           print(f'Tasks: {task_ids}')
           assert 'validate_inputs' in task_ids
-          assert 'ingest_raw_cms'   in task_ids
-          assert 'run_staging'      in task_ids
-          assert 'run_marts'        in task_ids
+          assert 'run_databricks_pipeline' in task_ids
           assert 'push_to_domo'     in task_ids
           assert 'notify_success'   in task_ids
           print('DAG validation passed')

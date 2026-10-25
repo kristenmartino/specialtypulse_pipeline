@@ -1,0 +1,10 @@
+.git
+**/node_modules
+**/__pycache__
+**/.env
+**/.env.local
+**/.env.production
+**/.state.json
+deployment/airflow/receipts
+**/*.pem
+**/*.key

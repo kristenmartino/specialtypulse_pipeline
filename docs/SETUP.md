@@ -1,4 +1,7 @@
 > External integration instructions, not a record of successful execution.
+> For the current serverless job and local Airflow deployment, use the
+> [deployment runbook](../deployment/README.md). The instructions below describe
+> the older per-notebook setup and are retained as reference.
 > All bundled data is synthetic. The public dashboard uses the recorded shared local Spark
 > mart output; see [current status](PRD.md) and [data provenance](../data/README.md).
 > Notebook adapters 01–03 require pipeline_transforms.py alongside them.
