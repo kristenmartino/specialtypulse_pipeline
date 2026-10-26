@@ -23,8 +23,8 @@ export default function DashboardSummary({ benchmarks, mart, pipeline, onNavigat
           <summary>Pipeline by specialty</summary>
           <div className="matrix-scroll">
             <table className="matrix-table">
-              <thead><tr><th>Specialty</th><th>Pressure score</th><th>{isSample ? 'Open-stage ACV' : 'Active pipeline'}</th><th>Share</th></tr></thead>
-              <tbody>{facts.specialties.map(r => <tr key={r.name}><td>{r.name}</td><td>{fmt.score(r.pressure)}</td><td>{fmt.usd0(r.amount)}</td><td>{fmt.pct(r.share)}</td></tr>)}</tbody>
+              <thead><tr><th>Specialty</th><th>Pressure score</th><th>Sales coverage</th><th>{isSample ? 'Open-stage ACV' : 'Active pipeline'}</th><th>Share</th></tr></thead>
+              <tbody>{facts.specialties.map(r => <tr key={r.name}><td>{r.name}</td><td>{fmt.score(r.pressure)}</td><td>{r.coverage.hasRecords ? `${r.coverage.recordCount} supplied records` : 'No sales records supplied'}</td><td>{fmt.usd0(r.amount)}</td><td>{fmt.pct(r.share)}</td></tr>)}</tbody>
             </table>
           </div>
         </details>
