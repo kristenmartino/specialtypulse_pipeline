@@ -159,6 +159,7 @@ button:disabled { opacity: 0.6; cursor: not-allowed; }
 
 /* Tables retain their width on small screens and scroll within their section. */
 .data-table-wrap, .matrix-scroll { overflow: auto; max-height: 480px; scrollbar-width: thin; }
+.overdue-table td:nth-child(1), .overdue-table td:nth-child(5), .overdue-table td:nth-child(6), .overdue-table td:nth-child(7) { white-space: nowrap; }
 .data-table, .matrix-table { width: 100%; border-collapse: collapse; min-width: 640px; }
 .data-table th, .matrix-table th {
   position: sticky; top: 0; z-index: 2;
