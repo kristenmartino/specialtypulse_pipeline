@@ -100,7 +100,7 @@ export default function PipelineIntelligence({ pipeline, isSample = false, selec
 
       <ChartPanel title={`Overdue opportunities · ${selectedSpecialty}`} subtitle={`${review.overdue.length} open deals · invented snapshot ${salesScenarioDate}`} className="span-full">
         <p className="review-status">Synthetic opportunity records for stage and close-date review. Days overdue are measured at the scenario snapshot. Reviewing this list does not update a CRM or confirm any changes.</p>
-        {review.overdue.length ? <DataTable columns={overdueColumns} data={review.overdue} defaultSort="days_overdue" />
+        {review.overdue.length ? <DataTable columns={overdueColumns} data={review.overdue} defaultSort="days_overdue" className="overdue-table" />
           : <p>No overdue open opportunities in the supplied records for {selectedSpecialty}.</p>}
       </ChartPanel>
 
