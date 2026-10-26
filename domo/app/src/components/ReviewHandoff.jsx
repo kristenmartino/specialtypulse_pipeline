@@ -36,7 +36,7 @@ export default function ReviewHandoff({ benchmarks, pipeline, onNavigate, select
     <div className="review-start" aria-labelledby="review-start-heading">
       <div>
         <h2 id="review-start-heading">Specialty review</h2>
-        <p>Compare payments, check pipeline context, and prepare a brief.</p>
+        <p>For analysts supporting healthcare-software sales: compare reimbursement scenarios and prepare a review brief.</p>
       </div>
       <button type="button" className={open ? "exec-brief-link" : "review-start-button"} aria-controls="review-handoff" aria-expanded={open} onClick={() => { onOpenChange(!open); if (!open) setStartRequest(value => value + 1); }}>{open ? "Close brief" : "Start review →"}</button>
     </div>
