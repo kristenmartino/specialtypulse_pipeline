@@ -361,6 +361,9 @@ ul.brief-evidence { padding-left: 20px; }
 .comparison-controls { margin-bottom: 20px; }
 .comparison-controls select { min-width: 0; }
 .comparison-controls #comparison-procedure { flex: 1 1 300px; }
+@media (max-width: 700px) {
+  .comparison-controls #comparison-procedure { flex: initial; }
+}
 .comparison-heading { color: var(--ice); font-size: 16px; margin-bottom: 14px; }
 .procedure-evidence { color: var(--muted); font-size: 13px; line-height: 1.6; margin: 12px 0 20px; }
 .procedure-evidence p { margin: 14px 0; }
