@@ -2,9 +2,27 @@
 import hashlib
 import json
 import os
+from datetime import timedelta
 from pathlib import Path
 
 from deployment.export_release import publish_export
+
+
+def execute_databricks(client, job_id, idempotency_key, record_run):
+    """Use SDK unified auth so the official CLI can refresh user OAuth securely."""
+    waiting = client.jobs.run_now(job_id=job_id, idempotency_token=idempotency_key)
+    record_run(waiting.run_id)
+    waiting.result(timeout=timedelta(minutes=35))
+    return waiting.run_id
+
+
+def run_databricks_pipeline(ti, run_id, dag, **context):
+    from databricks.sdk import WorkspaceClient
+    key = hashlib.sha256(f"{dag.dag_id}:{run_id}".encode()).hexdigest()
+    return execute_databricks(
+        WorkspaceClient(), int(os.environ["SPECIALTYPULSE_DATABRICKS_JOB_ID"]), key,
+        lambda value: ti.xcom_push(key="run_id", value=value),
+    )
 
 
 def validate_connections():
@@ -26,7 +44,9 @@ def publish_verified_export(ti, run_id, **context):
     client = WorkspaceClient()
     parent_id = int(ti.xcom_pull(task_ids="run_databricks_pipeline", key="run_id"))
     run = client.jobs.get_run(parent_id)
-    if run.state.result_state != RunResultState.SUCCESS or not run.tasks or len(run.tasks) != 1:
+    if (run.job_id != int(os.environ["SPECIALTYPULSE_DATABRICKS_JOB_ID"]) or
+        run.state.result_state != RunResultState.SUCCESS or not run.tasks or len(run.tasks) != 1 or
+        run.tasks[0].task_key != "build_and_verify_delta"):
         raise ValueError("Databricks run is not a successful single-task pipeline")
     output = client.jobs.get_run_output(run.tasks[0].run_id)
     if not output.notebook_output or output.notebook_output.truncated:

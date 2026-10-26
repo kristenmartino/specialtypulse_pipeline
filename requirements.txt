@@ -11,7 +11,7 @@ requests==2.32.5
 
 # --- Airflow (install separately via Astro CLI or pip) ---
 # apache-airflow is managed by the Astro CLI runtime
-# apache-airflow-providers-databricks is installed in the Astro Dockerfile
+# Airflow tasks call the Databricks SDK with unified authentication
 
 # --- Data generation (development only) ---
 # No additional dependencies — uses Python stdlib (csv, random, hashlib)

@@ -3,13 +3,22 @@
 Current stack: **Databricks → Airflow-validated export → existing React dashboard**.
 Domo is archived and is not required by this workflow.
 
-## Current verification status
+## Verified October 26, 2026
 
-The local Airflow Docker runtime is healthy. The annual DAG loads without import
-errors and remains paused until an authenticated Databricks run can be verified.
-The local Spark baseline is verified; Databricks execution, Airflow-triggered
-cloud execution and selected cloud-export publication require separate receipts.
-An imported DAG or running UI alone does not establish a completed pipeline.
+Databricks Spark 4.2.0 processed 29,982 raw records into 870 persisted Delta mart
+rows matching every reconciled business value. Airflow 3.1.8 completed the first
+scheduled refresh and a separate clean manual run; all four clean-run tasks
+passed on first attempts. [Execution evidence](../data/deployment_verification.json)
+records receipts, task states, setup corrections and the selected export.
+
+The annual UTC schedule is enabled. Its next run is January 1, 2027 at 00:00 UTC
+(December 31, 2026 at 7 p.m. America/New_York). Airflow is a local macOS user
+service: the Mac must be awake, the user signed in and OAuth access valid. The
+Docker instance is stopped. This is not a managed cloud Airflow deployment.
+
+The selected Databricks export is checked again at React build time. A scheduled
+export does not automatically publish a website; publication remains an explicit
+release step. All data remains synthetic and human validation remains pending.
 
 ## Deploy Databricks
 
@@ -34,33 +43,46 @@ one transaction. It checks all 870 persisted mart business rows against the
 reconciled baseline and saves a run-specific export plus receipt. The data remains
 synthetic, regardless of execution platform.
 
-## Airflow
+## Airflow with secure CLI OAuth on macOS
+
+The current local deployment runs Airflow as a macOS user service. All four
+Airflow tasks use the Databricks SDK's unified authentication; the official CLI
+refreshes the existing user OAuth credentials from macOS secure storage. No
+OAuth token is copied into the repository, a Docker image or the service plist.
+
+Create an isolated environment alongside this checkout:
 
 ```sh
-docker compose -f deployment/airflow/compose.yaml up -d --build
-docker compose -f deployment/airflow/compose.yaml exec airflow airflow dags list-import-errors
+uv venv --python 3.11 /PATH/TO/RUNTIME/airflow-venv
+uv pip install --python /PATH/TO/RUNTIME/airflow-venv/bin/python -r deployment/airflow/requirements-host.txt
+python -m deployment.local_airflow --root /PATH/TO/RUNTIME --host WORKSPACE_URL --job-id JOB_ID
+# Add --apply to install the reviewed user service.
 ```
 
-The UI is bound to http://127.0.0.1:8087. This standalone local runtime requires
-this computer and Docker running. The generated `portfolio` admin password is
-stored in its private Docker volume.
+Loopback-only proxy exclusions avoid macOS system-preference discovery inside
+forked task workers. The installer refuses enabled system proxies until an
+explicit service proxy is configured; TLS verification remains enabled.
 
-Configure the Databricks connection and job ID using the ignored
-`deployment/airflow/.env`. The token example is an optional authentication method;
-short-lived OAuth access tokens alone cannot support unattended annual execution.
-Persistent scheduling needs refresh-capable credentials accessible to the worker.
-The DAG has one active run, catchup disabled and `@yearly` (an annual fixture
-refresh, not automatic CMS release detection). Keep it paused until the complete
-manual path is verified and recurring authentication is configured.
+The installer generates a user LaunchAgent and binds the UI/task API to loopback
+at http://127.0.0.1:8087. It starts at user login and restarts on failure. This is a
+local portfolio runtime: the Mac must be awake, the user signed in, and OAuth
+access valid. It is not managed cloud Airflow. The old Docker runtime is stopped
+to prevent duplicate schedulers; its optional configuration remains available.
 
 `validate_inputs → run_databricks_pipeline → publish_dashboard_export → notify_success`
 
-The delivery task reads only a successful Databricks run's export, verifies its
-bytes and every business value, saves immutable files under
+The SDK submission records the external run ID before waiting and uses a stable
+idempotency token per Airflow run, so a retry reconnects to the same external job.
+Delivery accepts only a successful run of the configured job and task. It checks
+export bytes and every business value, saves immutable files under
 `data/releases/databricks-RUN_ID`, and atomically changes
-`data/dashboard_release.json`. It records an Airflow receipt separately. Repeated
-publishes of the same run are idempotent; changed artifacts for an existing run
-are rejected. No Domo service, SDK, credential or DataSet is involved.
+`data/dashboard_release.json`. Airflow records its own receipt separately.
+
+New DAG installations start paused, with one active run, catchup disabled and `@yearly` (an
+annual fixture refresh, not CMS release detection). Verify a manual full-chain
+run and refresh-capable worker authentication before enabling the schedule. A
+first scheduled run can fire on initial enablement; its logical date is not the
+actual execution date. Read the run's timestamps and the next-run creation time.
 
 ## Publish the dashboard
 

@@ -10,7 +10,8 @@ from deployment.deploy_databricks import plan
 from deployment.export_release import publish_export
 import hashlib
 import json
-from deployment.airflow_tasks import validate_connections
+from deployment.airflow_tasks import execute_databricks, run_databricks_pipeline, validate_connections
+from types import SimpleNamespace
 
 ROOT = Path(__file__).resolve().parents[1]
 MART = (ROOT / "data/sample_mart_reimbursement_trends.csv").read_text()
@@ -119,3 +120,52 @@ def test_prior_run_artifacts_cannot_be_overwritten(tmp_path):
     receipt["source_revision"] = "different"
     with pytest.raises(ValueError, match="Refusing"):
         publish_export(tmp_path, MART, receipt)
+
+
+@pytest.mark.parametrize("failure", [False, True])
+def test_sdk_run_records_id_before_wait_and_propagates_cloud_failure(failure):
+    events = []
+
+    def wait(**kwargs):
+        events.append("wait")
+        if failure:
+            raise RuntimeError("cloud job failed")
+
+    def submit(**kwargs):
+        events.append(kwargs)
+        return SimpleNamespace(run_id=123, result=wait)
+
+    client = SimpleNamespace(jobs=SimpleNamespace(run_now=submit))
+    def call():
+        return execute_databricks(client, 456, "stable-key", lambda value: events.append(value))
+    if failure:
+        with pytest.raises(RuntimeError, match="cloud job failed"):
+            call()
+    else:
+        assert call() == 123
+    assert events == [{"job_id": 456, "idempotency_token": "stable-key"}, 123, "wait"]
+
+
+def test_airflow_retry_reuses_same_external_idempotency_key(monkeypatch):
+    import databricks.sdk
+    keys = []
+    ti = SimpleNamespace(xcom_push=lambda **kwargs: None)
+    waiting = SimpleNamespace(run_id=123, result=lambda **kwargs: None)
+    client = SimpleNamespace(jobs=SimpleNamespace(run_now=lambda **kwargs: keys.append(kwargs) or waiting))
+    monkeypatch.setattr(databricks.sdk, "WorkspaceClient", lambda: client)
+    monkeypatch.setenv("SPECIALTYPULSE_DATABRICKS_JOB_ID", "456")
+    for run_id in ["same-run", "same-run", "next-run"]:
+        run_databricks_pipeline(ti, run_id, SimpleNamespace(dag_id="test-dag"))
+    assert keys[0]["idempotency_token"] == keys[1]["idempotency_token"]
+    assert keys[1]["idempotency_token"] != keys[2]["idempotency_token"]
+
+
+def test_local_service_keeps_auth_in_cli_and_uses_same_task_api_port(tmp_path):
+    from deployment.local_airflow import service_config
+    config = service_config(tmp_path, tmp_path / "repo", "https://example.cloud.databricks.com", "test-profile", 123, 8087)
+    env = config["EnvironmentVariables"]
+    assert env["DATABRICKS_CONFIG_PROFILE"] == "test-profile"
+    assert "DATABRICKS_TOKEN" not in env
+    assert env["AIRFLOW__CORE__EXECUTION_API_SERVER_URL"] == env["AIRFLOW__API__BASE_URL"] + "/execution/"
+    assert env["AIRFLOW__API__HOST"] == "127.0.0.1"
+    assert env["NO_PROXY"] == "127.0.0.1,localhost"

@@ -18,8 +18,9 @@
     "total_services": 3777,
     "avg_medicare_payment": 104.91
   },
-  "pipeline_executed_at": "2026-10-24T16:33:01.946977+00:00",
-  "engine": "local Apache Spark",
+  "pipeline_executed_at": "2026-10-26T18:12:25.096111+00:00",
+  "engine": "Databricks Spark / Unity Catalog Delta",
+  "pipeline_receipt_path": "data/releases/databricks-527988765998273/receipt.json",
   "mart_rows": 870,
   "inputs": [
     {
