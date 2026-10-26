@@ -55,20 +55,28 @@ The facts come from the selected specialty's latest benchmark and active
 synthetic deals; closed-won and closed-lost deals are excluded from active exposure.
 For this demo, amount is assumed annual contract value (ACV) in USD. These are
 unweighted opportunity amounts; closed-won ACV is not recognized revenue or a
-forecast. The invented scenario snapshot is August 31, 2026. The source capture
-date was not recorded. Stages are shown as supplied; all 500 rows are included
+forecast. The constructed scenario snapshot is March 31, 2026. Dates and stages
+are consistent with that scenario, not captured or reconstructed CRM history.
+All 500 rows are included
 without a period filter. Created dates span September 2, 2025–February 24, 2026;
 close dates span October 11, 2025–August 14, 2026.
 
-At that snapshot, all **472 open opportunities / $40,178,200 assumed USD ACV**
-have close dates before August 31: **100% of open deals, 17–324 days overdue**.
-The open-stage total includes this backlog. Overdue means an open opportunity's
+At that snapshot, **278 of 472 open opportunities are overdue**, totaling
+**$23,546,900 assumed USD ACV** and **1–171 days overdue**. Another **194 open
+opportunities / $16,631,300** are not yet overdue. The full open-stage total remains
+**$40,178,200** and includes both groups. Overdue means an open opportunity's
 valid close date is strictly before the scenario date; closed stages are excluded,
 and missing/invalid dates are reported separately. The dashboard and downloaded
 brief calculate these facts from the fixture, including specialty-specific totals.
 First sales follow-up: reconcile stages and close dates with sales operations
 before planning. Record confirmed changes; overdue dates alone do not close or
 remove opportunities. No actual CRM updates or sales review are claimed.
+
+The [scenario record](../data/sales_scenario.json) pins the source hash and
+deterministic date adjustments. It preserves IDs, stages, amounts and open-deal
+dates, moves 12 future closed-stage dates before the snapshot, and aligns closed
+stage ages. Builds reject impossible temporal relationships. The historical AI
+comparison remains pinned to its original August 31 scenario and source revision.
 
 
 The example begins with the highest score in the constructed scenario. That is
@@ -112,7 +120,7 @@ Open Dermatology / HCPCS 99213 / CY2023 and choose **Add comparison to brief**.
 - Open question: Which source rows and service mix explain this constructed change?
 - Next reviewers: Sales operations lead for stage/date review; specialty analyst for calculation review.
 - Requested check: first reconcile the 53 Dermatology open opportunities and their past-due close dates with sales operations, then match Dermatology / 99213 in the pinned 2022/2023 inputs and mart; reproduce weighted payments and service counts, then record unresolved data or interpretation issues for the sales or operations lead.
-- Context: scenario score 66.6; 53 synthetic open deals worth $4,579,800 assumed USD ACV (11.4% of open-stage pipeline). All 53 are overdue at the scenario snapshot. These remain in the open-stage total pending review; the amount is separate from the procedure comparison and score.
+- Context: scenario score 66.6; 53 synthetic open deals worth $4,579,800 assumed USD ACV (11.4% of open-stage pipeline). At the March 31 scenario snapshot, 25 are overdue by 5–138 days ($2,121,500); 28 are not yet overdue. Both groups remain in the open-stage total pending review. The amount is separate from the procedure comparison and score.
 - Status: illustrative draft; source/account validation remains pending. Downloading sends or assigns nothing.
 
 ## Proposed handoff responsibilities

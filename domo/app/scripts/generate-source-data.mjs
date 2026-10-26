@@ -14,6 +14,7 @@ import { createHash } from "node:crypto";
 import { readFileSync, writeFileSync, existsSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, resolve } from "node:path";
+import salesScenarioChecks from '../src/data/salesScenario.js';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const dataDir = resolve(here, "../../../data");
@@ -93,13 +94,17 @@ if (release) {
   }).sort((a,b) => a.surrogate_key.localeCompare(b.surrogate_key));
   if (JSON.stringify(canonical(mart)) !== JSON.stringify(canonical(baseline))) throw new Error("Cloud export differs from reconciled business values");
 }
-const sfdc = coerce(parseCsv(readFileSync(resolve(dataDir, "sample_sfdc_pipeline.csv"), "utf8")), SFDC_NUM);
+const salesCsv = readFileSync(resolve(dataDir, "sample_sfdc_pipeline.csv"), "utf8");
+const sfdc = coerce(parseCsv(salesCsv), SFDC_NUM);
+const salesScenario = JSON.parse(readFileSync(resolve(dataDir, "sales_scenario.json"), "utf8"));
+if (createHash('sha256').update(salesCsv).digest('hex') !== salesScenario.fixture_sha256) throw new Error('Sales fixture differs from its scenario record');
+salesScenarioChecks.validateSalesScenario(sfdc, salesScenario);
 
 const pipeline = release ? {
   engine: release.engine, executedAt: release.executed_at, martPath: 'data/' + release.mart,
   receiptPath: 'data/' + release.receipt, martSha256: release.export_sha256, runId: release.run_id,
 } : null;
-writeFileSync(outFile, JSON.stringify({ mart, sfdc, pipeline }) + "\n");
+writeFileSync(outFile, JSON.stringify({ mart, sfdc, pipeline, salesScenario }) + "\n");
 console.log(`sourceData.json written: ${mart.length} mart rows, ${sfdc.length} pipeline rows`);
 
 // Build only from the mart exported by the recorded shared Spark execution.

@@ -9,11 +9,11 @@ test('Dermatology review list and totals reconcile to its brief rather than all 
   const review = buildPipelineReview(source.sfdc, 'Dermatology', salesScenarioDate);
   assert.equal(review.open.length, 53);
   assert.equal(review.hygiene.openAmount, 4579800);
-  assert.equal(review.overdue.length, 53);
-  assert.equal(review.overdue.reduce((sum, row) => sum + row.amount, 0), 4579800);
+  assert.equal(review.overdue.length, 25);
+  assert.equal(review.overdue.reduce((sum, row) => sum + row.amount, 0), 2121500);
   assert.ok(review.overdue.every(row => row.account_specialty === 'Dermatology'));
-  assert.equal(Math.min(...review.overdue.map(row => row.days_overdue)), 25);
-  assert.equal(Math.max(...review.overdue.map(row => row.days_overdue)), 291);
+  assert.equal(Math.min(...review.overdue.map(row => row.days_overdue)), 5);
+  assert.equal(Math.max(...review.overdue.map(row => row.days_overdue)), 138);
   const ownerCounts = new Map();
   review.open.forEach(row => ownerCounts.set(row.owner, (ownerCounts.get(row.owner) || 0) + 1));
   assert.equal([...ownerCounts.values()].reduce((a, b) => a + b, 0), 53);

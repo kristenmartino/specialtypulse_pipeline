@@ -62,8 +62,13 @@ the source fixture supplied no contract-value definition. Active pipeline sums
 unweighted amounts for stages other than Closed Won and Closed Lost. Closed-won
 ACV is a separate stage total, not recognized revenue, cash collected or a forecast.
 
-The **invented scenario snapshot is August 31, 2026**. The source capture date was
-not recorded, and stages remain as supplied. The view includes all 500 fixture
+The **constructed scenario snapshot is March 31, 2026**; it is not captured or
+reconstructed CRM history. All creation dates are on or before the snapshot.
+Closed-stage close dates represent completion within the scenario and cannot be
+in the future; open-stage dates are expected. Closed-stage ages equal elapsed
+days since close, and no stage age exceeds opportunity age. The build enforces
+these rules and the fixture hash in [the scenario record](../data/sales_scenario.json).
+The view includes all 500 fixture
 opportunities without a reporting-period filter: created dates September 2, 2025
 to February 24, 2026; close dates October 11, 2025 to August 14, 2026. The sales
 scenario date is separate from reimbursement CY2021–2023.
@@ -71,10 +76,16 @@ scenario date is separate from reimbursement CY2021–2023.
 Overdue open opportunities have a valid close date strictly before the scenario
 snapshot. The calculation excludes Closed Won and Closed Lost, uses UTC calendar
 days, and reports missing or invalid close dates separately. Amounts sum in integer
-cents; an invalid amount leaves the affected aggregate unavailable. At August 31,
-all 472 open opportunities / $40,178,200 assumed ACV are overdue by 17–324 days.
-This balance remains inside the open-stage total and must be reconciled with sales
+cents; an invalid amount leaves the affected aggregate unavailable. At March 31,
+278 of 472 open opportunities are overdue by 1–171 days: $23,546,900 of the
+$40,178,200 assumed open-stage ACV. Another 194 open opportunities ($16,631,300)
+are not yet overdue. Both groups remain inside the open-stage total and must be reconciled with sales
 operations before planning. No date, stage or opportunity is changed automatically.
+
+The committed fixture was deliberately revised for this March scenario: only 12
+closed-stage close dates and 16 other closed-stage ages changed. IDs, amounts,
+stages and open-deal dates are preserved. Historical AI-study artifacts retain
+the original August 31 scenario at source revision d628a13592a5d0f5cc0ca93f6cce5f0c265258ca.
 
 
 ## Validation required for operational use

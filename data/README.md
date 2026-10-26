@@ -38,13 +38,22 @@ fixture assigns one ID per record, so correcting the rollup leaves its scores un
 For the demo, `amount` is assumed annual contract value (ACV) in USD for software
 subscriptions. The original fixture did not define that basis. Active totals are
 unweighted and exclude Closed Won and Closed Lost; won ACV is not recognized revenue.
-The invented scenario snapshot is August 31, 2026. The source capture date was not
-recorded; stages remain as supplied. All 500 opportunities are included without a
-period filter. Created dates run September 2, 2025–February 24, 2026; close dates
-run October 11, 2025–August 14, 2026. These dates are separate from the reimbursement years.
-At the scenario snapshot, all 472 open opportunities ($40,178,200 assumed ACV)
-are overdue by 17–324 days. The app flags that backlog and requests stage/close-date
-review before planning; totals continue to include the supplied open records.
+The constructed scenario snapshot is March 31, 2026, not a captured or reconstructed
+CRM history. All 500 opportunities were created by that date. Closed-stage dates
+represent completion within the synthetic scenario and cannot fall after the
+snapshot; open-stage dates are expected and can fall before or after it. All rows
+are included without a period filter. Created dates run September 2, 2025–February
+24, 2026; close dates run October 11, 2025–August 14, 2026, separately from reimbursement years.
+The 472 open opportunities total $40,178,200 assumed ACV: 278 are overdue by
+1–171 days ($23,546,900), and 194 are not yet overdue ($16,631,300). Both groups
+remain in the open-stage total pending review.
+
+[sales_scenario.json](sales_scenario.json) records the fixture hash and deterministic
+adjustments: move 12 future closed-stage dates to the snapshot minus their supplied
+stage age, and align the other 16 closed-stage ages with their existing close dates.
+IDs, stages, amounts and open-deal dates are unchanged. Build checks enforce these
+temporal relationships. The AI comparison remains tied to its original August 31
+scenario and the immutable CSV at revision d628a13592a5d0f5cc0ca93f6cce5f0c265258ca.
 
 
 ## Verified path

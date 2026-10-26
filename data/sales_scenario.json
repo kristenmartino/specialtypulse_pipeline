@@ -1,0 +1,324 @@
+{
+  "scenario_date": "2026-03-31",
+  "synthetic": true,
+  "fixture_path": "data/sample_sfdc_pipeline.csv",
+  "fixture_sha256": "ce346bc5f8791af1a78831622a312fc5879e19181f6d36bb40c760a02177a4d0",
+  "basis": "Constructed sales scenario, not a captured or reconstructed CRM history. close_date is an actual close date for closed stages and an expected close date for open stages.",
+  "adjustment_policy": "Preserve IDs, amounts, stages and all open-deal dates. For closed rows after the scenario date, set close_date to scenario_date minus the supplied days_in_stage. For every closed row, set days_in_stage to scenario_date minus close_date.",
+  "adjustments": [
+    {
+      "opportunity_id": "006808989455",
+      "before": {
+        "close_date": "2026-04-10",
+        "days_in_stage": "26"
+      },
+      "after": {
+        "close_date": "2026-03-05",
+        "days_in_stage": "26"
+      }
+    },
+    {
+      "opportunity_id": "006762911649",
+      "before": {
+        "close_date": "2026-02-14",
+        "days_in_stage": "41"
+      },
+      "after": {
+        "close_date": "2026-02-14",
+        "days_in_stage": "45"
+      }
+    },
+    {
+      "opportunity_id": "006565965351",
+      "before": {
+        "close_date": "2026-07-18",
+        "days_in_stage": "22"
+      },
+      "after": {
+        "close_date": "2026-03-09",
+        "days_in_stage": "22"
+      }
+    },
+    {
+      "opportunity_id": "006785226551",
+      "before": {
+        "close_date": "2026-03-29",
+        "days_in_stage": "13"
+      },
+      "after": {
+        "close_date": "2026-03-29",
+        "days_in_stage": "2"
+      }
+    },
+    {
+      "opportunity_id": "006159899555",
+      "before": {
+        "close_date": "2026-03-11",
+        "days_in_stage": "15"
+      },
+      "after": {
+        "close_date": "2026-03-11",
+        "days_in_stage": "20"
+      }
+    },
+    {
+      "opportunity_id": "006719006200",
+      "before": {
+        "close_date": "2026-04-04",
+        "days_in_stage": "32"
+      },
+      "after": {
+        "close_date": "2026-02-27",
+        "days_in_stage": "32"
+      }
+    },
+    {
+      "opportunity_id": "006368445544",
+      "before": {
+        "close_date": "2026-01-07",
+        "days_in_stage": "23"
+      },
+      "after": {
+        "close_date": "2026-01-07",
+        "days_in_stage": "83"
+      }
+    },
+    {
+      "opportunity_id": "006874530633",
+      "before": {
+        "close_date": "2025-12-11",
+        "days_in_stage": "1"
+      },
+      "after": {
+        "close_date": "2025-12-11",
+        "days_in_stage": "110"
+      }
+    },
+    {
+      "opportunity_id": "006937489574",
+      "before": {
+        "close_date": "2026-05-02",
+        "days_in_stage": "6"
+      },
+      "after": {
+        "close_date": "2026-03-25",
+        "days_in_stage": "6"
+      }
+    },
+    {
+      "opportunity_id": "006215053393",
+      "before": {
+        "close_date": "2026-04-29",
+        "days_in_stage": "42"
+      },
+      "after": {
+        "close_date": "2026-02-17",
+        "days_in_stage": "42"
+      }
+    },
+    {
+      "opportunity_id": "006785932156",
+      "before": {
+        "close_date": "2026-02-25",
+        "days_in_stage": "31"
+      },
+      "after": {
+        "close_date": "2026-02-25",
+        "days_in_stage": "34"
+      }
+    },
+    {
+      "opportunity_id": "006519069112",
+      "before": {
+        "close_date": "2025-12-20",
+        "days_in_stage": "44"
+      },
+      "after": {
+        "close_date": "2025-12-20",
+        "days_in_stage": "101"
+      }
+    },
+    {
+      "opportunity_id": "006905572903",
+      "before": {
+        "close_date": "2026-02-08",
+        "days_in_stage": "30"
+      },
+      "after": {
+        "close_date": "2026-02-08",
+        "days_in_stage": "51"
+      }
+    },
+    {
+      "opportunity_id": "006758108692",
+      "before": {
+        "close_date": "2026-06-21",
+        "days_in_stage": "32"
+      },
+      "after": {
+        "close_date": "2026-02-27",
+        "days_in_stage": "32"
+      }
+    },
+    {
+      "opportunity_id": "006825849485",
+      "before": {
+        "close_date": "2026-04-23",
+        "days_in_stage": "29"
+      },
+      "after": {
+        "close_date": "2026-03-02",
+        "days_in_stage": "29"
+      }
+    },
+    {
+      "opportunity_id": "006425192408",
+      "before": {
+        "close_date": "2026-03-15",
+        "days_in_stage": "28"
+      },
+      "after": {
+        "close_date": "2026-03-15",
+        "days_in_stage": "16"
+      }
+    },
+    {
+      "opportunity_id": "006299324226",
+      "before": {
+        "close_date": "2026-03-04",
+        "days_in_stage": "44"
+      },
+      "after": {
+        "close_date": "2026-03-04",
+        "days_in_stage": "27"
+      }
+    },
+    {
+      "opportunity_id": "006941855729",
+      "before": {
+        "close_date": "2026-07-26",
+        "days_in_stage": "1"
+      },
+      "after": {
+        "close_date": "2026-03-30",
+        "days_in_stage": "1"
+      }
+    },
+    {
+      "opportunity_id": "006646510280",
+      "before": {
+        "close_date": "2026-03-14",
+        "days_in_stage": "6"
+      },
+      "after": {
+        "close_date": "2026-03-14",
+        "days_in_stage": "17"
+      }
+    },
+    {
+      "opportunity_id": "006564768104",
+      "before": {
+        "close_date": "2026-05-28",
+        "days_in_stage": "19"
+      },
+      "after": {
+        "close_date": "2026-03-12",
+        "days_in_stage": "19"
+      }
+    },
+    {
+      "opportunity_id": "006329083917",
+      "before": {
+        "close_date": "2026-01-29",
+        "days_in_stage": "23"
+      },
+      "after": {
+        "close_date": "2026-01-29",
+        "days_in_stage": "61"
+      }
+    },
+    {
+      "opportunity_id": "006412618886",
+      "before": {
+        "close_date": "2026-02-09",
+        "days_in_stage": "21"
+      },
+      "after": {
+        "close_date": "2026-02-09",
+        "days_in_stage": "50"
+      }
+    },
+    {
+      "opportunity_id": "006462348456",
+      "before": {
+        "close_date": "2025-12-20",
+        "days_in_stage": "29"
+      },
+      "after": {
+        "close_date": "2025-12-20",
+        "days_in_stage": "101"
+      }
+    },
+    {
+      "opportunity_id": "006960139242",
+      "before": {
+        "close_date": "2026-04-05",
+        "days_in_stage": "31"
+      },
+      "after": {
+        "close_date": "2026-02-28",
+        "days_in_stage": "31"
+      }
+    },
+    {
+      "opportunity_id": "006670290324",
+      "before": {
+        "close_date": "2026-04-30",
+        "days_in_stage": "20"
+      },
+      "after": {
+        "close_date": "2026-03-11",
+        "days_in_stage": "20"
+      }
+    },
+    {
+      "opportunity_id": "006468708340",
+      "before": {
+        "close_date": "2026-05-01",
+        "days_in_stage": "10"
+      },
+      "after": {
+        "close_date": "2026-03-21",
+        "days_in_stage": "10"
+      }
+    },
+    {
+      "opportunity_id": "006307616914",
+      "before": {
+        "close_date": "2026-01-29",
+        "days_in_stage": "1"
+      },
+      "after": {
+        "close_date": "2026-01-29",
+        "days_in_stage": "61"
+      }
+    },
+    {
+      "opportunity_id": "006206409047",
+      "before": {
+        "close_date": "2026-03-24",
+        "days_in_stage": "12"
+      },
+      "after": {
+        "close_date": "2026-03-24",
+        "days_in_stage": "7"
+      }
+    }
+  ],
+  "historical_ai_study": {
+    "scenario_date": "2026-08-31",
+    "source_revision": "d628a13592a5d0f5cc0ca93f6cce5f0c265258ca",
+    "sales_fixture_sha256": "d882b3f8a3b08649cc89db5ab76f240e58c13bd8850ca83c0088a8a4c3d0fa49",
+    "note": "Historical AI comparison remains tied to its original fixture and scenario; these adjustments are not a rerun of that comparison."
+  }
+}
