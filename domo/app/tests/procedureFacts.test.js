@@ -67,6 +67,9 @@ test('download preserves both years, edits, immutable artifact links, hashes and
   const comparison = buildProcedureComparison(source.mart, 'Dermatology', '99213', 2023);
   const revision = '1234567890abcdef1234567890abcdef12345678';
   const references = evidenceReferences(comparison, revision);
+  assert.equal(references.engine, source.pipeline.engine);
+  assert.equal(references.executedAt, source.pipeline.executedAt);
+  assert.ok(references.receipt.endsWith(source.pipeline.receiptPath));
   assert.ok(references.mart.includes(`/blob/${revision}/${source.pipeline?.martPath || "data/sample_mart_reimbursement_trends.csv"}`));
   assert.equal(references.sources.length, 2);
   assert.ok(references.sources.every(item => item.sha256.length === 64));
