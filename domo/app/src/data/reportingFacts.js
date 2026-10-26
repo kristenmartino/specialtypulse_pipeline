@@ -1,4 +1,5 @@
 // Shared facts used by callouts, summaries and regression checks.
+const { salesCoverage, missingSalesText } = require('./salesContext');
 const numeric = (value) => value != null && value !== "" && Number.isFinite(Number(value));
 const isFlagged = (row) => String(row.is_payment_outlier) === "true";
 const activePipeline = (rows) => rows.filter(r => r.stage !== "Closed Won" && r.stage !== "Closed Lost");
@@ -24,10 +25,12 @@ function buildBriefFacts(benchmarks, mart, pipeline) {
   const names = new Set([...market.rows.map(r => r.provider_specialty), ...active.map(r => r.account_specialty)]);
   const specialties = [...names].sort().map(name => {
     const benchmark = market.rows.find(r => r.provider_specialty === name);
+    const coverage = salesCoverage(pipeline, name);
     const deals = active.filter(r => r.account_specialty === name);
     const amount = deals.reduce((s, r) => s + (numeric(r.amount) ? Number(r.amount) : 0), 0);
     return { name, pressure: numeric(benchmark?.pressure_index) ? Number(benchmark.pressure_index) : null,
-      amount, deals: deals.length, share: total > 0 ? amount / total : null };
+      coverage, amount: coverage.hasRecords ? amount : null, deals: coverage.hasRecords ? deals.length : null,
+      share: coverage.hasRecords && total > 0 ? amount / total : null };
   });
   const top = [...specialties].filter(r => r.pressure != null).sort((a, b) => b.pressure - a.pressure)[0] || null;
   const cut = [...market.rows].filter(r => numeric(r.avg_yoy_payment_change) && Number(r.avg_yoy_payment_change) < 0)
@@ -37,7 +40,7 @@ function buildBriefFacts(benchmarks, mart, pipeline) {
   const focuses = [];
   if (top) {
     evidence.push({ id: "pressure", text: `${top.name} has the highest pressure score (${top.pressure.toFixed(1)}/100).` });
-    evidence.push({ id: "pipeline", text: `${top.name} has $${top.amount.toLocaleString("en-US")} in open-stage pipeline across ${top.deals} deals${top.share == null ? "" : ` (${(top.share * 100).toFixed(1)}% of the open-stage total)`}.` });
+    evidence.push({ id: "pipeline", text: top.coverage.hasRecords ? `${top.name} has $${top.amount.toLocaleString("en-US")} in open-stage pipeline across ${top.deals} deals${top.share == null ? "" : ` (${(top.share * 100).toFixed(1)}% of the open-stage total)`}.` : missingSalesText(top.name) });
     focuses.push({ id: "compare-coverage", title: "Compare pipeline by specialty",
       text: "Compare open-stage amounts and pressure scores by specialty.", target: "pipeline", specialty: top.name, evidenceIds: ["pressure", "pipeline"] });
   }

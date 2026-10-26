@@ -2,6 +2,16 @@ const source = require('./sourceData.json');
 const salesScenarioDate = '2026-08-31';
 const sourceRevision = typeof __SP_SOURCE_REVISION__ === 'string' ? __SP_SOURCE_REVISION__ : 'main';
 
+function salesCoverage(rows, specialty) {
+  const recordCount = rows.filter(row => row.account_specialty === specialty).length;
+  return { recordCount, hasRecords: recordCount > 0,
+    specialtyCount: new Set(rows.map(row => row.account_specialty).filter(Boolean)).size };
+}
+
+function missingSalesText(specialty) {
+  return `No sales records supplied for ${specialty}. Sales amounts, deal counts and pipeline share are unavailable. Confirm source coverage before drawing a pipeline conclusion.`;
+}
+
 function salesEvidenceText(specialty, revision = sourceRevision) {
   const blob = path => `https://github.com/kristenmartino/specialtypulse_pipeline/blob/${revision}/${path}`;
   return [
@@ -28,4 +38,4 @@ function fixtureDateScope(rows) {
 }
 
 const salesDateScope = fixtureDateScope(source.sfdc);
-module.exports = { businessSetting, amountBasis, salesDateScope, fixtureDateScope, salesScenarioDate, salesEvidenceText };
+module.exports = { businessSetting, amountBasis, salesDateScope, fixtureDateScope, salesScenarioDate, salesEvidenceText, salesCoverage, missingSalesText };

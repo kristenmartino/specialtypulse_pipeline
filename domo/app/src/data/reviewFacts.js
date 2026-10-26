@@ -1,7 +1,7 @@
 const { buildBriefFacts, latestRows } = require('./reportingFacts');
 const { draftCompleteness } = require('./reviewDraft');
 const { procedureEvidenceText } = require('./procedureFacts');
-const { businessSetting, amountBasis, salesDateScope, salesScenarioDate, salesEvidenceText } = require('./salesContext');
+const { businessSetting, amountBasis, salesDateScope, salesScenarioDate, salesEvidenceText, missingSalesText } = require('./salesContext');
 const { pipelineHygiene, pipelineHygieneText, firstSalesCheck } = require('./pipelineHygiene');
 
 const reviewQuestions = [
@@ -22,10 +22,13 @@ function buildReviewHandoff(benchmarks, pipeline, requestedSpecialty) {
   return {
     specialty: selected.name, year: Number(benchmark.year), score: selected.pressure,
     paymentChange: change == null || change === '' || !Number.isFinite(Number(change)) ? null : Number(change),
-    amount: selected.amount, deals: selected.deals, share: selected.share,
+    amount: selected.amount, deals: selected.deals, share: selected.share, coverage: selected.coverage,
     hygiene: pipelineHygiene(pipeline.filter(row => row.account_specialty === selected.name), salesScenarioDate),
     status: 'Sample only — source and account validation pending.',
-    questions: reviewQuestions,
+    questions: selected.coverage.hasRecords ? reviewQuestions : [
+      { owner: 'Sales operations lead', question: 'Which sales records should cover this specialty?', next: 'Confirm sales source coverage before interpreting pipeline or checking overdue opportunities.' },
+      ...reviewQuestions.slice(1),
+    ],
   };
 }
 
@@ -49,8 +52,8 @@ function reviewHandoffText(review, draft) {
     '## Supporting observations',
     `- Scenario pressure score: ${review.score == null ? 'Unavailable' : review.score.toFixed(1)}/100. Project-defined and unvalidated against sales outcomes.`,
     `- Average procedure-level payment change: ${change}; a constructed scenario comparison.`,
-    `- Synthetic open-stage pipeline: $${review.amount.toLocaleString('en-US')} across ${review.deals} deals${review.share == null ? '' : ` (${(review.share * 100).toFixed(1)}% of open-stage pipeline)`}. Includes overdue open opportunities.`,
-    ...(review.hygiene ? ['', '## Sales follow-up first', pipelineHygieneText(review.hygiene), firstSalesCheck] : []),
+    review.coverage.hasRecords ? `- Synthetic open-stage pipeline: $${review.amount.toLocaleString('en-US')} across ${review.deals} deals${review.share == null ? '' : ` (${(review.share * 100).toFixed(1)}% of open-stage pipeline)`}. Includes overdue open opportunities.` : `- ${missingSalesText(review.specialty)}`,
+    ...(review.coverage.hasRecords && review.hygiene ? ['', '## Sales follow-up first', pipelineHygieneText(review.hygiene), firstSalesCheck] : ['', '## Sales coverage check', 'Confirm sales source coverage with the sales operations lead before interpreting pipeline or checking overdue opportunities.']),
     '',
     ...salesEvidenceText(review.specialty),
     ...(draft ? [

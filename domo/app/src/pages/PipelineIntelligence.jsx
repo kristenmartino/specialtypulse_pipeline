@@ -6,16 +6,16 @@ import {
 import ChartPanel from "../components/ChartPanel";
 import KpiCard from "../components/KpiCard";
 import DataTable from "../components/DataTable";
-import PressureBadge from "../components/PressureBadge";
 import { activePipeline } from "../data/reportingFacts";
-import { amountBasis, salesDateScope, salesScenarioDate } from "../data/salesContext";
+import { amountBasis, salesDateScope, salesScenarioDate, missingSalesText } from "../data/salesContext";
 import { pipelineHygieneText, firstSalesCheck } from "../data/pipelineHygiene";
 import { buildPipelineReview } from "../data/pipelineReview";
 import { CHART_COLORS, TOOLTIP_PROPS, CHART_ANIM, fmt, groupBy } from "../data/constants";
 
 export default function PipelineIntelligence({ pipeline, isSample = false, selectedSpecialty, specialties, onSelectSpecialty, onOpenBrief }) {
   const review = useMemo(() => buildPipelineReview(pipeline, selectedSpecialty, salesScenarioDate), [pipeline, selectedSpecialty]);
-  const hygiene = isSample ? review.hygiene : null;
+  const hasSales = review.coverage.hasRecords;
+  const hygiene = isSample && hasSales ? review.hygiene : null;
   // Active pipeline totals and independent specialty scores.
   const specData = useMemo(() => {
     const bySpec = groupBy(activePipeline(pipeline), "account_specialty");
@@ -30,29 +30,13 @@ export default function PipelineIntelligence({ pipeline, isSample = false, selec
   // Active and won amounts.
   const kpis = { totalPipe: review.hygiene.openAmount, wonTotal: review.wonAmount, activeCount: review.open.length, wonCount: review.won.length };
 
-  // Territory/owner table
-  const ownerData = useMemo(() => {
-    const byOwner = groupBy(review.rows, "owner");
-    return Object.entries(byOwner).map(([owner, rows]) => {
-      const active = rows.filter(r => r.stage !== "Closed Won" && r.stage !== "Closed Lost");
-      return {
-        owner,
-        region: rows[0]?.region || "",
-        deals: active.length,
-        totalAmount: active.reduce((s, r) => s + Number(r.amount), 0),
-        avgPressure: active.length ? active.reduce((s, r) => s + Number(r.pressure_index || 0), 0) / active.length : 0,
-        topTier: active.sort((a, b) => Number(b.pressure_index) - Number(a.pressure_index))[0]?.pressure_tier || "N/A",
-      };
-    }).sort((a, b) => b.totalAmount - a.totalAmount);
-  }, [review]);
-
   const ownerColumns = [
     { key: "owner", label: "Owner" },
     { key: "region", label: "Region" },
     { key: "deals", label: isSample ? "Open deals" : "Active Deals" },
     { key: "totalAmount", label: isSample ? "Open-stage ACV" : "Pipeline", render: (v) => fmt.usd0(v) },
-    { key: "avgPressure", label: "Avg Pressure", render: (v) => fmt.score(v) },
-    { key: "topTier", label: "Highest pressure tier", render: (v) => <PressureBadge tier={v} /> },
+    { key: "oldestDaysOverdue", label: "Oldest overdue · days", render: v => v == null ? '—' : fmt.num(v) },
+    { key: "medianDaysOverdue", label: "Median overdue · days", render: v => v == null ? '—' : String(v) },
   ];
 
   const overdueColumns = [
@@ -80,6 +64,11 @@ export default function PipelineIntelligence({ pipeline, isSample = false, selec
         </div>
         <button type="button" className="review-start-button" onClick={onOpenBrief}>Return to {selectedSpecialty} brief →</button>
       </section>
+      {!hasSales && <section className="span-full pipeline-hygiene" aria-label="Sales coverage">
+        <h2>Sales coverage unavailable</h2>
+        <p>{missingSalesText(selectedSpecialty)}</p>
+        <p>The sales fixture contains {review.coverage.specialtyCount} specialties; reimbursement reporting contains {specialties.length}. Procedure comparisons remain available.</p>
+      </section>}
       {hygiene && <section className="span-full pipeline-hygiene" aria-label="Overdue pipeline review">
         <h2>Review overdue pipeline first</h2>
         <p>{pipelineHygieneText(hygiene)}</p>
@@ -87,9 +76,9 @@ export default function PipelineIntelligence({ pipeline, isSample = false, selec
       </section>}
       {/* KPI Row */}
       <div className="kpi-row span-full">
-        <KpiCard label={isSample ? "Open-stage pipeline · ACV" : "Active Pipeline"} value={fmt.usdCompact(kpis.totalPipe)} sub={fmt.plural(kpis.activeCount, "deal")} color="teal" />
-        <KpiCard label={isSample ? "Closed won · ACV" : "Closed Won"} value={fmt.usdCompact(kpis.wonTotal)} sub={fmt.plural(kpis.wonCount, "deal")} color="green" />
-        {hygiene && <KpiCard label="Overdue open ACV" value={fmt.usdCompact(hygiene.overdueAmount)} sub={`${hygiene.overdueCount} overdue open deals`} color="gold" />}
+        <KpiCard label={isSample ? "Open-stage pipeline · ACV" : "Active Pipeline"} value={fmt.usdCompact(hasSales ? kpis.totalPipe : null)} sub={hasSales ? fmt.plural(kpis.activeCount, "deal") : 'No sales records supplied'} color="teal" />
+        <KpiCard label={isSample ? "Closed won · ACV" : "Closed Won"} value={fmt.usdCompact(hasSales ? kpis.wonTotal : null)} sub={hasSales ? fmt.plural(kpis.wonCount, "deal") : 'No sales records supplied'} color="green" />
+        {isSample && <KpiCard label="Overdue open ACV" value={fmt.usdCompact(hygiene?.overdueAmount)} sub={hasSales ? `${hygiene.overdueCount} overdue open deals` : 'No sales records supplied'} color="gold" />}
       </div>
 
       {isSample && <details className="span-full review-evaluation">
@@ -98,14 +87,15 @@ export default function PipelineIntelligence({ pipeline, isSample = false, selec
         <p>{salesDateScope}</p>
       </details>}
 
-      <ChartPanel title={`Overdue opportunities · ${selectedSpecialty}`} subtitle={`${review.overdue.length} open deals · invented snapshot ${salesScenarioDate}`} className="span-full">
+      <ChartPanel title={`Overdue opportunities · ${selectedSpecialty}`} subtitle={`${hasSales ? `${review.overdue.length} overdue open deals` : 'Sales coverage unavailable'} · invented snapshot ${salesScenarioDate}`} className="span-full">
         <p className="review-status">Synthetic opportunity records for stage and close-date review. Days overdue are measured at the scenario snapshot. Reviewing this list does not update a CRM or confirm any changes.</p>
         {review.overdue.length ? <DataTable columns={overdueColumns} data={review.overdue} defaultSort="days_overdue" className="overdue-table" />
-          : <p>No overdue open opportunities in the supplied records for {selectedSpecialty}.</p>}
+          : <p>{hasSales ? `No overdue open opportunities in the supplied records for ${selectedSpecialty}.` : missingSalesText(selectedSpecialty)}</p>}
       </ChartPanel>
 
       <ChartPanel title={`Pipeline by owner · ${selectedSpecialty}`} className="span-full">
-        {ownerData.length ? <DataTable columns={ownerColumns} data={ownerData} defaultSort="totalAmount" />
+        <p className="review-status">Oldest and median ages use only open deals with valid close dates before the invented {salesScenarioDate} snapshot. An em dash means no eligible overdue dates. Specialty pressure scores appear in the separate specialty comparison.</p>
+        {review.owners.length ? <DataTable columns={ownerColumns} data={review.owners} defaultSort="totalAmount" />
           : <p>No supplied sales opportunities for {selectedSpecialty}.</p>}
       </ChartPanel>
 
