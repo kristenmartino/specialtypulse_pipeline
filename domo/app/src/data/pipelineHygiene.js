@@ -44,4 +44,4 @@ function pipelineHygieneText(facts) {
   return `At the invented ${facts.snapshotDate} scenario snapshot, ${facts.overdueCount} of ${facts.openCount} open deals${share} have close dates before the snapshot: ${amount}${age}. The open-stage total includes these overdue opportunities.${unknown}`;
 }
 
-module.exports = { pipelineHygiene, pipelineHygieneText, firstSalesCheck };
+module.exports = { dayNumber, sumAmounts, pipelineHygiene, pipelineHygieneText, firstSalesCheck };

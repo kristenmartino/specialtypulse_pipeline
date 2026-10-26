@@ -9,11 +9,13 @@ import DataTable from "../components/DataTable";
 import PressureBadge from "../components/PressureBadge";
 import { activePipeline } from "../data/reportingFacts";
 import { amountBasis, salesDateScope, salesScenarioDate } from "../data/salesContext";
-import { pipelineHygiene, pipelineHygieneText, firstSalesCheck } from "../data/pipelineHygiene";
+import { pipelineHygieneText, firstSalesCheck } from "../data/pipelineHygiene";
+import { buildPipelineReview } from "../data/pipelineReview";
 import { CHART_COLORS, TOOLTIP_PROPS, CHART_ANIM, fmt, groupBy } from "../data/constants";
 
-export default function PipelineIntelligence({ pipeline, isSample = false }) {
-  const hygiene = useMemo(() => isSample ? pipelineHygiene(pipeline, salesScenarioDate) : null, [pipeline, isSample]);
+export default function PipelineIntelligence({ pipeline, isSample = false, selectedSpecialty, specialties, onSelectSpecialty, onOpenBrief }) {
+  const review = useMemo(() => buildPipelineReview(pipeline, selectedSpecialty, salesScenarioDate), [pipeline, selectedSpecialty]);
+  const hygiene = isSample ? review.hygiene : null;
   // Active pipeline totals and independent specialty scores.
   const specData = useMemo(() => {
     const bySpec = groupBy(activePipeline(pipeline), "account_specialty");
@@ -26,17 +28,11 @@ export default function PipelineIntelligence({ pipeline, isSample = false }) {
   }, [pipeline]);
 
   // Active and won amounts.
-  const kpis = useMemo(() => {
-    const active = pipeline.filter(r => r.stage !== "Closed Won" && r.stage !== "Closed Lost");
-    const totalPipe = active.reduce((s, r) => s + Number(r.amount), 0);
-    const won = pipeline.filter(r => r.stage === "Closed Won");
-    const wonTotal = won.reduce((s, r) => s + Number(r.amount), 0);
-    return { totalPipe, wonTotal, activeCount: active.length, wonCount: won.length };
-  }, [pipeline]);
+  const kpis = { totalPipe: review.hygiene.openAmount, wonTotal: review.wonAmount, activeCount: review.open.length, wonCount: review.won.length };
 
   // Territory/owner table
   const ownerData = useMemo(() => {
-    const byOwner = groupBy(pipeline, "owner");
+    const byOwner = groupBy(review.rows, "owner");
     return Object.entries(byOwner).map(([owner, rows]) => {
       const active = rows.filter(r => r.stage !== "Closed Won" && r.stage !== "Closed Lost");
       return {
@@ -48,7 +44,7 @@ export default function PipelineIntelligence({ pipeline, isSample = false }) {
         topTier: active.sort((a, b) => Number(b.pressure_index) - Number(a.pressure_index))[0]?.pressure_tier || "N/A",
       };
     }).sort((a, b) => b.totalAmount - a.totalAmount);
-  }, [pipeline]);
+  }, [review]);
 
   const ownerColumns = [
     { key: "owner", label: "Owner" },
@@ -59,8 +55,31 @@ export default function PipelineIntelligence({ pipeline, isSample = false }) {
     { key: "topTier", label: "Highest pressure tier", render: (v) => <PressureBadge tier={v} /> },
   ];
 
+  const overdueColumns = [
+    { key: "opportunity_id", label: "Opportunity ID" },
+    { key: "account_name", label: "Account" },
+    { key: "owner", label: "Owner" },
+    { key: "stage", label: "Stage" },
+    { key: "amount", label: "Assumed ACV · USD", render: v => fmt.usd0(v) },
+    { key: "close_date", label: "Close date" },
+    { key: "days_overdue", label: "Days overdue" },
+  ];
+
   return (
     <div className="page-grid">
+      <section className="span-full review-start" aria-label="Pipeline review scope">
+        <div>
+          <h2>Pipeline review: {selectedSpecialty}</h2>
+          <p>Totals, owner amounts and overdue opportunities below use this specialty.</p>
+          <div className="procedure-controls pipeline-scope-control">
+            <label htmlFor="pipeline-specialty">Pipeline specialty</label>
+            <select id="pipeline-specialty" value={selectedSpecialty} onChange={event => onSelectSpecialty(event.target.value)}>
+              {specialties.map(specialty => <option key={specialty} value={specialty}>{specialty}</option>)}
+            </select>
+          </div>
+        </div>
+        <button type="button" className="review-start-button" onClick={onOpenBrief}>Return to {selectedSpecialty} brief →</button>
+      </section>
       {hygiene && <section className="span-full pipeline-hygiene" aria-label="Overdue pipeline review">
         <h2>Review overdue pipeline first</h2>
         <p>{pipelineHygieneText(hygiene)}</p>
@@ -79,8 +98,19 @@ export default function PipelineIntelligence({ pipeline, isSample = false }) {
         <p>{salesDateScope}</p>
       </details>}
 
+      <ChartPanel title={`Overdue opportunities · ${selectedSpecialty}`} subtitle={`${review.overdue.length} open deals · invented snapshot ${salesScenarioDate}`} className="span-full">
+        <p className="review-status">Synthetic opportunity records for stage and close-date review. Days overdue are measured at the scenario snapshot. Reviewing this list does not update a CRM or confirm any changes.</p>
+        {review.overdue.length ? <DataTable columns={overdueColumns} data={review.overdue} defaultSort="days_overdue" />
+          : <p>No overdue open opportunities in the supplied records for {selectedSpecialty}.</p>}
+      </ChartPanel>
+
+      <ChartPanel title={`Pipeline by owner · ${selectedSpecialty}`} className="span-full">
+        {ownerData.length ? <DataTable columns={ownerColumns} data={ownerData} defaultSort="totalAmount" />
+          : <p>No supplied sales opportunities for {selectedSpecialty}.</p>}
+      </ChartPanel>
+
       {/* Pipeline amounts are shown separately from specialty pressure scores. */}
-      <ChartPanel title="Pipeline by specialty" subtitle={isSample ? "Open deals · includes overdue" : "Active deals"} className="span-full">
+      <ChartPanel title="Compare pipeline across specialties" subtitle="All specialties in the sales fixture · open deals, including overdue" className="span-full">
         <ResponsiveContainer width="100%" height={300}>
           <BarChart data={specData}>
             <CartesianGrid strokeDasharray="3 3" stroke="rgba(10,126,140,0.15)" />
@@ -96,17 +126,12 @@ export default function PipelineIntelligence({ pipeline, isSample = false }) {
         </ResponsiveContainer>
       </ChartPanel>
 
-      <ChartPanel title="Specialty pressure scores" subtitle="Project-defined scale · 0–100" className="span-full">
+      <ChartPanel title="Specialty pressure scores" subtitle="All specialties with open deals · select a row to change review scope · project-defined scale 0–100" className="span-full">
         <DataTable columns={[
           { key: "specialty", label: "Specialty" },
           { key: "pressureIndex", label: "Pressure score", render: v => fmt.score(v) },
           { key: "count", label: isSample ? "Open deals" : "Active deals" },
-        ]} data={specData} defaultSort="pressureIndex" />
-      </ChartPanel>
-
-      {/* Owner totals */}
-      <ChartPanel title="Pipeline by owner" className="span-full">
-        <DataTable columns={ownerColumns} data={ownerData} defaultSort="totalAmount" />
+        ]} data={specData} defaultSort="pressureIndex" onRowClick={row => onSelectSpecialty(row.specialty)} />
       </ChartPanel>
     </div>
   );

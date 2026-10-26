@@ -120,7 +120,7 @@ export default function App() {
     switch (tab) {
       case "market":    return <><ReviewHandoff benchmarks={benchmarks} pipeline={pipeline} onNavigate={navigateToResult} selected={selectedSpecialty} onSelect={selectSpecialty} draft={draft} onEdit={(field, value) => dispatchReview({ type: 'edit', specialty: selectedSpecialty, field, value })} onRemove={id => dispatchReview({ type: 'remove-procedure', specialty: selectedSpecialty, id })} open={reviewOpen} onOpenChange={setReviewOpen} focusEditor={focusEditor} /><MarketIntelligence benchmarks={benchmarks} onDrill={drillToSpecialty} /></>;
       case "procedure": return <ProcedureDetail mart={mart} focusSpecialty={selectedSpecialty} onSelectSpecialty={selectSpecialty} onAddProcedure={addProcedure} onOpenBrief={openBrief} procedureCode={procedureCode} onSelectProcedure={setProcedureCode} comparisonYear={comparisonYear} onSelectYear={setComparisonYear} />;
-      case "pipeline":  return <PipelineIntelligence pipeline={pipeline} isSample={true} />;
+      case "pipeline":  return <PipelineIntelligence pipeline={pipeline} isSample={true} selectedSpecialty={selectedSpecialty} specialties={[...new Set(benchmarks.map(row => row.provider_specialty))].sort()} onSelectSpecialty={selectSpecialty} onOpenBrief={openBrief} />;
       case "adoption":  return <AdoptionTracking engagement={engagement} config={config} />;
       case "pdp":       return <PdpGovernance config={config} checks={checks} loading={false} />;
       default:          return null;

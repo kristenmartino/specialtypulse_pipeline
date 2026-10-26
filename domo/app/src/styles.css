@@ -308,6 +308,7 @@ ul.brief-evidence { padding-left: 20px; }
 .review-start { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 18px 32px; padding: 4px 0 24px; }
 .review-start h2 { color: var(--white); font-size: 26px; font-weight: 600; letter-spacing: -0.03em; line-height: 1.25; }
 .review-start p { margin-top: 8px; color: var(--muted); font-size: 14px; }
+.pipeline-scope-control { margin-top: 14px; }
 .review-start-button { padding: 12px 20px; border: 1px solid var(--teal-xlt); border-radius: 2px; background: var(--teal-xlt); color: var(--navy); font-weight: 600; cursor: pointer; }
 .review-start-button:hover { background: var(--ice); border-color: var(--ice); }
 .review-start ol { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 12px 40px; padding-left: 20px; color: var(--ice); font-size: 13px; }

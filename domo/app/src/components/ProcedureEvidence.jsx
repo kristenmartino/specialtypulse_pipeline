@@ -26,8 +26,8 @@ export default function ProcedureEvidence({ evidence, references = true }) {
     {references && ref && <details className="review-evaluation">
       <summary>Evidence and verification links</summary>
       <p><a href={ref.reopen} target="_blank" rel="noreferrer">Reopen {evidence.specialty} / HCPCS {evidence.code} / CY{evidence.year} ↗</a></p>
-      <p><a href={ref.mart} target="_blank" rel="noreferrer">Reporting mart snapshot ↗</a> · <a href={ref.receipt} target="_blank" rel="noreferrer">Local Spark run receipt ↗</a></p>
-      <p className="review-status">Match provider_specialty = {evidence.specialty}, hcpcs_code = {evidence.code}, year = {evidence.priorYear} or {evidence.year}. Recorded local run: {ref.executedAt}. Mart SHA-256: <code>{ref.martSha256}</code></p>
+      <p><a href={ref.mart} target="_blank" rel="noreferrer">Reporting mart snapshot ↗</a> · <a href={ref.receipt} target="_blank" rel="noreferrer">{ref.engine} run receipt ↗</a></p>
+      <p className="review-status">Match provider_specialty = {evidence.specialty}, hcpcs_code = {evidence.code}, year = {evidence.priorYear} or {evidence.year}. Recorded execution: {ref.executedAt}. Mart SHA-256: <code>{ref.martSha256}</code></p>
       <ul>{ref.sources.map(source => <li key={source.year}>{source.url ? <a href={source.url} target="_blank" rel="noreferrer">CY{source.year} synthetic raw inputs ↗</a> : `CY${source.year} raw inputs unavailable`}</li>)}</ul>
       <p className="review-status">Raw input filters: provider_type = {evidence.specialty}, hcpcs_cd = {evidence.code}, tot_srvcs ≥ 11. Payment is weighted by services. <a href={ref.method} target="_blank" rel="noreferrer">Reproduction method ↗</a></p>
       {ref.calculation && <p><a href={ref.calculation} target="_blank" rel="noreferrer">CY2023 Dermatology / 99213 raw-to-mart calculation ↗</a></p>}
