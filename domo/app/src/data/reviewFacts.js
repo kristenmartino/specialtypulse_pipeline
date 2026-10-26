@@ -3,6 +3,8 @@ const { draftCompleteness } = require('./reviewDraft');
 const { procedureEvidenceText } = require('./procedureFacts');
 const { businessSetting, amountBasis, salesDateScope, salesScenarioDate, salesEvidenceText, missingSalesText } = require('./salesContext');
 const { pipelineHygiene, pipelineHygieneText, firstSalesCheck } = require('./pipelineHygiene');
+const { buildPipelineReview } = require('./pipelineReview');
+const { salesReviewAppendix } = require('./salesPacket');
 
 const reviewQuestions = [
   { owner: 'Sales operations lead', question: 'Which open opportunities need their stages and close dates corrected before planning?', next: firstSalesCheck },
@@ -24,6 +26,7 @@ function buildReviewHandoff(benchmarks, pipeline, requestedSpecialty) {
     paymentChange: change == null || change === '' || !Number.isFinite(Number(change)) ? null : Number(change),
     amount: selected.amount, deals: selected.deals, share: selected.share, coverage: selected.coverage,
     hygiene: pipelineHygiene(pipeline.filter(row => row.account_specialty === selected.name), salesScenarioDate),
+    salesReview: buildPipelineReview(pipeline, selected.name, salesScenarioDate),
     status: 'Sample only — source and account validation pending.',
     questions: selected.coverage.hasRecords ? reviewQuestions : [
       { owner: 'Sales operations lead', question: 'Which sales records should cover this specialty?', next: 'Confirm sales source coverage before interpreting pipeline or checking overdue opportunities.' },
@@ -73,6 +76,8 @@ function reviewHandoffText(review, draft) {
     '',
     '## Suggested follow-up checks',
     ...review.questions.flatMap(item => [`- ${item.owner}: ${item.question}`, `  Next check: ${item.next}`]),
+    '',
+    ...salesReviewAppendix({ ...review.salesReview, specialty: review.specialty }),
     '',
     'This is an example work product. No stakeholder review, account validation, approved shortlist or business outcome is recorded.',
     '',

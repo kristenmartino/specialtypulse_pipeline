@@ -41,6 +41,13 @@ both years' payments and service counts, absolute and percentage changes, and
 those unverified analyst notes. Percentages use the previous year as the
 denominator; payment differences use mart values rounded to cents. Missing
 inputs or zero denominators leave percentages unavailable.
+The brief also carries a specialty-scoped owner summary and every eligible
+overdue opportunity, including ID, account, owner, stage, assumed ACV, close
+date and overdue age. A separate overdue CSV is available from the brief and
+pipeline view, with the scenario date, synthetic-data label and source revision.
+Both exports use the complete specialty cohort, regardless of table pagination.
+Missing sales coverage stays unavailable; it does not produce an empty CSV that
+could be mistaken for confirmed zero exposure.
 Each specialty keeps a separate draft across tab changes. Drafts last until
 the page reloads; download to keep a copy. Missing fields remain marked.
 The four-element completeness indicator checks presence, not accuracy or approval.
