@@ -10,6 +10,7 @@ import { activePipeline } from "../data/reportingFacts";
 import { amountBasis, salesDateScope, salesScenarioDate, missingSalesText } from "../data/salesContext";
 import { pipelineHygieneText, firstSalesCheck } from "../data/pipelineHygiene";
 import { buildPipelineReview } from "../data/pipelineReview";
+import { salesReviewCsv } from "../data/salesPacket";
 import { CHART_COLORS, TOOLTIP_PROPS, CHART_ANIM, fmt, groupBy } from "../data/constants";
 
 export default function PipelineIntelligence({ pipeline, isSample = false, selectedSpecialty, specialties, onSelectSpecialty, onOpenBrief }) {
@@ -96,6 +97,7 @@ export default function PipelineIntelligence({ pipeline, isSample = false, selec
 
       <ChartPanel title={`Overdue opportunities · ${selectedSpecialty}`} subtitle={`Scenario snapshot ${salesScenarioDate}`} className="span-full">
         <p className="review-status">Synthetic records for stage and date review; this list does not update a CRM.</p>
+        {hasSales && <p className="review-status"><a className="exec-brief-link" download={`specialtypulse-${selectedSpecialty.toLowerCase().replace(/[^a-z0-9]+/g, '-')}-overdue-opportunities.csv`} href={`data:text/csv;charset=utf-8,${encodeURIComponent(salesReviewCsv(review))}`}>Download overdue opportunities CSV ({review.overdue.length})</a></p>}
         {review.overdue.length ? <DataTable key={selectedSpecialty} columns={overdueColumns} data={review.overdue} defaultSort="days_overdue" className="overdue-table" pageSize={10} />
           : <p>{hasSales ? `No overdue open opportunities in the supplied records for ${selectedSpecialty}.` : missingSalesText(selectedSpecialty)}</p>}
       </ChartPanel>

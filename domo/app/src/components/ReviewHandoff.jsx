@@ -6,6 +6,7 @@ import { fmt } from '../data/constants';
 import ProcedureEvidence, { ProcedureEvidenceSummary } from './ProcedureEvidence';
 import { amountBasis, salesDateScope, missingSalesText } from '../data/salesContext';
 import { pipelineHygieneText, firstSalesCheck } from '../data/pipelineHygiene';
+import { salesReviewCsv } from '../data/salesPacket';
 
 export default function ReviewHandoff({ benchmarks, pipeline, onNavigate, selected, onSelect, draft, onEdit, onRemove, open, onOpenChange, focusEditor }) {
   const specialties = useMemo(() => [...new Set(latestRows(benchmarks).rows.map(row => row.provider_specialty))].sort(), [benchmarks]);
@@ -98,6 +99,8 @@ export default function ReviewHandoff({ benchmarks, pipeline, onNavigate, select
           <p className="review-status" role="status">{completeness.count} of 4 brief elements complete. Presence check only; accuracy and approval are unverified.</p>
           <ul className="review-checklist">{completeness.checks.map(item => <li key={item.label}>{item.complete ? 'Included' : 'Missing'}: {item.label}</li>)}</ul>
           <a download={filename} href={`data:text/markdown;charset=utf-8,${encodeURIComponent(reviewHandoffText(review, draft))}`}>Download draft brief</a>
+          {review.coverage.hasRecords && <p><a download={filename.replace('-review.md', '-overdue-opportunities.csv')} href={`data:text/csv;charset=utf-8,${encodeURIComponent(salesReviewCsv(review.salesReview))}`}>Download overdue opportunities CSV ({review.salesReview.overdue.length})</a></p>}
+          {review.coverage.hasRecords && <p className="review-status">The brief includes owner totals and the full overdue list for this specialty.</p>}
           <p className="review-status">Incomplete fields are marked. Download saves a copy; it does not send or assign the brief.</p>
         </section>
         <details className="review-evaluation">
