@@ -31,7 +31,7 @@ infrequent or existing reports meet the need, reconsider the product scope.
 
 ## Work product in the public demo
 
-Market Intelligence includes **Prepare a specialty review · sample handoff**.
+Market Intelligence includes **Specialty review**, opened with **Start review**.
 One shared specialty selection connects the brief and Procedure Detail. The
 analyst compares the same specialty and HCPCS code across consecutive years,
 adds the comparison (or a procedure from the service-count ranking), then writes an

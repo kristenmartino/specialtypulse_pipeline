@@ -1,23 +1,17 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 
-export default function DataTable({ columns, data, defaultSort, className = "", onRowClick }) {
+import { tableRows } from "../data/tableRows";
+
+export default function DataTable({ columns, data, defaultSort, className = "", onRowClick, pageSize = 0 }) {
   const [sortCol, setSortCol] = useState(defaultSort || (columns[0] && columns[0].key));
   const [sortDir, setSortDir] = useState("desc");
 
-  const sorted = useMemo(() => {
-    if (!sortCol) return data;
-    return [...data].sort((a, b) => {
-      let av = a[sortCol], bv = b[sortCol];
-      if (av == null) return 1;
-      if (bv == null) return -1;
-      if (typeof av === "string") {
-        return sortDir === "asc" ? av.localeCompare(bv) : bv.localeCompare(av);
-      }
-      return sortDir === "asc" ? av - bv : bv - av;
-    });
-  }, [data, sortCol, sortDir]);
+  const [page, setPage] = useState(0);
+  useEffect(() => { setPage(0); }, [data, pageSize]);
+  const result = useMemo(() => tableRows(data, { sortCol, sortDir, page, pageSize }), [data, sortCol, sortDir, page, pageSize]);
 
   const toggleSort = (key) => {
+    setPage(0);
     if (sortCol === key) {
       setSortDir(d => d === "asc" ? "desc" : "asc");
     } else {
@@ -27,6 +21,7 @@ export default function DataTable({ columns, data, defaultSort, className = "", 
   };
 
   return (
+    <div className={`data-table-block ${pageSize ? "paginated-table" : ""}`}>
     <div className={`data-table-wrap ${className}`}>
       <table className="data-table">
         <thead>
@@ -50,7 +45,7 @@ export default function DataTable({ columns, data, defaultSort, className = "", 
           </tr>
         </thead>
         <tbody>
-          {sorted.map((row, i) => (
+          {result.rows.map((row, i) => (
             <tr
               key={i}
               className={onRowClick ? "clickable" : ""}
@@ -67,6 +62,15 @@ export default function DataTable({ columns, data, defaultSort, className = "", 
           ))}
         </tbody>
       </table>
+    </div>
+    {pageSize > 0 && <nav className="table-pagination" aria-label="Table pagination">
+      <span role="status">{result.start}–{result.end} of {result.total} opportunities</span>
+      <div>
+        <button type="button" disabled={result.page === 0} onClick={() => setPage(result.page - 1)}>Previous</button>
+        <span className="table-page-count">Page {result.page + 1} of {result.pages}</span>
+        <button type="button" disabled={result.page >= result.pages - 1} onClick={() => setPage(result.page + 1)}>Next</button>
+      </div>
+    </nav>}
     </div>
   );
 }

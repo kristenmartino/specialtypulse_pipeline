@@ -54,7 +54,6 @@ export default function PipelineIntelligence({ pipeline, isSample = false, selec
       <section className="span-full review-start" aria-label="Pipeline review scope">
         <div>
           <h2>Pipeline review: {selectedSpecialty}</h2>
-          <p>Totals, owner amounts and overdue opportunities below use this specialty.</p>
           <div className="procedure-controls pipeline-scope-control">
             <label htmlFor="pipeline-specialty">Pipeline specialty</label>
             <select id="pipeline-specialty" value={selectedSpecialty} onChange={event => onSelectSpecialty(event.target.value)}>
@@ -71,11 +70,11 @@ export default function PipelineIntelligence({ pipeline, isSample = false, selec
       </section>}
       {hygiene && <section className="span-full pipeline-hygiene" aria-label="Overdue pipeline review">
         <h2>Review overdue pipeline first</h2>
-        <p>{pipelineHygieneText(hygiene)}</p>
-        <p>{firstSalesCheck}</p>
+        <p className="pipeline-hygiene-metrics"><strong>{hygiene.overdueCount} of {hygiene.openCount} open deals overdue</strong><span>{fmt.usd0(hygiene.overdueAmount)} assumed USD ACV</span>{hygiene.overdueCount > 0 && <span>{hygiene.minDaysOverdue}–{hygiene.maxDaysOverdue} days overdue</span>}</p>
+        <p>Reconcile stages and close dates with sales operations before planning. Invented snapshot: {salesScenarioDate}.</p>
       </section>}
       {/* KPI Row */}
-      <div className="kpi-row span-full">
+      <div className="kpi-row pipeline-kpis span-full">
         <KpiCard label={isSample ? "Open-stage pipeline · ACV" : "Active Pipeline"} value={fmt.usdCompact(hasSales ? kpis.totalPipe : null)} sub={hasSales ? fmt.plural(kpis.activeCount, "deal") : 'No sales records supplied'} color="teal" />
         <KpiCard label={isSample ? "Closed won · ACV" : "Closed Won"} value={fmt.usdCompact(hasSales ? kpis.wonTotal : null)} sub={hasSales ? fmt.plural(kpis.wonCount, "deal") : 'No sales records supplied'} color="green" />
         {isSample && <KpiCard label="Overdue open ACV" value={fmt.usdCompact(hygiene?.overdueAmount)} sub={hasSales ? `${hygiene.overdueCount} overdue open deals` : 'No sales records supplied'} color="gold" />}
@@ -85,18 +84,20 @@ export default function PipelineIntelligence({ pipeline, isSample = false, selec
         <summary>Sales amount and date scope</summary>
         <p>{amountBasis}</p>
         <p>{salesDateScope}</p>
+        {hygiene && <p>{pipelineHygieneText(hygiene)}</p>}
+        <p>{firstSalesCheck}</p>
+        <p>Reviewing these records does not update a CRM or confirm any changes. Oldest and median ages use open deals with valid close dates before the snapshot; an em dash means no eligible dates.</p>
       </details>}
 
-      <ChartPanel title={`Overdue opportunities · ${selectedSpecialty}`} subtitle={`${hasSales ? `${review.overdue.length} overdue open deals` : 'Sales coverage unavailable'} · invented snapshot ${salesScenarioDate}`} className="span-full">
-        <p className="review-status">Synthetic opportunity records for stage and close-date review. Days overdue are measured at the scenario snapshot. Reviewing this list does not update a CRM or confirm any changes.</p>
-        {review.overdue.length ? <DataTable columns={overdueColumns} data={review.overdue} defaultSort="days_overdue" className="overdue-table" />
-          : <p>{hasSales ? `No overdue open opportunities in the supplied records for ${selectedSpecialty}.` : missingSalesText(selectedSpecialty)}</p>}
-      </ChartPanel>
-
-      <ChartPanel title={`Pipeline by owner · ${selectedSpecialty}`} className="span-full">
-        <p className="review-status">Oldest and median ages use only open deals with valid close dates before the invented {salesScenarioDate} snapshot. An em dash means no eligible overdue dates. Specialty pressure scores appear in the separate specialty comparison.</p>
+      <ChartPanel title={`Pipeline by owner · ${selectedSpecialty}`} subtitle="Open deals · overdue ages in days" className="span-full">
         {review.owners.length ? <DataTable columns={ownerColumns} data={review.owners} defaultSort="totalAmount" />
           : <p>No supplied sales opportunities for {selectedSpecialty}.</p>}
+      </ChartPanel>
+
+      <ChartPanel title={`Overdue opportunities · ${selectedSpecialty}`} subtitle={`Scenario snapshot ${salesScenarioDate}`} className="span-full">
+        <p className="review-status">Synthetic records for stage and date review; this list does not update a CRM.</p>
+        {review.overdue.length ? <DataTable key={selectedSpecialty} columns={overdueColumns} data={review.overdue} defaultSort="days_overdue" className="overdue-table" pageSize={10} />
+          : <p>{hasSales ? `No overdue open opportunities in the supplied records for ${selectedSpecialty}.` : missingSalesText(selectedSpecialty)}</p>}
       </ChartPanel>
 
       {/* Pipeline amounts are shown separately from specialty pressure scores. */}

@@ -22,9 +22,10 @@ export default function ProcedureEvidence({ evidence, references = true }) {
       </table>
     </div>
     <p><strong>Payment change:</strong> {change(evidence.paymentDelta, evidence.paymentChange, fmt.usd)}. <strong>Service change:</strong> {change(evidence.serviceDelta, evidence.volumeChange, fmt.num)}.</p>
-    <p className="review-status">Changes use this procedure in this specialty: (CY{evidence.year} − CY{evidence.priorYear}) ÷ CY{evidence.priorYear}. Payment differences use the displayed mart values rounded to cents. Missing inputs or a zero prior value make the percentage unavailable. These are constructed scenarios, not historical CMS comparisons.</p>
+    <p className="review-status">Constructed scenarios; not historical CMS comparisons.</p>
     {references && ref && <details className="review-evaluation">
-      <summary>Evidence and verification links</summary>
+      <summary>Method and sources</summary>
+      <p className="review-status">Changes use this procedure in this specialty: (CY{evidence.year} − CY{evidence.priorYear}) ÷ CY{evidence.priorYear}. Payment differences use the displayed mart values rounded to cents. Missing inputs or a zero prior value make the percentage unavailable.</p>
       <p><a href={ref.reopen} target="_blank" rel="noreferrer">Reopen {evidence.specialty} / HCPCS {evidence.code} / CY{evidence.year} ↗</a></p>
       <p><a href={ref.mart} target="_blank" rel="noreferrer">Reporting mart snapshot ↗</a> · <a href={ref.receipt} target="_blank" rel="noreferrer">{ref.engine} run receipt ↗</a></p>
       <p className="review-status">Match provider_specialty = {evidence.specialty}, hcpcs_code = {evidence.code}, year = {evidence.priorYear} or {evidence.year}. Recorded execution: {ref.executedAt}. Mart SHA-256: <code>{ref.martSha256}</code></p>
