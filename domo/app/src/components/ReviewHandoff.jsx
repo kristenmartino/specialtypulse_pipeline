@@ -3,7 +3,6 @@ import { buildReviewHandoff, reviewHandoffText } from '../data/reviewFacts';
 import { draftCompleteness } from '../data/reviewDraft';
 import { latestRows } from '../data/reportingFacts';
 import { fmt } from '../data/constants';
-import ReviewEvaluation from './ReviewEvaluation';
 import ProcedureEvidence, { ProcedureEvidenceSummary } from './ProcedureEvidence';
 import { amountBasis, salesDateScope, missingSalesText } from '../data/salesContext';
 import { pipelineHygieneText, firstSalesCheck } from '../data/pipelineHygiene';
@@ -13,6 +12,7 @@ export default function ReviewHandoff({ benchmarks, pipeline, onNavigate, select
   const review = useMemo(() => buildReviewHandoff(benchmarks, pipeline, selected), [benchmarks, pipeline, selected]);
   const editorRef = useRef(null);
   const specialtyRef = useRef(null);
+  const handledEditorFocus = useRef(0);
   const [startRequest, setStartRequest] = useState(0);
   useEffect(() => {
     if (startRequest && open && specialtyRef.current) {
@@ -21,39 +21,33 @@ export default function ReviewHandoff({ benchmarks, pipeline, onNavigate, select
     }
   }, [startRequest, open]);
   useEffect(() => {
-    if (focusEditor && open && !startRequest && editorRef.current) {
+    if (focusEditor > handledEditorFocus.current && open && editorRef.current) {
+      handledEditorFocus.current = focusEditor;
       editorRef.current.focus({ preventScroll: true });
       editorRef.current.scrollIntoView({ block: 'start' });
     }
-  }, [focusEditor, open, startRequest]);
+  }, [focusEditor, open]);
   if (!review) return null;
   const completeness = draftCompleteness(draft);
   const filename = `specialtypulse-${review.specialty.toLowerCase().replace(/[^a-z0-9]+/g, '-')}-review.md`;
   return (
-    <>
-    <section className="review-start" aria-labelledby="review-start-heading">
+    <section className="review-workspace">
+    <div className="review-start" aria-labelledby="review-start-heading">
       <div>
-        <h2 id="review-start-heading">Start a specialty review</h2>
-        <p>Compare procedure evidence and prepare a brief for a sales or operations lead.</p>
+        <h2 id="review-start-heading">Specialty review</h2>
+        <p>Compare payments, check pipeline context, and prepare a brief.</p>
       </div>
-      <button type="button" className="review-start-button" aria-controls="review-handoff" aria-expanded={open} onClick={() => { onOpenChange(true); setStartRequest(value => value + 1); }}>Start review →</button>
-      <ol aria-label="Review workflow">
-        <li>Choose a specialty</li>
-        <li>Compare procedure evidence</li>
-        <li>Prepare and download a brief</li>
-      </ol>
-    </section>
-    <details id="review-handoff" className="review-handoff" open={open} onToggle={event => onOpenChange(event.currentTarget.open)}>
-      <summary>Prepare a specialty review · sample handoff</summary>
+      <button type="button" className={open ? "exec-brief-link" : "review-start-button"} aria-controls="review-handoff" aria-expanded={open} onClick={() => { onOpenChange(!open); if (!open) setStartRequest(value => value + 1); }}>{open ? "Close brief" : "Start review →"}</button>
+    </div>
+    <div id="review-handoff" className="review-handoff" hidden={!open}>
       <div className="review-handoff-body">
-        <p>Choose a specialty, inspect its procedures and add evidence to a draft for a sales or operations lead.</p>
         <div className="procedure-controls">
-          <label htmlFor="review-specialty">Example specialty</label>
+          <label htmlFor="review-specialty">Specialty</label>
           <select id="review-specialty" ref={specialtyRef} value={review.specialty} onChange={event => onSelect(event.target.value)}>
             {specialties.map(name => <option key={name} value={name}>{name}</option>)}
           </select>
         </div>
-        <p className="review-status">{review.status} The initial selection uses the highest scenario score; it is not an account-prioritization decision.</p>
+        <p className="review-status">Source and account validation pending. Specialty scores are not account priorities.</p>
         {!review.coverage.hasRecords && <p className="review-status" role="status"><strong>{missingSalesText(review.specialty)}</strong></p>}
         {review.hygiene.overdueCount > 0 && <p className="review-status"><strong>Sales follow-up first:</strong> {review.hygiene.overdueCount} of {review.hygiene.openCount} open deals have overdue close dates. Verify stages and dates before planning.</p>}
         <div className="review-links">
@@ -75,7 +69,7 @@ export default function ReviewHandoff({ benchmarks, pipeline, onNavigate, select
         </details>
         <section className="review-editor" aria-labelledby="review-editor-heading">
           <h3 id="review-editor-heading" tabIndex={-1} ref={editorRef}>Draft brief: {review.specialty}</h3>
-          <p>Drafts stay in this tab until you reload. Each specialty keeps its own notes. Download to keep a copy.</p>
+          <p>Notes stay with each specialty until reload. Download to save.</p>
           <h4>Selected procedure evidence</h4>
           {draft.evidence.length ? <ul className="review-evidence">
             {draft.evidence.map(item => <li key={item.id}>
@@ -89,8 +83,8 @@ export default function ReviewHandoff({ benchmarks, pipeline, onNavigate, select
               </div>
               <button type="button" className="exec-brief-link" aria-label={`Remove HCPCS ${item.code} from brief`} onClick={() => onRemove(item.id)}>Remove</button>
             </li>)}
-          </ul> : <p>No procedure selected. Use “Inspect {review.specialty} procedures” above, then “Add to brief.”</p>}
-          <p className="review-status">Analyst notes below are unverified draft content.</p>
+          </ul> : <p>No evidence yet. Inspect procedures and add a comparison.</p>}
+          <p className="review-status">Draft notes · unverified</p>
           <div className="review-fields">
             <label htmlFor="review-observation">Analyst observation and limits</label>
             <textarea id="review-observation" rows={3} maxLength={2000} value={draft.observation} onChange={event => onEdit('observation', event.target.value)} placeholder="Describe what you found and what the evidence cannot tell you." />
@@ -101,10 +95,10 @@ export default function ReviewHandoff({ benchmarks, pipeline, onNavigate, select
             <label htmlFor="review-next-check">Requested next check</label>
             <textarea id="review-next-check" rows={2} maxLength={1000} value={draft.nextCheck} onChange={event => onEdit('nextCheck', event.target.value)} placeholder="What should that reviewer check?" />
           </div>
-          <p className="review-status" role="status">{completeness.count} of 4 brief elements complete. This checks presence, not accuracy or approval.</p>
+          <p className="review-status" role="status">{completeness.count} of 4 brief elements complete. Presence check only; accuracy and approval are unverified.</p>
           <ul className="review-checklist">{completeness.checks.map(item => <li key={item.label}>{item.complete ? 'Included' : 'Missing'}: {item.label}</li>)}</ul>
           <a download={filename} href={`data:text/markdown;charset=utf-8,${encodeURIComponent(reviewHandoffText(review, draft))}`}>Download draft brief</a>
-          <p className="review-status">Incomplete fields are marked in the download. Downloading does not send or assign the brief.</p>
+          <p className="review-status">Incomplete fields are marked. Download saves a copy; it does not send or assign the brief.</p>
         </section>
         <details className="review-evaluation">
           <summary>Suggested follow-up checks</summary>
@@ -112,15 +106,9 @@ export default function ReviewHandoff({ benchmarks, pipeline, onNavigate, select
           {review.questions.map(item => <div key={item.owner}><dt>{item.owner}: {item.question}</dt><dd>{item.next}</dd></div>)}
           </dl>
         </details>
-        <details className="review-evaluation">
-          <summary>Problem hypothesis to validate</summary>
-          <p>Assumed workflow: an analyst compares payment tables, checks pipeline context in a separate report and copies findings into a brief for a sales or operations lead.</p>
-          <p>Hypothesis: moving between those sources makes evidence and follow-up requests easy to omit. A brief built during the investigation could reduce preparation and clarification work.</p>
-          <p>Before a pilot, ask intended analysts and recipients to walk through a recent review. Confirm its frequency, tools, time spent, missing evidence and decisions it supports. These are assumptions, not research findings.</p>
-        </details>
-        <ReviewEvaluation />
+        <p className="review-status"><a href="https://kristenmartino.ai/work/specialtypulse-pipeline" target="_blank" rel="noreferrer">Project scope and validation plan ↗</a></p>
       </div>
-    </details>
-    </>
+    </div>
+    </section>
   );
 }

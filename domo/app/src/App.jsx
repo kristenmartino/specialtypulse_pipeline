@@ -139,7 +139,7 @@ export default function App() {
         </div>
         <div className="header-right">
           <div className="header-meta">
-            <span>Portfolio demo</span>
+            <span>Synthetic portfolio demo</span>
             <span className="val">{tab === 'pipeline' ? 'Static sales fixture' : 'Reimbursement CY2021–2023'}</span>
           </div>
         </div>
@@ -154,17 +154,20 @@ export default function App() {
         id={`panel-${tab}`}
         aria-labelledby={`tab-${tab}`}
       >
-        <>
-          <div className="demo-intro">
-            <p>For specialty analysts supporting healthcare-software sales. Compare payment patterns and prepare questions for a sales or operations lead.</p>
-            <nav aria-label="Project links">
-              <a href="https://kristenmartino.ai/work/specialtypulse-pipeline" target="_blank" rel="noreferrer">Case study ↗</a>
-              <a href="https://github.com/kristenmartino/specialtypulse_pipeline" target="_blank" rel="noreferrer">Source ↗</a>
-            </nav>
-          </div>
-          <p className="demo-disclosure">Demo: synthetic CMS-schema records; 2021–2022 are generated comparison scenarios. Sales, usage and access rules are illustrative. This public demo does not enforce user-specific access.</p>
-          <details className="review-evaluation"><summary>Assumed business setting</summary><p>{businessSetting}</p><p>Reimbursement signals help frame discovery questions. Account conversations must establish customer needs before recommending software or prioritizing outreach.</p></details>
-        </>
+        <div className="demo-toolbar">
+          <details className="demo-about">
+            <summary>About this demo</summary>
+            <div className="demo-about-body">
+              <p>Synthetic CMS-schema records; 2021–2022 are generated comparison scenarios. Sales, usage and access rules are illustrative. This public demo does not enforce user-specific access.</p>
+              <p>{businessSetting}</p>
+              <p>Reimbursement signals frame discovery questions. Confirm account needs before recommending software or prioritizing outreach.</p>
+            </div>
+          </details>
+          <nav aria-label="Project links">
+            <a href="https://kristenmartino.ai/work/specialtypulse-pipeline" target="_blank" rel="noreferrer">Case study ↗</a>
+            <a href="https://github.com/kristenmartino/specialtypulse_pipeline" target="_blank" rel="noreferrer">Source ↗</a>
+          </nav>
+        </div>
         <div className="page-fade" key={tab}>
           {renderPage()}
         </div>
