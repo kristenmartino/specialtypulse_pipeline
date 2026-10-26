@@ -56,8 +56,12 @@ until the page reloads. [Proposed human evaluation](docs/BUSINESS_REVIEW.md).
 All 2021–22 inputs are generated comparison scenarios; 2023 is a synthetic base.
 These are not historical CMS observations. The pressure index has project-defined
 weights, and sales amounts are assumed annual contract value, not revenue or a
-validated forecast. The invented sales snapshot is August 31, 2026; overdue open
-opportunities remain in the open-stage balance pending review.
+validated forecast. The constructed sales snapshot is March 31, 2026: 278 of
+472 open opportunities are overdue, while 194 are not yet overdue. Open-stage
+totals retain both groups. The [scenario record](data/sales_scenario.json) pins
+the fixture hash and date adjustments; builds reject inconsistent stage/date
+relationships. Historical AI-study links remain pinned to the original August
+31 scenario and source revision.
 
 ## Run locally
 

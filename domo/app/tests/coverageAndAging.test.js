@@ -70,8 +70,8 @@ test('all five Dermatology owner cohorts reconcile to their opportunity dates an
   assert.equal(review.owners.length, 5);
   assert.equal(review.owners.reduce((sum, row) => sum + row.deals, 0), 53);
   assert.equal(review.owners.reduce((sum, row) => sum + row.totalAmount, 0), 4579800);
-  const expectedOldest = { 'Alex Morrison': 259, 'David Kim': 288, 'Jennifer Ruiz': 250, 'Marcus Williams': 291, 'Sarah Chen': 264 };
+  const expectedOldest = { 'Alex Morrison': 106, 'David Kim': 135, 'Jennifer Ruiz': 97, 'Marcus Williams': 138, 'Sarah Chen': 111 };
   for (const owner of review.owners) assert.equal(owner.oldestDaysOverdue, expectedOldest[owner.owner]);
-  assert.equal(review.owners.find(row => row.owner === 'Alex Morrison').medianDaysOverdue, 141);
-  assert.equal(review.owners.find(row => row.owner === 'David Kim').medianDaysOverdue, 151.5);
+  assert.equal(review.owners.find(row => row.owner === 'Alex Morrison').medianDaysOverdue, 79.5);
+  assert.equal(review.owners.find(row => row.owner === 'David Kim').medianDaysOverdue, 30.5);
 });

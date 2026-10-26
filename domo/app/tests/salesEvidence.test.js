@@ -13,7 +13,8 @@ test('sales evidence pins the CSV and definitions and states the actual reproduc
   assert.ok(!output.includes('/blob/main/'));
   assert.ok(output.includes('account_specialty = "Hematology/Oncology"'));
   assert.ok(output.includes('exclude stage = "Closed Won" and "Closed Lost"'));
-  assert.ok(output.includes('valid close_date strictly before 2026-08-31'));
+  assert.ok(output.includes('valid close_date strictly before 2026-03-31'));
+  assert.ok(output.includes(`/blob/${revision}/data/sales_scenario.json`));
   assert.ok(output.includes('missing or invalid close dates are excluded'));
   assert.ok(output.includes('share denominator is the open-stage amount across all specialties'));
   assert.ok(output.includes('No created-date or close-date reporting-period filter'));

@@ -1,5 +1,5 @@
 const source = require('./sourceData.json');
-const salesScenarioDate = '2026-08-31';
+const salesScenarioDate = source.salesScenario.scenario_date;
 const sourceRevision = typeof __SP_SOURCE_REVISION__ === 'string' ? __SP_SOURCE_REVISION__ : 'main';
 
 function salesCoverage(rows, specialty) {
@@ -17,6 +17,7 @@ function salesEvidenceText(specialty, revision = sourceRevision) {
   return [
     '## Sales evidence and reproduction',
     `[Synthetic sales CSV snapshot](${blob('data/sample_sfdc_pipeline.csv')}) — repository revision: ${revision}.`,
+    `[Synthetic sales scenario record](${blob('data/sales_scenario.json')}) — constructed as of ${salesScenarioDate}; records the fixture hash and deterministic date adjustments. This is not captured CRM history.`,
     `Specialty filter: account_specialty = ${JSON.stringify(specialty)}. Open-stage filter: exclude stage = "Closed Won" and "Closed Lost". Count the remaining opportunities and sum amount for the specialty open-stage total.`,
     `Overdue filter: within those open opportunities, require a valid close_date strictly before ${salesScenarioDate}, the invented scenario snapshot date. Count those rows and sum amount for overdue ACV; missing or invalid close dates are excluded from the overdue count.`,
     'Open-stage totals retain overdue opportunities. The specialty share denominator is the open-stage amount across all specialties in this CSV. No created-date or close-date reporting-period filter is applied.',
@@ -34,7 +35,7 @@ function fixtureDateScope(rows) {
     const dates = rows.map(row => row[key]).filter(value => /^\d{4}-\d{2}-\d{2}$/.test(value || '')).sort();
     return dates.length ? `${dates[0]}–${dates[dates.length - 1]}` : 'not recorded';
   };
-  return `Static sales fixture: ${rows.length} opportunities; created dates ${range('created_date')}; close dates ${range('close_date')}. All supplied rows are included without a reporting-period filter. Scenario snapshot: ${salesScenarioDate}, an invented demo assumption. The source capture date was not recorded; stages are shown as supplied.`;
+  return `Static sales fixture: ${rows.length} opportunities; created dates ${range('created_date')}; close dates ${range('close_date')}. All supplied rows are included without a reporting-period filter. Scenario snapshot: ${salesScenarioDate}, an invented demo assumption. Dates and stages are constructed to be consistent with that date, not captured or reconstructed CRM history. Closed-stage close dates are actual within the scenario; open-stage close dates are expected.`;
 }
 
 const salesDateScope = fixtureDateScope(source.sfdc);

@@ -5,7 +5,7 @@ const { buildPipelineReview } = require('../src/data/pipelineReview');
 const { buildReviewHandoff, reviewHandoffText } = require('../src/data/reviewFacts');
 const { aggregateMart, enrichBenchmarks, buildPipelineIntelligence } = require('../src/data/pressureIndex');
 const source = require('../src/data/sourceData.json');
-const snapshot = '2026-08-31';
+const snapshot = '2026-03-31';
 const parse = csv => csv.trim().split('\r\n').map(line => Array.from(line.matchAll(/"((?:[^"]|"")*)"(?:,|$)/g), match => match[1].replace(/""/g, '"')));
 
 test('recipient packets reconcile every overdue opportunity and owner across supplied specialties', () => {
@@ -42,7 +42,7 @@ test('recipient packets reconcile every overdue opportunity and owner across sup
 });
 
 test('CSV excludes closed, future, same-day, invalid and other-specialty rows and escapes cells', () => {
-  const base = { account_specialty: 'A', opportunity_id: '006001', account_name: 'Practice, "A"', owner: 'Owner', region: 'East', stage: 'Discovery', amount: 12.34, close_date: '2026-08-30' };
+  const base = { account_specialty: 'A', opportunity_id: '006001', account_name: 'Practice, "A"', owner: 'Owner', region: 'East', stage: 'Discovery', amount: 12.34, close_date: '2026-03-30' };
   const rows = [base, { ...base, opportunity_id: 'closed', stage: 'Closed Won' }, { ...base, opportunity_id: 'future', close_date: '2026-09-01' },
     { ...base, opportunity_id: 'today', close_date: snapshot }, { ...base, opportunity_id: 'invalid', close_date: '2026-02-30' }, { ...base, opportunity_id: 'other', account_specialty: 'B' }];
   const review = buildPipelineReview(rows, 'A', snapshot);

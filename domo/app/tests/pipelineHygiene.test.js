@@ -6,19 +6,21 @@ const { buildReviewHandoff, reviewHandoffText } = require('../src/data/reviewFac
 const { aggregateMart, enrichBenchmarks, buildPipelineIntelligence } = require('../src/data/pressureIndex');
 const source = require('../src/data/sourceData.json');
 
-test('fixture overdue totals reconcile to the full open-stage balance at the scenario date', () => {
+test('March fixture separates overdue exposure from open opportunities not yet overdue', () => {
   const original = JSON.stringify(source.sfdc);
   const result = pipelineHygiene(source.sfdc, salesScenarioDate);
   assert.equal(result.openCount, 472);
-  assert.equal(result.overdueCount, 472);
+  assert.equal(result.overdueCount, 278);
   assert.equal(result.openAmount, 40178200);
-  assert.equal(result.overdueAmount, result.openAmount);
-  assert.equal(result.overdueShare, 1);
-  assert.equal(result.minDaysOverdue, 17);
-  assert.equal(result.maxDaysOverdue, 324);
+  assert.equal(result.overdueAmount, 23546900);
+  assert.equal(result.openCount - result.overdueCount, 194);
+  assert.equal(result.openAmount - result.overdueAmount, 16631300);
+  assert.equal(result.overdueShare, 278 / 472);
+  assert.equal(result.minDaysOverdue, 1);
+  assert.equal(result.maxDaysOverdue, 171);
   assert.equal(result.unknownCloseDateCount, 0);
-  assert.match(pipelineHygieneText(result), /\$40,178,200\.00/);
-  assert.match(pipelineHygieneText(result), /100\.0% of open deals/);
+  assert.match(pipelineHygieneText(result), /\$23,546,900\.00/);
+  assert.match(pipelineHygieneText(result), /58\.9% of open deals/);
   assert.equal(JSON.stringify(source.sfdc), original);
 });
 
@@ -52,7 +54,7 @@ test('empty, zero and missing amounts preserve availability rather than inventin
   assert.equal(empty.overdueShare, null);
   assert.equal(empty.overdueAmount, 0);
   assert.equal(empty.minDaysOverdue, null);
-  const row = { stage: 'Discovery', close_date: '2026-08-30', amount: 0 };
+  const row = { stage: 'Discovery', close_date: '2026-03-30', amount: 0 };
   assert.equal(pipelineHygiene([row], salesScenarioDate).overdueAmount, 0);
   const invalid = pipelineHygiene([{ ...row, amount: null }], salesScenarioDate);
   assert.equal(invalid.overdueCount, 1);
@@ -64,13 +66,13 @@ test('specialty brief carries its own overdue exposure and prioritizes stage and
   const benchmarks = enrichBenchmarks(aggregateMart(source.mart));
   const pipeline = buildPipelineIntelligence(source.sfdc, benchmarks);
   const review = buildReviewHandoff(benchmarks, pipeline, 'Dermatology');
-  assert.equal(review.hygiene.overdueCount, 53);
-  assert.equal(review.hygiene.overdueAmount, 4579800);
+  assert.equal(review.hygiene.overdueCount, 25);
+  assert.equal(review.hygiene.overdueAmount, 2121500);
   assert.equal(review.questions[0].owner, 'Sales operations lead');
   assert.equal(review.questions[0].next, firstSalesCheck);
   const output = reviewHandoffText(review, { evidence: [], observation: '', question: '', reviewer: '', nextCheck: '' });
-  assert.match(output, /53 of 53 open deals/);
-  assert.match(output, /\$4,579,800\.00/);
+  assert.match(output, /25 of 53 open deals/);
+  assert.match(output, /\$2,121,500\.00/);
   assert.ok(output.includes(firstSalesCheck));
   assert.ok(output.indexOf('First sales follow-up') < output.indexOf('## Analyst draft')); 
 });
