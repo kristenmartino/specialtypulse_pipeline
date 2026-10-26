@@ -1,0 +1,31 @@
+{
+  "status": "verified",
+  "engine": "Databricks Spark / Unity Catalog Delta",
+  "executed_at": "2026-10-26T18:03:09.980348+00:00",
+  "spark_version": "4.2.0",
+  "source_revision": "234a6a6b92c54954b9965084a278f888f5633a1e",
+  "run_key": "825978579773268",
+  "raw_rows": 29982,
+  "staging_rows": 29982,
+  "mart_rows": 870,
+  "mart_business_sha256": "b48cee7483c3350c896aca83b73ee87c69ad2d9edfbbcd1f48372baaee91e58d",
+  "export_sha256": "da92070a5196209247dd6e4e116b43712b1b05001786a3f2f8eae718131aa232",
+  "export_path": "/Volumes/workspace/specialtypulse_raw/fixtures/runs/825978579773268/mart.csv",
+  "tables": [
+    "workspace.specialtypulse_raw.cms_physician_puf_raw",
+    "workspace.specialtypulse_staging.stg_cms_physician_puf",
+    "workspace.specialtypulse_marts.mart_reimbursement_trends"
+  ],
+  "source_sha256": {
+    "data/sample_2021_puf_10k.csv": "fa421729e5c0f57186c21ff05795407e72f40a0cab7a5c40b01b3ad9e6c709a9",
+    "data/sample_2022_puf_10k.csv": "7b3d6572f14560b813092700369be6f8acab6b6b02b6239b1fe69a778c730d9f",
+    "data/sample_2023_puf_10k.csv": "7ce9441204f55d8a9a9273f9d21d5e862a58ece27a053054ca8d6a950b44f0e5"
+  },
+  "code_sha256": {
+    "databricks/notebooks/pipeline_transforms.py": "8a09a6685cb5e0d05a232380ba203879e2c256893085c7e4daeb8a29ac8eb418",
+    "databricks/notebooks/05_cloud_pipeline.py": "1539a15117760c78e33dc2ddc5ed01091bfacd5c88529a942f3efaf4387a0940",
+    "deployment/contracts.py": "ace3029bfd44e7dfdba09cd85753e0deeca02996035d06f80d0e41ceee8aa3a3",
+    "deployment/__init__.py": "a21f7ad072b798e069dab3148ee92131eeb7faa803a730956a8c5aea5941cbfc"
+  },
+  "scope": "Synthetic fixture pipeline and Delta readback; Airflow validates the exported artifact for the React build"
+}

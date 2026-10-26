@@ -1,0 +1,130 @@
+{
+  "verified_at": "2026-10-26T18:14:05.526241+00:00",
+  "data_scope": "Synthetic 2023 base and generated 2021\u20132022 comparison scenarios; not historical CMS observations",
+  "databricks": {
+    "job_id": 439537111908840,
+    "spark_version": "4.2.0",
+    "raw_rows": 29982,
+    "staging_rows": 29982,
+    "mart_rows": 870,
+    "source_revision": "234a6a6b92c54954b9965084a278f888f5633a1e",
+    "canonical_business_sha256": "b48cee7483c3350c896aca83b73ee87c69ad2d9edfbbcd1f48372baaee91e58d",
+    "comparison": "All business values match the reconciled local Spark artifact; timestamps and numeric encodings normalized"
+  },
+  "airflow": {
+    "version": "3.1.8",
+    "runtime": "Local macOS user service; Mac must be awake and user signed in",
+    "authentication": "Official Databricks CLI unified OAuth using macOS secure storage",
+    "dag_id": "specialtypulse_annual_pipeline",
+    "schedule": "@yearly (UTC)",
+    "enabled": true,
+    "next_run_utc": "2027-01-01T00:00:00+00:00",
+    "next_run_america_new_york": "2026-12-31T19:00:00-05:00",
+    "successful_runs": [
+      {
+        "run_id": "scheduled__2026-01-01T00:00:00+00:00",
+        "state": "success",
+        "start_date": "2026-10-26 17:59:59.044237",
+        "end_date": "2026-10-26 18:03:27.483668",
+        "tasks": [
+          {
+            "task_id": "validate_inputs",
+            "state": "success",
+            "try_number": 2,
+            "start_date": "2026-10-26 18:02:13.411978",
+            "end_date": "2026-10-26 18:02:16.452457"
+          },
+          {
+            "task_id": "run_databricks_pipeline",
+            "state": "success",
+            "try_number": 1,
+            "start_date": "2026-10-26 18:02:16.665722",
+            "end_date": "2026-10-26 18:03:22.937574"
+          },
+          {
+            "task_id": "publish_dashboard_export",
+            "state": "success",
+            "try_number": 1,
+            "start_date": "2026-10-26 18:03:23.912593",
+            "end_date": "2026-10-26 18:03:27.282276"
+          },
+          {
+            "task_id": "notify_success",
+            "state": "success",
+            "try_number": 1,
+            "start_date": "2026-10-26 18:03:27.334667",
+            "end_date": "2026-10-26 18:03:27.390080"
+          }
+        ],
+        "databricks_run_id": 825978579773268,
+        "receipt_path": "data/releases/databricks-825978579773268/receipt.json"
+      },
+      {
+        "run_id": "verified-cloud-2026-10-26-clean",
+        "state": "success",
+        "start_date": "2026-10-26 18:11:33.070220",
+        "end_date": "2026-10-26 18:12:35.621933",
+        "tasks": [
+          {
+            "task_id": "validate_inputs",
+            "state": "success",
+            "try_number": 1,
+            "start_date": "2026-10-26 18:11:33.140482",
+            "end_date": "2026-10-26 18:11:35.312766"
+          },
+          {
+            "task_id": "run_databricks_pipeline",
+            "state": "success",
+            "try_number": 1,
+            "start_date": "2026-10-26 18:11:36.410307",
+            "end_date": "2026-10-26 18:12:30.440972"
+          },
+          {
+            "task_id": "publish_dashboard_export",
+            "state": "success",
+            "try_number": 1,
+            "start_date": "2026-10-26 18:12:30.670630",
+            "end_date": "2026-10-26 18:12:34.312992"
+          },
+          {
+            "task_id": "notify_success",
+            "state": "success",
+            "try_number": 1,
+            "start_date": "2026-10-26 18:12:34.541472",
+            "end_date": "2026-10-26 18:12:34.581878"
+          }
+        ],
+        "databricks_run_id": 527988765998273,
+        "receipt_path": "data/releases/databricks-527988765998273/receipt.json"
+      }
+    ],
+    "startup_issue": {
+      "run_id": "verified-cloud-2026-10-26",
+      "state": "failed",
+      "phase": "validate_inputs; no Databricks submission",
+      "resolution": "Correct task API port and prevent macOS system-proxy discovery inside forked workers. The clean follow-up passed on first attempts."
+    },
+    "timestamps_timezone": "UTC",
+    "code_sha256": {
+      "airflow/dags/specialtypulse_dag.py": "781e9022a7fb670c094e2c1af66dc2ed99ee739a359e3cf09942d81c1010c240",
+      "deployment/airflow_tasks.py": "745247c823a9df19be853508e075f31933f61270acc51c1ec81ff695ef86d1f2",
+      "deployment/export_release.py": "e1db821f289035908cffad62feee1577f9f14ac174450f96fecdffe6b049156b"
+    }
+  },
+  "release": {
+    "engine": "Databricks Spark / Unity Catalog Delta",
+    "run_id": "527988765998273",
+    "mart": "releases/databricks-527988765998273/mart.csv",
+    "receipt": "releases/databricks-527988765998273/receipt.json",
+    "executed_at": "2026-10-26T18:12:25.096111+00:00",
+    "source_revision": "234a6a6b92c54954b9965084a278f888f5633a1e",
+    "export_sha256": "dc2840f9067b7e6aea512b3c4a581e0c1473adb666815faf9a141425bf9b2fa5",
+    "rows": 870,
+    "publication": "Selected for the next React build; website publication requires a release deployment"
+  },
+  "human_validation": {
+    "pairs_completed": 0,
+    "pairs_planned": 5,
+    "measured_business_outcomes": false
+  }
+}

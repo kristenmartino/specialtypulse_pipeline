@@ -31,12 +31,14 @@ scheduled export creation does not automatically publish a new website.
 
 - The recorded local Spark run processes **29,982 raw rows into 870 mart rows**.
   Independent Decimal calculations and CI reproduce every business column.
-- Databricks and Airflow run receipts are recorded separately when those services
-  execute. An imported DAG, healthy scheduler or passing offline tests do not
-  establish successful external execution. See the deployment runbook for status.
-- Without a selected cloud export, the dashboard uses the recorded local Spark
-  artifact. Its downloaded briefs pin the selected mart and receipt to the app
-  build's repository revision.
+- Databricks Spark 4.2.0 and Airflow 3.1.8 completed scheduled and clean manual
+  runs on October 26, 2026. All four clean-run tasks passed on first attempts.
+  [Cloud execution evidence](data/deployment_verification.json) records task
+  states and export receipts. Airflow runs locally on the Mac with secure CLI
+  OAuth and an enabled annual schedule; host availability remains a dependency.
+- The dashboard uses the selected verified Databricks export. Its downloaded
+  briefs pin that mart and receipt to the app build's repository revision. A
+  website release is separate from scheduled export creation.
 - Sales, usage, comparison scenarios and access assignments are synthetic.
   **The public dashboard does not enforce user-specific access controls.**
 - One AI assistant completed an internal export rehearsal. No human study,

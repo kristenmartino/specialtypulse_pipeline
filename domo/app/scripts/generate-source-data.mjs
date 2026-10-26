@@ -125,7 +125,8 @@ const trace = {
   filter: { provider_specialty: "Dermatology", hcpcs_code: "99213", year: 2023, minimum_services: 11 },
   source_row_count: inputs.length, payment_service_cents: paymentServiceCents,
   verification_mart_row: { provider_specialty: displayed.provider_specialty, hcpcs_code: displayed.hcpcs_code, year: displayed.year, total_services: displayed.total_services, avg_medicare_payment: displayed.avg_medicare_payment },
-  pipeline_executed_at: pipeline?.executedAt || receipt.executed_at, engine: pipeline?.engine || receipt.runtime.engine, mart_rows: mart.length, inputs,
+  pipeline_executed_at: pipeline?.executedAt || receipt.executed_at, engine: pipeline?.engine || receipt.runtime.engine,
+  pipeline_receipt_path: pipeline?.receiptPath || "data/pipeline_run.json", mart_rows: mart.length, inputs,
 };
 writeFileSync(resolve(dataDir, "payment_verification.json"), JSON.stringify(trace, null, 2) + "\n");
 console.log(`Reconciled displayed payment: ${inputs.length} raw rows → ${totalServices} services → $${displayed.avg_medicare_payment.toFixed(2)}`);

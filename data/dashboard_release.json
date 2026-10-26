@@ -1,0 +1,11 @@
+{
+  "engine": "Databricks Spark / Unity Catalog Delta",
+  "run_id": "527988765998273",
+  "mart": "releases/databricks-527988765998273/mart.csv",
+  "receipt": "releases/databricks-527988765998273/receipt.json",
+  "executed_at": "2026-10-26T18:12:25.096111+00:00",
+  "source_revision": "234a6a6b92c54954b9965084a278f888f5633a1e",
+  "export_sha256": "dc2840f9067b7e6aea512b3c4a581e0c1473adb666815faf9a141425bf9b2fa5",
+  "rows": 870,
+  "publication": "Selected for the next React build; website publication requires a release deployment"
+}

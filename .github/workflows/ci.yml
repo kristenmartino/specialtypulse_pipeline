@@ -24,7 +24,7 @@ jobs:
           cache: pip
 
       - name: Install dependencies
-        run: pip install ruff pytest requests==2.32.5 apache-airflow==3.1.8 apache-airflow-providers-databricks==7.10.0 databricks-sdk==0.157.0 aiofiles
+        run: pip install ruff pytest requests==2.32.5 apache-airflow==3.1.8 databricks-sdk==0.157.0 aiofiles
 
       - name: Lint Python files
         run: ruff check .
