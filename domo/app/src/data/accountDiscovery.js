@@ -28,7 +28,7 @@ function discoveryText(specialty, id) {
     '', '## Selected fictional account-discovery example',
     `${example.name} · ${example.specialty} · scenario snapshot ${discovery.scenarioDate}`,
     discovery.disclosure,
-    'Both examples share the same specialty-level payment comparison. Their different follow-up decisions come from invented account records, not the specialty score. Differences between practices are not measured savings.',
+    'Both examples share the same specialty-level payment comparison. Their different follow-up decisions come from invented account records. Differences between practices are not measured savings.',
     ...discoveryRows(example).map(([label, value]) => `${label}: ${value}`),
     '', '### Invented source excerpts',
     ...example.sources.map(source => `${source.id} · ${source.date} · ${source.type}: ${source.content}`),

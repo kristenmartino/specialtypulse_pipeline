@@ -4,17 +4,18 @@ const { buildReviewHandoff, reviewHandoffText } = require('../src/data/reviewFac
 const { aggregateMart, enrichBenchmarks, buildPipelineIntelligence } = require('../src/data/pressureIndex');
 const source = require('../src/data/sourceData.json');
 
-test('sample handoff reconciles the selected scenario and active exposure', () => {
+test('an explicitly selected handoff reconciles its scenario and exposure without an experimental score', () => {
   const benchmarks = enrichBenchmarks(aggregateMart(source.mart));
   const pipeline = buildPipelineIntelligence(source.sfdc, benchmarks);
-  const review = buildReviewHandoff(benchmarks, pipeline);
+  const review = buildReviewHandoff(benchmarks, pipeline, 'Orthopedic Surgery');
   assert.equal(review.specialty, 'Orthopedic Surgery');
-  assert.equal(review.score, 70.1);
+  assert.equal(review.score, undefined);
   assert.equal(review.amount, 6272200);
   assert.equal(review.deals, 47);
   assert.equal((review.share * 100).toFixed(1), '15.6');
   assert.equal((review.paymentChange * 100).toFixed(1), '-3.9');
   const text = reviewHandoffText(review);
+  assert.ok(!/pressure|score/i.test(text));
   assert.ok(text.includes('$6,272,200 across 47 deals'));
   assert.ok(text.includes('source and account validation pending'));
   assert.ok(text.includes('No stakeholder review, account validation, approved shortlist or business outcome is recorded.'));
@@ -35,13 +36,13 @@ test('changing the handoff specialty changes its evidence without mixing closed 
   const review = buildReviewHandoff(benchmarks, pipeline, 'A');
   assert.equal(review.specialty,'A');
   assert.equal(review.year,2023);
-  assert.equal(review.score,40);
+  assert.equal(review.score,undefined);
   assert.equal(review.amount,100);
   assert.equal(review.deals,1);
   assert.equal(review.share,1);
   assert.equal(review.paymentChange,null);
   assert.ok(reviewHandoffText(review).includes('payment change: Unavailable'));
-  assert.equal(buildReviewHandoff(benchmarks,pipeline).specialty,'B');
+  assert.equal(buildReviewHandoff(benchmarks,pipeline).specialty,'A');
   assert.equal(JSON.stringify({benchmarks,pipeline}),before);
   assert.equal(buildReviewHandoff(benchmarks,pipeline,'missing'),null);
   assert.equal(buildReviewHandoff([],pipeline),null);

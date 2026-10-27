@@ -1,4 +1,5 @@
 const { salesScenarioDate, missingSalesText } = require('./salesContext');
+const { pipelineHygieneText, firstSalesCheck } = require('./pipelineHygiene');
 
 const sourceRevision = typeof __SP_SOURCE_REVISION__ === 'string' ? __SP_SOURCE_REVISION__ : 'main';
 const textCell = value => String(value ?? '—').replace(/\r?\n/g, ' ').replace(/\|/g, '\\|');
@@ -15,11 +16,16 @@ function salesReviewCsv(review, revision = sourceRevision) {
 }
 
 function salesReviewAppendix(review) {
-  if (!review.coverage.hasRecords) return ['## Sales review appendix', missingSalesText(review.specialty)];
+  if (!review.coverage.hasRecords) return ['## Sales review appendix', 'Optional pipeline context; not required to prepare discovery questions.', missingSalesText(review.specialty)];
   const owners = review.owners.filter(row => row.deals > 0).sort((a, b) => (b.totalAmount ?? -1) - (a.totalAmount ?? -1));
   return [
     '## Sales review appendix',
+    'Optional pipeline context; not required to prepare discovery questions.',
     `Specialty: ${review.specialty}. Synthetic records; invented scenario snapshot ${salesScenarioDate}. Stages are supplied, not confirmed. This packet does not update a CRM.`,
+    '',
+    '### Pipeline data check',
+    pipelineHygieneText(review.hygiene),
+    firstSalesCheck,
     '',
     '### Open-stage owner summary',
     'Open-stage totals include overdue opportunities. Ages use only valid overdue dates; an em dash means no eligible date. Amounts are assumed ACV in USD, not revenue or a forecast.',

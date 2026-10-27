@@ -19,11 +19,12 @@ test('absent Cardiology coverage stays unavailable in summary and brief, with it
   const brief = reviewHandoffText(review);
   assert.match(brief, /No sales records supplied for Cardiology/);
   assert.match(brief, /Sales amounts, deal counts and pipeline share are unavailable/);
-  assert.match(brief, /Confirm sales source coverage/);
+  assert.match(brief, /Confirm source coverage/);
   assert.match(brief, /\[Synthetic sales CSV snapshot\]/);
   assert.ok(!brief.includes('Synthetic open-stage pipeline: $0'));
   assert.ok(!brief.includes('0 of 0 open deals'));
-  assert.match(review.questions[0].next, /Confirm sales source coverage/);
+  assert.equal(review.questions[0].owner, 'Specialty analyst');
+  assert.match(brief.split('## Sales review appendix')[1], /No sales records supplied for Cardiology/);
 });
 
 test('supplied records with no open deals remain a known zero rather than missing coverage', () => {

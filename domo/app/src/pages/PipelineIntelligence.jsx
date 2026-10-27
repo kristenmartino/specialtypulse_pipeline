@@ -17,13 +17,12 @@ export default function PipelineIntelligence({ pipeline, isSample = false, selec
   const review = useMemo(() => buildPipelineReview(pipeline, selectedSpecialty, salesScenarioDate), [pipeline, selectedSpecialty]);
   const hasSales = review.coverage.hasRecords;
   const hygiene = isSample && hasSales ? review.hygiene : null;
-  // Active pipeline totals and independent specialty scores.
+  // Open-stage pipeline comparisons remain independent of experimental scores.
   const specData = useMemo(() => {
     const bySpec = groupBy(activePipeline(pipeline), "account_specialty");
     return Object.entries(bySpec).map(([spec, rows]) => ({
       specialty: spec,
       totalAmount: rows.reduce((s, r) => s + Number(r.amount), 0),
-      pressureIndex: Number(rows[0]?.pressure_index || 0),
       count: rows.length,
     })).sort((a, b) => b.totalAmount - a.totalAmount);
   }, [pipeline]);
@@ -70,9 +69,10 @@ export default function PipelineIntelligence({ pipeline, isSample = false, selec
         <p>The sales fixture contains {review.coverage.specialtyCount} specialties; reimbursement reporting contains {specialties.length}. Procedure comparisons remain available.</p>
       </section>}
       {hygiene && <section className="span-full pipeline-hygiene" aria-label="Overdue pipeline review">
-        <h2>Review overdue pipeline first</h2>
+        <h2>Pipeline data check</h2>
         <p className="pipeline-hygiene-metrics"><strong>{hygiene.overdueCount} of {hygiene.openCount} open deals overdue</strong><span>{fmt.usd0(hygiene.overdueAmount)} assumed USD ACV</span>{hygiene.overdueCount > 0 && <span>{hygiene.minDaysOverdue}–{hygiene.maxDaysOverdue} days overdue</span>}</p>
-        <p>Reconcile stages and close dates with sales operations before planning. Invented snapshot: {salesScenarioDate}.</p>
+        <p>{firstSalesCheck}</p>
+        <p>Invented snapshot: {salesScenarioDate}. This check applies to pipeline planning; discovery questions can be prepared separately.</p>
       </section>}
       {/* KPI Row */}
       <div className="kpi-row pipeline-kpis span-full">
@@ -86,7 +86,6 @@ export default function PipelineIntelligence({ pipeline, isSample = false, selec
         <p>{amountBasis}</p>
         <p>{salesDateScope}</p>
         {hygiene && <p>{pipelineHygieneText(hygiene)}</p>}
-        <p>{firstSalesCheck}</p>
         <p>Reviewing these records does not update a CRM or confirm any changes. Oldest and median ages use open deals with valid close dates before the snapshot; an em dash means no eligible dates.</p>
       </details>}
 
@@ -102,7 +101,7 @@ export default function PipelineIntelligence({ pipeline, isSample = false, selec
           : <p>{hasSales ? `No overdue open opportunities in the supplied records for ${selectedSpecialty}.` : missingSalesText(selectedSpecialty)}</p>}
       </ChartPanel>
 
-      {/* Pipeline amounts are shown separately from specialty pressure scores. */}
+      {/* Compare only the supplied open-stage amounts across specialties. */}
       <ChartPanel title="Compare pipeline across specialties" subtitle="All specialties in the sales fixture · open deals, including overdue" className="span-full">
         <ResponsiveContainer width="100%" height={300}>
           <BarChart data={specData}>
@@ -119,13 +118,7 @@ export default function PipelineIntelligence({ pipeline, isSample = false, selec
         </ResponsiveContainer>
       </ChartPanel>
 
-      <ChartPanel title="Specialty pressure scores" subtitle="All specialties with open deals · select a row to change review scope · project-defined scale 0–100" className="span-full">
-        <DataTable columns={[
-          { key: "specialty", label: "Specialty" },
-          { key: "pressureIndex", label: "Pressure score", render: v => fmt.score(v) },
-          { key: "count", label: isSample ? "Open deals" : "Active deals" },
-        ]} data={specData} defaultSort="pressureIndex" onRowClick={row => onSelectSpecialty(row.specialty)} />
-      </ChartPanel>
+
     </div>
   );
 }

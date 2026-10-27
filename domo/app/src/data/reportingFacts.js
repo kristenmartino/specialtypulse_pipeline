@@ -9,6 +9,11 @@ const latestRows = (rows) => {
   return { year, rows: year == null ? [] : rows.filter(r => Number(r.year) === year) };
 };
 
+function defaultReviewSpecialty(benchmarks) {
+  const names = [...new Set(latestRows(benchmarks).rows.map(row => row.provider_specialty))].sort((a, b) => a.localeCompare(b));
+  return names.includes('Dermatology') ? 'Dermatology' : names[0] || '';
+}
+
 function largestDeviation(rows) {
   const row = rows.filter(r => isFlagged(r) && numeric(r.payment_vs_specialty_pct))
     .sort((a, b) => Math.abs(Number(b.payment_vs_specialty_pct)) - Math.abs(Number(a.payment_vs_specialty_pct)))[0];
@@ -24,25 +29,23 @@ function buildBriefFacts(benchmarks, mart, pipeline) {
   const total = active.reduce((s, r) => s + (numeric(r.amount) ? Number(r.amount) : 0), 0);
   const names = new Set([...market.rows.map(r => r.provider_specialty), ...active.map(r => r.account_specialty)]);
   const specialties = [...names].sort().map(name => {
-    const benchmark = market.rows.find(r => r.provider_specialty === name);
     const coverage = salesCoverage(pipeline, name);
     const deals = active.filter(r => r.account_specialty === name);
     const amount = deals.reduce((s, r) => s + (numeric(r.amount) ? Number(r.amount) : 0), 0);
-    return { name, pressure: numeric(benchmark?.pressure_index) ? Number(benchmark.pressure_index) : null,
+    return { name,
       coverage, amount: coverage.hasRecords ? amount : null, deals: coverage.hasRecords ? deals.length : null,
       share: coverage.hasRecords && total > 0 ? amount / total : null };
   });
-  const top = [...specialties].filter(r => r.pressure != null).sort((a, b) => b.pressure - a.pressure)[0] || null;
+  const example = specialties.find(row => row.name === defaultReviewSpecialty(benchmarks)) || null;
   const cut = [...market.rows].filter(r => numeric(r.avg_yoy_payment_change) && Number(r.avg_yoy_payment_change) < 0)
     .sort((a, b) => Number(a.avg_yoy_payment_change) - Number(b.avg_yoy_payment_change))[0] || null;
   const deviation = largestDeviation(procedures.rows);
   const evidence = [];
   const focuses = [];
-  if (top) {
-    evidence.push({ id: "pressure", text: `${top.name} has the highest pressure score (${top.pressure.toFixed(1)}/100).` });
-    evidence.push({ id: "pipeline", text: top.coverage.hasRecords ? `${top.name} has $${top.amount.toLocaleString("en-US")} in open-stage pipeline across ${top.deals} deals${top.share == null ? "" : ` (${(top.share * 100).toFixed(1)}% of the open-stage total)`}.` : missingSalesText(top.name) });
+  if (example) {
+    evidence.push({ id: "pipeline", text: example.coverage.hasRecords ? `Worked example: ${example.name} has $${example.amount.toLocaleString("en-US")} in open-stage pipeline across ${example.deals} deals${example.share == null ? "" : ` (${(example.share * 100).toFixed(1)}% of the open-stage total)`}.` : missingSalesText(example.name) });
     focuses.push({ id: "compare-coverage", title: "Compare pipeline by specialty",
-      text: "Compare open-stage amounts and pressure scores by specialty.", target: "pipeline", specialty: top.name, evidenceIds: ["pressure", "pipeline"] });
+      text: "Compare open-stage amounts by specialty.", target: "pipeline", specialty: example.name, evidenceIds: ["pipeline"] });
   }
   if (cut) {
     evidence.push({ id: "payment", text: `${cut.provider_specialty} has the lowest average procedure-level payment change (${(Number(cut.avg_yoy_payment_change) * 100).toFixed(1)}% year over year).` });
@@ -54,7 +57,7 @@ function buildBriefFacts(benchmarks, mart, pipeline) {
     focuses.push({ id: "review-deviation", title: `Inspect ${deviation.row.provider_specialty} outliers`,
       text: "Open the flagged procedure and its payment comparison.", target: "procedure", specialty: deviation.row.provider_specialty, evidenceIds: ["deviation"] });
   }
-  return { year: market.year, procedureYear: procedures.year, total, specialties, top, cut, deviation, evidence, focuses };
+  return { year: market.year, procedureYear: procedures.year, total, specialties, example, cut, deviation, evidence, focuses };
 }
 
 function topProcedures(rows, specialty, limit = 10) {
@@ -76,4 +79,4 @@ function policyGroupCount(config) {
   return new Set(config.map(row => JSON.stringify([row.role, row.filter_dimension, row.filter_values]))).size;
 }
 
-module.exports = { policyGroupCount, activePipeline, latestRows, largestDeviation, buildBriefFacts, topProcedures, verificationState };
+module.exports = { policyGroupCount, activePipeline, latestRows, defaultReviewSpecialty, largestDeviation, buildBriefFacts, topProcedures, verificationState };
