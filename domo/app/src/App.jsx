@@ -8,7 +8,7 @@ import ProcedureDetail from "./pages/ProcedureDetail";
 import PipelineIntelligence from "./pages/PipelineIntelligence";
 import AdoptionTracking from "./pages/AdoptionTracking";
 import PdpGovernance from "./pages/PdpGovernance";
-import { buildReviewHandoff } from "./data/reviewFacts";
+import { defaultReviewSpecialty } from "./data/reportingFacts";
 import { initialReviewState, getReviewDraft, reviewReducer } from "./data/reviewDraft";
 import { readReviewLocation, reviewSearch } from "./data/reviewLocation";
 import { businessSetting } from "./data/salesContext";
@@ -53,7 +53,7 @@ export default function App() {
   const [mart, setMart]               = useState([]);
   const [engagement, setEngagement]   = useState([]);
 
-  const defaultSpecialty = useMemo(() => buildReviewHandoff(benchmarks, pipeline)?.specialty || '', [benchmarks, pipeline]);
+  const defaultSpecialty = useMemo(() => defaultReviewSpecialty(benchmarks), [benchmarks]);
   const selectedSpecialty = reviewState.specialty || defaultSpecialty;
   const draft = getReviewDraft(reviewState, selectedSpecialty);
   const openBrief = () => { setReviewOpen(true); setFocusEditor(value => value + 1); setTab('market'); };
@@ -120,7 +120,7 @@ export default function App() {
       );
     }
     switch (tab) {
-      case "market":    return <><ReviewHandoff benchmarks={benchmarks} pipeline={pipeline} onNavigate={navigateToResult} selected={selectedSpecialty} onSelect={selectSpecialty} draft={draft} onEdit={(field, value) => dispatchReview({ type: 'edit', specialty: selectedSpecialty, field, value })} onRemove={id => dispatchReview({ type: 'remove-procedure', specialty: selectedSpecialty, id })} open={reviewOpen} onOpenChange={setReviewOpen} focusEditor={focusEditor} accountExamplesOpen={accountExamplesOpen} onAccountExamplesOpenChange={setAccountExamplesOpen} focusAccountExamples={focusAccountExamples} onAccountExamplesFocused={() => setFocusAccountExamples(false)} /><MarketIntelligence benchmarks={benchmarks} onDrill={drillToSpecialty} /></>;
+      case "market":    return <><ReviewHandoff benchmarks={benchmarks} pipeline={pipeline} onNavigate={navigateToResult} selected={selectedSpecialty} onSelect={selectSpecialty} draft={draft} onEdit={(field, value) => dispatchReview({ type: 'edit', specialty: selectedSpecialty, field, value })} onRemove={id => dispatchReview({ type: 'remove-procedure', specialty: selectedSpecialty, id })} open={reviewOpen} onOpenChange={setReviewOpen} focusEditor={focusEditor} accountExamplesOpen={accountExamplesOpen} onAccountExamplesOpenChange={setAccountExamplesOpen} focusAccountExamples={focusAccountExamples} onAccountExamplesFocused={() => setFocusAccountExamples(false)} /><MarketIntelligence benchmarks={benchmarks} selectedSpecialty={selectedSpecialty} onDrill={drillToSpecialty} /></>;
       case "procedure": return <ProcedureDetail mart={mart} focusSpecialty={selectedSpecialty} onSelectSpecialty={selectSpecialty} onAddProcedure={addProcedure} onOpenBrief={openBrief} procedureCode={procedureCode} onSelectProcedure={setProcedureCode} comparisonYear={comparisonYear} onSelectYear={setComparisonYear} />;
       case "pipeline":  return <PipelineIntelligence pipeline={pipeline} isSample={true} selectedSpecialty={selectedSpecialty} specialties={[...new Set(benchmarks.map(row => row.provider_specialty))].sort()} onSelectSpecialty={selectSpecialty} onOpenBrief={openBrief} />;
       case "adoption":  return <AdoptionTracking engagement={engagement} config={config} />;

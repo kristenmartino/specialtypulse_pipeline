@@ -5,7 +5,6 @@ import { latestRows } from '../data/reportingFacts';
 import { fmt } from '../data/constants';
 import ProcedureEvidence, { ProcedureEvidenceSummary } from './ProcedureEvidence';
 import { amountBasis, salesDateScope, missingSalesText } from '../data/salesContext';
-import { pipelineHygieneText, firstSalesCheck } from '../data/pipelineHygiene';
 import { salesReviewCsv } from '../data/salesPacket';
 import AccountDiscovery from './AccountDiscovery';
 
@@ -37,7 +36,7 @@ export default function ReviewHandoff({ benchmarks, pipeline, onNavigate, select
     <div className="review-start" aria-labelledby="review-start-heading">
       <div>
         <h2 id="review-start-heading">Specialty review</h2>
-        <p>For analysts supporting healthcare-software sales: compare reimbursement scenarios and prepare a review brief.</p>
+        <p>For analysts supporting healthcare-software sales: explore reimbursement scenarios and prepare account-discovery questions.</p>
       </div>
       <button type="button" className={open ? "exec-brief-link" : "review-start-button"} aria-controls="review-handoff" aria-expanded={open} onClick={() => { onOpenChange(!open); if (!open) setStartRequest(value => value + 1); }}>{open ? "Close brief" : "Start review →"}</button>
     </div>
@@ -49,23 +48,20 @@ export default function ReviewHandoff({ benchmarks, pipeline, onNavigate, select
             {specialties.map(name => <option key={name} value={name}>{name}</option>)}
           </select>
         </div>
-        <p className="review-status">Source and account validation pending. Specialty scores are not account priorities.</p>
+        <p className="review-status">Source and account validation pending.{review.specialty === 'Dermatology' ? ' Dermatology is the worked example.' : ''}</p>
         {!review.coverage.hasRecords && <p className="review-status" role="status"><strong>{missingSalesText(review.specialty)}</strong></p>}
-        {review.hygiene.overdueCount > 0 && <p className="review-status"><strong>Sales follow-up first:</strong> {review.hygiene.overdueCount} of {review.hygiene.openCount} open deals have overdue close dates. Verify stages and dates before planning.</p>}
         <div className="review-links">
           <button type="button" className="exec-brief-link" onClick={() => onNavigate('procedure', review.specialty)}>Inspect {review.specialty} procedures →</button>
-          <button type="button" className="exec-brief-link" onClick={() => onNavigate('pipeline', review.specialty)}>Compare pipeline exposure →</button>
+          <button type="button" className="exec-brief-link" onClick={() => onNavigate('pipeline', review.specialty)}>Optional pipeline context →</button>
         </div>
         <details className="review-evaluation review-context">
           <summary>Specialty context · sample data</summary>
         <h3>Sample handoff: {review.specialty}</h3>
         <p><strong>Recipient:</strong> Sales or operations lead. <strong>Requested next step:</strong> review the supporting observations and assign the follow-up questions below.</p>
         <ul>
-          <li>Scenario pressure score: <strong>{fmt.score(review.score)}/100</strong>, using project-defined weights.</li>
           <li>Average procedure-level payment change: <strong>{fmt.pct(review.paymentChange)}</strong> in the constructed CY{review.year - 1}–{review.year} comparison.</li>
           {review.coverage.hasRecords && <li>Synthetic open-stage pipeline: <strong>{fmt.usd0(review.amount)}</strong> across {review.deals} deals{review.share == null ? '' : ` (${fmt.pct(review.share)} of open-stage pipeline)`}. Includes overdue open opportunities.</li>}
         </ul>
-        {review.coverage.hasRecords && <><p>{pipelineHygieneText(review.hygiene)}</p><p>{firstSalesCheck}</p></>}
         <p>{amountBasis}</p>
         <p>{salesDateScope}</p>
         </details>
@@ -102,7 +98,7 @@ export default function ReviewHandoff({ benchmarks, pipeline, onNavigate, select
           <ul className="review-checklist">{completeness.checks.map(item => <li key={item.label}>{item.complete ? 'Included' : 'Missing'}: {item.label}</li>)}</ul>
           <a download={filename} href={`data:text/markdown;charset=utf-8,${encodeURIComponent(reviewHandoffText(review, draft))}`}>Download draft brief</a>
           {review.coverage.hasRecords && <p><a download={filename.replace('-review.md', '-overdue-opportunities.csv')} href={`data:text/csv;charset=utf-8,${encodeURIComponent(salesReviewCsv(review.salesReview))}`}>Download overdue opportunities CSV ({review.salesReview.overdue.length})</a></p>}
-          {review.coverage.hasRecords && <p className="review-status">The brief includes owner totals and the full overdue list for this specialty.</p>}
+          {review.coverage.hasRecords && <p className="review-status">The brief's optional sales appendix includes owner totals and the full overdue list for this specialty.</p>}
           <p className="review-status">Incomplete fields are marked. Download saves a copy; it does not send or assign the brief.</p>
         </section>
         <details className="review-evaluation">

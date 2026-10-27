@@ -2,9 +2,9 @@ import React, { useState, useMemo, useEffect } from "react";
 
 import { tableRows } from "../data/tableRows";
 
-export default function DataTable({ columns, data, defaultSort, className = "", onRowClick, pageSize = 0 }) {
+export default function DataTable({ columns, data, defaultSort, defaultSortDir = "desc", className = "", onRowClick, pageSize = 0 }) {
   const [sortCol, setSortCol] = useState(defaultSort || (columns[0] && columns[0].key));
-  const [sortDir, setSortDir] = useState("desc");
+  const [sortDir, setSortDir] = useState(defaultSortDir);
 
   const [page, setPage] = useState(0);
   useEffect(() => { setPage(0); }, [data, pageSize]);

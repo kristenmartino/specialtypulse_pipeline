@@ -34,7 +34,7 @@ function pipelineHygiene(rows, snapshotDate) {
   };
 }
 
-const firstSalesCheck = 'First sales follow-up: reconcile opportunity stages and close dates with the sales operations lead before using the open-stage total for planning. Record confirmed changes; past-due dates alone do not close or remove opportunities.';
+const firstSalesCheck = 'Before pipeline planning, reconcile opportunity stages and close dates with the sales operations lead. Record confirmed changes; past-due dates alone do not close or remove opportunities.';
 
 function pipelineHygieneText(facts) {
   const amount = facts.overdueAmount == null ? 'ACV unavailable' : `$${facts.overdueAmount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} in assumed USD ACV`;

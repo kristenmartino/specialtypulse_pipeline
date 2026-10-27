@@ -62,17 +62,21 @@ test('empty, zero and missing amounts preserve availability rather than inventin
   assert.match(pipelineHygieneText(invalid), /ACV unavailable/);
 });
 
-test('specialty brief carries its own overdue exposure and prioritizes stage and date review', () => {
+test('discovery brief keeps CRM checks in its optional sales appendix after discovery work', () => {
   const benchmarks = enrichBenchmarks(aggregateMart(source.mart));
   const pipeline = buildPipelineIntelligence(source.sfdc, benchmarks);
   const review = buildReviewHandoff(benchmarks, pipeline, 'Dermatology');
   assert.equal(review.hygiene.overdueCount, 25);
   assert.equal(review.hygiene.overdueAmount, 2121500);
-  assert.equal(review.questions[0].owner, 'Sales operations lead');
-  assert.equal(review.questions[0].next, firstSalesCheck);
+  assert.equal(review.questions[0].owner, 'Specialty analyst');
+  assert.ok(review.questions.every(item => item.next !== firstSalesCheck));
   const output = reviewHandoffText(review, { evidence: [], observation: '', question: '', reviewer: '', nextCheck: '' });
   assert.match(output, /25 of 53 open deals/);
   assert.match(output, /\$2,121,500\.00/);
   assert.ok(output.includes(firstSalesCheck));
-  assert.ok(output.indexOf('First sales follow-up') < output.indexOf('## Analyst draft')); 
+  assert.ok(output.indexOf('## Sales review appendix') > output.indexOf('## Suggested follow-up checks'));
+  assert.ok(output.indexOf(firstSalesCheck) > output.indexOf('## Sales review appendix'));
+  assert.ok(output.includes('Optional pipeline context; not required to prepare discovery questions.'));
+  assert.ok(!output.includes('Sales follow-up first'));
+  assert.ok(!output.split('## Sales review appendix')[0].includes(firstSalesCheck));
 });
