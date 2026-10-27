@@ -3,6 +3,7 @@ const initialReviewState = { specialty: '', drafts: {} };
 const draftFields = ['observation', 'question', 'reviewer', 'nextCheck'];
 const numeric = value => value != null && value !== '' && Number.isFinite(Number(value));
 const { buildProcedureComparison, evidenceReferences } = require('./procedureFacts');
+const { selectedDiscovery } = require('./accountDiscovery');
 
 function getReviewDraft(state, specialty) {
   return state.drafts[specialty] || emptyDraft;
@@ -16,7 +17,10 @@ function reviewReducer(state, action) {
   if (!specialty) return state;
   const draft = getReviewDraft(state, specialty);
   let next;
-  if (action.type === 'edit' && draftFields.includes(action.field)) {
+  if (action.type === 'edit' && action.field === 'accountDiscoveryId') {
+    if (action.value !== '' && !selectedDiscovery(specialty, action.value)) return state;
+    next = { ...draft, accountDiscoveryId: action.value };
+  } else if (action.type === 'edit' && draftFields.includes(action.field)) {
     next = { ...draft, [action.field]: action.value };
   } else if (action.type === 'add-procedure') {
     const row = action.procedure;

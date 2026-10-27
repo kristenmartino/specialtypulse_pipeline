@@ -355,6 +355,12 @@ ul.brief-evidence { padding-left: 20px; }
 .review-context { margin-bottom: 20px; }
 .review-checklist { color: var(--muted); font-size: 12px; }
 .review-editor > a { display: inline-block; margin-bottom: 10px; }
+.account-discovery { margin: 20px 0; padding: 0 0 16px; border-bottom: 1px solid var(--border); }
+.account-discovery h4 span { color: var(--muted); font-weight: 400; }
+.account-example { margin: 14px 0; padding: 12px 14px; border: 1px solid var(--border); overflow-wrap: anywhere; }
+.account-example > summary { cursor: pointer; color: var(--ice); }
+.account-example .review-questions { margin: 10px 0; }
+.account-example .procedure-add:disabled { color: var(--muted); cursor: default; }
 .procedure-with-action { grid-template-columns: minmax(200px, 1.4fr) minmax(120px, 1fr) 100px 112px; gap: 20px; }
 .procedure-add { padding: 8px 10px; border: 1px solid var(--border); background: var(--surface); border-radius: 2px; color: var(--teal-xlt); font-size: 13px; cursor: pointer; }
 .procedure-add:hover { border-color: var(--teal-xlt); }

@@ -1,0 +1,48 @@
+{
+  "scenarioDate": "2026-03-31",
+  "disclosure": "Fully synthetic account-discovery examples, not customer research. These standalone practices are not linked to the 500 sales opportunities and do not change pipeline totals. Reported needs and baselines are invented; software fit and real-world outcomes are unvalidated.",
+  "examples": [
+    {
+      "id": "dermatology-practice-a",
+      "name": "Practice A",
+      "specialty": "Dermatology",
+      "summary": "Billing-workflow review requested",
+      "discoveryDate": "2026-03-24",
+      "stakeholder": "Billing lead (fictional)",
+      "systems": "Generic practice-management system plus a spreadsheet follow-up list; no vendor affiliation.",
+      "workflow": "Staff copy claim follow-up items into a spreadsheet, check the payer portal, then re-enter status in the practice-management system.",
+      "reportedNeed": "The fictional billing lead reports duplicate status entry and difficulty keeping the follow-up list current. The work log illustrates time spent, not avoidable cost or proven savings.",
+      "baseline": "March 16–20, 2026: 60 claim follow-up items, 300 staff minutes in the invented work log. No implementation or before/after result is recorded.",
+      "payerContext": "Medicare and commercial payers are mentioned in the fictional notes; payer shares, denial rates and collection delays are unknown.",
+      "openQuestions": "Can the current system already manage this queue? What share of work is duplicate entry, and which payer or denial categories drive it? Obtain a longer baseline and confirm the workflow with its owner.",
+      "reviewer": "RCM solutions consultant with the practice billing lead (illustrative roles)",
+      "nextCheck": "Walk through one de-identified follow-up task and compare the fictional work log with current-system capabilities before assessing software fit.",
+      "decision": "Request a billing-workflow review; software fit remains pending.",
+      "sources": [
+        { "id": "A-NOTES-0324", "date": "2026-03-24", "type": "Invented discovery note", "content": "Billing lead: We use a spreadsheet beside the PM system. Staff copy follow-up items out, check payer portals and type the status back in. Keeping both lists current is difficult. Medicare and commercial payers are in the mix; shares and denial rates were not supplied." },
+        { "id": "A-LOG-0320", "date": "2026-03-20", "type": "Invented work-log excerpt", "content": "Period: March 16–20, 2026. Claim follow-up items: 60. Staff minutes: 300. Time by activity, payer, denial reason and recoverable dollars: not supplied." }
+      ]
+    },
+    {
+      "id": "dermatology-practice-b",
+      "name": "Practice B",
+      "specialty": "Dermatology",
+      "summary": "No billing-workflow need identified",
+      "discoveryDate": "2026-03-26",
+      "stakeholder": "Practice administrator (fictional)",
+      "systems": "Generic practice-management system with an existing follow-up queue; no vendor affiliation.",
+      "workflow": "Staff work the existing queue and record status in the same system. The supplied fictional note reports no separate spreadsheet or duplicate entry.",
+      "reportedNeed": "The fictional administrator reports no current follow-up workflow complaint. This limited note cannot establish overall billing performance or rule out other needs.",
+      "baseline": "March 16–20, 2026: 60 claim follow-up items, 45 staff minutes in the invented queue excerpt. This is a separate practice, not an improvement over Practice A or evidence of vendor performance.",
+      "payerContext": "Medicare and commercial payers are mentioned in the fictional notes; payer shares, denial rates and collection delays are unknown.",
+      "openQuestions": "Do the billing team and a longer reporting period support the administrator's account? What explains the payment comparison? Payer mix, denials and collection performance remain unknown.",
+      "reviewer": "Account analyst with the practice administrator (illustrative roles)",
+      "nextCheck": "Record that no billing-workflow need was identified in these fictional records. Ask the billing owner to confirm the current process before considering any recommendation.",
+      "decision": "No billing-workflow need identified in the supplied fictional records; no software recommendation.",
+      "sources": [
+        { "id": "B-NOTES-0326", "date": "2026-03-26", "type": "Invented discovery note", "content": "Practice administrator: Staff use the PM follow-up queue and update status there. We do not maintain a separate spreadsheet, and I have no current complaint about this workflow. Medicare and commercial payers are in the mix; shares and denial rates were not supplied. Billing-team confirmation is pending." },
+        { "id": "B-QUEUE-0320", "date": "2026-03-20", "type": "Invented queue-report excerpt", "content": "Period: March 16–20, 2026. Claim follow-up items: 60. Staff minutes: 45. Payer mix, denial rates and collection performance: not supplied." }
+      ]
+    }
+  ]
+}
