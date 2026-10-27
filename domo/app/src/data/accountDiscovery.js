@@ -12,12 +12,12 @@ function selectedDiscovery(specialty, id) {
 
 function discoveryRows(example) {
   return [
+    ['Decision in this scenario', example.decision],
+    ['Next reviewer', example.reviewer], ['Requested next check', example.nextCheck],
     ['Discovery date', example.discoveryDate], ['Fictional stakeholder', example.stakeholder],
     ['Current systems', example.systems], ['Reported workflow', example.workflow],
     ['Reported need and limits', example.reportedNeed], ['Illustrative baseline', example.baseline],
     ['Payer context', example.payerContext], ['Open questions', example.openQuestions],
-    ['Next reviewer', example.reviewer], ['Requested next check', example.nextCheck],
-    ['Decision in this scenario', example.decision],
   ];
 }
 
