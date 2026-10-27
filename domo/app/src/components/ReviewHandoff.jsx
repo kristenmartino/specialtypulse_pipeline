@@ -9,7 +9,7 @@ import { pipelineHygieneText, firstSalesCheck } from '../data/pipelineHygiene';
 import { salesReviewCsv } from '../data/salesPacket';
 import AccountDiscovery from './AccountDiscovery';
 
-export default function ReviewHandoff({ benchmarks, pipeline, onNavigate, selected, onSelect, draft, onEdit, onRemove, open, onOpenChange, focusEditor }) {
+export default function ReviewHandoff({ benchmarks, pipeline, onNavigate, selected, onSelect, draft, onEdit, onRemove, open, onOpenChange, focusEditor, accountExamplesOpen, onAccountExamplesOpenChange, focusAccountExamples, onAccountExamplesFocused }) {
   const specialties = useMemo(() => [...new Set(latestRows(benchmarks).rows.map(row => row.provider_specialty))].sort(), [benchmarks]);
   const review = useMemo(() => buildReviewHandoff(benchmarks, pipeline, selected), [benchmarks, pipeline, selected]);
   const editorRef = useRef(null);
@@ -86,7 +86,7 @@ export default function ReviewHandoff({ benchmarks, pipeline, onNavigate, select
               <button type="button" className="exec-brief-link" aria-label={`Remove HCPCS ${item.code} from brief`} onClick={() => onRemove(item.id)}>Remove</button>
             </li>)}
           </ul> : <p>No evidence yet. Inspect procedures and add a comparison.</p>}
-          <AccountDiscovery specialty={review.specialty} selectedId={draft.accountDiscoveryId} onChange={id => onEdit('accountDiscoveryId', id)} onSelectSpecialty={onSelect} />
+          <AccountDiscovery specialty={review.specialty} selectedId={draft.accountDiscoveryId} onChange={id => onEdit('accountDiscoveryId', id)} onSelectSpecialty={onSelect} open={accountExamplesOpen} onOpenChange={onAccountExamplesOpenChange} focusOnOpen={focusAccountExamples} onFocused={onAccountExamplesFocused} />
           <p className="review-status">Draft notes · unverified</p>
           <div className="review-fields">
             <label htmlFor="review-observation">Analyst observation and limits</label>

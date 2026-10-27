@@ -29,7 +29,9 @@ export default function App() {
   const [reviewState, dispatchReview] = useReducer(reviewReducer, { ...initialReviewState, specialty: initialLocation.specialty });
   const [procedureCode, setProcedureCode] = useState(initialLocation.code);
   const [comparisonYear, setComparisonYear] = useState(initialLocation.year);
-  const [reviewOpen, setReviewOpen] = useState(false);
+  const [reviewOpen, setReviewOpen] = useState(initialLocation.section === 'accounts');
+  const [accountExamplesOpen, setAccountExamplesOpen] = useState(initialLocation.section === 'accounts');
+  const [focusAccountExamples, setFocusAccountExamples] = useState(initialLocation.section === 'accounts');
   const [focusEditor, setFocusEditor] = useState(0);
   const selectSpecialty = specialty => {
     if (specialty !== reviewState.specialty) { setProcedureCode(''); setComparisonYear(null); }
@@ -96,8 +98,8 @@ export default function App() {
   }, [tab]);
 
   useEffect(() => {
-    if (!loading) window.history.replaceState(null, '', reviewSearch({ tab, specialty: selectedSpecialty, code: procedureCode, year: comparisonYear }));
-  }, [tab, selectedSpecialty, procedureCode, comparisonYear, loading]);
+    if (!loading) window.history.replaceState(null, '', reviewSearch({ tab, specialty: selectedSpecialty, code: procedureCode, year: comparisonYear, section: reviewOpen && accountExamplesOpen ? 'accounts' : undefined }));
+  }, [tab, selectedSpecialty, procedureCode, comparisonYear, loading, reviewOpen, accountExamplesOpen]);
 
   const renderPage = () => {
     if (loading) {
@@ -118,7 +120,7 @@ export default function App() {
       );
     }
     switch (tab) {
-      case "market":    return <><ReviewHandoff benchmarks={benchmarks} pipeline={pipeline} onNavigate={navigateToResult} selected={selectedSpecialty} onSelect={selectSpecialty} draft={draft} onEdit={(field, value) => dispatchReview({ type: 'edit', specialty: selectedSpecialty, field, value })} onRemove={id => dispatchReview({ type: 'remove-procedure', specialty: selectedSpecialty, id })} open={reviewOpen} onOpenChange={setReviewOpen} focusEditor={focusEditor} /><MarketIntelligence benchmarks={benchmarks} onDrill={drillToSpecialty} /></>;
+      case "market":    return <><ReviewHandoff benchmarks={benchmarks} pipeline={pipeline} onNavigate={navigateToResult} selected={selectedSpecialty} onSelect={selectSpecialty} draft={draft} onEdit={(field, value) => dispatchReview({ type: 'edit', specialty: selectedSpecialty, field, value })} onRemove={id => dispatchReview({ type: 'remove-procedure', specialty: selectedSpecialty, id })} open={reviewOpen} onOpenChange={setReviewOpen} focusEditor={focusEditor} accountExamplesOpen={accountExamplesOpen} onAccountExamplesOpenChange={setAccountExamplesOpen} focusAccountExamples={focusAccountExamples} onAccountExamplesFocused={() => setFocusAccountExamples(false)} /><MarketIntelligence benchmarks={benchmarks} onDrill={drillToSpecialty} /></>;
       case "procedure": return <ProcedureDetail mart={mart} focusSpecialty={selectedSpecialty} onSelectSpecialty={selectSpecialty} onAddProcedure={addProcedure} onOpenBrief={openBrief} procedureCode={procedureCode} onSelectProcedure={setProcedureCode} comparisonYear={comparisonYear} onSelectYear={setComparisonYear} />;
       case "pipeline":  return <PipelineIntelligence pipeline={pipeline} isSample={true} selectedSpecialty={selectedSpecialty} specialties={[...new Set(benchmarks.map(row => row.provider_specialty))].sort()} onSelectSpecialty={selectSpecialty} onOpenBrief={openBrief} />;
       case "adoption":  return <AdoptionTracking engagement={engagement} config={config} />;

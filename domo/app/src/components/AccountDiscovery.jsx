@@ -1,15 +1,23 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { discovery, discoverySource, discoveryExamples, selectedDiscovery, discoveryRows } from '../data/accountDiscovery';
 
-export default function AccountDiscovery({ specialty, selectedId, onChange, onSelectSpecialty }) {
+export default function AccountDiscovery({ specialty, selectedId, onChange, onSelectSpecialty, open, onOpenChange, focusOnOpen, onFocused }) {
   const examples = discoveryExamples(specialty);
   const selected = selectedDiscovery(specialty, selectedId);
+  const summaryRef = useRef(null);
+  useEffect(() => {
+    if (open && focusOnOpen && summaryRef.current) {
+      summaryRef.current.focus({ preventScroll: true });
+      summaryRef.current.scrollIntoView({ block: 'start' });
+      onFocused();
+    }
+  }, [open, focusOnOpen, onFocused]);
   return (
     <section className="account-discovery" aria-label="Fictional account discovery">
       <h4>Account discovery <span>· optional fictional example</span></h4>
       <p className="review-status" role="status">{selected ? `${selected.name} included in this brief · fully synthetic.` : 'No account example included in this brief.'} {selected && <button type="button" className="exec-brief-link" onClick={() => onChange('')}>Remove account example</button>}</p>
-      <details className="review-evidence-detail">
-        <summary>Compare two fictional practices</summary>
+      <details className="review-evidence-detail" open={open} onToggle={event => onOpenChange(event.currentTarget.open)}>
+        <summary ref={summaryRef}>Compare two fictional practices</summary>
         <p>{discovery.disclosure}</p>
         <p>Both use Dermatology's payment comparison. Invented account records lead to different next checks. Neither example establishes a customer need or financial benefit.</p>
         {!examples.length ? <><p>These examples are for Dermatology. Switch specialty to explore them; your current notes will stay with {specialty}.</p><button type="button" className="exec-brief-link" onClick={() => onSelectSpecialty('Dermatology')}>Explore Dermatology account examples →</button></> : <>
