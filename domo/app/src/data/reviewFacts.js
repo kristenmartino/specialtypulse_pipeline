@@ -5,6 +5,7 @@ const { businessSetting, amountBasis, salesDateScope, salesScenarioDate, salesEv
 const { pipelineHygiene, pipelineHygieneText, firstSalesCheck } = require('./pipelineHygiene');
 const { buildPipelineReview } = require('./pipelineReview');
 const { salesReviewAppendix } = require('./salesPacket');
+const { discoveryText } = require('./accountDiscovery');
 
 const reviewQuestions = [
   { owner: 'Sales operations lead', question: 'Which open opportunities need their stages and close dates corrected before planning?', next: firstSalesCheck },
@@ -72,6 +73,7 @@ function reviewHandoffText(review, draft) {
       `Open question: ${draft.question.trim() || 'Not entered.'}`,
       `Next reviewer: ${draft.reviewer.trim() || 'Not entered.'}`,
       `Requested next check: ${draft.nextCheck.trim() || 'Not entered.'}`,
+      ...discoveryText(review.specialty, draft.accountDiscoveryId),
     ] : []),
     '',
     '## Suggested follow-up checks',

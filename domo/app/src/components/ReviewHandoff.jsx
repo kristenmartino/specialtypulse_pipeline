@@ -7,6 +7,7 @@ import ProcedureEvidence, { ProcedureEvidenceSummary } from './ProcedureEvidence
 import { amountBasis, salesDateScope, missingSalesText } from '../data/salesContext';
 import { pipelineHygieneText, firstSalesCheck } from '../data/pipelineHygiene';
 import { salesReviewCsv } from '../data/salesPacket';
+import AccountDiscovery from './AccountDiscovery';
 
 export default function ReviewHandoff({ benchmarks, pipeline, onNavigate, selected, onSelect, draft, onEdit, onRemove, open, onOpenChange, focusEditor }) {
   const specialties = useMemo(() => [...new Set(latestRows(benchmarks).rows.map(row => row.provider_specialty))].sort(), [benchmarks]);
@@ -85,6 +86,7 @@ export default function ReviewHandoff({ benchmarks, pipeline, onNavigate, select
               <button type="button" className="exec-brief-link" aria-label={`Remove HCPCS ${item.code} from brief`} onClick={() => onRemove(item.id)}>Remove</button>
             </li>)}
           </ul> : <p>No evidence yet. Inspect procedures and add a comparison.</p>}
+          <AccountDiscovery specialty={review.specialty} selectedId={draft.accountDiscoveryId} onChange={id => onEdit('accountDiscoveryId', id)} onSelectSpecialty={onSelect} />
           <p className="review-status">Draft notes · unverified</p>
           <div className="review-fields">
             <label htmlFor="review-observation">Analyst observation and limits</label>
